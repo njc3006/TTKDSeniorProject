@@ -1,5 +1,32 @@
+var path = require('path');
 
 var gulp = require('gulp'),
+	del = require('del'),
+	concat = require('gulp-concat'),
+	uglify = require('gulp-uglify');
+
+const BUILD_DIR = path.normalize('../dist');
+
+gulp.task('clean', function(cb) {
+	var options = {force: true};
+
+    del([BUILD_DIR], options).then(function(){
+		cb();
+	}).catch(function(err) {
+		eb(err);
+	});
+});
+
+gulp.task('build-js', ['clean'], function() {
+	return gulp.src(['!app/**/*_test.js', 'app/**/*.js'])
+		.pipe(concat('app.js'))
+		.pipe(uglify())
+		.pipe(gulp.dest(BUILD_DIR + '/js'))
+});
+
+gulp.task('default', function() {});
+
+/*var gulp = require('gulp'),
     webserver = require('gulp-webserver'),
     del = require('del'),
     sass = require('gulp-sass'),
@@ -50,7 +77,7 @@ gulp.task('bower', function() {
 /////////////////////////////////////////////////////////////////////////////////////
 
 gulp.task('build-css', ['clean'], function() {
-    return gulp.src('./**/*.sass')
+    return gulp.src('./*.sass')
         .pipe(sourcemaps.init())
         .pipe(sass())
         .pipe(cachebust.resources())
@@ -115,7 +142,7 @@ gulp.task('build', [ 'clean', 'bower','build-css','build-template-cache', 'jshin
 /////////////////////////////////////////////////////////////////////////////////////
 
 gulp.task('watch', function() {
-    return gulp.watch(['./index.html','./partials/*.html', './styles/*.*css', './js/**/*.js'], ['build']);
+    return gulp.watch(['./index.html','./partials/*.html', './styles/*.*css', './js/**.js'], ['build']);
 });
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -143,29 +170,8 @@ gulp.task('dev', ['watch', 'webserver']);
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
-// generates a sprite png and the corresponding sass sprite map.
-// This is not included in the recurring development build and needs to be run separately
-//
-/////////////////////////////////////////////////////////////////////////////////////
-
-gulp.task('sprite', function () {
-
-    var spriteData = gulp.src('./images/*.png')
-        .pipe(spritesmith({
-            imgName: 'todo-sprite.png',
-            cssName: '_todo-sprite.scss',
-            algorithm: 'top-down',
-            padding: 5
-        }));
-
-    spriteData.css.pipe(gulp.dest('./dist'));
-    spriteData.img.pipe(gulp.dest('./dist'))
-});
-
-/////////////////////////////////////////////////////////////////////////////////////
-//
 // installs and builds everything, including sprites
 //
 /////////////////////////////////////////////////////////////////////////////////////
 
-gulp.task('default', ['sprite','build', 'test']);
+gulp.task('default', ['build', 'test']);*/
