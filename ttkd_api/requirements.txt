@@ -1,0 +1,6 @@
+Django==1.10
+djangorestframework==3.4.7
+PyInstaller==3.2
+pylint==1.6.4
+pylint-django==0.7.2
+pylint-plugin-utils==0.2.4
