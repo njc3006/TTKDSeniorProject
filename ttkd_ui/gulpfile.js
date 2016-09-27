@@ -1,30 +1,74 @@
 var path = require('path');
 
 var gulp = require('gulp'),
-	del = require('del'),
-	concat = require('gulp-concat'),
+	del = require('del');
+
+// Import the config
+var config = require('./gulp.config');
+
+// Dependencies for building js
+var concat = require('gulp-concat'),
 	uglify = require('gulp-uglify');
 
-const BUILD_DIR = path.normalize('../dist');
+// Dependencies for building sass
+var sass = require('gulp-sass'),
+	cleanCSS = require('gulp-clean-css');
+
+// Dependencies for template caching
+var templateCache = require('gulp-angular-templatecache');
+
+// JSHint
+var jshint = require('gulp-jshint');
+
+const BUILD_DIR = path.normalize('../ttkd_api/ttkd_api/dist');
 
 gulp.task('clean', function(cb) {
 	var options = {force: true};
 
-    del([BUILD_DIR], options).then(function(){
-		cb();
-	}).catch(function(err) {
-		eb(err);
-	});
+    del.sync([BUILD_DIR], options);
 });
 
-gulp.task('build-js', ['clean'], function() {
-	return gulp.src(['!app/**/*_test.js', 'app/**/*.js'])
+gulp.task('build-template-cache', function() {
+	return gulp.src(config.templatePaths)
+		.pipe(templateCache('templates.js', {
+			module: 'ttkdApp'
+		}))
+		.pipe(gulp.dest(BUILD_DIR + '/js'))
+});
+
+gulp.task('build-bower', function() {
+	return gulp.src(config.bowerPaths)
+		.pipe(concat('vendor.js'))
+		.pipe(uglify())
+		.pipe(gulp.dest(BUILD_DIR + '/js'))
+});
+
+gulp.task('build-js', function() {
+	return gulp.src(config.sourcePaths)
 		.pipe(concat('app.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest(BUILD_DIR + '/js'))
 });
 
-gulp.task('default', function() {});
+gulp.task('build-css', function() {
+    return gulp.src(config.sourceSassPaths)
+        .pipe(sass().on('error', sass.logError))
+		.pipe(cleanCSS())
+        .pipe(gulp.dest(BUILD_DIR + '/css'));
+});
+
+gulp.task('copy-html', function() {
+	return gulp.src('./app/index.html', {base: './app'})
+		.pipe(gulp.dest(BUILD_DIR));
+});
+
+gulp.task('jshint', function() {
+    return gulp.src(config.sourcePaths)
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'));
+});
+
+gulp.task('build', ['clean', 'jshint', 'build-bower', 'build-js', 'build-template-cache', 'build-css', 'copy-html']);
 
 /*var gulp = require('gulp'),
     webserver = require('gulp-webserver'),

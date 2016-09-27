@@ -8,7 +8,7 @@ from rest_framework import routers
 from static_serve import serve_ui
 
 # Import ViewSets
-from .views import UserViewSet
+from .views import UserViewSet, index
 
 router = routers.DefaultRouter()
 
@@ -16,6 +16,6 @@ router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 
 urlpatterns = [
-	url(r'^$', serve_ui)
+	url(r'^$', index)
     url(r'^api/', include(router.urls))
 ]
