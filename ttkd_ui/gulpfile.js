@@ -97,6 +97,10 @@ gulp.task('serve', function() {
 });
 
 /*var gulp = require('gulp'),
+=======
+
+var gulp = require('gulp'),
+>>>>>>> df69ad28681a797933b6dd6f7948b4f791d38b03
     webserver = require('gulp-webserver'),
     del = require('del'),
     sass = require('gulp-sass'),
@@ -147,7 +151,10 @@ gulp.task('bower', function() {
 /////////////////////////////////////////////////////////////////////////////////////
 
 gulp.task('build-css', ['clean'], function() {
+<<<<<<< HEAD
     return gulp.src('./*.sass')
+=======
+    return gulp.src('./**.sass')
         .pipe(sourcemaps.init())
         .pipe(sass())
         .pipe(cachebust.resources())
@@ -212,7 +219,11 @@ gulp.task('build', [ 'clean', 'bower','build-css','build-template-cache', 'jshin
 /////////////////////////////////////////////////////////////////////////////////////
 
 gulp.task('watch', function() {
+<<<<<<< HEAD
     return gulp.watch(['./index.html','./partials/*.html', './styles/*.*css', './js/**.js'], ['build']);
+=======
+    return gulp.watch(['./index.html','./partials/*.html', './styles/*.*css', './js/*.js'], ['build']);
+>>>>>>> df69ad28681a797933b6dd6f7948b4f791d38b03
 });
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -240,8 +251,33 @@ gulp.task('dev', ['watch', 'webserver']);
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
+<<<<<<< HEAD
+=======
+// generates a sprite png and the corresponding sass sprite map.
+// This is not included in the recurring development build and needs to be run separately
+//
+/////////////////////////////////////////////////////////////////////////////////////
+
+gulp.task('sprite', function () {
+
+    var spriteData = gulp.src('./images/*.png')
+        .pipe(spritesmith({
+            imgName: 'todo-sprite.png',
+            cssName: '_todo-sprite.scss',
+            algorithm: 'top-down',
+            padding: 5
+        }));
+
+    spriteData.css.pipe(gulp.dest('./dist'));
+    spriteData.img.pipe(gulp.dest('./dist'))
+});
+
+/////////////////////////////////////////////////////////////////////////////////////
+//
+>>>>>>> df69ad28681a797933b6dd6f7948b4f791d38b03
 // installs and builds everything, including sprites
 //
 /////////////////////////////////////////////////////////////////////////////////////
 
+<<<<<<< HEAD
 gulp.task('default', ['build', 'test']);*/

@@ -1,6 +1,7 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
+<<<<<<< HEAD
 angular.module('ttkdApp', [
 	'ui.router'
 ]).config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
