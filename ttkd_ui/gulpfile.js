@@ -1,4 +1,5 @@
-var path = require('path');
+var argv = require('yargs').argv;
+var isProduction = (argv.production === undefined) ? false : true;
 
 var gulp = require('gulp'),
 	del = require('del');
@@ -14,13 +15,19 @@ var concat = require('gulp-concat'),
 var sass = require('gulp-sass'),
 	cleanCSS = require('gulp-clean-css');
 
+// Dependencies for copying over HTML
+var rename = require('gulp-rename');
+
 // Dependencies for template caching
 var templateCache = require('gulp-angular-templatecache');
 
 // JSHint
 var jshint = require('gulp-jshint');
 
-const BUILD_DIR = path.normalize('../ttkd_api/ttkd_api/dist');
+// Dependencies to run the dev server
+var webserver = require('gulp-webserver');
+
+const BUILD_DIR = isProduction ? config.buildDirProd : config.buildDirDev;
 
 gulp.task('clean', function(cb) {
 	var options = {force: true};
@@ -58,7 +65,10 @@ gulp.task('build-css', function() {
 });
 
 gulp.task('copy-html', function() {
-	return gulp.src('./app/index.html', {base: './app'})
+	var indexPath = isProduction ? './app/index_prod.html' : './app/index_dev.html';
+
+	return gulp.src(indexPath, {base: './app'})
+		.pipe(rename('index.html'))
 		.pipe(gulp.dest(BUILD_DIR));
 });
 
@@ -68,7 +78,23 @@ gulp.task('jshint', function() {
         .pipe(jshint.reporter('default'));
 });
 
+gulp.task('watch', function() {
+    return gulp.watch([
+		'app/index.html','app/*/**/*.html', 'app/**/*.scss', 'app/**/*.js'
+	], ['build']);
+});
+
 gulp.task('build', ['clean', 'jshint', 'build-bower', 'build-js', 'build-template-cache', 'build-css', 'copy-html']);
+
+gulp.task('serve', function() {
+	return gulp.src(BUILD_DIR)
+		.pipe(webserver({
+			port: 3000,
+			livereload: true,
+			directoryListing: true,
+            open: 'http://localhost:3000/index.html'
+		}));
+});
 
 /*var gulp = require('gulp'),
     webserver = require('gulp-webserver'),
