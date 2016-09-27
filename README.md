@@ -14,3 +14,12 @@ To Install and run this application, do the following:
 7. Navigate to `localhost:8000/api`
 
 This project is set up with PyLint. To run the linter, cd to `ttkd_api/` and run `pylint ttkd_api/`.
+
+### AngularJS App
+To install and run the AngularJS app, do the following:
+
+1. Install Node
+2. `cd` into the `ttkd-ui` folder.
+3. run `npm install`
+4. run `npm install -g gulp`
+5. run `gulp` to build the project and run the server.

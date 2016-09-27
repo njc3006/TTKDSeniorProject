@@ -2,7 +2,7 @@
 *.sqlite3
 
 #####################################################################
-# Github Recommended Python .gitignore 
+# Github Recommended Python .gitignore
 #####################################################################
 # Byte-compiled / optimized / DLL files
 __pycache__/

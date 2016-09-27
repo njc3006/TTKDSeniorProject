@@ -1,0 +1,40 @@
+/*
+ * Main SCSS File for App
+ */
+
+/* Bootstrap */
+
+/* Override Bootstrap Variables */
+$brand-primary: #7d7d7d;
+$border-radius-base: 0px;
+
+// Navbar Settings
+$navbar-default-bg:                        $brand-primary;
+$navbar-default-color:                     #FFF;
+// Links
+$navbar-default-link-color:                $navbar-default-color;
+$navbar-default-link-hover-color:          darken($navbar-default-link-color, 6.5%);
+$navbar-default-link-hover-bg:             darken($navbar-default-bg, 6.5%);
+// Active Link
+$navbar-default-link-active-color:         darken($navbar-default-link-color, 6.5%);
+$navbar-default-link-active-bg:            darken($navbar-default-bg, 6.5%);
+// Brand
+$navbar-default-brand-color:               $navbar-default-link-color;
+$navbar-default-brand-hover-color:         darken($navbar-default-link-color, 6.5%);
+$navbar-default-brand-hover-bg:            darken($navbar-default-bg, 6.5%);
+// Toggle
+$navbar-default-toggle-hover-bg:           darken($navbar-default-bg, 6.5%);
+$navbar-default-toggle-icon-bar-bg:        $navbar-default-color;
+$navbar-default-toggle-border-color:       $navbar-default-color;
+
+
+// Import Bootstrap
+$icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
+@import "./lib/bootstrap-sass/assets/stylesheets/bootstrap";
+
+/* Adjust layout */
+
+// Push containers below navbar
+.body {
+  margin-top: 50px;
+}
