@@ -51,6 +51,7 @@ gulp.task('jshint', [], function(done) {
     .on('end', done);
 });
 
+
 gulp.task('build-js', [], function(done) {
 	gulp.src('./app/**/*.js')
 		.pipe(gulp.dest('dist'))
@@ -105,7 +106,7 @@ gulp.task('angular-ui-bootstrap-grunt', ['angular-ui-bootstrap-install'], functi
     .exec('', function() {
       done();
     });
-})
+});
 
 gulp.task('angular-ui-bootstrap', ['angular-ui-bootstrap-grunt'], function(done) {
   var ends = 1;
@@ -119,11 +120,7 @@ gulp.task('angular-ui-bootstrap', ['angular-ui-bootstrap-grunt'], function(done)
     }))
     .pipe(gulp.dest('./app/lib/angular/js/'))
     .on('end', end);
-  // For use with non embeded templates
-  ////gulp.src(['./node_modules/angular-ui-bootstrap/template/**'])
-  ////  .pipe(gulp.dest('./app/template'))
-  ////  .on('end', end);
-})
+});
 
 gulp.task('angular', [], function(done) {
   var ends = 6;
@@ -166,8 +163,7 @@ gulp.task('require', [], function(done) {
     .on('end', end);
 });
 
-
-gulp.task('install', ['build', 'angular', 'require', 'bootstrap', 'angular-ui-bootstrap'], function(done) {
+gulp.task('install', ['angular', 'require', 'bootstrap', 'angular-ui-bootstrap'], function(done) {
   done()
 });
 
