@@ -4,6 +4,7 @@ A TTKD Student Management System
 ## Installing and Running
 ### Django API
 To Install and run this application, do the following:
+
 1. Install Python 3.5.2
 2. Clone this repo.
 3. `cd` into the topmost `ttkd_api/` directory of the repo.
