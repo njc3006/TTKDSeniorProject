@@ -1,6 +1,6 @@
 (function() {
 
-  angular.module('app.routes', ['app', 'ui.router'])
+  angular.module('ttkdApp.routes', ['ttkdApp', 'ui.router'])
 
   .config(function($stateProvider, $urlRouterProvider) {
     // For any unmatched url, send to /

@@ -1,6 +1,6 @@
 (function() {
 
-  angular.module('app.mainController', ['app'])
+  angular.module('ttkdApp.mainController', ['ttkdApp'])
 
     .controller('mainController', function($scope) {
       $scope.showNav = true;

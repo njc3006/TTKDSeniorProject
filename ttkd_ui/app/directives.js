@@ -1,5 +1,5 @@
 (function() {
 
-  angular.module('app.directives', ['app']);
+  angular.module('ttkdApp.directives', ['ttkdApp']);
 
 })();
