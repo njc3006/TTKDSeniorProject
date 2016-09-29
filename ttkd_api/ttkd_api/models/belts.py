@@ -1,6 +1,6 @@
 from django.db import models
 
-class belts(models.Model):
+class Belts(models.Model):
     order = models.PositiveIntegerField(
         unique = True,
     )
@@ -9,5 +9,5 @@ class belts(models.Model):
         blank=True,
         null=True,
     )
-    num_strips = models.PositiveIntegerFiel(
+    num_strips = models.PositiveIntegerField(
     )

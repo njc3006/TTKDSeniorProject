@@ -1,7 +1,7 @@
 from django.db import models
 from persons import Persons
 
-class emergency_contacts(models.Model):
+class Emergency_Contacts(models.Model):
     person_id = models.ForeignKey(
         Persons,
         ondelete = models.CASCADE,
