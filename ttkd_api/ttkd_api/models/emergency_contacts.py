@@ -1,10 +1,11 @@
 from django.db import models
 from persons import Persons
 
-class Emergency_Contacts(models.Model):
+
+class EmergencyContacts(models.Model):
     person_id = models.ForeignKey(
         Persons,
-        ondelete = models.CASCADE,
+        ondelete=models.CASCADE,
         blank=True,
         null=True,
     )

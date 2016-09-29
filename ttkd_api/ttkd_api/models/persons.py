@@ -1,6 +1,7 @@
 from django.db import models
 from belts import Belts
 
+
 class Persons(models.Model):
     first_name = models.CharField(
         max_length=30,
