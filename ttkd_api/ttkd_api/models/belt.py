@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Belts(models.Model):
+class Belt(models.Model):
     order = models.PositiveIntegerField(
         unique=True,
     )

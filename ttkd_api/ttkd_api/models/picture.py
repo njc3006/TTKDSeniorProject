@@ -1,10 +1,10 @@
 from django.db import models
-from persons import Persons
+from person import Person
 
 
-class Pictures(models.Model):
-    person_id = models.ForeignKey(
-        Persons,
+class Picture(models.Model):
+    person = models.ForeignKey(
+        Person,
         ondelete=models.CASCADE,
         blank=True,
         null=True,
