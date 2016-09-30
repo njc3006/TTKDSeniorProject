@@ -1,6 +1,6 @@
 (function() {
 
-  angular.module('app.navController', ['app'])
+  angular.module('ttkdApp.navController', ['ttkdApp'])
 
     .controller('navController', function($scope, $state) {
     	// returns true if the current router url matches the passed in url

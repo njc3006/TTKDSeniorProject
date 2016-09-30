@@ -1,12 +1,12 @@
 (function() {
   'use strict';
 
-  angular.module('app',
+  angular.module('ttkdApp',
     [
-      'app.routes',
-      'app.directives',
-      'app.mainController',
-      'app.navController'
+      'ttkdApp.routes',
+      'ttkdApp.directives',
+      'ttkdApp.mainController',
+      'ttkdApp.navController'
     ]
   );
 
