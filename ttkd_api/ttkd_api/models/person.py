@@ -1,8 +1,18 @@
+"""
+A File that holds the Person Class
+@author AJ Deck, Nick Coriale
+"""
 from django.db import models
 from belt import Belt
 
 
 class Person(models.Model):
+    """
+    A Django model
+    A Person is a user of the system that does not have a login. A person is a student who may or
+    may not instruct
+    programs
+    """
     first_name = models.CharField(
         max_length=30,
         blank=True,

@@ -5,7 +5,7 @@ from django.conf.urls import url, include
 from rest_framework import routers
 
 # Import ViewSets
-from .views import UserViewSet, index
+from .views import UserViewSet
 
 router = routers.DefaultRouter()
 
