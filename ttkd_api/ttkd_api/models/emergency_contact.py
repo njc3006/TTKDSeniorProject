@@ -3,7 +3,7 @@ A File that holds the EmergencyContact Class
 @author AJ Deck, Nick Coriale
 """
 from django.db import models
-from person import Person
+from .person import Person
 
 
 class EmergencyContact(models.Model):
@@ -13,7 +13,7 @@ class EmergencyContact(models.Model):
     """
     person = models.ForeignKey(
         Person,
-        ondelete=models.CASCADE,
+        on_delete=models.CASCADE,
         blank=True,
         null=True,
     )
