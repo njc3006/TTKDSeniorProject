@@ -35,6 +35,6 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 /* Adjust layout */
 
 // Push containers below navbar
-.body {
-  margin-top: 50px;
+#appContainer {
+	padding-top: 70px;
 }
