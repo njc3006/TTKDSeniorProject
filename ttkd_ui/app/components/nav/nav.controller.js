@@ -1,25 +1,24 @@
 (function() {
 
-	function NavController($scope, $state) {
-		// returns true if the current router url matches the passed in url
-		// so views can set 'active' on links easily
-		$scope.isUrl = function(url) {
-			if (url === '#') {
-				return false;
-			} else {
-				return ('#' + $state.$current.url.source + '/').indexOf(url + '/') === 0;
-			}
-		};
+  angular.module('ttkdApp.navCtrl', ['ttkdApp'])
 
-		$scope.pages = [
-			{
-				name: 'Home',
-				url: '#/'
-			},
-		];
-	}
+    .controller('NavCtrl', function($scope, $state) {
+    	// returns true if the current router url matches the passed in url
+    	// so views can set 'active' on links easily
+    	$scope.isUrl = function(url) {
+    		if (url === '#') {
+          return false;
+        } else {
+          return ('#' + $state.$current.url.source + '/').indexOf(url + '/') === 0;
+        }
+    	};
 
-	NavController.$inject = ['$scope', '$state'];
-  angular.module('ttkdApp.navController', [])
-    .controller('navController', NavController);
+    	$scope.pages = [
+    		{
+    			name: 'Home',
+    			url: '#/'
+    		},
+    	];
+    });
+
 })();
