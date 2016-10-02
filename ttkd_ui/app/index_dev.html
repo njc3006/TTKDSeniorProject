@@ -7,17 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-		<title>TTKD Student Management System</title>
+		<title>Tioga Tae Kwon Do</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<!--<link rel="stylesheet" type="text/css" href="css/vendor.css">
-		<link rel="stylesheet" type="text/css" href="css/app.css"> -->
+		<link rel="stylesheet" type="text/css" href="css/app.css">
 	</head>
 	<body>
-	  <!-- TODO: Put navbar code here -->
+		<ng-include src="'components/nav/nav.html'" ng-controller="navController"></ng-include>
 
-		<div ui-view class="container">
-        <h1>hi</h1>
-    </div>
+		<div ui-view class="container"></div>
 
 	  <script src="js/vendor.js"></script>
 	  <script src="js/partials.js"></script>
