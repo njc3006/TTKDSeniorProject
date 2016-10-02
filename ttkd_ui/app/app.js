@@ -7,7 +7,8 @@
       'ttkdApp.directives',
       'ttkdApp.mainCtrl',
       'ttkdApp.navCtrl',
-      'ttkdApp.checkinCtrl'
+      'ttkdApp.checkinCtrl',
+      'ttkdApp.homeCtrl'
     ]
   );
 
