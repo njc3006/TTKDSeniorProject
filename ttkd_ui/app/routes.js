@@ -15,14 +15,14 @@
         data: {
           pageTitle: 'Home'
         }
-      });
+      })
 
       .state('checkin', {
         url: '/checkin',
-        templateUrl: 'components/checkin.html',
-        controller: 'StudentCheckinCtrl'
+        templateUrl: 'components/checkin/checkin.html',
+        controller: 'CheckinCtrl',
         data: {
-          pageTitle: 'Home'
+          pageTitle: 'Checkin'
         }
       });
 

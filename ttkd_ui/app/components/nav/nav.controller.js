@@ -15,8 +15,8 @@
 
     	$scope.pages = [
     		{
-    			name: 'Home',
-    			url: '#/'
+    			name: 'Checkin',
+    			url: '#/checkin'
     		},
     	];
     });
