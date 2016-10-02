@@ -1,14 +1,22 @@
+var argv = require('yargs').argv;
+
 var gulp = require('gulp');
 var del = require('del');
 var jshint = require('gulp-jshint');
 var concat = require('gulp-concat');
-var uglify = require('gulp-uglifyjs');
+var uglify = require('gulp-uglify');
+var sourcemaps = require('gulp-sourcemaps');
 var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
+var ngHtml2Js = require("gulp-ng-html2js");
 var rename = require('gulp-rename');
 var server = require('gulp-server-livereload');
+var connect = require('gulp-connect');
 var install = require("gulp-install");
 var run = require('gulp-run');
+
+const config = require('./gulp.config');
+const BUILD_DIR = argv.production ? config.buildDirProd : config.buildDirDev;
 
 gulp.task('clean', function (cb) {
     del([
@@ -17,15 +25,11 @@ gulp.task('clean', function (cb) {
 });
 
 gulp.task( 'server', ['build'], function() {
-  gulp.src('dist')
-    .pipe(server({
-      livereload: true,
-      clientConsole: false,
-      directoryListing: false,
-      open: false,
-      host: 'localhost',
-      port: 3000
-    }));
+	connect.server({
+		port: 3000,
+		root: BUILD_DIR,
+		livereload: true
+	});
 });
 
 gulp.task('scss', [], function(done) {
@@ -39,8 +43,9 @@ gulp.task('scss', [], function(done) {
     .pipe(minifyCss({
       keepSpecialComments: 0
     }))
-    .pipe(rename({ extname: '.min.css' }))
-    .pipe(gulp.dest('dist'))
+    .pipe(rename({ extname: '.css' }))
+    .pipe(gulp.dest(BUILD_DIR + '/css'))
+		.pipe(connect.reload())
     .on('end', done);
 });
 
@@ -51,23 +56,66 @@ gulp.task('jshint', [], function(done) {
     .on('end', done);
 });
 
+gulp.task('build-templates', [], function(done) {
+	gulp.src(config.templatePaths)
+		.pipe(sourcemaps.init())
+	    .pipe(ngHtml2Js({
+	        moduleName: 'ttkdApp.partials'
+	    }))
+	    .pipe(concat('partials.js'))
+	    .pipe(uglify())
+		.pipe(sourcemaps.write('../maps'))
+    .pipe(gulp.dest(BUILD_DIR + '/js'))
+		.pipe(connect.reload())
+		.on('end', done);
+});
+
+gulp.task('build-js-libs', [], function(done) {
+	if (argv.production) {
+		gulp.src(config.bowerPaths)
+			.pipe(concat('vendor.js'))
+			.pipe(uglify())
+			.pipe(gulp.dest(BUILD_DIR + '/js'))
+			.pipe(connect.reload())
+			.on('end', done);
+	} else {
+		gulp.src(config.bowerPaths)
+			.pipe(sourcemaps.init())
+				.pipe(concat('vendor.js'))
+				.pipe(uglify())
+			.pipe(sourcemaps.write('../maps'))
+			.pipe(gulp.dest(BUILD_DIR + '/js'))
+			.pipe(connect.reload())
+			.on('end', done);
+	}
+});
 
 gulp.task('build-js', [], function(done) {
-	gulp.src('./app/**/*.js')
-		.pipe(gulp.dest('dist'))
+	gulp.src(config.sourcePaths)
+		.pipe(sourcemaps.init())
+			.pipe(concat('app.js'))
+			.pipe(uglify())
+		.pipe(sourcemaps.write('../maps'))
+		.pipe(gulp.dest(BUILD_DIR + '/js'))
+		.pipe(connect.reload())
 		.on('end', done);
 });
 
 gulp.task('build-static', [], function(done) {
-	gulp.src(['./app/**', '!./app/**/*.js', '!./app/**/*.scss'])
-		.pipe(gulp.dest('dist'))
+	var indexFile = argv.production ? './app/index_prod.html' : './app/index_dev.html';
+
+	gulp.src([indexFile])
+		.pipe(rename('index.html'))
+		.pipe(gulp.dest(BUILD_DIR))
+		.pipe(connect.reload())
 		.on('end', done);
 })
 
 gulp.task('watch', function() {
   gulp.watch('./app/**/*.scss', ['scss']);
-  gulp.watch('./app/**/*.js', ['build-js', 'jshint']);
+  gulp.watch(['./app/**/*.js', '!./app/lib/**/*.js'], ['build-js', 'jshint']);
   gulp.watch(['./app/**', '!./app/**/*.js', '!./app/**/*.scss'], ['build-static']);
+	gulp.watch(config.templatePaths, ['build-templates'])
 });
 
 gulp.task('bootstrap', [], function(done) {
@@ -167,7 +215,7 @@ gulp.task('install', ['angular', 'require', 'bootstrap', 'angular-ui-bootstrap']
   done()
 });
 
-gulp.task('build', ['scss', 'build-js', 'build-static'], function(done) {
+gulp.task('build', ['scss', 'build-js', 'build-js-libs', 'build-templates', 'build-static'], function(done) {
   done()
 });
 
