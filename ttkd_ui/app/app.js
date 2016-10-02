@@ -2,6 +2,7 @@
   'use strict';
 
   angular.module('ttkdApp', [
+		'ttkdApp.navController',
 		'ttkdApp.partials',
 		'ui.router'
   ]).config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
