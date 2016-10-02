@@ -5,8 +5,9 @@
     [
       'ttkdApp.routes',
       'ttkdApp.directives',
-      'ttkdApp.mainController',
-      'ttkdApp.navController'
+      'ttkdApp.mainCtrl',
+      'ttkdApp.navCtrl',
+      'ttkdApp.checkinCtrl'
     ]
   );
 
