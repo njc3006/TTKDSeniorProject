@@ -26,15 +26,14 @@
     <script src="routes.js"></script>
     <script src="mainController.js"></script>
     <script src="directives.js"></script>
-    <script src="components/nav/navController.js"></script>
+    <script src="components/nav/nav.controller.js"></script>
   </head>
 
   <body>
 
-    <ng-include src="'components/nav/nav.html'" ng-controller="navController"></ng-include>
+    <ng-include src="'components/nav/nav.html'" ng-controller="NavCtrl"></ng-include>
 
     <div ui-view class="body">
-        <h1>hi</h1>
     </div>
 
 
