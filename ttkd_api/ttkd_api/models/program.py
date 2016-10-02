@@ -15,3 +15,6 @@ class Program(models.Model):
 
     # TODO if needed
     # gcal_id = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
