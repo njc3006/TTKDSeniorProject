@@ -1,4 +1,12 @@
-<form class="" method="post">
-	<input ng-if="input in inputs" type="{{input.type}}" name="{{input.type}}" value="{{input.placeholder}}">
-	<input type="submit">
-</form>
+<div class="row">
+	<div class="col-md-2">
+		<ul class="nav nav-pills nav-stacked">
+			<li ng-repeat="section in formSections">
+				<a ui-sref="#">{{section.name}}</a>
+			</li>
+		</ul>
+	</div>
+	<div class="col-md-10">
+		
+	</div>
+</div>

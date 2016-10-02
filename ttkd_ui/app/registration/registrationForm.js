@@ -1,10 +1,22 @@
 (function() {
 	function FormDirectiveController($scope) {
-		$scope.inputs = [{
-			name: 'name',
-			type: 'text',
-			placeholder: 'placeholder'
-		}];
+		$scope.formSections = [
+			{
+				name: 'Basic Information'
+			},
+			{
+				name: 'Emergency Contact'
+			},
+			{
+				name: 'Student Picture'
+			},
+			{
+				name: 'Waiver Signature'
+			},
+			{
+				name: 'Review Registration'
+			}
+		];
 	}
 
 	FormDirectiveController.$inject = ['$scope'];
