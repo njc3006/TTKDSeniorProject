@@ -32,6 +32,9 @@ $navbar-default-toggle-border-color:       $navbar-default-color;
 $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 @import "./lib/bootstrap-sass/assets/stylesheets/bootstrap";
 
+/* Import Component SCSS */
+@import "./components/nav/nav";
+
 /* Adjust layout */
 
 // Push containers below navbar

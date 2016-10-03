@@ -14,6 +14,13 @@
             );
         }
 
+        /*
+         * Open a prompt to confirm checkin for a person.
+         */
+        $scope.openCheckinPrompt = function(person) {
+
+        };
+
     });
 
 })();

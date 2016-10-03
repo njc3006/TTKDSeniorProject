@@ -25,6 +25,9 @@
         <li ng-repeat="page in pages" ng-class="{active: isUrl(page.url)}" ng-include="'nav-item.html'">
         </li>
       </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><h2 class="current-class">{{currentClass}}</h2></li>
+      </ul>
     </div><!--/.nav-collapse -->
   </div>
 </nav>

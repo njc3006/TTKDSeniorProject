@@ -1,3 +1,17 @@
 <div class="container-fluid">
-test
+	<div class="row">
+		<div class="text-center">
+			<h2>Click Your Picture to Check In</h2>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-2 right" ng-repeat="person in people">
+			<a href="" class="thumbnail" ng-click="openCheckinPrompt(person)">
+				<img src="{{person.picture}}">
+				<div class="caption">
+					<span class="person-name">{{person.name}}</span>
+				</div>
+			</a>
+		</div>
+	</div>
 </div>
