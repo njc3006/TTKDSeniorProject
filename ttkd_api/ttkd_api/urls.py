@@ -14,14 +14,14 @@ from .views import UserViewSet
 router = routers.DefaultRouter()
 
 # Register Viewsets
-router.register(r'users', UserViewSet)
-router.register(r'persons', PersonViewSet)
-router.register(r'programs', ProgramViewSet)
-router.register(r'program/create', ProgramCreateSet, 'program-create')
-router.register(r'check-ins', AttendanceRecordViewSet)
-router.register(r'check-in/create', AttendanceRecordCreateSet, 'attendance-create')
-router.register(r'registrations', RegistrationViewSet)
-router.register(r'registration/create', RegistrationCreateSet, 'registration-create')
+router.register(r'^users$', UserViewSet)
+router.register(r'^persons$', PersonViewSet)
+router.register(r'^programs$', ProgramViewSet)
+router.register(r'^program/create$', ProgramCreateSet, 'program-create')
+router.register(r'^check-ins$', AttendanceRecordViewSet)
+router.register(r'^check-in/create$', AttendanceRecordCreateSet, 'attendance-create')
+router.register(r'^registrations$', RegistrationViewSet)
+router.register(r'^registration/create$', RegistrationCreateSet, 'registration-create')
 
 urlpatterns = [
     url(r'^api/', include(router.urls))
