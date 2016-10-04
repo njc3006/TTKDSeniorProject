@@ -14,6 +14,7 @@ var server = require('gulp-server-livereload');
 var connect = require('gulp-connect');
 var install = require("gulp-install");
 var run = require('gulp-run');
+var ngConstant = require('gulp-ng-constant');
 
 const config = require('./gulp.config');
 const BUILD_DIR = argv.production ? config.buildDirProd : config.buildDirDev;
@@ -70,6 +71,19 @@ gulp.task('build-templates', [], function(done) {
 		.on('end', done);
 });
 
+gulp.task('build-form-config', [], function(done) {
+	gulp.src('app/registration/form/formFields.json')
+		.pipe(ngConstant({
+			name: 'ttkdApp.registrationFormDirective',
+			deps: false,
+			wrap: false
+		}))
+		.pipe(uglify())
+		.pipe(gulp.dest(BUILD_DIR + '/js'))
+		.pipe(connect.reload())
+		.on('end', done);
+});
+
 gulp.task('build-js-libs', [], function(done) {
 	if (argv.production) {
 		gulp.src(config.bowerPaths)
@@ -115,7 +129,8 @@ gulp.task('watch', function() {
   gulp.watch('./app/**/*.scss', ['scss']);
   gulp.watch(['./app/**/*.js', '!./app/lib/**/*.js'], ['build-js', 'jshint']);
   gulp.watch(['./app/**', '!./app/**/*.js', '!./app/**/*.scss'], ['build-static']);
-	gulp.watch(config.templatePaths, ['build-templates'])
+	gulp.watch(config.templatePaths, ['build-templates']);
+	gulp.watch('app/registration/form/formFields.json', ['build-form-config']);
 });
 
 gulp.task('bootstrap', [], function(done) {
@@ -215,7 +230,8 @@ gulp.task('install', ['angular', 'require', 'bootstrap', 'angular-ui-bootstrap']
   done()
 });
 
-gulp.task('build', ['scss', 'build-js', 'build-js-libs', 'build-templates', 'build-static'], function(done) {
+var buildPipeline = ['scss', 'build-js', 'build-js-libs', 'build-form-config', 'build-templates', 'build-static'];
+gulp.task('build', buildPipeline, function(done) {
   done()
 });
 

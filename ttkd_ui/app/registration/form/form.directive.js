@@ -2,10 +2,20 @@
 	'use strict';
 
 	function FormDirectiveController($scope, FormService) {
-		$scope.registrationInfo = {};
+		function indexToId(index) {
+			var id = '';
 
-		$scope.currentSectionFields = [];
-		$scope.currentSelectionIndex = 0;
+			switch (index) {
+				case 0: id = 'basic_info'; break;
+				case 1: id = 'emergency_contacts'; break;
+				case 2: id = 'waiver'; break;
+				default: id = '';
+			}
+
+			return id;
+		}
+
+		$scope.registrationInfo = {};
 
 		$scope.onSubmit = function(){};
 
@@ -18,8 +28,10 @@
 
 		$scope.selectFormSection = function(index) {
 			$scope.currentSelectionIndex = index;
-			//$scope.currentSectionFields
+			$scope.currentSectionFields = FormService.getForm(indexToId(index));
 		};
+
+		$scope.selectFormSection(0);
 	}
 
 	FormDirectiveController.$inject = ['$scope', 'FormService'];
