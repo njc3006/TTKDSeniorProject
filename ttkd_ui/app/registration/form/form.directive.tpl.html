@@ -1,0 +1,26 @@
+<div class="row">
+	<div class="col-md-3 col-sm-3">
+		<ul class="nav nav-pills nav-stacked">
+			<li
+				ng-repeat="section in formSections"
+				role="presentation"
+				ng-class="{'active': $index === currentSelectionIndex}"
+				ng-click="selectFormSection($index)">
+				<a ui-sref=".">{{section}}</a>
+			</li>
+		</ul>
+	</div>
+	<div class="col-md-9 col-sm-9">
+		<div ng-if="currentSelectionIndex === (formSections.length - 1)">
+			<!-- TODO: Add Info Review Screen -->
+			<button type="submit" name="button" class="btn btn-primary">Submit</button>
+		</div>
+		<div ng-if="currentSelectionIndex !== (formSections.length - 1)">
+			<form ng-submit="onSubmit">
+				<formly-form model="registrationInfo" fields="currentSectionFields">
+					<button type="submit" name="button" class="btn btn-primary">Submit</button>
+				</formly-form>
+			</form>
+		</div>
+	</div>
+</div>
