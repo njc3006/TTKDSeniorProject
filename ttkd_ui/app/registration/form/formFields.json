@@ -1,0 +1,474 @@
+{
+	"basic_info": [
+	  {
+	    "className": "col-xs-12",
+	    "type": "input",
+	    "key": "first_name",
+	    "templateOptions": {
+	      "required": true,
+	      "placeholder": "First Name"
+	    }
+	  },
+	  {
+	    "className": "col-xs-12",
+	    "type": "input",
+	    "key": "last_name",
+	    "templateOptions": {
+	      "required": true,
+	      "placeholder": "Last Name"
+	    }
+	  },
+	  {
+	    "className": "col-xs-12",
+	    "type": "input",
+	    "key": "address",
+	    "templateOptions": {
+	      "required": true,
+	      "placeholder": "Address"
+	    }
+	  },
+	  {
+	    "className": "row",
+	    "fieldGroup": [
+	      {
+	        "className": "col-xs-4",
+	        "type": "input",
+	        "key": "city",
+	        "templateOptions": {
+	          "required": true,
+	          "placeholder": "City"
+	        }
+	      },
+	      {
+	        "className": "col-xs-4",
+	        "type": "select",
+	        "key": "state",
+	        "templateOptions": {
+	          "placeholder": "State",
+	          "required": true,
+	          "options": [
+	            {
+	              "name": "AL",
+	              "value": 0,
+	              "group": ""
+	            },
+	            {
+	              "name": "AK",
+	              "value": 1,
+	              "group": ""
+	            },
+	            {
+	              "name": "AZ",
+	              "value": 2,
+	              "group": ""
+	            },
+	            {
+	              "name": "AR",
+	              "value": 3,
+	              "group": ""
+	            },
+	            {
+	              "name": "CA",
+	              "value": 4,
+	              "group": ""
+	            },
+	            {
+	              "name": "CO",
+	              "value": 5,
+	              "group": ""
+	            },
+	            {
+	              "name": "CT",
+	              "value": 6,
+	              "group": ""
+	            },
+	            {
+	              "name": "DE",
+	              "value": 7,
+	              "group": ""
+	            },
+	            {
+	              "name": "FL",
+	              "value": 8,
+	              "group": ""
+	            },
+	            {
+	              "name": "GA",
+	              "value": 9,
+	              "group": ""
+	            },
+	            {
+	              "name": "HI",
+	              "value": 10,
+	              "group": ""
+	            },
+	            {
+	              "name": "ID",
+	              "value": 11,
+	              "group": ""
+	            },
+	            {
+	              "name": "IL",
+	              "value": 12,
+	              "group": ""
+	            },
+	            {
+	              "name": "IN",
+	              "value": 13,
+	              "group": ""
+	            },
+	            {
+	              "name": "IA",
+	              "value": 14,
+	              "group": ""
+	            },
+	            {
+	              "name": "KS",
+	              "value": 15,
+	              "group": ""
+	            },
+	            {
+	              "name": "KY",
+	              "value": 16,
+	              "group": ""
+	            },
+	            {
+	              "name": "LA",
+	              "value": 17,
+	              "group": ""
+	            },
+	            {
+	              "name": "ME",
+	              "value": 18,
+	              "group": ""
+	            },
+	            {
+	              "name": "MD",
+	              "value": 19,
+	              "group": ""
+	            },
+	            {
+	              "name": "MA",
+	              "value": 20,
+	              "group": ""
+	            },
+	            {
+	              "name": "MI",
+	              "value": 21,
+	              "group": ""
+	            },
+	            {
+	              "name": "MN",
+	              "value": 22,
+	              "group": ""
+	            },
+	            {
+	              "name": "MS",
+	              "value": 23,
+	              "group": ""
+	            },
+	            {
+	              "name": "MO",
+	              "value": 24,
+	              "group": ""
+	            },
+	            {
+	              "name": "MT",
+	              "value": 25,
+	              "group": ""
+	            },
+	            {
+	              "name": "NE",
+	              "value": 26,
+	              "group": ""
+	            },
+	            {
+	              "name": "NV",
+	              "value": 27,
+	              "group": ""
+	            },
+	            {
+	              "name": "NH",
+	              "value": 28,
+	              "group": ""
+	            },
+	            {
+	              "name": "NJ",
+	              "value": 29,
+	              "group": ""
+	            },
+	            {
+	              "name": "NM",
+	              "value": 30,
+	              "group": ""
+	            },
+	            {
+	              "name": "NY",
+	              "value": 31,
+	              "group": ""
+	            },
+	            {
+	              "name": "NC",
+	              "value": 32,
+	              "group": ""
+	            },
+	            {
+	              "name": "ND",
+	              "value": 33,
+	              "group": ""
+	            },
+	            {
+	              "name": "OH",
+	              "value": 34,
+	              "group": ""
+	            },
+	            {
+	              "name": "OK",
+	              "value": 35,
+	              "group": ""
+	            },
+	            {
+	              "name": "OR",
+	              "value": 36,
+	              "group": ""
+	            },
+	            {
+	              "name": "PA",
+	              "value": 37,
+	              "group": ""
+	            },
+	            {
+	              "name": "RI",
+	              "value": 38,
+	              "group": ""
+	            },
+	            {
+	              "name": "SC",
+	              "value": 39,
+	              "group": ""
+	            },
+	            {
+	              "name": "SD",
+	              "value": 40,
+	              "group": ""
+	            },
+	            {
+	              "name": "TN",
+	              "value": 41,
+	              "group": ""
+	            },
+	            {
+	              "name": "TX",
+	              "value": 42,
+	              "group": ""
+	            },
+	            {
+	              "name": "UT",
+	              "value": 43,
+	              "group": ""
+	            },
+	            {
+	              "name": "VT",
+	              "value": 44,
+	              "group": ""
+	            },
+	            {
+	              "name": "VA",
+	              "value": 45,
+	              "group": ""
+	            },
+	            {
+	              "name": "WA",
+	              "value": 46,
+	              "group": ""
+	            },
+	            {
+	              "name": "WV",
+	              "value": 47,
+	              "group": ""
+	            },
+	            {
+	              "name": "WI",
+	              "value": 48,
+	              "group": ""
+	            },
+	            {
+	              "name": "WY",
+	              "value": 49,
+	              "group": ""
+	            }
+	          ]
+	        }
+	      },
+	      {
+	        "className": "col-xs-4",
+	        "type": "input",
+	        "key": "zipcode",
+	        "templateOptions": {
+	          "type": "number",
+	          "required": true,
+	          "placeholder": "Zip Code"
+	        }
+	      }
+	    ]
+	  },
+	  {
+	    "className": "col-xs-12",
+	    "type": "input",
+	    "key": "home_phone",
+	    "templateOptions": {
+	      "type": "",
+	      "label": "",
+	      "required": true,
+	      "placeholder": "Home Phone Number",
+	      "description": "",
+	      "options": [
+
+	      ]
+	    }
+	  },
+	  {
+	    "className": "col-xs-12",
+	    "type": "input",
+	    "key": "cell_phone",
+	    "templateOptions": {
+	      "required": false,
+	      "placeholder": "Cell Phone Number (Optional)"
+	    }
+	  },
+	  {
+	    "className": "col-xs-12",
+	    "type": "input",
+	    "key": "email",
+	    "templateOptions": {
+	      "type": "",
+	      "label": "",
+	      "required": true,
+	      "placeholder": "Email",
+	      "description": "",
+	      "options": [
+
+	      ]
+	    }
+	  },
+	  {
+	    "className": "col-xs-12",
+	    "type": "datepicker",
+	    "key": "dob",
+	    "templateOptions": {
+	      "label": "Date of Birth",
+	      "required": true,
+	      "datepickerPopup": "dd.MM.yyyy"
+	    }
+	  }
+	],
+
+	"emergency_contacts": [
+	  {
+	    "template": "<div class=\"row\"><div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12\"><h2 class=\"text-center\">Primary Emergency Contact<h2></div></div><hr/>"
+	  },
+	  {
+	    "className": "col-xs-12",
+	    "type": "input",
+	    "key": "primaryFullName",
+	    "templateOptions": {
+	      "type": "",
+	      "label": "",
+	      "required": true,
+	      "placeholder": "Full Name",
+	      "description": "",
+	      "options": [
+
+	      ]
+	    }
+	  },
+	  {
+	    "className": "row",
+	    "fieldGroup": [
+	      {
+	        "className": "col-xs-6",
+	        "type": "input",
+	        "key": "primaryPhone",
+	        "templateOptions": {
+	          "type": "",
+	          "label": "",
+	          "required": true,
+	          "placeholder": "Phone Number",
+	          "description": "",
+	          "options": [
+
+	          ]
+	        }
+	      },
+	      {
+	        "className": "col-xs-6",
+	        "type": "input",
+	        "key": "primaryRelationship",
+	        "templateOptions": {
+	          "type": "",
+	          "label": "",
+	          "required": true,
+	          "placeholder": "Relationship",
+	          "description": "",
+	          "options": [
+
+	          ]
+	        }
+	      }
+	    ]
+	  },
+	  {
+	    "template": "<div class=\"row\"><div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12\"><h2 class=\"text-center\">Secondary Emergency Contact<h2></div></div><hr/>"
+	  },
+	  {
+	    "className": "col-xs-12",
+	    "type": "input",
+	    "key": "input-1475592694393",
+	    "templateOptions": {
+	      "type": "",
+	      "label": "",
+	      "required": true,
+	      "placeholder": "Full Name",
+	      "description": "",
+	      "options": [
+
+	      ]
+	    }
+	  },
+	  {
+	    "className": "row",
+	    "fieldGroup": [
+	      {
+	        "className": "col-xs-6",
+	        "type": "input",
+	        "key": "input-1475592711158",
+	        "templateOptions": {
+	          "type": "",
+	          "label": "",
+	          "required": true,
+	          "placeholder": "Phone Number",
+	          "description": "",
+	          "options": [
+
+	          ]
+	        }
+	      },
+	      {
+	        "className": "col-xs-6",
+	        "type": "input",
+	        "key": "input-1475592724112",
+	        "templateOptions": {
+	          "type": "",
+	          "label": "",
+	          "required": true,
+	          "placeholder": "Relationship",
+	          "description": "",
+	          "options": [
+
+	          ]
+	        }
+	      }
+	    ]
+	  }
+	]
+}
