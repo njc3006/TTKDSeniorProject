@@ -72,9 +72,9 @@ gulp.task('build-templates', [], function(done) {
 });
 
 gulp.task('build-form-config', [], function(done) {
-	gulp.src('app/registration/form/formFields.json')
+	gulp.src('app/registration/fields/fields.json')
 		.pipe(ngConstant({
-			name: 'ttkdApp.registrationFormDirective',
+			name: 'ttkdApp.fieldsService',
 			deps: false,
 			wrap: false
 		}))
