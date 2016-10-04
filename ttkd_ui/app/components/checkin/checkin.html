@@ -7,7 +7,7 @@
 	<div class="row">
 		<div class="col-xs-2 right" ng-repeat="person in people">
 			<a href="" class="thumbnail" ng-click="openCheckinPrompt(person)">
-				<img src="{{person.picture}}">
+				<img ng-src="{{person.picture}}">
 				<div class="caption">
 					<span class="person-name">{{person.name}}</span>
 				</div>
