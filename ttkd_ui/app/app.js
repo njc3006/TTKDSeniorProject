@@ -3,11 +3,13 @@
 
   angular.module('ttkdApp',
     [
+			'ui.router',
       'ttkdApp.routes',
-      'ttkdApp.directives',
       'ttkdApp.mainCtrl',
       'ttkdApp.navCtrl',
-      'ttkdApp.checkinCtrl'
+      'ttkdApp.checkinCtrl',
+			'ttkdApp.partials',
+			'ttkdApp.registrationFormDirective'
     ]
   );
 

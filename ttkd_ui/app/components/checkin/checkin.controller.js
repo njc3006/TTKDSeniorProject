@@ -1,15 +1,15 @@
 (function() {
 
-  angular.module('ttkdApp.checkinCtrl', ['ttkdApp'])
+  angular.module('ttkdApp.checkinCtrl', [])
 
-    .controller('CheckinCtrl', function($scope) {
+    .controller('CheckinCtrl', ['$scope', function($scope) {
 
         $scope.people = [];
         for (var i = 0; i < 30; i++) {
             $scope.people.push(
                 {
-                    name: "Person " + i,
-                    picture: "http://placehold.it/350x350"
+                    name: 'Person ' + i,
+                    picture: 'http://placehold.it/350x350'
                 }
             );
         }
@@ -21,6 +21,6 @@
 
         };
 
-    });
+    }]);
 
 })();
