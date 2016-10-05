@@ -1,7 +1,7 @@
 (function() {
 	'use strict';
 
-	function FieldsService(basicInfoFields, emergencyContactFields, waiverFields) {
+	function FieldsService(basicInfoFields, emergencyContactFields, waiverFields, reviewFields) {
 		return {
 			getForm: function(id) {
 				var fields = [];
@@ -10,7 +10,7 @@
 					case 'basic_info': fields = basicInfoFields; break;
 					case 'emergency_contacts': fields = emergencyContactFields; break;
 					case 'waiver': fields = waiverFields; break;
-					default: fields = null; break;
+					default: fields = reviewFields; break;
 				}
 
 				return fields;
@@ -18,7 +18,7 @@
 		};
 	}
 
-	FieldsService.$inject = ['basic_info', 'emergency_contacts', 'waiver'];
+	FieldsService.$inject = ['basic_info', 'emergency_contacts', 'waiver', 'review'];
 	angular.module('ttkdApp.fieldsService', [])
 		.factory('FieldsService', FieldsService);
 })();

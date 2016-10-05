@@ -19,5 +19,10 @@
 			name: 'waiver',
 			templateUrl: 'registration/waiver/waivertext.html'
 		});
+
+		formlyConfigProvider.setType({
+			name: 'review',
+			templateUrl: 'registration/review/reviewRegistration.html'
+		});
 	}]);
 })();

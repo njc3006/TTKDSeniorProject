@@ -7,7 +7,7 @@
 				case 0: id = 'basic_info'; break;
 				case 1: id = 'emergency_contacts'; break;
 				case 2: id = 'waiver'; break;
-				default: id = '';
+				default: id = 'review';
 			}
 
 			return id;
@@ -25,6 +25,12 @@
 		];
 
 		$scope.selectFormSection = function(index) {
+			if (index === $scope.formSections.length - 1) {
+				$scope.submitText = 'Submit';
+			} else {
+				$scope.submitText = 'Continue';
+			}
+
 			$scope.currentSelectionIndex = index;
 			$scope.currentSectionFields = FieldsService.getForm(indexToId(index));
 		};

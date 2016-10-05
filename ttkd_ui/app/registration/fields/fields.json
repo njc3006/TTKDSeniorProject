@@ -49,252 +49,252 @@
 	          "options": [
 	            {
 	              "name": "AL",
-	              "value": 0,
+	              "value": "AL",
 	              "group": ""
 	            },
 	            {
 	              "name": "AK",
-	              "value": 1,
+	              "value": "AK",
 	              "group": ""
 	            },
 	            {
 	              "name": "AZ",
-	              "value": 2,
+	              "value": "AZ",
 	              "group": ""
 	            },
 	            {
 	              "name": "AR",
-	              "value": 3,
+	              "value": "AR",
 	              "group": ""
 	            },
 	            {
 	              "name": "CA",
-	              "value": 4,
+	              "value": "CA",
 	              "group": ""
 	            },
 	            {
 	              "name": "CO",
-	              "value": 5,
+	              "value": "CO",
 	              "group": ""
 	            },
 	            {
 	              "name": "CT",
-	              "value": 6,
+	              "value": "CT",
 	              "group": ""
 	            },
 	            {
 	              "name": "DE",
-	              "value": 7,
+	              "value": "DE",
 	              "group": ""
 	            },
 	            {
 	              "name": "FL",
-	              "value": 8,
+	              "value": "FL",
 	              "group": ""
 	            },
 	            {
 	              "name": "GA",
-	              "value": 9,
+	              "value": "GA",
 	              "group": ""
 	            },
 	            {
 	              "name": "HI",
-	              "value": 10,
+	              "value": "HI",
 	              "group": ""
 	            },
 	            {
 	              "name": "ID",
-	              "value": 11,
+	              "value": "ID",
 	              "group": ""
 	            },
 	            {
 	              "name": "IL",
-	              "value": 12,
+	              "value": "IL",
 	              "group": ""
 	            },
 	            {
 	              "name": "IN",
-	              "value": 13,
+	              "value": "IN",
 	              "group": ""
 	            },
 	            {
 	              "name": "IA",
-	              "value": 14,
+	              "value": "IA",
 	              "group": ""
 	            },
 	            {
 	              "name": "KS",
-	              "value": 15,
+	              "value": "KS",
 	              "group": ""
 	            },
 	            {
 	              "name": "KY",
-	              "value": 16,
+	              "value": "KY",
 	              "group": ""
 	            },
 	            {
 	              "name": "LA",
-	              "value": 17,
+	              "value": "LA",
 	              "group": ""
 	            },
 	            {
 	              "name": "ME",
-	              "value": 18,
+	              "value": "ME",
 	              "group": ""
 	            },
 	            {
 	              "name": "MD",
-	              "value": 19,
+	              "value": "MD",
 	              "group": ""
 	            },
 	            {
 	              "name": "MA",
-	              "value": 20,
+	              "value": "MA",
 	              "group": ""
 	            },
 	            {
 	              "name": "MI",
-	              "value": 21,
+	              "value": "MI",
 	              "group": ""
 	            },
 	            {
 	              "name": "MN",
-	              "value": 22,
+	              "value": "MN",
 	              "group": ""
 	            },
 	            {
 	              "name": "MS",
-	              "value": 23,
+	              "value": "MS",
 	              "group": ""
 	            },
 	            {
 	              "name": "MO",
-	              "value": 24,
+	              "value": "MO",
 	              "group": ""
 	            },
 	            {
 	              "name": "MT",
-	              "value": 25,
+	              "value": "MT",
 	              "group": ""
 	            },
 	            {
 	              "name": "NE",
-	              "value": 26,
+	              "value": "NE",
 	              "group": ""
 	            },
 	            {
 	              "name": "NV",
-	              "value": 27,
+	              "value": "NV",
 	              "group": ""
 	            },
 	            {
 	              "name": "NH",
-	              "value": 28,
+	              "value": "NH",
 	              "group": ""
 	            },
 	            {
 	              "name": "NJ",
-	              "value": 29,
+	              "value": "NJ",
 	              "group": ""
 	            },
 	            {
 	              "name": "NM",
-	              "value": 30,
+	              "value": "NM",
 	              "group": ""
 	            },
 	            {
 	              "name": "NY",
-	              "value": 31,
+	              "value": "NY",
 	              "group": ""
 	            },
 	            {
 	              "name": "NC",
-	              "value": 32,
+	              "value": "NC",
 	              "group": ""
 	            },
 	            {
 	              "name": "ND",
-	              "value": 33,
+	              "value": "ND",
 	              "group": ""
 	            },
 	            {
 	              "name": "OH",
-	              "value": 34,
+	              "value": "OH",
 	              "group": ""
 	            },
 	            {
 	              "name": "OK",
-	              "value": 35,
+	              "value": "OK",
 	              "group": ""
 	            },
 	            {
 	              "name": "OR",
-	              "value": 36,
+	              "value": "OR",
 	              "group": ""
 	            },
 	            {
 	              "name": "PA",
-	              "value": 37,
+	              "value": "PA",
 	              "group": ""
 	            },
 	            {
 	              "name": "RI",
-	              "value": 38,
+	              "value": "RI",
 	              "group": ""
 	            },
 	            {
 	              "name": "SC",
-	              "value": 39,
+	              "value": "SC",
 	              "group": ""
 	            },
 	            {
 	              "name": "SD",
-	              "value": 40,
+	              "value": "SD",
 	              "group": ""
 	            },
 	            {
 	              "name": "TN",
-	              "value": 41,
+	              "value": "TN",
 	              "group": ""
 	            },
 	            {
 	              "name": "TX",
-	              "value": 42,
+	              "value": "TX",
 	              "group": ""
 	            },
 	            {
 	              "name": "UT",
-	              "value": 43,
+	              "value": "UT",
 	              "group": ""
 	            },
 	            {
 	              "name": "VT",
-	              "value": 44,
+	              "value": "VT",
 	              "group": ""
 	            },
 	            {
 	              "name": "VA",
-	              "value": 45,
+	              "value": "VA",
 	              "group": ""
 	            },
 	            {
 	              "name": "WA",
-	              "value": 46,
+	              "value": "WA",
 	              "group": ""
 	            },
 	            {
 	              "name": "WV",
-	              "value": 47,
+	              "value": "WV",
 	              "group": ""
 	            },
 	            {
 	              "name": "WI",
-	              "value": 48,
+	              "value": "WI",
 	              "group": ""
 	            },
 	            {
 	              "name": "WY",
-	              "value": 49,
+	              "value": "WY",
 	              "group": ""
 	            }
 	          ]
@@ -362,7 +362,7 @@
 	  {
 	    "className": "col-xs-12",
 	    "type": "input",
-	    "key": "primaryFullName",
+	    "key": "primary_full_name",
 	    "templateOptions": {
 	      "required": true,
 	      "placeholder": "Full Name"
@@ -374,7 +374,7 @@
 	      {
 	        "className": "col-xs-6",
 	        "type": "input",
-	        "key": "primaryPhone",
+	        "key": "primary_phone",
 	        "templateOptions": {
 	          "required": true,
 	          "placeholder": "Phone Number"
@@ -383,7 +383,7 @@
 	      {
 	        "className": "col-xs-6",
 	        "type": "input",
-	        "key": "primaryRelationship",
+	        "key": "primary_relationship",
 	        "templateOptions": {
 	          "required": true,
 	          "placeholder": "Relationship"
@@ -397,7 +397,7 @@
 	  {
 	    "className": "col-xs-12",
 	    "type": "input",
-	    "key": "secondaryFullName",
+	    "key": "secondary_full_name",
 	    "templateOptions": {
 	      "required": true,
 	      "placeholder": "Full Name"
@@ -409,7 +409,7 @@
 	      {
 	        "className": "col-xs-6",
 	        "type": "input",
-	        "key": "secondaryPhone",
+	        "key": "secondary_phone",
 	        "templateOptions": {
 	          "required": true,
 	          "placeholder": "Phone Number"
@@ -418,7 +418,7 @@
 	      {
 	        "className": "col-xs-6",
 	        "type": "input",
-	        "key": "secondaryRelationship",
+	        "key": "secondary_relationship",
 	        "templateOptions": {
 	          "required": true,
 	          "placeholder": "Relationship"
@@ -446,6 +446,11 @@
 				"required": true,
 				"placeholder": "Full name of Parent/Guardian"
 			}
+		}
+	],
+	"review": [
+		{
+			"type": "review"
 		}
 	]
 }
