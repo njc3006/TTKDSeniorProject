@@ -341,26 +341,19 @@
 	    "type": "input",
 	    "key": "email",
 	    "templateOptions": {
-	      "type": "",
-	      "label": "",
+	      "type": "email",
 	      "required": true,
-	      "placeholder": "Email",
-	      "description": "",
-	      "options": [
-
-	      ]
+	      "placeholder": "Email"
 	    }
 	  },
-	  {
-	    "className": "col-xs-12",
-	    "type": "datepicker",
-	    "key": "dob",
-	    "templateOptions": {
-	      "label": "Date of Birth",
-	      "required": true,
-	      "datepickerPopup": "dd.MM.yyyy"
-	    }
-	  }
+		{
+			"className": "col-xs-12",
+			"key": "dob",
+	    "type": "input",
+			"templateOptions": {
+				"type": "date"
+			}
+		}
 	],
 	"emergency_contacts": [
 	  {
@@ -435,6 +428,9 @@
 	  }
 	],
 	"waiver": [
+		{
+			"type": "waiver"
+		},
 		{
 			"type": "input",
 			"key": "participant_signature",

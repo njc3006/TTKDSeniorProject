@@ -8,7 +8,7 @@
 
     $stateProvider
       //you can set this to no template if you just want to use the html in the page
-      
+
       .state('home', {
         url: '/',
         templateUrl: 'home/home.html',
@@ -24,6 +24,12 @@
         data: {
           pageTitle: 'Checkin'
         }
+      })
+
+      .state('registration', {
+        url: '/registration',
+        templateUrl: 'registration/registration.html',
+				controller: 'RegistrationController'
       });
 
       $urlRouterProvider.otherwise('/');

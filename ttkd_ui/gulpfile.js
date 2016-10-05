@@ -130,7 +130,7 @@ gulp.task('watch', function() {
   gulp.watch(['./app/**/*.js', '!./app/lib/**/*.js'], ['build-js', 'jshint']);
   gulp.watch(['./app/**', '!./app/**/*.js', '!./app/**/*.scss'], ['build-static']);
 	gulp.watch(config.templatePaths, ['build-templates']);
-	gulp.watch('app/registration/form/formFields.json', ['build-form-config']);
+	gulp.watch('app/registration/fields/fields.json', ['build-form-config']);
 });
 
 gulp.task('bootstrap', [], function(done) {
