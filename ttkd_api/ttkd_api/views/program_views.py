@@ -1,5 +1,5 @@
 """ProgramViewSet"""
-from rest_framework import viewsets, mixins, generics
+from rest_framework import viewsets, mixins, filters
 from ..serializers.program_serializer import ProgramSerializer
 from ..serializers.registration_serializer import RegistrationSerializer
 from ..models.program import Program
@@ -17,13 +17,11 @@ class ProgramCreateSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     queryset = Program.objects.all()
     serializer_class = ProgramSerializer
 
-class StudentList(generics.ListAPIView):
-    serializer_class = RegistrationSerializer
 
-    def get_queryset(self):
-        """
-        This view should return a list of all the purchases for
-        the user as determined by the username portion of the URL.
-        """
-        program_id = self.kwargs['program_id']
-        return Registration.objects.filter(program=Program.objects.get(id=program_id))
+class StudentList(viewsets.ReadOnlyModelViewSet):
+    """Get The Student List for a given progam, you must specify ?program=<id> to get a student list for a given
+    program"""
+    queryset = Registration.objects.all()
+    serializer_class = RegistrationSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ('program',)
