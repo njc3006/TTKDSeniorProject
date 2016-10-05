@@ -14,8 +14,6 @@ class Email(models.Model):
     person = models.ForeignKey(
         Person,
         on_delete=models.CASCADE,
-        blank=True,
-        null=True,
     )
     email = models.EmailField(
         max_length=254,

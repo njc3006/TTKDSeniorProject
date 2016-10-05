@@ -9,6 +9,7 @@ from .views.attendance_record_views import AttendanceRecordViewSet, AttendanceRe
 from .views.person_views import PersonViewSet
 from .views.program_views import ProgramViewSet, ProgramCreateSet, StudentList
 from .views.registration_views import RegistrationViewSet, RegistrationCreateSet
+from .views.email_views import EmailViewSet, EmailCreateSet
 from .views import UserViewSet
 
 router = routers.DefaultRouter()
@@ -24,6 +25,8 @@ router.register(r'check-in/create', AttendanceRecordCreateSet, 'attendance-creat
 router.register(r'registrations', RegistrationViewSet)
 router.register(r'registration/create', RegistrationCreateSet, 'registration-create')
 router.register(r'students', StudentList, 'student-list')
+router.register(r'emails', EmailViewSet)
+router.register(r'email/create', EmailCreateSet, 'program-create')
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),
