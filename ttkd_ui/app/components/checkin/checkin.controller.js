@@ -1,8 +1,8 @@
 (function() {
 
-  angular.module('ttkdApp.checkinCtrl', ['ttkdApp'])
+  angular.module('ttkdApp.checkinCtrl', [])
 
-    .controller('CheckinCtrl', function($scope) {
+    .controller('CheckinCtrl', ['$scope', function($scope) {
 
         $scope.people = [];
         for (var i = 0; i < 30; i++) {
@@ -21,6 +21,6 @@
 
         };
 
-    });
+    }]);
 
 })();

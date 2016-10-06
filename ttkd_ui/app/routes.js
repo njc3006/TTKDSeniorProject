@@ -8,6 +8,7 @@
 
     $stateProvider
       //you can set this to no template if you just want to use the html in the page
+      
 
       .state('home', {
         url: '/',

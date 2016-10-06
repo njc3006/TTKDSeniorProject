@@ -3,16 +3,18 @@
 
   angular.module('ttkdApp',
     [
-      'ttkdApp.routes',
-      'ttkdApp.mainCtrl',
-      'ttkdApp.navCtrl',
-      'ttkdApp.checkinCtrl',
-			'ttkdApp.partials',
-			'ttkdApp.fieldsService',
-			'formly',
-			'formlyBootstrap',
-			'formlyRepeatingSection',
-			'ui.bootstrap'
+		'ui.router',
+		'ui.bootstrap',
+		'formly',
+		'formlyBootstrap',
+		'formlyRepeatingSection',
+		'ttkdApp.routes',
+		'ttkdApp.mainCtrl',
+		'ttkdApp.navCtrl',
+		'ttkdApp.checkinCtrl',
+		'ttkdApp.partials',
+		'ttkdApp.homeCtrl',
+		'ttkdApp.fieldsService'
     ]
   )
 	.app('apiHost', 'localhost:800')

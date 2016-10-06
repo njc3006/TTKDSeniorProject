@@ -14,10 +14,6 @@
     	};
 
     	$scope.pages = [
-    		{
-    			name: 'Checkin',
-    			url: '#/checkin'
-    		},
     	];
     }]);
 

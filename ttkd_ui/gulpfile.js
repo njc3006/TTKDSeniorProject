@@ -84,6 +84,12 @@ gulp.task('build-form-config', [], function(done) {
 		.on('end', done);
 });
 
+gulp.task('build-fonts', [], function(done) {
+  gulp.src(config.fontFiles)
+    .pipe(gulp.dest(BUILD_DIR + '/css/lib'))
+    .on('end', done);
+});
+
 gulp.task('build-js-libs', [], function(done) {
 	if (argv.production) {
 		gulp.src(config.bowerPaths)
@@ -230,7 +236,7 @@ gulp.task('install', ['angular', 'require', 'bootstrap', 'angular-ui-bootstrap']
   done()
 });
 
-var buildPipeline = ['scss', 'build-js', 'build-js-libs', 'build-form-config', 'build-templates', 'build-static'];
+var buildPipeline = ['scss', 'build-js', 'build-js-libs', 'build-fonts', 'build-form-config', 'build-templates', 'build-static'];
 gulp.task('build', buildPipeline, function(done) {
   done()
 });

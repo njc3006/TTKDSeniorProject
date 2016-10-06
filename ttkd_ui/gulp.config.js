@@ -16,6 +16,11 @@ module.exports = {
 	],
 	sourcePaths: ['!./app/**/*_test.js', './app/**/*.js', '!./app/lib/**/*.js'],
 	templatePaths: ['./app/*/**/*.html'],
+	fontFiles: [
+		'./app/lib/**/*.woff',
+		'./app/lib/**/*.woff2',
+		'./app/lib/**/*.ttf' 
+	],
 
 	sourceSassPaths: ['./app/**/*.scss']
 };
