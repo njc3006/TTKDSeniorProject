@@ -11,7 +11,8 @@ module.exports = {
 		'./app/lib/angular-bootstrap/ui-bootstrap.min.js',
 		'./app/lib/angular-bootstrap/ui-bootstrap.tpls.min.js',
 		'./app/lib/angular-formly/dist/formly.min.js',
-		'./app/lib/angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.min.js'
+		'./app/lib/angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.min.js',
+		'./app/lib/angular-formly-repeating-section/dist/angular-formly-repeating-section.js'
 	],
 	sourcePaths: ['!./app/**/*_test.js', './app/**/*.js', '!./app/lib/**/*.js'],
 	templatePaths: ['./app/*/**/*.html'],

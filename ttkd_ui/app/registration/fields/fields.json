@@ -321,10 +321,7 @@
 	      "label": "",
 	      "required": true,
 	      "placeholder": "Home Phone Number",
-	      "description": "",
-	      "options": [
-
-	      ]
+	      "description": ""
 	    }
 	  },
 	  {
@@ -337,13 +334,22 @@
 	    }
 	  },
 	  {
-	    "className": "col-xs-12",
-	    "type": "input",
-	    "key": "email",
+			"type": "repeatSection",
+			"key": "emails",
 	    "templateOptions": {
-	      "type": "email",
-	      "required": true,
-	      "placeholder": "Email"
+				"btnText": "Add",
+				"fields": [
+					{
+						"key": "email",
+						"className": "col-xs-10",
+				    "type": "input",
+						"templateOptions": {
+							"type": "email",
+				      "required": true,
+				      "placeholder": "Email"
+						}
+					}
+				],
 	    }
 	  },
 		{
@@ -351,7 +357,8 @@
 			"key": "dob",
 	    "type": "input",
 			"templateOptions": {
-				"type": "date"
+				"type": "date",
+				"required": true
 			}
 		}
 	],

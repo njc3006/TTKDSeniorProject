@@ -12,6 +12,7 @@
 			'ttkdApp.fieldsService',
 			'formly',
 			'formlyBootstrap',
+			'formlyRepeatingSection',
 			'ui.bootstrap'
     ]
   ).config(['formlyConfigProvider', function(formlyConfigProvider) {
