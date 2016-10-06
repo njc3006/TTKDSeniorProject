@@ -72,9 +72,9 @@ gulp.task('build-templates', [], function(done) {
 });
 
 gulp.task('build-form-config', [], function(done) {
-	gulp.src('app/registration/form/formFields.json')
+	gulp.src('app/registration/fields/fields.json')
 		.pipe(ngConstant({
-			name: 'ttkdApp.registrationFormDirective',
+			name: 'ttkdApp.fieldsService',
 			deps: false,
 			wrap: false
 		}))
@@ -82,6 +82,12 @@ gulp.task('build-form-config', [], function(done) {
 		.pipe(gulp.dest(BUILD_DIR + '/js'))
 		.pipe(connect.reload())
 		.on('end', done);
+});
+
+gulp.task('build-fonts', [], function(done) {
+  gulp.src(config.fontFiles)
+    .pipe(gulp.dest(BUILD_DIR + '/css/lib'))
+    .on('end', done);
 });
 
 gulp.task('build-js-libs', [], function(done) {
@@ -130,7 +136,7 @@ gulp.task('watch', function() {
   gulp.watch(['./app/**/*.js', '!./app/lib/**/*.js'], ['build-js', 'jshint']);
   gulp.watch(['./app/**', '!./app/**/*.js', '!./app/**/*.scss'], ['build-static']);
 	gulp.watch(config.templatePaths, ['build-templates']);
-	gulp.watch('app/registration/form/formFields.json', ['build-form-config']);
+	gulp.watch('app/registration/fields/fields.json', ['build-form-config']);
 });
 
 gulp.task('bootstrap', [], function(done) {
@@ -230,7 +236,7 @@ gulp.task('install', ['angular', 'require', 'bootstrap', 'angular-ui-bootstrap']
   done()
 });
 
-var buildPipeline = ['scss', 'build-js', 'build-js-libs', 'build-form-config', 'build-templates', 'build-static'];
+var buildPipeline = ['scss', 'build-js', 'build-js-libs', 'build-fonts', 'build-form-config', 'build-templates', 'build-static'];
 gulp.task('build', buildPipeline, function(done) {
   done()
 });

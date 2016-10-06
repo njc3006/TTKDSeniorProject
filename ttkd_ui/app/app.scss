@@ -45,3 +45,18 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 .spacer-20 {
 	margin-bottom: 20px;
 }
+
+//Custom styles for waiver text
+.waiver,
+.review {
+	margin-bottom: 35px;
+}
+
+.form-button {
+	height: 100px;
+}
+
+.form-scroll-buttons {
+	position: fixed;
+	right: 0;
+}
