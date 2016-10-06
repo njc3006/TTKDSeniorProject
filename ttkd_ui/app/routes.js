@@ -1,7 +1,6 @@
 (function() {
 
   angular.module('ttkdApp.routes', [])
-
   .config(['$stateProvider', '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
     // For any unmatched url, send to /
@@ -13,6 +12,7 @@
       .state('home', {
         url: '/',
         templateUrl: 'home/home.html',
+        controller: 'HomeCtrl',
         data: {
           pageTitle: 'Home'
         }

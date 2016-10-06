@@ -9,7 +9,7 @@
       'ttkdApp.navCtrl',
       'ttkdApp.checkinCtrl',
 			'ttkdApp.partials',
-			'ttkdApp.registrationFormDirective'
+      'ttkdApp.homeCtrl'
     ]
   );
 

@@ -9,5 +9,6 @@
     "bootstrap-sass": "^3.3.7",
     "angular-formly": "^8.4.0",
     "angular-formly-templates-bootstrap": "^6.3.2"
+    "requirejs": "^2.3.2",
   }
 }

@@ -2,10 +2,10 @@
 
   angular.module('ttkdApp.mainCtrl', [])
 
-    .controller('mainCtrl', function($scope) {
+    .controller('MainCtrl', ['$scope', function($scope) {
       $scope.showNav = true;
       $scope.title = 'Home';
       $scope.currentClass = 'Tiny Ninjas';
-    });
+    }]);
 
 })();
