@@ -1,8 +1,8 @@
 (function() {
 
-  angular.module('ttkdApp.routes', ['ttkdApp', 'ui.router'])
+  angular.module('ttkdApp.routes', ['ui.router'])
 
-  .config(function($stateProvider, $urlRouterProvider) {
+  .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     // For any unmatched url, send to /
     $urlRouterProvider.otherwise('/');
 
@@ -29,11 +29,11 @@
       .state('registration', {
         url: '/registration',
         templateUrl: 'registration/registration.html',
-				controller: 'RegistrationController'
+				controller: 'RegistrationCtrl'
       });
 
       $urlRouterProvider.otherwise('/');
 
-  });
+  }]);
 
 })();

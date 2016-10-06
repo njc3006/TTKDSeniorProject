@@ -1,8 +1,8 @@
 (function() {
 
-  angular.module('ttkdApp.navCtrl', ['ttkdApp'])
+  angular.module('ttkdApp.navCtrl', [])
 
-    .controller('NavCtrl', function($scope, $state) {
+    .controller('NavCtrl', ['$scope', '$state', function($scope, $state) {
     	// returns true if the current router url matches the passed in url
     	// so views can set 'active' on links easily
     	$scope.isUrl = function(url) {
@@ -19,6 +19,6 @@
     			url: '#/checkin'
     		},
     	];
-    });
+    }]);
 
 })();

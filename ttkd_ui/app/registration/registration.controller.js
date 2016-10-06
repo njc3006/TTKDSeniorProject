@@ -59,5 +59,5 @@
 
 	RegistrationController.$inject = ['$scope', 'FieldsService'];
 	angular.module('ttkdApp')
-		.controller('RegistrationController', RegistrationController);
+		.controller('RegistrationCtrl', RegistrationController);
 })();

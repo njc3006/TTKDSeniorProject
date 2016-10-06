@@ -6,7 +6,10 @@
 	    "key": "first_name",
 	    "templateOptions": {
 	      "required": true,
-	      "placeholder": "First Name"
+	      "placeholder": "First Name",
+				"addonRight": {
+					"class": "glyphicon glyphicon-asterisk"
+				}
 	    }
 	  },
 	  {
@@ -15,7 +18,10 @@
 	    "key": "last_name",
 	    "templateOptions": {
 	      "required": true,
-	      "placeholder": "Last Name"
+	      "placeholder": "Last Name",
+				"addonRight": {
+					"class": "glyphicon glyphicon-asterisk"
+				}
 	    }
 	  },
 	  {
@@ -24,7 +30,10 @@
 	    "key": "address",
 	    "templateOptions": {
 	      "required": true,
-	      "placeholder": "Address"
+	      "placeholder": "Address",
+				"addonRight": {
+					"class": "glyphicon glyphicon-asterisk"
+				}
 	    }
 	  },
 	  {
@@ -36,7 +45,10 @@
 	        "key": "city",
 	        "templateOptions": {
 	          "required": true,
-	          "placeholder": "City"
+	          "placeholder": "City",
+						"addonRight": {
+							"class": "glyphicon glyphicon-asterisk"
+						}
 	        }
 	      },
 	      {
@@ -46,256 +58,209 @@
 	        "templateOptions": {
 	          "placeholder": "State",
 	          "required": true,
+						"addonRight": {
+							"class": "glyphicon glyphicon-asterisk"
+						},
 	          "options": [
 	            {
 	              "name": "AL",
-	              "value": "AL",
-	              "group": ""
+	              "value": "AL"
 	            },
 	            {
 	              "name": "AK",
-	              "value": "AK",
-	              "group": ""
+	              "value": "AK"
 	            },
 	            {
 	              "name": "AZ",
-	              "value": "AZ",
-	              "group": ""
+	              "value": "AZ"
 	            },
 	            {
 	              "name": "AR",
-	              "value": "AR",
-	              "group": ""
+	              "value": "AR"
 	            },
 	            {
 	              "name": "CA",
-	              "value": "CA",
-	              "group": ""
+	              "value": "CA"
 	            },
 	            {
 	              "name": "CO",
-	              "value": "CO",
-	              "group": ""
+	              "value": "CO"
 	            },
 	            {
 	              "name": "CT",
-	              "value": "CT",
-	              "group": ""
+	              "value": "CT"
 	            },
 	            {
 	              "name": "DE",
-	              "value": "DE",
-	              "group": ""
+	              "value": "DE"
 	            },
 	            {
 	              "name": "FL",
-	              "value": "FL",
-	              "group": ""
+	              "value": "FL"
 	            },
 	            {
 	              "name": "GA",
-	              "value": "GA",
-	              "group": ""
+	              "value": "GA"
 	            },
 	            {
 	              "name": "HI",
-	              "value": "HI",
-	              "group": ""
+	              "value": "HI"
 	            },
 	            {
 	              "name": "ID",
-	              "value": "ID",
-	              "group": ""
+	              "value": "ID"
 	            },
 	            {
 	              "name": "IL",
-	              "value": "IL",
-	              "group": ""
+	              "value": "IL"
 	            },
 	            {
 	              "name": "IN",
-	              "value": "IN",
-	              "group": ""
+	              "value": "IN"
 	            },
 	            {
 	              "name": "IA",
-	              "value": "IA",
-	              "group": ""
+	              "value": "IA"
 	            },
 	            {
 	              "name": "KS",
-	              "value": "KS",
-	              "group": ""
+	              "value": "KS"
 	            },
 	            {
 	              "name": "KY",
-	              "value": "KY",
-	              "group": ""
+	              "value": "KY"
 	            },
 	            {
 	              "name": "LA",
-	              "value": "LA",
-	              "group": ""
+	              "value": "LA"
 	            },
 	            {
 	              "name": "ME",
-	              "value": "ME",
-	              "group": ""
+	              "value": "ME"
 	            },
 	            {
 	              "name": "MD",
-	              "value": "MD",
-	              "group": ""
+	              "value": "MD"
 	            },
 	            {
 	              "name": "MA",
-	              "value": "MA",
-	              "group": ""
+	              "value": "MA"
 	            },
 	            {
 	              "name": "MI",
-	              "value": "MI",
-	              "group": ""
+	              "value": "MI"
 	            },
 	            {
 	              "name": "MN",
-	              "value": "MN",
-	              "group": ""
+	              "value": "MN"
 	            },
 	            {
 	              "name": "MS",
-	              "value": "MS",
-	              "group": ""
+	              "value": "MS"
 	            },
 	            {
 	              "name": "MO",
-	              "value": "MO",
-	              "group": ""
+	              "value": "MO"
 	            },
 	            {
 	              "name": "MT",
-	              "value": "MT",
-	              "group": ""
+	              "value": "MT"
 	            },
 	            {
 	              "name": "NE",
-	              "value": "NE",
-	              "group": ""
+	              "value": "NE"
 	            },
 	            {
 	              "name": "NV",
-	              "value": "NV",
-	              "group": ""
+	              "value": "NV"
 	            },
 	            {
 	              "name": "NH",
-	              "value": "NH",
-	              "group": ""
+	              "value": "NH"
 	            },
 	            {
 	              "name": "NJ",
-	              "value": "NJ",
-	              "group": ""
+	              "value": "NJ"
 	            },
 	            {
 	              "name": "NM",
-	              "value": "NM",
-	              "group": ""
+	              "value": "NM"
 	            },
 	            {
 	              "name": "NY",
-	              "value": "NY",
-	              "group": ""
+	              "value": "NY"
 	            },
 	            {
 	              "name": "NC",
-	              "value": "NC",
-	              "group": ""
+	              "value": "NC"
 	            },
 	            {
 	              "name": "ND",
-	              "value": "ND",
-	              "group": ""
+	              "value": "ND"
 	            },
 	            {
 	              "name": "OH",
-	              "value": "OH",
-	              "group": ""
+	              "value": "OH"
 	            },
 	            {
 	              "name": "OK",
-	              "value": "OK",
-	              "group": ""
+	              "value": "OK"
 	            },
 	            {
 	              "name": "OR",
-	              "value": "OR",
-	              "group": ""
+	              "value": "OR"
 	            },
 	            {
 	              "name": "PA",
-	              "value": "PA",
-	              "group": ""
+	              "value": "PA"
 	            },
 	            {
 	              "name": "RI",
-	              "value": "RI",
-	              "group": ""
+	              "value": "RI"
 	            },
 	            {
 	              "name": "SC",
-	              "value": "SC",
-	              "group": ""
+	              "value": "SC"
 	            },
 	            {
 	              "name": "SD",
-	              "value": "SD",
-	              "group": ""
+	              "value": "SD"
 	            },
 	            {
 	              "name": "TN",
-	              "value": "TN",
-	              "group": ""
+	              "value": "TN"
 	            },
 	            {
 	              "name": "TX",
-	              "value": "TX",
-	              "group": ""
+	              "value": "TX"
 	            },
 	            {
 	              "name": "UT",
-	              "value": "UT",
-	              "group": ""
+	              "value": "UT"
 	            },
 	            {
 	              "name": "VT",
-	              "value": "VT",
-	              "group": ""
+	              "value": "VT"
 	            },
 	            {
 	              "name": "VA",
-	              "value": "VA",
-	              "group": ""
+	              "value": "VA"
 	            },
 	            {
 	              "name": "WA",
-	              "value": "WA",
-	              "group": ""
+	              "value": "WA"
 	            },
 	            {
 	              "name": "WV",
-	              "value": "WV",
-	              "group": ""
+	              "value": "WV"
 	            },
 	            {
 	              "name": "WI",
-	              "value": "WI",
-	              "group": ""
+	              "value": "WI"
 	            },
 	            {
 	              "name": "WY",
-	              "value": "WY",
-	              "group": ""
+	              "value": "WY"
 	            }
 	          ]
 	        }
@@ -307,7 +272,10 @@
 	        "templateOptions": {
 	          "type": "number",
 	          "required": true,
-	          "placeholder": "Zip Code"
+	          "placeholder": "Zip Code",
+						"addonRight": {
+							"class": "glyphicon glyphicon-asterisk"
+						}
 	        }
 	      }
 	    ]
@@ -321,7 +289,9 @@
 	      "label": "",
 	      "required": true,
 	      "placeholder": "Home Phone Number",
-	      "description": ""
+				"addonRight": {
+					"class": "glyphicon glyphicon-asterisk"
+				}
 	    }
 	  },
 	  {
@@ -346,7 +316,10 @@
 						"templateOptions": {
 							"type": "email",
 				      "required": true,
-				      "placeholder": "Email"
+				      "placeholder": "Email",
+							"addonRight": {
+								"class": "glyphicon glyphicon-asterisk"
+							}
 						}
 					}
 				],
@@ -358,7 +331,10 @@
 	    "type": "input",
 			"templateOptions": {
 				"type": "date",
-				"required": true
+				"required": true,
+				"addonRight": {
+					"class": "glyphicon glyphicon-asterisk"
+				}
 			}
 		}
 	],
@@ -372,7 +348,10 @@
 	    "key": "primary_full_name",
 	    "templateOptions": {
 	      "required": true,
-	      "placeholder": "Full Name"
+	      "placeholder": "Full Name",
+				"addonRight": {
+					"class": "glyphicon glyphicon-asterisk"
+				}
 	    }
 	  },
 	  {
@@ -384,7 +363,10 @@
 	        "key": "primary_phone",
 	        "templateOptions": {
 	          "required": true,
-	          "placeholder": "Phone Number"
+	          "placeholder": "Phone Number",
+						"addonRight": {
+							"class": "glyphicon glyphicon-asterisk"
+						}
 	        }
 	      },
 	      {
@@ -393,7 +375,10 @@
 	        "key": "primary_relationship",
 	        "templateOptions": {
 	          "required": true,
-	          "placeholder": "Relationship"
+	          "placeholder": "Relationship",
+						"addonRight": {
+							"class": "glyphicon glyphicon-asterisk"
+						}
 	        }
 	      }
 	    ]
@@ -407,7 +392,10 @@
 	    "key": "secondary_full_name",
 	    "templateOptions": {
 	      "required": true,
-	      "placeholder": "Full Name"
+	      "placeholder": "Full Name",
+				"addonRight": {
+					"class": "glyphicon glyphicon-asterisk"
+				}
 	    }
 	  },
 	  {
@@ -419,7 +407,10 @@
 	        "key": "secondary_phone",
 	        "templateOptions": {
 	          "required": true,
-	          "placeholder": "Phone Number"
+	          "placeholder": "Phone Number",
+						"addonRight": {
+							"class": "glyphicon glyphicon-asterisk"
+						}
 	        }
 	      },
 	      {
@@ -428,7 +419,10 @@
 	        "key": "secondary_relationship",
 	        "templateOptions": {
 	          "required": true,
-	          "placeholder": "Relationship"
+	          "placeholder": "Relationship",
+						"addonRight": {
+							"class": "glyphicon glyphicon-asterisk"
+						}
 	        }
 	      }
 	    ]
@@ -443,7 +437,10 @@
 			"key": "participant_signature",
 			"templateOptions": {
 				"required": true,
-				"placeholder": "Full name of Participant"
+				"placeholder": "Full name of Participant",
+				"addonRight": {
+					"class": "glyphicon glyphicon-asterisk"
+				}
 			}
 		},
 		{
@@ -451,7 +448,10 @@
 			"key": "guardian_signature",
 			"templateOptions": {
 				"required": true,
-				"placeholder": "Full name of Parent/Guardian"
+				"placeholder": "Full name of Parent/Guardian",
+				"addonRight": {
+					"class": "glyphicon glyphicon-asterisk"
+				}
 			}
 		}
 	],
