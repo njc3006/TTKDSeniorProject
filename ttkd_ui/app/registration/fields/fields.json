@@ -27,7 +27,7 @@
 	  {
 	    "className": "col-xs-12",
 	    "type": "input",
-	    "key": "address",
+	    "key": "street",
 	    "templateOptions": {
 	      "required": true,
 	      "placeholder": "Address",

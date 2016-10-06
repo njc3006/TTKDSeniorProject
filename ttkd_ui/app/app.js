@@ -14,7 +14,9 @@
 			'formlyRepeatingSection',
 			'ui.bootstrap'
     ]
-  ).config(['formlyConfigProvider', function(formlyConfigProvider) {
+  )
+	.app('apiHost', 'localhost:800')
+	.config(['formlyConfigProvider', function(formlyConfigProvider) {
 		formlyConfigProvider.setType({
 			name: 'waiver',
 			templateUrl: 'registration/waiver/waivertext.html'
