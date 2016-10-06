@@ -12,7 +12,7 @@
 		return id;
 	}
 
-	function RegistrationController($scope, FieldsService) {
+	function RegistrationController($scope, FieldsService, RegistrationService) {
 		$scope.registrationInfo = {
 			emails: [
 				{
@@ -25,7 +25,8 @@
 			if ($scope.currentSelectionIndex < $scope.formSections.length - 1) {
 				$scope.selectFormSection($scope.currentSelectionIndex + 1);
 			} else {
-				console.log('SUBMISSION');
+				console.log($scope.registrationInfo);
+				//RegistrationService.registerStudent($scope.)
 			}
 		};
 
@@ -57,7 +58,7 @@
 		$scope.selectFormSection($scope.currentSelectionIndex);
 	}
 
-	RegistrationController.$inject = ['$scope', 'FieldsService'];
+	RegistrationController.$inject = ['$scope', 'FieldsService', 'RegistrationSvc'];
 	angular.module('ttkdApp')
 		.controller('RegistrationCtrl', RegistrationController);
 })();

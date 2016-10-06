@@ -283,12 +283,12 @@
 	  {
 	    "className": "col-xs-12",
 	    "type": "input",
-	    "key": "home_phone",
+	    "key": "primary_phone",
 	    "templateOptions": {
 	      "type": "",
 	      "label": "",
 	      "required": true,
-	      "placeholder": "Home Phone Number",
+	      "placeholder": "Primary Phone Number",
 				"addonRight": {
 					"class": "glyphicon glyphicon-asterisk"
 				}
@@ -297,10 +297,10 @@
 	  {
 	    "className": "col-xs-12",
 	    "type": "input",
-	    "key": "cell_phone",
+	    "key": "secondary_phone",
 	    "templateOptions": {
 	      "required": false,
-	      "placeholder": "Cell Phone Number (Optional)"
+	      "placeholder": "Secondary Phone Number (Optional)"
 	    }
 	  },
 	  {
@@ -360,7 +360,7 @@
 	      {
 	        "className": "col-xs-6",
 	        "type": "input",
-	        "key": "primary_phone",
+	        "key": "primary_emergency_phone",
 	        "templateOptions": {
 	          "required": true,
 	          "placeholder": "Phone Number",
@@ -404,7 +404,7 @@
 	      {
 	        "className": "col-xs-6",
 	        "type": "input",
-	        "key": "secondary_phone",
+	        "key": "secondary_emergency_phone",
 	        "templateOptions": {
 	          "required": true,
 	          "placeholder": "Phone Number",
