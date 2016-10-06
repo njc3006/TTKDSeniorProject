@@ -36,9 +36,8 @@ ALLOWED_HOSTS = []
 # Django Rest Framework Settings
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': []
 }
 
 
