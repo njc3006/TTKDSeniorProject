@@ -27,7 +27,7 @@
 			} else {
 				console.log('SUBMISSION');
 			}
-		}
+		};
 
 		$scope.formSections = [
 			'Basic Information',
@@ -53,7 +53,8 @@
 			}
 		};
 
-		$scope.selectFormSection(0);
+		$scope.currentSelectionIndex = 0;
+		$scope.selectFormSection($scope.currentSelectionIndex);
 	}
 
 	RegistrationController.$inject = ['$scope', 'FieldsService'];
