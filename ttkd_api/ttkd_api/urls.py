@@ -26,7 +26,7 @@ router.register(r'registrations', RegistrationViewSet)
 router.register(r'registration/create', RegistrationCreateSet, 'registration-create')
 router.register(r'students', StudentList, 'student-list')
 router.register(r'emails', EmailViewSet)
-router.register(r'email/create', EmailCreateSet, 'program-create')
+router.register(r'email/create', EmailCreateSet, 'email-create')
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),
