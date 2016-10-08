@@ -14,6 +14,8 @@ class Email(models.Model):
     person = models.ForeignKey(
         Person,
         on_delete=models.CASCADE,
+        # related name is need for person serializer to know that a person has emails
+        related_name='emails'
     )
     email = models.EmailField(
         max_length=254,
