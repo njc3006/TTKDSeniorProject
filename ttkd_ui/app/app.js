@@ -5,13 +5,16 @@
     [
 		'ui.router',
 		'ui.bootstrap',
+		'ui.select',
+		'ttkdApp.constants',
 		'ttkdApp.routes',
 		'ttkdApp.mainCtrl',
 		'ttkdApp.navCtrl',
 		'ttkdApp.checkinCtrl',
 		'ttkdApp.partials',
-		'ttkdApp.homeCtrl'
+		'ttkdApp.homeCtrl',
+		'ttkdApp.stateService',
+		'ttkdApp.programsService'
     ]
-  )
-	.constant('apiHost', 'localhost:800');
+  );
 })();

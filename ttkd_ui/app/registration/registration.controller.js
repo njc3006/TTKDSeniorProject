@@ -12,32 +12,41 @@
 		return id;
 	}
 
-	function RegistrationController($scope, RegistrationService) {
-		/*$scope.registrationInfo = {
-			emails: [
-				{
-					email: ''
-				}
-			]
-		};
+	function RegistrationController($scope, RegistrationService, ProgramsService, StateService) {
+		$scope.waiverSigned = function() {
+			var participantSignaturePresent = $scope.registrationInfo.participantSignature !== undefined &&
+				$scope.registrationInfo.participantSignature !== '';
 
-		$scope.onSubmit = function() {
-			if ($scope.currentSelectionIndex < $scope.formSections.length - 1) {
-				$scope.selectFormSection($scope.currentSelectionIndex + 1);
+			var ageInYears = (new Date()).getFullYear() - $scope.registrationInfo.dob.getFullYear();
+			if (ageInYears < 18) {
+				var guardianSignaturePresent = $scope.registrationInfo.guardianSignature !== undefined &&
+					$scope.registrationInfo.guardianSignature !== '';;
+
+				return participantSignaturePresent && guardianSignaturePresent;
 			} else {
-				console.log($scope.registrationInfo);
-				//RegistrationService.registerStudent($scope.)
+				return participantSignaturePresent;
 			}
 		};
 
-		$scope.formSections = [
-			'Basic Information',
-			'Emergency Contacts',
-			'Waiver Signature',
-			'Review Registration'
-		];
+		$scope.phoneNumberPattern = (function() {
+			var regexes = [
+				/\([0-9]{3}\)-[0-9]{3}-[0-9]{4}/,
+				/[0-9]{10}/,
+				/[0-9]{3}-[0-9]{3}-[0-9]{4}/
+			];
 
-		$scope.visitedSections = {};*/
+			return {
+				test: function(value) {
+					return regexes.reduce(function(previousValue, regex) {
+						if (previousValue) {
+							return previousValue;
+						} else {
+							return regex.test(value);
+						}
+					}, false);
+				}
+			};
+		})();
 
 		$scope.onSubmit = function(isValid) {
 			if ($scope.currentSelectionIndex < $scope.formSections.length - 1) {
@@ -48,11 +57,10 @@
 				if (isValid) {
 					console.log($scope.registrationInfo);
 				}
-
-				//RegistrationService.registerStudent($scope.)
 			}
 		};
 
+		$scope.visitedSections = {};
 		$scope.registrationInfo = {};
 
 		$scope.formSections = [
@@ -83,13 +91,22 @@
 
 			$scope.currentSelectionIndex = index;
 			$scope.currentFormTpl = $scope.formSections[index].templateUrl;
+
+			$scope.visitedSections[index] = true;
 		};
 
 		$scope.currentSelectionIndex = 0;
 		$scope.selectFormSection($scope.currentSelectionIndex);
+
+		$scope.states = StateService.getStates();
+		ProgramsService.getPrograms().then(function(response) {
+			$scope.programs = response;
+		}, function(error) {
+			//TODO: error handling
+		});
 	}
 
-	RegistrationController.$inject = ['$scope', 'RegistrationSvc'];
+	RegistrationController.$inject = ['$scope', 'RegistrationSvc', 'ProgramsSvc', 'StateSvc'];
 	angular.module('ttkdApp')
 		.controller('RegistrationCtrl', RegistrationController);
 })();

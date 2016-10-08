@@ -1,89 +1,96 @@
-<div>
-	<div class="form-group">
-		<label for="programSelect" class="col-sm-2">Program</label>
-		<div class="col-sm-10">
-			<select
-				id="programSelect"
-				ng-required="true"
-				ng-model="registrationInfo.program"
-				ng-options="program as program.name for program in programs">
-			</select>
-		</div>
+
+<div class="form-group">
+	<label for="programSelect" class="col-sm-2">Program</label>
+	<div class="col-sm-10">
+		<select
+			class="form-control"
+			placeholder="Select a State Program"
+			ng-model="registrationInfo.program"
+			ng-required="true"
+			ng-options="program as program.name for program in programs track by program.id">
+			<option value="">Select a Program</option>
+		</select>
 	</div>
-
-	<input
-		type="text"
-		class="form-control margin-bottom"
-		placeholder="First Name"
-		ng-required="true"
-		ng-model="registrationInfo.first_name">
-
-	<input
-		type="text"
-		class="form-control margin-bottom"
-		placeholder="Last Name"
-		ng-required="true"
-		ng-model="registrationInfo.last_name">
-
-	<div class="form-group">
-		<label for="dob" class="col-sm-3">Date of Birth</label>
-		<div class="col-sm-9">
-			<div class="margin-bottom" uib-datepicker ng-model="registrationInfo.dob"></div>
-		</div>
-	</div>
-
-	<input
-		type="text"
-		class="form-control margin-bottom"
-		placeholder="Address"
-		ng-required="true"
-		ng-model="registrationInfo.street">
-
-	<div class="row margin-bottom">
-		<div class="col-xs-4">
-			<input
-				type="text"
-				class="form-control"
-				placeholder="City"
-				ng-model="registrationInfo.city">
-		</div>
-		<div class="col-xs-4">
-			<select
-				id="stateSelect"
-				placeholder="State"
-				ng-required="true"
-				ng-model="registrationInfo.state"
-				ng-options="state as state.name for state in states">
-			</select>
-		</div>
-		<div class="col-xs-4">
-			<input
-				type="text"
-				class="form-control input-group"
-				placeholder="ZIP Code"
-				ng-model="registrationInfo.zipcode">
-		</div>
-	</div>
-
-	<input
-		type="text"
-		class="form-control margin-bottom"
-		placeholder="Primary Phone Number"
-		ng-required="true"
-		ng-model="registrationInfo.primary_phone">
-
-	<input
-		type="text"
-		class="form-control margin-bottom"
-		placeholder="Secondary Phone Number"
-		ng-required="false"
-		ng-model="registrationInfo.secondary_phone">
-
-	<!-- TODO: add repeat section functionality -->
-	<input
-		type="email"
-		class="form-control margin-bottom"
-		placeholder="Email Address"
-		ng-required="true"
-		ng-model="registrationInfo.email">
 </div>
+
+<input
+	type="text"
+	class="form-control spacer-25"
+	placeholder="First Name"
+	ng-required="true"
+	ng-model="registrationInfo.first_name">
+
+<input
+	type="text"
+	class="form-control spacer-25"
+	placeholder="Last Name"
+	ng-required="true"
+	ng-model="registrationInfo.last_name">
+
+<div class="form-group spacer-25">
+	<label for="dob" class="col-sm-3">Date of Birth</label>
+	<div
+		id="dob"
+		class="well well-sm col-sm-9"
+		uib-datepicker
+		ng-model="registrationInfo.dob">
+	</div>
+</div>
+
+<input
+	type="text"
+	class="form-control spacer-25"
+	placeholder="Address"
+	ng-required="true"
+	ng-model="registrationInfo.street">
+
+<div class="row spacer-25">
+	<div class="col-xs-4">
+		<input
+			type="text"
+			class="form-control"
+			placeholder="City"
+			ng-model="registrationInfo.city">
+	</div>
+	<div class="col-xs-4">
+		<select
+			class="form-control"
+			placeholder="Select a State"
+			ng-model="registrationInfo.state"
+			ng-required="true"
+			ng-options="state as state.name for state in states track by state.value">
+			<option value="">Select a State</option>
+		</select>
+	</div>
+	<div class="col-xs-4">
+		<input
+			type="text"
+			class="form-control input-group"
+			placeholder="ZIP Code"
+			ng-model="registrationInfo.zipcode">
+	</div>
+</div>
+
+<input
+	type="text"
+	class="form-control spacer-25"
+	placeholder="Primary Phone Number"
+	ng-required="true"
+	ng-pattern="phoneNumberPattern"
+	ng-model="registrationInfo.primary_phone">
+
+<input
+	type="text"
+	class="form-control spacer-25"
+	placeholder="Secondary Phone Number"
+	ng-required="false"
+	ng-pattern="phoneNumberPattern"
+	ng-model="registrationInfo.secondary_phone">
+
+<!-- TODO: add repeat section functionality -->
+<input
+	type="email"
+	class="form-control spacer-25"
+	placeholder="Email Address"
+	ng-required="true"
+	ng-model="registrationInfo.email">

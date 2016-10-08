@@ -5,23 +5,24 @@
 </div>
 <input
 	type="text"
-	class="form-control margin-bottom"
+	class="form-control spacer-25"
 	placeholder="Full Name"
-	ng-model="registrationInfo.em_primary_full_name">
+	ng-model="registrationInfo.emPrimaryFullName">
 <div class="row">
 	<div class="col-xs-6">
 		<input
 			type="text"
 			class="form-control input-group"
 			placeholder="Phone Number"
-			ng-model="registrationInfo.em_primary_phone">
+			ng-pattern="phoneNumberPattern"
+			ng-model="registrationInfo.emPrimaryPhone">
 	</div>
 	<div class="col-xs-6">
 		<input
 			type="text"
 			class="form-control input-group"
 			placeholder="Relationship"
-			ng-model="registrationInfo.em_primary_relationship">
+			ng-model="registrationInfo.emPrimaryRelationship">
 	</div>
 </div>
 <hr/>
@@ -33,22 +34,23 @@
 </div>
 <input
 	type="text"
-	class="col-xs-12 form-control margin-bottom"
+	class="col-xs-12 form-control spacer-25"
 	placeholder="Full Name"
-	ng-model="registrationInfo.em_secondary_full_name">
-<div class="row margin-bottom">
+	ng-model="registrationInfo.emSecondaryFullName">
+<div class="row spacer-25">
 	<div class="col-xs-6">
 		<input
 			type="text"
 			class="form-control input-group"
 			placeholder="Phone Number"
-			ng-model="registrationInfo.em_secondary_phone">
+			ng-pattern="phoneNumberPattern"
+			ng-model="registrationInfo.emSecondaryPhone">
 	</div>
 	<div class="col-xs-6">
 		<input
 			type="text"
 			class="form-control input-group"
 			placeholder="Relationship"
-			ng-model="registrationInfo.em_secondary_relationship">
+			ng-model="registrationInfo.emSecondaryRelationship">
 	</div>
 </div>
