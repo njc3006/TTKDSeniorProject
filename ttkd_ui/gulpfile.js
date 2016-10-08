@@ -40,7 +40,7 @@ gulp.task('scss', [], function(done) {
       console.error(error.toString());
       this.emit('end');
     })
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest(BUILD_DIR))
     .pipe(minifyCss({
       keepSpecialComments: 0
     }))

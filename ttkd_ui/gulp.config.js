@@ -4,11 +4,11 @@ module.exports = {
 	buildDirProd: path.normalize('../ttkd_api/ttkd_api/dist'),
 	buildDirDev: 'dist',
 	bowerPaths: [
-		'./app/lib/moment.js',
-		'./app/lib/angular/angular.min.js',
-		'./app/lib/angular-ui-router/release/angular-ui-router.min.js',
-		'./app/lib/angular-bootstrap/ui-bootstrap.min.js',
-		'./app/lib/angular-bootstrap/ui-bootstrap-tpls.min.js'
+		'./app/lib/angular/angular.js',
+		'./app/lib/angular-ui-router/release/angular-ui-router.js',
+		'./app/lib/angular-bootstrap/ui-bootstrap.js',
+		'./app/lib/angular-bootstrap/ui-bootstrap-tpls.js',
+		'./app/lib/angular-ui-select/dist/select.js'
 	],
 	sourcePaths: ['!./app/**/*_test.js', './app/**/*.js', '!./app/lib/**/*.js'],
 	templatePaths: ['./app/*/**/*.html'],

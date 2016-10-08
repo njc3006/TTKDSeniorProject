@@ -1,4 +1,4 @@
-<div class="row margin-bottom">
+<div class="row spacer-25">
 	<h2 class="col-xs-12">Basic Information</h2>
 	<table class="table">
 		<tbody>
@@ -26,7 +26,7 @@
 	</table>
 </div>
 
-<div class="row margin-bottom">
+<div class="row spacer-25">
 	<h2 class="col-xs-12">Emergency Contact</h2>
 	<table class="table">
 		<tbody>
@@ -72,10 +72,10 @@
 			</tr>
 			<tr>
 				<td>Signed?</td>
-				<td ng-if="registrationInfo.participant_signature && registrationInfo.guardian_signature">
+				<td ng-if="waiverSigned()">
 					Yes
 				</td>
-				<td ng-if="!registrationInfo.participant_signature || !registrationInfo.guardian_signature">
+				<td ng-if="!waiverSigned()">
 					No
 				</td>
 			</tr>
