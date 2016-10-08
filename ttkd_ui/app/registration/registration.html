@@ -4,24 +4,27 @@
 			<li
 				ng-repeat="section in formSections"
 				role="presentation"
-				ng-class="{'active': $index === currentSelectionIndex, disabled: !visitedSections[$index]}"
-				ng-click="visitedSections[$index] && selectFormSection($index)">
-				<a ui-sref=".">{{section}}</a>
+				ng-class="{active: $index === currentSelectionIndex}"
+				ng-click="selectFormSection($index)">
+				<a ui-sref=".">{{section.name}}</a>
 			</li>
 		</ul>
 	</div>
 	<div class="col-md-6 col-sm-6">
-		<form ng-submit="onSubmit()">
-			<formly-form model="registrationInfo" fields="currentSectionFields">
+		<form
+			name="registrationForm"
+			class="form-horizontal margin-bottom"
+			ng-submit="onSubmit(registrationForm.$valid)"
+			novalidate>
+				<ng-include src="currentFormTpl"></ng-include>
 				<button type="submit" class="btn btn-primary" name="button">{{submitText}}</button>
-			</formly-form>
 		</form>
 	</div>
 	<div class="col-md-3 col-sm-3 form-scroll-buttons">
-		<button type="button" class="btn btn-primary btn-large btn-block form-button">
+		<button type="button" class="btn btn-primary btn-large col-sm-5 col-md-5">
 			Previous
 		</button>
-		<button type="button" class="btn btn-primary btn-large btn-block form-button">
+		<button type="button" class="btn btn-primary btn-large col-sm-5 col-md-5 pull-right">
 			Next
 		</button>
 	</div>

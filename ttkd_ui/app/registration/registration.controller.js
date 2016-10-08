@@ -12,8 +12,8 @@
 		return id;
 	}
 
-	function RegistrationController($scope, FieldsService, RegistrationService) {
-		$scope.registrationInfo = {
+	function RegistrationController($scope, RegistrationService) {
+		/*$scope.registrationInfo = {
 			emails: [
 				{
 					email: ''
@@ -37,7 +37,42 @@
 			'Review Registration'
 		];
 
-		$scope.visitedSections = {};
+		$scope.visitedSections = {};*/
+
+		$scope.onSubmit = function(isValid) {
+			if ($scope.currentSelectionIndex < $scope.formSections.length - 1) {
+				if (isValid) {
+					$scope.selectFormSection($scope.currentSelectionIndex + 1);
+				}
+			} else {
+				if (isValid) {
+					console.log($scope.registrationInfo);
+				}
+
+				//RegistrationService.registerStudent($scope.)
+			}
+		};
+
+		$scope.registrationInfo = {};
+
+		$scope.formSections = [
+			{
+				name: 'Basic Information',
+				templateUrl: 'registration/basic_info/basic_info.html'
+			},
+			{
+				name: 'Emergency Contacts',
+				templateUrl: 'registration/emergency_contacts/emergency_contacts.html'
+			},
+			{
+				name: 'Waiver Signature',
+				templateUrl: 'registration/waiver/waiver_sign.html'
+			},
+			{
+				name: 'Review Registration',
+				templateUrl: 'registration/review/reviewRegistration.html'
+			}
+		];
 
 		$scope.selectFormSection = function(index) {
 			if (index === $scope.formSections.length - 1) {
@@ -47,18 +82,14 @@
 			}
 
 			$scope.currentSelectionIndex = index;
-			$scope.currentSectionFields = FieldsService.getForm(indexToId(index));
-
-			if (!$scope.visitedSections[index]) {
-				$scope.visitedSections[index] = true;
-			}
+			$scope.currentFormTpl = $scope.formSections[index].templateUrl;
 		};
 
 		$scope.currentSelectionIndex = 0;
 		$scope.selectFormSection($scope.currentSelectionIndex);
 	}
 
-	RegistrationController.$inject = ['$scope', 'FieldsService', 'RegistrationSvc'];
+	RegistrationController.$inject = ['$scope', 'RegistrationSvc'];
 	angular.module('ttkdApp')
 		.controller('RegistrationCtrl', RegistrationController);
 })();

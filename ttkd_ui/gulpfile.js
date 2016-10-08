@@ -70,19 +70,6 @@ gulp.task('build-templates', [], function(done) {
 		.on('end', done);
 });
 
-gulp.task('build-form-config', [], function(done) {
-	gulp.src('app/registration/fields/fields.json')
-		.pipe(ngConstant({
-			name: 'ttkdApp.fieldsService',
-			deps: false,
-			wrap: false
-		}))
-		.pipe(uglify())
-		.pipe(gulp.dest(config.buildDir + '/js'))
-		.pipe(connect.reload())
-		.on('end', done);
-});
-
 gulp.task('build-fonts', [], function(done) {
   gulp.src(config.fontFiles)
     .pipe(gulp.dest(config.buildDir + '/css/lib'))
@@ -233,7 +220,7 @@ gulp.task('install', ['angular', 'require', 'bootstrap', 'angular-ui-bootstrap']
   done()
 });
 
-var buildPipeline = ['scss', 'build-js', 'build-js-libs', 'build-fonts', 'build-form-config', 'build-templates', 'build-static'];
+var buildPipeline = ['scss', 'build-js', 'build-js-libs', 'build-fonts', 'build-templates', 'build-static'];
 gulp.task('build', buildPipeline, function(done) {
   done()
 });
