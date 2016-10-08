@@ -12,6 +12,8 @@ class RegistrationViewSet(viewsets.ReadOnlyModelViewSet):
 
 class RegistrationCreateSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     """Create A Registration Which Includes Creating A New Person and Registering Them To A
-    Program"""
+    Program
+    Note: Emails must be of the form [{"email": "email@email.com"}, {"email": "email2@email.com"}]
+    """
     queryset = Registration.objects.all()
     serializer_class = RegistrationSerializer
