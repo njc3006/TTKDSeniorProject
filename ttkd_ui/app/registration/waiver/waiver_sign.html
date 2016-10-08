@@ -1,0 +1,16 @@
+<ng-include src="'registration/waiver/waiver_text.html'"></ng-include>
+
+<input
+	type="text"
+	class="form-control margin-bottom"
+	placeholder="Participant Signature"
+	ng-model="registrationInfo.participant_signature"
+	ng-required="true">
+
+<input
+	type="text"
+	class="form-control margin-bottom"
+	placeholder="Guardian Signature"
+	ng-if="Date.now.getFullYear() - registrationInfo.dob.getFullYear() < 18"
+	ng-model="registrationInfo.guardian_signature"
+	ng-required="true">
