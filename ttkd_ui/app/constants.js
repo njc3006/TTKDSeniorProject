@@ -1,4 +1,4 @@
 (function() {
 	angular.module('ttkdApp.constants', [])
-		.constant('apiHost', 'localhost:8000');
+		.constant('apiHost', 'http://localhost:8000');
 })();

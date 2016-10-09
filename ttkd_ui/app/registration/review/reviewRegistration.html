@@ -4,15 +4,15 @@
 		<tbody>
 			<tr>
 				<td>First Name</td>
-				<td>{{registrationInfo.first_name}}</td>
+				<td>{{firstName}}</td>
 			</tr>
 			<tr>
 				<td>Last Name</td>
-				<td>{{registrationInfo.last_name}}</td>
+				<td>{{lastName}}</td>
 			</tr>
 			<tr>
 				<td>Address</td>
-				<td>{{registrationInfo.street}}, {{registrationInfo.city}}, {{registrationInfo.state}} {{registrationInfo.zipcode}}</td>
+				<td>{{street}}, {{city}}, {{state}} {{zipcode}}</td>
 			</tr>
 			<tr>
 				<td>Email(s)</td>
@@ -20,7 +20,7 @@
 			</tr>
 			<tr>
 				<td>Date of Birth</td>
-				<td>{{registrationInfo.dob.getMonth() + 1}}/{{registrationInfo.dob.getDate()}}/{{registrationInfo.dob.getFullYear()}}</td>
+				<td>{{dob.getMonth() + 1}}/{{dob.getDate()}}/{{dob.getFullYear()}}</td>
 			</tr>
 		</tbody>
 	</table>
@@ -32,27 +32,27 @@
 		<tbody>
 			<tr>
 				<td>Primary Contact Name</td>
-				<td>{{registrationInfo.em_primary_full_name}}</td>
+				<td>{{em_primaryFullName}}</td>
 			</tr>
 			<tr>
 				<td>Primary Contact Phone</td>
-				<td>{{registrationInfo.em_primary_phone}}</td>
+				<td>{{emPrimaryPhone}}</td>
 			</tr>
 			<tr>
 				<td>Primary Contact Relationship</td>
-				<td>{{registrationInfo.em_primary_relationship}}</td>
+				<td>{{emPrimaryRelationship}}</td>
 			</tr>
 			<tr>
 				<td>Secondary Contact Name</td>
-				<td>{{registrationInfo.em_secondary_full_name}}</td>
+				<td>{{emSecondaryFullFame}}</td>
 			</tr>
 			<tr>
 				<td>Secondary Contact Phone</td>
-				<td>{{registrationInfo.em_secondary_phone}}</td>
+				<td>{{emSecondaryPhone}}</td>
 			</tr>
 			<tr>
 				<td>Secondary Contact Relationship</td>
-				<td>{{registrationInfo.em_secondary_relationship}}</td>
+				<td>{{emSecondaryRelationship}}</td>
 			</tr>
 		</tbody>
 	</table>
@@ -64,11 +64,11 @@
 		<tbody>
 			<tr>
 				<td>Participant</td>
-				<td>{{registrationInfo.participant_signature}}</td>
+				<td>{{participantSignature}}</td>
 			</tr>
 			<tr>
 				<td>Guardian</td>
-				<td>{{registrationInfo.guardian_signature}}</td>
+				<td>{{guardianSignature}}</td>
 			</tr>
 			<tr>
 				<td>Signed?</td>

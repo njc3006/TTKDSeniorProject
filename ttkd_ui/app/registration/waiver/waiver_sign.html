@@ -4,13 +4,13 @@
 	type="text"
 	class="form-control spacer-25"
 	placeholder="Participant Signature"
-	ng-model="registrationInfo.participantSignature"
-	ng-required="true">
+	ng-model="participantSignature"
+	required>
 
 <input
 	type="text"
 	class="form-control spacer-25"
 	placeholder="Guardian Signature"
-	ng-if="Date.now.getFullYear() - registrationInfo.dob.getFullYear() < 18"
-	ng-model="registrationInfo.guardianSignature"
-	ng-required="true">
+	ng-if="(Date.now()).getFullYear() - dob.getFullYear() < 18"
+	ng-model="guardianSignature"
+	required>

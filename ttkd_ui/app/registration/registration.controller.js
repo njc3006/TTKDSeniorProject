@@ -14,13 +14,13 @@
 
 	function RegistrationController($scope, RegistrationService, ProgramsService, StateService) {
 		$scope.waiverSigned = function() {
-			var participantSignaturePresent = $scope.registrationInfo.participantSignature !== undefined &&
-				$scope.registrationInfo.participantSignature !== '';
+			var participantSignaturePresent = $scope.participantSignature !== undefined &&
+				$scope.participantSignature !== '';
 
-			var ageInYears = (new Date()).getFullYear() - $scope.registrationInfo.dob.getFullYear();
+			var ageInYears = (new Date()).getFullYear() - $scope.dob.getFullYear();
 			if (ageInYears < 18) {
-				var guardianSignaturePresent = $scope.registrationInfo.guardianSignature !== undefined &&
-					$scope.registrationInfo.guardianSignature !== '';;
+				var guardianSignaturePresent = $scope.guardianSignature !== undefined &&
+					$scope.guardianSignature !== '';
 
 				return participantSignaturePresent && guardianSignaturePresent;
 			} else {
@@ -28,40 +28,26 @@
 			}
 		};
 
-		$scope.phoneNumberPattern = (function() {
-			var regexes = [
-				/\([0-9]{3}\)-[0-9]{3}-[0-9]{4}/,
-				/[0-9]{10}/,
-				/[0-9]{3}-[0-9]{3}-[0-9]{4}/
-			];
+		$scope.onSubmit = function() {
+			if ($scope.currentSelectionIndex < $scope.formSections.length - 1) {
+					$scope.selectFormSection($scope.currentSelectionIndex + 1);
+			} else {
+				//TODO: build registration payload
+				console.log();
+			}
+		};
 
+		$scope.phoneNumberPattern = (function() {
 			return {
 				test: function(value) {
-					return regexes.reduce(function(previousValue, regex) {
-						if (previousValue) {
-							return previousValue;
-						} else {
-							return regex.test(value);
-						}
-					}, false);
+					return /\([0-9]{3}\) [0-9]{3}-[0-9]{4}/.test(value)
+						|| /[0-9]{10}/.test(value)
+						|| /[0-9]{3}-[0-9]{3}-[0-9]{4}/.test(value);
 				}
 			};
 		})();
 
-		$scope.onSubmit = function(isValid) {
-			if ($scope.currentSelectionIndex < $scope.formSections.length - 1) {
-				if (isValid) {
-					$scope.selectFormSection($scope.currentSelectionIndex + 1);
-				}
-			} else {
-				if (isValid) {
-					console.log($scope.registrationInfo);
-				}
-			}
-		};
-
 		$scope.visitedSections = {};
-		$scope.registrationInfo = {};
 
 		$scope.formSections = [
 			{
