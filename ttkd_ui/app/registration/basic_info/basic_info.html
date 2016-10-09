@@ -7,7 +7,7 @@
 			class="form-control"
 			name="program"
 			placeholder="Select a Program"
-			ng-model="program"
+			ng-model="registrationInfo.program"
 			required
 			ng-options="program as program.name for program in programs track by program.id">
 			<option value="">Select a Program</option>
@@ -22,7 +22,7 @@
 		class="form-control spacer-25"
 		placeholder="First Name"
 		required
-		ng-model="firstName">
+		ng-model="registrationInfo.firstName">
 </div>
 
 <div ng-class="{'has-error': registrationForm.lastName.$invalid && !registrationForm.lastName.$pristine}">
@@ -32,7 +32,7 @@
 		class="form-control spacer-25"
 		placeholder="Last Name"
 		required
-		ng-model="lastName">
+		ng-model="registrationInfo.lastName">
 </div>
 
 <div
@@ -45,7 +45,7 @@
 		class="well well-sm col-sm-9"
 		required
 		uib-datepicker
-		ng-model="dob">
+		ng-model="registrationInfo.dob">
 	</div>
 </div>
 
@@ -56,7 +56,7 @@
 		class="form-control spacer-25"
 		placeholder="Address"
 		required
-		ng-model="street">
+		ng-model="registrationInfo.street">
 </div>
 
 <div class="row spacer-25">
@@ -69,7 +69,7 @@
 			class="form-control"
 			required
 			placeholder="City"
-			ng-model="city">
+			ng-model="registrationInfo.city">
 	</div>
 	<div
 		class="col-xs-4"
@@ -78,7 +78,7 @@
 			class="form-control"
 			name="state"
 			placeholder="Select a State"
-			ng-model="state"
+			ng-model="registrationInfo.state"
 			required
 			ng-options="state as state.name for state in states track by state.value">
 			<option value="">Select a State</option>
@@ -93,7 +93,7 @@
 			required
 			class="form-control input-group"
 			placeholder="ZIP Code"
-			ng-model="zipcode"
+			ng-model="registrationInfo.zipcode"
 			ng-pattern="/[0-9]{5}/">
 	</div>
 </div>
@@ -106,7 +106,7 @@
 		placeholder="Primary Phone Number"
 		required
 		ng-pattern="phoneNumberPattern"
-		ng-model="primaryPhone">
+		ng-model="registrationInfo.primaryPhone">
 </div>
 
 <div ng-class="{'has-error': registrationForm.secondaryPhone.$invalid && !registrationForm.secondaryPhone.$pristine}">
@@ -116,7 +116,7 @@
 		class="form-control spacer-25"
 		placeholder="Secondary Phone Number"
 		ng-pattern="phoneNumberPattern"
-		ng-model="secondaryPhone">
+		ng-model="registrationInfo.secondaryPhone">
 </div>
 
 <!-- TODO: add repeat section functionality -->
@@ -127,5 +127,5 @@
 		class="form-control spacer-25"
 		placeholder="Email Address"
 		required
-		ng-model="email">
+		ng-model="registrationInfo.email">
 </div>
