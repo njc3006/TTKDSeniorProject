@@ -1,16 +1,24 @@
 <ng-include src="'registration/waiver/waiver_text.html'"></ng-include>
 
-<input
-	type="text"
-	class="form-control spacer-25"
-	placeholder="Participant Signature"
-	ng-model="participantSignature"
-	required>
+<div class="spacer-25"
+	ng-class="{'has-error': registrationForm.participantSignature.$invalid && !registrationForm.participantSignature.$pristine}">
+	<input
+		type="text"
+		name="participantSignature"
+		class="form-control spacer-25"
+		placeholder="Participant Signature"
+		ng-model="participantSignature"
+		required>
+</div>
 
-<input
-	type="text"
-	class="form-control spacer-25"
-	placeholder="Guardian Signature"
-	ng-if="(Date.now()).getFullYear() - dob.getFullYear() < 18"
-	ng-model="guardianSignature"
-	required>
+<div class="spacer-25"
+	ng-class="{'has-error': registrationForm.guardianSignature.$invalid && !registrationForm.guardianSignature.$pristine}">
+	<input
+		type="text"
+		name="guardianSignature"
+		class="form-control"
+		placeholder="Guardian Signature"
+		ng-if="(Date.now()).getFullYear() - dob.getFullYear() < 18"
+		ng-model="guardianSignature"
+		required>
+</div>
