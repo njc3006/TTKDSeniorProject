@@ -7,7 +7,7 @@
 		name="participantSignature"
 		class="form-control spacer-25"
 		placeholder="Participant Signature"
-		ng-model="participantSignature"
+		ng-model="registrationInfo.participantSignature"
 		required>
 </div>
 
@@ -18,7 +18,7 @@
 		name="guardianSignature"
 		class="form-control"
 		placeholder="Guardian Signature"
-		ng-if="(Date.now()).getFullYear() - dob.getFullYear() < 18"
-		ng-model="guardianSignature"
+		ng-if="!isLegalAdult()"
+		ng-model="registrationInfo.guardianSignature"
 		required>
 </div>

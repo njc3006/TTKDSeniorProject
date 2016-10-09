@@ -3,15 +3,16 @@
 		<h2 class="text-center">Primary Emergency Contact<h2>
 	</div>
 </div>
-
 <div
+	class="spacer-25"
 	ng-class="{'has-error': registrationForm.emPrimaryFullName.$invalid && !registrationForm.emPrimaryFullName.$pristine}">
 	<input
 		type="text"
+		name="emPrimaryFullName"
 		required
-		class="form-control spacer-25"
+		class="form-control"
 		placeholder="Full Name"
-		ng-model="emPrimaryFullName">
+		ng-model="registrationInfo.emPrimaryFullName">
 </div>
 <div class="row">
 	<div
@@ -19,21 +20,23 @@
 		ng-class="{'has-error': registrationForm.emPrimaryPhone.$invalid && !registrationForm.emPrimaryPhone.$pristine}">
 		<input
 			type="text"
+			name="emPrimaryPhone"
 			required
 			class="form-control input-group"
 			placeholder="Phone Number"
 			ng-pattern="phoneNumberPattern"
-			ng-model="emPrimaryPhone">
+			ng-model="registrationInfo.emPrimaryPhone">
 	</div>
 	<div
 		class="col-xs-6"
 		ng-class="{'has-error': registrationForm.emPrimaryRelationship.$invalid && !registrationForm.emPrimaryRelationship.$pristine}">
 		<input
 			type="text"
+			name="emPrimaryFullName"
 			required
 			class="form-control input-group"
 			placeholder="Relationship"
-			ng-model="emPrimaryRelationship">
+			ng-model="registrationInfo.emPrimaryRelationship">
 	</div>
 </div>
 <hr/>
@@ -47,10 +50,11 @@
 	ng-class="{'has-error': registrationForm.emSecondaryFullName.$invalid && !registrationForm.emSecondaryFullName.$pristine}">
 	<input
 		type="text"
+		name="emSecondaryFullName"
 		required
 		class="col-xs-12 form-control spacer-25"
 		placeholder="Full Name"
-		ng-model="emSecondaryFullName">
+		ng-model="registrationInfo.emSecondaryFullName">
 </div>
 <div
 	class="row spacer-25"
@@ -58,20 +62,22 @@
 	<div class="col-xs-6">
 		<input
 			type="text"
+			name="emSecondaryPhone"
 			required
 			class="form-control input-group"
 			placeholder="Phone Number"
 			ng-pattern="phoneNumberPattern"
-			ng-model="emSecondaryPhone">
+			ng-model="registrationInfo.emSecondaryPhone">
 	</div>
 	<div
 		class="col-xs-6"
 		ng-class="{'has-error': registrationForm.emSecondaryRelationship.$invalid && !registrationForm.emSecondaryRelationship.$pristine}">
 		<input
 			type="text"
+			name="emSecondaryRelationship"
 			required
 			class="form-control input-group"
 			placeholder="Relationship"
-			ng-model="emSecondaryRelationship">
+			ng-model="registrationInfo.emSecondaryRelationship">
 	</div>
 </div>

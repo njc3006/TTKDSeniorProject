@@ -13,14 +13,19 @@
 	}
 
 	function RegistrationController($scope, RegistrationService, ProgramsService, StateService) {
-		$scope.waiverSigned = function() {
-			var participantSignaturePresent = $scope.participantSignature !== undefined &&
-				$scope.participantSignature !== '';
+		$scope.isLegalAdult = function() {
+			var ageInYears = (new Date()).getFullYear() - $scope.registrationInfo.dob.getFullYear();
 
-			var ageInYears = (new Date()).getFullYear() - $scope.dob.getFullYear();
-			if (ageInYears < 18) {
-				var guardianSignaturePresent = $scope.guardianSignature !== undefined &&
-					$scope.guardianSignature !== '';
+			return ageInYears >= 18;
+		};
+
+		$scope.waiverSigned = function() {
+			var participantSignaturePresent = $scope.registrationInfo.participantSignature !== undefined &&
+				$scope.registrationInfo.participantSignature !== '';
+
+			if (!$scope.isLegalAdult()) {
+				var guardianSignaturePresent = $scope.registrationInfo.guardianSignature !== undefined &&
+					$scope.registrationInfo.guardianSignature !== '';
 
 				return participantSignaturePresent && guardianSignaturePresent;
 			} else {
@@ -28,12 +33,14 @@
 			}
 		};
 
-		$scope.onSubmit = function() {
-			if ($scope.currentSelectionIndex < $scope.formSections.length - 1) {
-					$scope.selectFormSection($scope.currentSelectionIndex + 1);
-			} else {
-				//TODO: build registration payload
-				console.log();
+		$scope.onSubmit = function(formIsValid) {
+			if (formIsValid) {
+				if ($scope.currentSelectionIndex < $scope.formSections.length - 1) {
+						$scope.selectFormSection($scope.currentSelectionIndex + 1);
+				} else {
+					//TODO: build registration payload
+					console.log();
+				}
 			}
 		};
 
@@ -51,6 +58,7 @@
 			};
 		})();
 
+		$scope.registrationInfo = {};
 		$scope.visitedSections = {};
 
 		$scope.formSections = [
@@ -90,7 +98,8 @@
 
 		$scope.states = StateService.getStates();
 		ProgramsService.getPrograms().then(function(response) {
-			$scope.programs = response;
+			console.log(response);
+			$scope.programs = response.data;
 		}, function(error) {
 			//TODO: error handling
 		});

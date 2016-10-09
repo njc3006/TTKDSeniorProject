@@ -4,15 +4,17 @@
 		<tbody>
 			<tr>
 				<td>First Name</td>
-				<td>{{firstName}}</td>
+				<td>{{registrationInfo.firstName}}</td>
 			</tr>
 			<tr>
 				<td>Last Name</td>
-				<td>{{lastName}}</td>
+				<td>{{registrationInfo.lastName}}</td>
 			</tr>
 			<tr>
 				<td>Address</td>
-				<td>{{street}}, {{city}}, {{state}} {{zipcode}}</td>
+				<td>
+					{{registrationInfo.street}}, {{registrationInfo.city}}, {{registrationInfo.state.value}} {{registrationInfo.zipcode}}
+				</td>
 			</tr>
 			<tr>
 				<td>Email(s)</td>
@@ -20,7 +22,7 @@
 			</tr>
 			<tr>
 				<td>Date of Birth</td>
-				<td>{{dob.getMonth() + 1}}/{{dob.getDate()}}/{{dob.getFullYear()}}</td>
+				<td>{{registrationInfo.dob.getMonth() + 1}}/{{registrationInfo.dob.getDate()}}/{{registrationInfo.dob.getFullYear()}}</td>
 			</tr>
 		</tbody>
 	</table>
@@ -32,27 +34,27 @@
 		<tbody>
 			<tr>
 				<td>Primary Contact Name</td>
-				<td>{{em_primaryFullName}}</td>
+				<td>{{registrationInfo.emPrimaryFullName}}</td>
 			</tr>
 			<tr>
 				<td>Primary Contact Phone</td>
-				<td>{{emPrimaryPhone}}</td>
+				<td>{{registrationInfo.emPrimaryPhone}}</td>
 			</tr>
 			<tr>
 				<td>Primary Contact Relationship</td>
-				<td>{{emPrimaryRelationship}}</td>
+				<td>{{registrationInfo.emPrimaryRelationship}}</td>
 			</tr>
 			<tr>
 				<td>Secondary Contact Name</td>
-				<td>{{emSecondaryFullFame}}</td>
+				<td>{{registrationInfo.emSecondaryFullName}}</td>
 			</tr>
 			<tr>
 				<td>Secondary Contact Phone</td>
-				<td>{{emSecondaryPhone}}</td>
+				<td>{{registrationInfo.emSecondaryPhone}}</td>
 			</tr>
 			<tr>
 				<td>Secondary Contact Relationship</td>
-				<td>{{emSecondaryRelationship}}</td>
+				<td>{{registrationInfo.emSecondaryRelationship}}</td>
 			</tr>
 		</tbody>
 	</table>
@@ -64,11 +66,11 @@
 		<tbody>
 			<tr>
 				<td>Participant</td>
-				<td>{{participantSignature}}</td>
+				<td>{{registrationInfo.participantSignature}}</td>
 			</tr>
-			<tr>
+			<tr ng-if="!isLegalAdult()">
 				<td>Guardian</td>
-				<td>{{guardianSignature}}</td>
+				<td>{{registrationInfo.guardianSignature}}</td>
 			</tr>
 			<tr>
 				<td>Signed?</td>
