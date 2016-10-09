@@ -14,10 +14,16 @@
 		<form
 			name="registrationForm"
 			class="form-horizontal spacer-25"
-			ng-submit="onSubmit(registrationForm.$valid)"
+			ng-submit="onSubmit(registrationForm)"
 			novalidate>
 				<ng-include src="currentFormTpl"></ng-include>
-				<button type="submit" class="btn btn-primary" name="button">{{submitText}}</button>
+				<button
+					type="submit"
+					class="btn btn-primary"
+					name="button"
+					ng-disabled="registrationForm.$invalid">
+					{{submitText}}
+				</button>
 		</form>
 	</div>
 	<div class="col-md-3 col-sm-3 form-scroll-buttons">

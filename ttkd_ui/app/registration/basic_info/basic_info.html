@@ -1,96 +1,131 @@
-
 <div class="form-group">
-	<label for="programSelect" class="col-sm-2">Program</label>
-	<div class="col-sm-10">
+	<label class="col-sm-2">Program</label>
+	<div
+		class="col-sm-10"
+		ng-class="{'has-error': registrationForm.program.$invalid && !registrationForm.program.$pristine}">
 		<select
 			class="form-control"
-			placeholder="Select a State Program"
-			ng-model="registrationInfo.program"
-			ng-required="true"
+			name="program"
+			placeholder="Select a Program"
+			ng-model="program"
+			required
 			ng-options="program as program.name for program in programs track by program.id">
 			<option value="">Select a Program</option>
 		</select>
 	</div>
 </div>
 
-<input
-	type="text"
-	class="form-control spacer-25"
-	placeholder="First Name"
-	ng-required="true"
-	ng-model="registrationInfo.first_name">
+<div ng-class="{'has-error': registrationForm.firstName.$invalid && !registrationForm.firstName.$pristine}">
+	<input
+		type="text"
+		name="firstName"
+		class="form-control spacer-25"
+		placeholder="First Name"
+		required
+		ng-model="firstName">
+</div>
 
-<input
-	type="text"
-	class="form-control spacer-25"
-	placeholder="Last Name"
-	ng-required="true"
-	ng-model="registrationInfo.last_name">
+<div ng-class="{'has-error': registrationForm.lastName.$invalid && !registrationForm.lastName.$pristine}">
+	<input
+		type="text"
+		name=="lastName"
+		class="form-control spacer-25"
+		placeholder="Last Name"
+		required
+		ng-model="lastName">
+</div>
 
-<div class="form-group spacer-25">
+<div
+		class="form-group spacer-25"
+		ng-class="{'has-error': registrationForm.dob.$invalid && !registrationForm.dob.$pristine}">
 	<label for="dob" class="col-sm-3">Date of Birth</label>
 	<div
 		id="dob"
+		name="dob"
 		class="well well-sm col-sm-9"
+		required
 		uib-datepicker
-		ng-model="registrationInfo.dob">
+		ng-model="dob">
 	</div>
 </div>
 
-<input
-	type="text"
-	class="form-control spacer-25"
-	placeholder="Address"
-	ng-required="true"
-	ng-model="registrationInfo.street">
+<div ng-class="{'has-error': registrationForm.street.$invalid && !registrationForm.street.$pristine}">
+	<input
+		type="text"
+		name="street"
+		class="form-control spacer-25"
+		placeholder="Address"
+		required
+		ng-model="street">
+</div>
 
 <div class="row spacer-25">
-	<div class="col-xs-4">
+	<div
+		class="col-xs-4"
+		ng-class="{'has-error': registrationForm.city.$invalid && !registrationForm.city.$pristine}">
 		<input
 			type="text"
+			name="city"
 			class="form-control"
+			required
 			placeholder="City"
-			ng-model="registrationInfo.city">
+			ng-model="city">
 	</div>
-	<div class="col-xs-4">
+	<div
+		class="col-xs-4"
+		ng-class="{'has-error': registrationForm.state.$invalid && !registrationForm.state.$pristine}">
 		<select
 			class="form-control"
+			name="state"
 			placeholder="Select a State"
-			ng-model="registrationInfo.state"
-			ng-required="true"
+			ng-model="state"
+			required
 			ng-options="state as state.name for state in states track by state.value">
 			<option value="">Select a State</option>
 		</select>
 	</div>
-	<div class="col-xs-4">
+	<div
+		class="col-xs-4"
+		ng-class="{'has-error': registrationForm.zipcode.$invalid && !registrationForm.zipcode.$pristine}">
 		<input
 			type="text"
+			name="zipcode"
+			required
 			class="form-control input-group"
 			placeholder="ZIP Code"
-			ng-model="registrationInfo.zipcode">
+			ng-model="zipcode"
+			ng-pattern="/[0-9]{5}/">
 	</div>
 </div>
 
-<input
-	type="text"
-	class="form-control spacer-25"
-	placeholder="Primary Phone Number"
-	ng-required="true"
-	ng-pattern="phoneNumberPattern"
-	ng-model="registrationInfo.primary_phone">
+<div ng-class="{'has-error': registrationForm.primaryPhone.$invalid && !registrationForm.primaryPhone.$pristine}">
+	<input
+		type="text"
+		name="primaryPhone"
+		class="form-control spacer-25"
+		placeholder="Primary Phone Number"
+		required
+		ng-pattern="phoneNumberPattern"
+		ng-model="primaryPhone">
+</div>
 
-<input
-	type="text"
-	class="form-control spacer-25"
-	placeholder="Secondary Phone Number"
-	ng-required="false"
-	ng-pattern="phoneNumberPattern"
-	ng-model="registrationInfo.secondary_phone">
+<div ng-class="{'has-error': registrationForm.secondaryPhone.$invalid && !registrationForm.secondaryPhone.$pristine}">
+	<input
+		type="text"
+		name="secondaryPhone"
+		class="form-control spacer-25"
+		placeholder="Secondary Phone Number"
+		ng-pattern="phoneNumberPattern"
+		ng-model="secondaryPhone">
+</div>
 
 <!-- TODO: add repeat section functionality -->
-<input
-	type="email"
-	class="form-control spacer-25"
-	placeholder="Email Address"
-	ng-required="true"
-	ng-model="registrationInfo.email">
+<div ng-class="{'has-error': registrationForm.email.$invalid && !registrationForm.email.$pristine}">
+	<input
+		type="email"
+		name="email"
+		class="form-control spacer-25"
+		placeholder="Email Address"
+		required
+		ng-model="email">
+</div>
