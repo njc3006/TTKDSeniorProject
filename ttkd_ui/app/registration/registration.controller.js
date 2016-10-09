@@ -40,9 +40,13 @@
 		$scope.phoneNumberPattern = (function() {
 			return {
 				test: function(value) {
-					return /\([0-9]{3}\) [0-9]{3}-[0-9]{4}/.test(value)
-						|| /[0-9]{10}/.test(value)
-						|| /[0-9]{3}-[0-9]{3}-[0-9]{4}/.test(value);
+					//Remove all parentheses, spaces, and dashes ==> normalize the input for validation
+					value = value.split(' ').join('');
+					value = value.split('(').join('');
+					value = value.split(')').join('');
+					value = value.split('-').join('');
+
+					return /[0-9]{10}/.test(value);
 				}
 			};
 		})();
