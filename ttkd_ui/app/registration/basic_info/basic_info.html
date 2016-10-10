@@ -107,7 +107,7 @@
 			class="form-control input-group"
 			placeholder="ZIP Code"
 			ng-model="registrationInfo.zipcode"
-			ng-pattern="/[0-9]{5}/">
+			ng-pattern="/^[0-9]{5}$/">
 		<span class="help-block" ng-show="registrationForm.zipcode.$invalid && !registrationForm.zipcode.$pristine">
 			ZIP Code must be a 5-digit number
 		</span>

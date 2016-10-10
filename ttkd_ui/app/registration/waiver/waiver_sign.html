@@ -9,7 +9,7 @@
 		placeholder="Participant Signature"
 		ng-model="registrationInfo.participantSignature"
 		required>
-	<span class="help-text" ng-show="registrationForm.participantSignature.$invalid && !registrationForm.participantSignature.$pristine">
+	<span class="help-block" ng-show="registrationForm.participantSignature.$invalid && !registrationForm.participantSignature.$pristine">
 		Participant must provide a digital signature
 	</span>
 </div>
@@ -24,7 +24,7 @@
 		ng-if="!isLegalAdult()"
 		ng-model="registrationInfo.guardianSignature"
 		required>
-	<span class="help-text" ng-show="registrationForm.guardianSignature.$invalid && !registrationForm.guardianSignature.$pristine">
+	<span class="help-block" ng-show="registrationForm.guardianSignature.$invalid && !registrationForm.guardianSignature.$pristine">
 		Guardian must provide a digital signature
 	</span>
 </div>
