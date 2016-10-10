@@ -1,4 +1,21 @@
 (function() {
+	function createRegistrationPayload(registrationInfo) {
+		return {
+			person: {
+				'first_name': registrationInfo.firstName,
+				'last_name': registrationInfo.lastName,
+				dob: registrationInfo.dob,
+				'primary_phone': registrationInfo.primaryPhone,
+				'secondary_phone': registrationInfo.secondaryPhone || '',
+				street: registrationInfo.street,
+				city: registrationInfo.city,
+				zipcode: parseInt(registrationInfo.zipcode),
+				state: registrationInfo.state.value
+			},
+			program: registrationInfo.program.id
+		};
+	}
+
 	function RegistrationController($scope, RegistrationService, ProgramsService, StateService) {
 		$scope.isLegalAdult = function() {
 			var ageInYears = (new Date()).getFullYear() - $scope.registrationInfo.dob.getFullYear();
@@ -20,24 +37,35 @@
 			}
 		};
 
-		$scope.calendarIsOpen = false;
-		$scope.openCalendar = function() {
-			$scope.calendarIsOpen = true;
-		};
-
 		$scope.onSubmit = function(formIsValid) {
 			if (formIsValid) {
 				if ($scope.currentSelectionIndex < $scope.formSections.length - 1) {
 						$scope.selectFormSection($scope.currentSelectionIndex + 1);
 				} else {
-					//TODO: build registration payload
-					console.log();
+					console.log(createRegistrationPayload($scope.registrationInfo));
 				}
 			}
 		};
 
 		$scope.addEmail = function() {
 			$scope.registrationInfo.emails.push('');
+		};
+
+		$scope.removeEmail = function(index) {
+			$scope.registrationInfo.emails.splice(index, 1);
+		};
+
+		$scope.selectFormSection = function(index) {
+			if (index === $scope.formSections.length - 1) {
+				$scope.submitText = 'Submit';
+			} else {
+				$scope.submitText = 'Continue';
+			}
+
+			$scope.currentSelectionIndex = index;
+			$scope.currentFormTpl = $scope.formSections[index].templateUrl;
+
+			$scope.visitedSections[index] = true;
 		};
 
 		$scope.phoneNumberPattern = (function() {
@@ -77,19 +105,6 @@
 				templateUrl: 'registration/review/reviewRegistration.html'
 			}
 		];
-
-		$scope.selectFormSection = function(index) {
-			if (index === $scope.formSections.length - 1) {
-				$scope.submitText = 'Submit';
-			} else {
-				$scope.submitText = 'Continue';
-			}
-
-			$scope.currentSelectionIndex = index;
-			$scope.currentFormTpl = $scope.formSections[index].templateUrl;
-
-			$scope.visitedSections[index] = true;
-		};
 
 		$scope.currentSelectionIndex = 0;
 		$scope.selectFormSection($scope.currentSelectionIndex);
