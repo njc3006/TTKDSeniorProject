@@ -1,38 +1,45 @@
-<div class="form-group">
-	<label class="col-sm-2">Program</label>
-	<div
-		class="col-sm-10"
-		ng-class="{'has-error': registrationForm.program.$invalid && !registrationForm.program.$pristine}">
-		<select
-			class="form-control"
-			name="program"
-			placeholder="Select a Program"
-			ng-model="registrationInfo.program"
-			required
-			ng-options="program as program.name for program in programs track by program.id">
-			<option value="">Select a Program</option>
-		</select>
-	</div>
+<div class="spacer-25"
+	ng-class="{'has-error': registrationForm.program.$invalid && !registrationForm.program.$pristine}">
+	<select
+		class="form-control"
+		name="program"
+		placeholder="Select a Program"
+		ng-model="registrationInfo.program"
+		required
+		ng-options="program as program.name for program in programs track by program.id">
+		<option value="">Select a Program</option>
+	</select>
+	<span class="help-block" ng-show="registrationForm.program.$invalid && !registrationForm.program.$pristine">
+		Must select a program
+	</span>
 </div>
 
-<div ng-class="{'has-error': registrationForm.firstName.$invalid && !registrationForm.firstName.$pristine}">
+<div class="spacer-25"
+	ng-class="{'has-error': registrationForm.firstName.$invalid && !registrationForm.firstName.$pristine}">
 	<input
 		type="text"
 		name="firstName"
-		class="form-control spacer-25"
+		class="form-control"
 		placeholder="First Name"
 		required
 		ng-model="registrationInfo.firstName">
+	<span class="help-block" ng-show="registrationForm.firstName.$invalid && !registrationForm.firstName.$pristine">
+		First Name is required
+	</span>
 </div>
 
-<div ng-class="{'has-error': registrationForm.lastName.$invalid && !registrationForm.lastName.$pristine}">
+<div class="spacer-25"
+	ng-class="{'has-error': registrationForm.lastName.$invalid && !registrationForm.lastName.$pristine}">
 	<input
 		type="text"
-		name=="lastName"
-		class="form-control spacer-25"
+		name="lastName"
+		class="form-control"
 		placeholder="Last Name"
 		required
 		ng-model="registrationInfo.lastName">
+	<span class="help-block" ng-show="registrationForm.lastName.$invalid && !registrationForm.lastName.$pristine">
+		Last Name is required
+	</span>
 </div>
 
 <div
@@ -47,16 +54,24 @@
 		uib-datepicker
 		ng-model="registrationInfo.dob">
 	</div>
+	<span class="help-block" ng-show="registrationForm.dob.$invalid && !registrationForm.dob.$pristine">
+		Must provide a Date of Birth
+	</span>
 </div>
 
-<div ng-class="{'has-error': registrationForm.street.$invalid && !registrationForm.street.$pristine}">
+<div
+	class="spacer-25"
+	ng-class="{'has-error': registrationForm.street.$invalid && !registrationForm.street.$pristine}">
 	<input
 		type="text"
 		name="street"
-		class="form-control spacer-25"
+		class="form-control"
 		placeholder="Address"
 		required
 		ng-model="registrationInfo.street">
+	<span class="help-block" ng-show="registrationForm.street.$invalid && !registrationForm.street.$pristine">
+		Address is required
+	</span>
 </div>
 
 <div class="row spacer-25">
@@ -70,6 +85,9 @@
 			required
 			placeholder="City"
 			ng-model="registrationInfo.city">
+		<span class="help-block" ng-show="registrationForm.city.$invalid && !registrationForm.city.$pristine">
+			City is required
+		</span>
 	</div>
 	<div
 		class="col-xs-4"
@@ -83,6 +101,9 @@
 			ng-options="state as state.name for state in states track by state.value">
 			<option value="">Select a State</option>
 		</select>
+		<span class="help-block" ng-show="registrationForm.state.$invalid && !registrationForm.state.$pristine">
+			Must select a state
+		</span>
 	</div>
 	<div
 		class="col-xs-4"
@@ -95,37 +116,52 @@
 			placeholder="ZIP Code"
 			ng-model="registrationInfo.zipcode"
 			ng-pattern="/[0-9]{5}/">
+		<span class="help-block" ng-show="registrationForm.zipcode.$invalid && !registrationForm.zipcode.$pristine">
+			ZIP Code must be a 5-digit number
+		</span>
 	</div>
 </div>
 
-<div ng-class="{'has-error': registrationForm.primaryPhone.$invalid && !registrationForm.primaryPhone.$pristine}">
+<div class="spacer-25"
+	ng-class="{'has-error': registrationForm.primaryPhone.$invalid && !registrationForm.primaryPhone.$pristine}">
 	<input
 		type="text"
 		name="primaryPhone"
-		class="form-control spacer-25"
+		class="form-control"
 		placeholder="Primary Phone Number"
 		required
 		ng-pattern="phoneNumberPattern"
 		ng-model="registrationInfo.primaryPhone">
+		<span class="help-block" ng-show="registrationForm.primaryPhone.$invalid && !registrationForm.primaryPhone.$pristine">
+			Must enter a valid, 10-digit, phone number
+		</span>
 </div>
 
-<div ng-class="{'has-error': registrationForm.secondaryPhone.$invalid && !registrationForm.secondaryPhone.$pristine}">
+<div class="spacer-25"
+	ng-class="{'has-error': registrationForm.secondaryPhone.$invalid && !registrationForm.secondaryPhone.$pristine}">
 	<input
 		type="text"
 		name="secondaryPhone"
-		class="form-control spacer-25"
+		class="form-control"
 		placeholder="Secondary Phone Number"
 		ng-pattern="phoneNumberPattern"
 		ng-model="registrationInfo.secondaryPhone">
+	<span class="help-block" ng-show="registrationForm.primaryPhone.$invalid && !registrationForm.primaryPhone.$pristine">
+		Must enter a valid, 10-digit, phone number
+	</span>
 </div>
 
 <!-- TODO: add repeat section functionality -->
-<div ng-class="{'has-error': registrationForm.email.$invalid && !registrationForm.email.$pristine}">
+<div class="spacer-25"
+	ng-class="{'has-error': registrationForm.email.$invalid && !registrationForm.email.$pristine}">
 	<input
 		type="email"
 		name="email"
-		class="form-control spacer-25"
+		class="form-control"
 		placeholder="Email Address"
 		required
 		ng-model="registrationInfo.email">
+	<span class="help-block" ng-show="registrationForm.email.$invalid && !registrationForm.email.$pristine">
+		Must enter a valid email address
+	</span>
 </div>
