@@ -149,9 +149,16 @@
 	ng-repeat="email in registrationInfo.emails track by $index"
 	ng-class="{'has-error': registrationForm.email{{$index}}.$invalid && !registrationForm.email{{$index}}.$pristine}">
 	<div class="input-group col-sm-12">
-		<span class="input-group-btn" ng-show="$last">
-			<button type="button" class="btn btn-success" ng-click="addEmail()">
+		<span class="input-group-btn">
+			<button type="button" class="btn btn-success" ng-click="addEmail()" ng-show="$last">
 				<i class="glyphicon glyphicon-plus"></i>
+			</button>
+			<button
+				type="button"
+				class="btn btn-danger"
+				ng-click="removeEmail($index)"
+				ng-show="registrationInfo.emails.length > 1 && !$last">
+				<i class="glyphicon glyphicon-minus"></i>
 			</button>
 		</span>
 		<input
@@ -161,11 +168,6 @@
 			placeholder="Email Address"
 			required
 			ng-model="registrationInfo.emails[$index]">
-	<span class="input-group-btn" ng-show="registrationInfo.emails.length > 1">
-		<button type="button" class="btn btn-danger" ng-click="removeEmail($index)">
-			<i class="glyphicon glyphicon-minus"></i>
-		</button>
-	</span>
 	</div>
 	<span class="help-block" ng-show="registrationForm.email{{$index}}.$invalid && !registrationForm.email{{$index}}.$pristine">
 		Must enter a valid email address
