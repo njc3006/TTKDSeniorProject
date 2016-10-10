@@ -36,6 +36,10 @@
 			}
 		};
 
+		$scope.addEmail = function() {
+			$scope.registrationInfo.emails.push('');
+		};
+
 		$scope.phoneNumberPattern = (function() {
 			return {
 				test: function(value) {
@@ -50,9 +54,11 @@
 			};
 		})();
 
-		$scope.registrationInfo = {};
-		$scope.visitedSections = {};
+		$scope.registrationInfo = {
+			emails: ['']
+		};
 
+		$scope.visitedSections = {};
 		$scope.formSections = [
 			{
 				name: 'Basic Information',
@@ -90,7 +96,6 @@
 
 		$scope.states = StateService.getStates();
 		ProgramsService.getPrograms().then(function(response) {
-			console.log(response);
 			$scope.programs = response.data;
 		}, function(error) {
 			//TODO: error handling

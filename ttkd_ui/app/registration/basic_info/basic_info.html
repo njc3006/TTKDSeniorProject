@@ -143,17 +143,26 @@
 	</span>
 </div>
 
-<!-- TODO: add repeat section functionality -->
+<hr/>
+<h3>Email Addresses</h3>
 <div class="spacer-25"
-	ng-class="{'has-error': registrationForm.email.$invalid && !registrationForm.email.$pristine}">
-	<input
-		type="email"
-		name="email"
-		class="form-control"
-		placeholder="Email Address"
-		required
-		ng-model="registrationInfo.email">
-	<span class="help-block" ng-show="registrationForm.email.$invalid && !registrationForm.email.$pristine">
+	ng-repeat="email in registrationInfo.emails track by $index"
+	ng-class="{'has-error': registrationForm.email{{$index}}.$invalid && !registrationForm.email{{$index}}.$pristine}">
+	<div class="input-group col-sm-12">
+		<span class="input-group-btn" ng-show="$last">
+			<button type="button" class="btn btn-success" ng-click="addEmail()">
+				<i class="glyphicon glyphicon-plus"></i>
+			</button>
+		</span>
+		<input
+			type="email"
+			name="email{{$index}}"
+			class="form-control"
+			placeholder="Email Address"
+			required
+			ng-model="registrationInfo.emails[$index]">
+	</div>
+	<span class="help-block" ng-show="registrationForm.email{{$index}}.$invalid && !registrationForm.email{{$index}}.$pristine">
 		Must enter a valid email address
 	</span>
 </div>
