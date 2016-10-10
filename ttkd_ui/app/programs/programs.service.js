@@ -4,7 +4,7 @@
 			getPrograms: function() {
 				return $http.get(apiHost + '/api/programs');
 			}
-		}
+		};
 	}
 
 	ProgramsService.$inject = ['$http', 'apiHost'];

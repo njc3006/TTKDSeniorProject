@@ -24,7 +24,7 @@
 		required
 		ng-model="registrationInfo.firstName">
 	<span class="help-block" ng-show="registrationForm.firstName.$invalid && !registrationForm.firstName.$pristine">
-		First Name is required
+		Must provide a first name
 	</span>
 </div>
 
@@ -38,24 +38,16 @@
 		required
 		ng-model="registrationInfo.lastName">
 	<span class="help-block" ng-show="registrationForm.lastName.$invalid && !registrationForm.lastName.$pristine">
-		Last Name is required
+		Must provide a last name
 	</span>
 </div>
 
-<div
-		class="form-group spacer-25"
+<div class="spacer-25"
 		ng-class="{'has-error': registrationForm.dob.$invalid && !registrationForm.dob.$pristine}">
-	<label for="dob" class="col-sm-3">Date of Birth</label>
-	<div
-		id="dob"
-		name="dob"
-		class="well well-sm col-sm-9"
-		required
-		uib-datepicker
-		ng-model="registrationInfo.dob">
-	</div>
+	<label >Date of Birth</label>
+	<input class="form-control" type="date" name="dob" required ng-model="registrationInfo.dob">
 	<span class="help-block" ng-show="registrationForm.dob.$invalid && !registrationForm.dob.$pristine">
-		Must provide a Date of Birth
+		Must provide a valid Date of Birth
 	</span>
 </div>
 
@@ -70,7 +62,7 @@
 		required
 		ng-model="registrationInfo.street">
 	<span class="help-block" ng-show="registrationForm.street.$invalid && !registrationForm.street.$pristine">
-		Address is required
+		Must provide an address
 	</span>
 </div>
 
@@ -86,7 +78,7 @@
 			placeholder="City"
 			ng-model="registrationInfo.city">
 		<span class="help-block" ng-show="registrationForm.city.$invalid && !registrationForm.city.$pristine">
-			City is required
+			Must enter a city
 		</span>
 	</div>
 	<div

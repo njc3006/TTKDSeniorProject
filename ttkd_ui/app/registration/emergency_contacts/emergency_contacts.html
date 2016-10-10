@@ -13,6 +13,11 @@
 		class="form-control"
 		placeholder="Full Name"
 		ng-model="registrationInfo.emPrimaryFullName">
+	<span
+		class="help-text"
+		ng-show="registrationForm.emPrimaryFullName.$invalid && !registrationForm.emPrimaryFullName.$pristine">
+		Must enter a full name
+	</span>
 </div>
 <div class="row">
 	<div
@@ -26,6 +31,11 @@
 			placeholder="Phone Number"
 			ng-pattern="phoneNumberPattern"
 			ng-model="registrationInfo.emPrimaryPhone">
+		<span
+			class="help-text"
+			ng-show="registrationForm.emPrimaryPhone.$invalid && !registrationForm.emPrimaryPhone.$pristine">
+			Must enter a valid phone number
+		</span>
 	</div>
 	<div
 		class="col-xs-6"
@@ -37,6 +47,11 @@
 			class="form-control input-group"
 			placeholder="Relationship"
 			ng-model="registrationInfo.emPrimaryRelationship">
+		<span
+			class="help-text"
+			ng-show="registrationForm.emPrimaryRelationship.$invalid && !registrationForm.emPrimaryRelationship.$pristine">
+			Must enter a relationship
+		</span>
 	</div>
 </div>
 <hr/>
@@ -55,6 +70,11 @@
 		class="col-xs-12 form-control spacer-25"
 		placeholder="Full Name"
 		ng-model="registrationInfo.emSecondaryFullName">
+	<span
+		class="help-text"
+		ng-show="registrationForm.emSecondaryFullName.$invalid && !registrationForm.emSecondaryFullName.$pristine">
+		Must enter a full name
+	</span>
 </div>
 <div
 	class="row spacer-25"
@@ -68,6 +88,11 @@
 			placeholder="Phone Number"
 			ng-pattern="phoneNumberPattern"
 			ng-model="registrationInfo.emSecondaryPhone">
+		<span
+			class="help-text"
+			ng-show="registrationForm.emSecondaryPhone.$invalid && !registrationForm.emSecondaryPhone.$pristine">
+			Must enter a valid phone number
+		</span>
 	</div>
 	<div
 		class="col-xs-6"
@@ -79,5 +104,10 @@
 			class="form-control input-group"
 			placeholder="Relationship"
 			ng-model="registrationInfo.emSecondaryRelationship">
+		<span
+			class="help-text"
+			ng-show="registrationForm.emSecondaryRelationship.$invalid && !registrationForm.emSecondaryRelationship.$pristine">
+			Must enter a relationship
+		</span>
 	</div>
 </div>

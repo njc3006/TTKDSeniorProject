@@ -1,17 +1,4 @@
 (function() {
-	function indexToId(index) {
-		var id = '';
-
-		switch (index) {
-			case 0: id = 'basic_info'; break;
-			case 1: id = 'emergency_contacts'; break;
-			case 2: id = 'waiver'; break;
-			default: id = 'review';
-		}
-
-		return id;
-	}
-
 	function RegistrationController($scope, RegistrationService, ProgramsService, StateService) {
 		$scope.isLegalAdult = function() {
 			var ageInYears = (new Date()).getFullYear() - $scope.registrationInfo.dob.getFullYear();
@@ -31,6 +18,11 @@
 			} else {
 				return participantSignaturePresent;
 			}
+		};
+
+		$scope.calendarIsOpen = false;
+		$scope.openCalendar = function() {
+			$scope.calendarIsOpen = true;
 		};
 
 		$scope.onSubmit = function(formIsValid) {
