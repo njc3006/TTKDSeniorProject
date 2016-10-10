@@ -161,6 +161,11 @@
 			placeholder="Email Address"
 			required
 			ng-model="registrationInfo.emails[$index]">
+	<span class="input-group-btn" ng-show="registrationInfo.emails.length > 1">
+		<button type="button" class="btn btn-danger" ng-click="removeEmail($index)">
+			<i class="glyphicon glyphicon-minus"></i>
+		</button>
+	</span>
 	</div>
 	<span class="help-block" ng-show="registrationForm.email{{$index}}.$invalid && !registrationForm.email{{$index}}.$pristine">
 		Must enter a valid email address
