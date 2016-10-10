@@ -45,7 +45,7 @@
 					value = value.split(')').join('');
 					value = value.split('-').join('');
 
-					return /[0-9]{10}/.test(value);
+					return /^[0-9]{10}$/.test(value);
 				}
 			};
 		})();
