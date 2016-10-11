@@ -14,16 +14,15 @@ class EmergencyContact(models.Model):
     person = models.ForeignKey(
         Person,
         on_delete=models.CASCADE,
-        blank=True,
-        null=True,
+        # related name is needed for person serializer to know that a person has emergency contacts
+        related_name='emergency_contacts',
     )
     relation = models.CharField(
         max_length=30,
-        blank=True,
-        null=True,
     )
     phone_number = models.CharField(
-        max_length=10,
-        blank=True,
-        null=True,
+        max_length=12,
+    )
+    full_name = models.CharField(
+        max_length=100,
     )
