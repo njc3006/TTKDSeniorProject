@@ -32,9 +32,31 @@ $navbar-default-toggle-border-color:       $navbar-default-color;
 $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 @import "./lib/bootstrap-sass/assets/stylesheets/bootstrap";
 
+/* Import Component SCSS */
+@import "./components/nav/nav";
+
 /* Adjust layout */
 
 // Push containers below navbar
 #appContainer {
 	padding-top: 70px;
+}
+
+.spacer-20 {
+	margin-bottom: 20px;
+}
+
+//Custom styles for waiver text
+.waiver,
+.review {
+	margin-bottom: 35px;
+}
+
+.form-button {
+	height: 100px;
+}
+
+.form-scroll-buttons {
+	position: fixed;
+	right: 0;
 }

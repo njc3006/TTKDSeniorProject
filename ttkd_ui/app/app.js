@@ -1,22 +1,32 @@
 (function() {
   'use strict';
 
-  angular.module('ttkdApp', [
-		'ttkdApp.navController',
+  angular.module('ttkdApp',
+    [
+		'ui.router',
+		'ui.bootstrap',
+		'formly',
+		'formlyBootstrap',
+		'formlyRepeatingSection',
+		'ttkdApp.routes',
+		'ttkdApp.mainCtrl',
+		'ttkdApp.navCtrl',
+		'ttkdApp.checkinCtrl',
 		'ttkdApp.partials',
-		'ui.router'
-  ]).config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-		// For any unmatched url, send to /
-		$urlRouterProvider.otherwise('/');
+		'ttkdApp.homeCtrl',
+		'ttkdApp.fieldsService'
+    ]
+  )
+	.constant('apiHost', 'localhost:800')
+	.config(['formlyConfigProvider', function(formlyConfigProvider) {
+		formlyConfigProvider.setType({
+			name: 'waiver',
+			templateUrl: 'registration/waiver/waivertext.html'
+		});
 
-		$stateProvider
-			// you can set this to no template if you just want to use the html in the page
-			.state('home', {
-				 url: '/',
-				 templateUrl: 'home/home.html',
-				 data: {
-					 pageTitle: 'Home'
-				 }
-			});
+		formlyConfigProvider.setType({
+			name: 'review',
+			templateUrl: 'registration/review/reviewRegistration.html'
+		});
 	}]);
 })();

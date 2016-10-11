@@ -1,7 +1,4 @@
 <!DOCTYPE html>
-
-{% load staticfiles %}
-
 <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
 	<head>
 	  <meta charset="utf-8">
@@ -14,12 +11,13 @@
 	  <link rel="stylesheet" type="text/css" href="{% static "css/app.css" %}">
 	</head>
 	<body ng-app="ttkdApp">
-	  <ng-include src="'components/nav/nav.html'" ng-controller="navController"></ng-include>
+	  <ng-include src="'components/nav/nav.html'" ng-controller="NavCtrl"></ng-include>
 
 		<div ui-view class="container"></div>
 
-	  <script src="{% static "js/vendor.js" %}"></script>
-	  <script src="{% static "js/partials.js" %}"></script>
-	  <script src="{% static "js/app.js" %}"></script>
+		<script src="js/vendor.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/partials.js"></script>
+		<script src="js/formFields.js"></script>
 	</body>
 </html>

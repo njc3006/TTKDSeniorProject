@@ -1,0 +1,28 @@
+<div class="row">
+	<div class="col-md-3 col-sm-3">
+		<ul class="nav nav-pills nav-stacked">
+			<li
+				ng-repeat="section in formSections"
+				role="presentation"
+				ng-class="{'active': $index === currentSelectionIndex, disabled: !visitedSections[$index]}"
+				ng-click="visitedSections[$index] && selectFormSection($index)">
+				<a ui-sref=".">{{section}}</a>
+			</li>
+		</ul>
+	</div>
+	<div class="col-md-6 col-sm-6">
+		<form ng-submit="onSubmit()">
+			<formly-form model="registrationInfo" fields="currentSectionFields">
+				<button type="submit" class="btn btn-primary" name="button">{{submitText}}</button>
+			</formly-form>
+		</form>
+	</div>
+	<div class="col-md-3 col-sm-3 form-scroll-buttons">
+		<button type="button" class="btn btn-primary btn-large btn-block form-button">
+			Previous
+		</button>
+		<button type="button" class="btn btn-primary btn-large btn-block form-button">
+			Next
+		</button>
+	</div>
+</div>
