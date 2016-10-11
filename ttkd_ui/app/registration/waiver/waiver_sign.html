@@ -1,21 +1,21 @@
 <ng-include src="'registration/waiver/waiver_text.html'"></ng-include>
 
 <div class="spacer-25"
-	ng-class="{'has-error': registrationForm.participantSignature.$invalid && !registrationForm.participantSignature.$pristine}">
+	ng-class="{'has-error': registrationForm.participantSignature.$invalid && submitted}">
 	<input
 		type="text"
 		name="participantSignature"
 		class="form-control spacer-25"
 		placeholder="Participant Signature"
 		ng-model="registrationInfo.participantSignature"
-		required>
-	<span class="help-block" ng-show="registrationForm.participantSignature.$invalid && !registrationForm.participantSignature.$pristine">
+		ng-required="true">
+	<span class="help-block" ng-show="registrationForm.participantSignature.$invalid && submitted">
 		Participant must provide a digital signature
 	</span>
 </div>
 
 <div class="spacer-25"
-	ng-class="{'has-error': registrationForm.guardianSignature.$invalid && !registrationForm.guardianSignature.$pristine}">
+	ng-class="{'has-error': registrationForm.guardianSignature.$invalid && submitted}">
 	<input
 		type="text"
 		name="guardianSignature"
@@ -23,8 +23,8 @@
 		placeholder="Guardian Signature"
 		ng-if="!isLegalAdult()"
 		ng-model="registrationInfo.guardianSignature"
-		required>
-	<span class="help-block" ng-show="registrationForm.guardianSignature.$invalid && !registrationForm.guardianSignature.$pristine">
+		ng-required="true">
+	<span class="help-block" ng-show="registrationForm.guardianSignature.$invalid  && submitted">
 		Guardian must provide a digital signature
 	</span>
 </div>

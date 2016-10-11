@@ -38,6 +38,12 @@
 		};
 
 		$scope.onSubmit = function(formIsValid) {
+			$scope.submitted = true;
+
+			$scope.registrationInfo.emails.forEach(function(email) {
+				email.isNew = false;
+			});
+
 			if (formIsValid) {
 				if ($scope.currentSelectionIndex < $scope.formSections.length - 1) {
 						$scope.selectFormSection($scope.currentSelectionIndex + 1);
@@ -48,7 +54,7 @@
 		};
 
 		$scope.addEmail = function() {
-			$scope.registrationInfo.emails.push('');
+			$scope.registrationInfo.emails.push({email: '', isNew: true});
 		};
 
 		$scope.removeEmail = function(index) {
@@ -66,6 +72,11 @@
 			$scope.currentFormTpl = $scope.formSections[index].templateUrl;
 
 			$scope.visitedSections[index] = true;
+			$scope.submitted = false;
+		};
+
+		$scope.getFormattedEmailList = function() {
+			return $scope.registrationInfo.emails.map(function(email) { return email.email; }).join(', ');
 		};
 
 		$scope.phoneNumberPattern = (function() {
@@ -83,7 +94,7 @@
 		})();
 
 		$scope.registrationInfo = {
-			emails: ['']
+			emails: [{email: '', isNew: true}]
 		};
 
 		$scope.visitedSections = {};
