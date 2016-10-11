@@ -5,7 +5,8 @@ from ..models.registration import Registration
 
 
 class RegistrationViewSet(viewsets.ModelViewSet):
-    """GET: Returns all Registration Objects To The Route, Or An Instance If Given A PK Filters:
+    """
+    GET: Returns all Registration Objects To The Route, Or An Instance If Given A PK Filters:
     program, person
     POST: Create A Registration Which Includes Creating A New Person and Registering Them To A
     Program
