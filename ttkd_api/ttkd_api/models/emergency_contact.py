@@ -21,7 +21,7 @@ class EmergencyContact(models.Model):
         max_length=30,
     )
     phone_number = models.CharField(
-        max_length=12,
+        max_length=10
     )
     full_name = models.CharField(
         max_length=100,
