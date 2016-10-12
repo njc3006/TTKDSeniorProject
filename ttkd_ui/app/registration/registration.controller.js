@@ -55,7 +55,6 @@
 		};
 
 		$scope.currentSelectionIndex = 0;
-		$scope.selectFormSection($scope.currentSelectionIndex);
 	}
 
 	RegistrationController.$inject = ['$scope', 'FieldsService', 'RegistrationSvc'];

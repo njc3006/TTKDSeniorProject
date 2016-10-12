@@ -1,7 +1,7 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-xs-2">
-			<select ng-model="currentClass" ng-options="class as class for class in classes">
+			<select ng-model="currentClass" ng-options="class as class.name for class in classes">{{class.name}}
 			</select>
 		</div>
 		<div class="col-xs-1">

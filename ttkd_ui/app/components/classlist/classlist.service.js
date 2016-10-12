@@ -1,12 +1,16 @@
 (function() {
 	function ClassListService($http, apiHost) {
 		return {
-			getClassList: function(formData) {
-				return $http.get(apiHost + '/programs/');
+			getClassList: function() {
+				return $http.get("http://localhost:8000/api/programs/");
+			},
+
+			getAllPeople: function() {
+				return $http.get("http://localhost:8000/api/persons/");
 			}
 		};
 	}
 
 	angular.module('ttkdApp')
-		.factory('ClassListSvc', ['$http', 'apiHost', ClassListService]);
+		.factory('ClassListService', ['$http', 'apiHost', ClassListService]);
 })();
