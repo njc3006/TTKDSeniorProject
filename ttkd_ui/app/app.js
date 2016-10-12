@@ -5,7 +5,6 @@
     [
 		'ui.router',
 		'ui.bootstrap',
-		'ui.select',
 		'ttkdApp.constants',
 		'ttkdApp.routes',
 		'ttkdApp.mainCtrl',

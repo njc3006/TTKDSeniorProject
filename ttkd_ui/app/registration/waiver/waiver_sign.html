@@ -2,28 +2,38 @@
 
 <div class="spacer-25"
 	ng-class="{'has-error': registrationForm.participantSignature.$invalid && submitted}">
-	<input
-		type="text"
-		name="participantSignature"
-		class="form-control spacer-25"
-		placeholder="Participant Signature"
-		ng-model="registrationInfo.participantSignature"
-		ng-required="true">
+	<div class="input-group col-sm-12">
+		<input
+			type="text"
+			name="participantSignature"
+			class="form-control spacer-25"
+			placeholder="Participant Signature"
+			ng-model="registrationInfo.participantSignature"
+			ng-required="true">
+		<span class="input-group-addon">
+			<i class="glyphicon glyphicon-asterisk"></i>
+		</span>
+	</div>
 	<span class="help-block" ng-show="registrationForm.participantSignature.$invalid && submitted">
 		Participant must provide a digital signature
 	</span>
 </div>
 
 <div class="spacer-25"
+	ng-if="!isLegalAdult()"
 	ng-class="{'has-error': registrationForm.guardianSignature.$invalid && submitted}">
-	<input
-		type="text"
-		name="guardianSignature"
-		class="form-control"
-		placeholder="Guardian Signature"
-		ng-if="!isLegalAdult()"
-		ng-model="registrationInfo.guardianSignature"
-		ng-required="true">
+	<div class="input-group col-sm-12">
+		<input
+			type="text"
+			name="guardianSignature"
+			class="form-control"
+			placeholder="Guardian Signature"
+			ng-model="registrationInfo.guardianSignature"
+			ng-required="true">
+		<span class="input-group-addon">
+			<i class="glyphicon glyphicon-asterisk"></i>
+		</span>
+	</div>
 	<span class="help-block" ng-show="registrationForm.guardianSignature.$invalid  && submitted">
 		Guardian must provide a digital signature
 	</span>
