@@ -1,0 +1,64 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-xs-2">
+			<select ng-model="currentClass" ng-options="class as class for class in classes">
+			</select>
+		</div>
+		<div class="col-xs-1">
+			<div class="btn btn-primary" ng-click="toggleSortAlpha()">A-Z</div>
+		</div>
+		<div class="col-xs-1">
+			<input type="checkbox" name="activeBox" value="showActive"> Active
+		</div>
+		<div class="col-xs-1">
+			<input type="checkbox" name="inactiveBox" value="showInactive"> Inactive
+		</div>
+		<div class="col-xs-2">
+			<select ng-model="currentBelt" ng-options="belt as belt for belt in belts">
+				<option value="">Select Belt</option>
+			</select>
+		</div>
+		<div class="col-xs-3">
+			<input type="search" name="searchbox">
+		</div>
+		<div class="col-xs-2">
+			<input type="date" name="date">
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-xs-12" ng-repeat="person in people">
+			<div class="col-xs-2">
+				<img ng-src="{{person.picture}}">
+			</div>
+			<div class="col-xs-10">
+				
+				<div class="row">{{person.name}}</div>
+				<div class="row">
+					{{person.email}}
+					{{person.phone}}
+				</div>
+				<div class="row">
+					Emergency Contact 1: 
+					{{person.emgContact1}}
+					{{person.emgPhone1}}
+				</div>
+				<div class="row">
+					Emergency Contact 2: 
+					{{person.emgContact2}}
+					{{person.emgPhone2}}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- <div class="row">
+		<div class="col-xs-2 right" ng-repeat="person in people">
+			<a href="" class="thumbnail" ng-click="openCheckinPrompt(person)">
+				<img ng-src="{{person.picture}}">
+				<div class="caption">
+					<span class="person-name">{{person.name}}</span>
+				</div>
+			</a>
+		</div>
+	</div> -->
+</div>

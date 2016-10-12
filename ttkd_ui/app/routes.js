@@ -31,6 +31,12 @@
         url: '/registration',
         templateUrl: 'registration/registration.html',
 				controller: 'RegistrationCtrl'
+      })
+
+      .state('classlist', {
+        url: '/classlist',
+        templateUrl: 'components/classlist/classlist.html',
+        controller: 'ClassListCtrl'
       });
 
       $urlRouterProvider.otherwise('/');

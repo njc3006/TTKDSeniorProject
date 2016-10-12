@@ -14,7 +14,8 @@
 		'ttkdApp.checkinCtrl',
 		'ttkdApp.partials',
 		'ttkdApp.homeCtrl',
-		'ttkdApp.fieldsService'
+		'ttkdApp.fieldsService',
+		'ttkdApp.classlistCtrl'
     ]
   )
 	.constant('apiHost', 'localhost:800')
