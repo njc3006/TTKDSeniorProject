@@ -18,7 +18,7 @@
 		'ttkdApp.classlistCtrl'
     ]
   )
-	.constant('apiHost', 'localhost:800')
+	.constant('apiHost', 'localhost:8000')
 	.config(['formlyConfigProvider', function(formlyConfigProvider) {
 		formlyConfigProvider.setType({
 			name: 'waiver',
