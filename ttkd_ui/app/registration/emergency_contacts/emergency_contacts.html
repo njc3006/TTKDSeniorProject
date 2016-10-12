@@ -6,13 +6,18 @@
 <div
 	class="spacer-25"
 	ng-class="{'has-error': registrationForm.emPrimaryFullName.$invalid && submitted}">
-	<input
-		type="text"
-		name="emPrimaryFullName"
-		ng-required="true"
-		class="form-control"
-		placeholder="Full Name"
-		ng-model="registrationInfo.emPrimaryFullName">
+	<div class="input-group col-sm-12">
+		<input
+			type="text"
+			name="emPrimaryFullName"
+			ng-required="true"
+			class="form-control"
+			placeholder="Full Name"
+			ng-model="registrationInfo.emPrimaryFullName">
+		<span class="input-group-addon">
+			<i class="glyphicon glyphicon-asterisk"></i>
+		</span>
+	</div>
 	<span
 		class="help-block"
 		ng-show="registrationForm.emPrimaryFullName.$invalid && submitted">
@@ -23,14 +28,19 @@
 	<div
 		class="col-xs-6"
 		ng-class="{'has-error': registrationForm.emPrimaryPhone.$invalid && submitted}">
-		<input
-			type="text"
-			name="emPrimaryPhone"
-			ng-required="true"
-			class="form-control input-group"
-			placeholder="Phone Number"
-			ng-pattern="phoneNumberPattern"
-			ng-model="registrationInfo.emPrimaryPhone">
+		<div class="input-group col-sm-12">
+			<input
+				type="text"
+				name="emPrimaryPhone"
+				ng-required="true"
+				class="form-control input-group"
+				placeholder="Phone Number"
+				ng-pattern="phoneNumberPattern"
+				ng-model="registrationInfo.emPrimaryPhone">
+			<span class="input-group-addon">
+				<i class="glyphicon glyphicon-asterisk"></i>
+			</span>
+		</div>
 		<span
 			class="help-block"
 			ng-show="registrationForm.emPrimaryPhone.$invalid && submitted">
@@ -40,13 +50,18 @@
 	<div
 		class="col-xs-6"
 		ng-class="{'has-error': registrationForm.emPrimaryRelationship.$invalid && submitted}">
-		<input
-			type="text"
-			name="emPrimaryRelationship"
-			ng-required="true"
-			class="form-control input-group"
-			placeholder="Relationship"
-			ng-model="registrationInfo.emPrimaryRelationship">
+		<div class="input-group col-sm-12">
+			<input
+				type="text"
+				name="emPrimaryRelationship"
+				ng-required="true"
+				class="form-control input-group"
+				placeholder="Relationship"
+				ng-model="registrationInfo.emPrimaryRelationship">
+			<span class="input-group-addon">
+				<i class="glyphicon glyphicon-asterisk"></i>
+			</span>
+		</div>
 		<span
 			class="help-block"
 			ng-show="registrationForm.emPrimaryRelationship.$invalid && submitted">
@@ -62,14 +77,20 @@
 	</div>
 </div>
 <div
+	class="spacer-25"
 	ng-class="{'has-error': registrationForm.emSecondaryFullName.$invalid && submitted}">
-	<input
-		type="text"
-		name="emSecondaryFullName"
-		ng-required="true"
-		class="col-xs-12 form-control spacer-25"
-		placeholder="Full Name"
-		ng-model="registrationInfo.emSecondaryFullName">
+	<div class="input-group col-sm-12">
+		<input
+			type="text"
+			name="emSecondaryFullName"
+			ng-required="true"
+			class="col-xs-12 form-control spacer-25"
+			placeholder="Full Name"
+			ng-model="registrationInfo.emSecondaryFullName">
+		<span class="input-group-addon">
+			<i class="glyphicon glyphicon-asterisk"></i>
+		</span>
+	</div>
 	<span
 		class="help-block"
 		ng-show="registrationForm.emSecondaryFullName.$invalid && submitted">
@@ -80,14 +101,19 @@
 	class="row spacer-25">
 	<div class="col-xs-6"
 		ng-class="{'has-error': registrationForm.emSecondaryPhone.$invalid && submitted}">
-		<input
-			type="text"
-			name="emSecondaryPhone"
-			ng-required="true"
-			class="form-control input-group"
-			placeholder="Phone Number"
-			ng-pattern="phoneNumberPattern"
-			ng-model="registrationInfo.emSecondaryPhone">
+		<div class="input-group col-sm-12">
+			<input
+				type="text"
+				name="emSecondaryPhone"
+				ng-required="true"
+				class="form-control input-group"
+				placeholder="Phone Number"
+				ng-pattern="phoneNumberPattern"
+				ng-model="registrationInfo.emSecondaryPhone">
+			<span class="input-group-addon">
+				<i class="glyphicon glyphicon-asterisk"></i>
+			</span>
+		</div>
 		<span
 			class="help-block"
 			ng-show="registrationForm.emSecondaryPhone.$invalid && submitted">
@@ -97,13 +123,18 @@
 	<div
 		class="col-xs-6"
 		ng-class="{'has-error': registrationForm.emSecondaryRelationship.$invalid && submitted}">
-		<input
-			type="text"
-			name="emSecondaryRelationship"
-			ng-required="true"
-			class="form-control input-group"
-			placeholder="Relationship"
-			ng-model="registrationInfo.emSecondaryRelationship">
+		<div class="input-group col-sm-12">
+			<input
+				type="text"
+				name="emSecondaryRelationship"
+				ng-required="true"
+				class="form-control input-group"
+				placeholder="Relationship"
+				ng-model="registrationInfo.emSecondaryRelationship">
+			<span class="input-group-addon">
+				<i class="glyphicon glyphicon-asterisk"></i>
+			</span>
+		</div>
 		<span
 			class="help-block"
 			ng-show="registrationForm.emSecondaryRelationship.$invalid && submitted">

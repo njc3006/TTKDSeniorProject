@@ -6,8 +6,7 @@ module.exports = {
 		'./app/lib/angular/angular.js',
 		'./app/lib/angular-ui-router/release/angular-ui-router.js',
 		'./app/lib/angular-bootstrap/ui-bootstrap.js',
-		'./app/lib/angular-bootstrap/ui-bootstrap-tpls.js',
-		'./app/lib/angular-ui-select/dist/select.js'
+		'./app/lib/angular-bootstrap/ui-bootstrap-tpls.js'
 	],
 	sourcePaths: ['!./app/**/*_test.js', './app/**/*.js', '!./app/lib/**/*.js'],
 	templatePaths: ['./app/*/**/*.html'],
