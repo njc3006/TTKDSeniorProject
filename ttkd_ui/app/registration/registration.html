@@ -11,6 +11,12 @@
 		</ul>
 	</div>
 	<div class="col-md-6 col-sm-6">
+		<div class="alert alert-success" role="alert" ng-show="registrationSuccess">
+			<strong>Succesfully registered</strong>
+		</div>
+		<div class="alert alert-danger" role="alert" ng-show="registrationFailure">
+			<strong>Registration failed</strong>
+		</div>
 		<form
 			name="registrationForm"
 			class="form-horizontal spacer-25"

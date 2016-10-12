@@ -1,18 +1,27 @@
 (function() {
 	function createRegistrationPayload(registrationInfo) {
+		var formattedMonth = registrationInfo.dob.getMonth() < 9 ?
+			'0' + (registrationInfo.dob.getMonth() + 1) :
+			(registrationInfo.dob.getMonth() + 1);
+
+		var formattedDate = registrationInfo.dob.getDate() < 10 ?
+			'0' + registrationInfo.dob.getDate() :
+			registrationInfo.dob.getDate();
+
 		return {
 			person: {
 				'first_name': registrationInfo.firstName,
 				'last_name': registrationInfo.lastName,
-				dob: registrationInfo.dob,
+				'dob': registrationInfo.dob.getFullYear() + '-' + formattedMonth + '-' + formattedDate,
 				'primary_phone': registrationInfo.primaryPhone,
 				'secondary_phone': registrationInfo.secondaryPhone || '',
-				street: registrationInfo.street,
-				city: registrationInfo.city,
-				zipcode: parseInt(registrationInfo.zipcode),
-				state: registrationInfo.state.value
+				'street': registrationInfo.street,
+				'city': registrationInfo.city,
+				'zipcode': parseInt(registrationInfo.zipcode),
+				'state': registrationInfo.state.value,
+				'emails': registrationInfo.emails.map(function(email) { return {email: email.email}; })
 			},
-			program: registrationInfo.program.id
+			'program': registrationInfo.program.id
 		};
 	}
 
@@ -48,7 +57,13 @@
 				if ($scope.currentSelectionIndex < $scope.formSections.length - 1) {
 						$scope.selectFormSection($scope.currentSelectionIndex + 1);
 				} else {
-					console.log(createRegistrationPayload($scope.registrationInfo));
+					var registrationPayload = createRegistrationPayload($scope.registrationInfo);
+					RegistrationService.registerStudent(registrationPayload).then(function(response) {
+						$scope.registrationSuccess = true;
+					}, function(error) {
+						scope.registrationFailure = true;
+						console.error(error);
+					});
 				}
 			}
 		};
@@ -78,6 +93,9 @@
 		$scope.getFormattedEmailList = function() {
 			return $scope.registrationInfo.emails.map(function(email) { return email.email; }).join(', ');
 		};
+
+		$scope.registrationSuccess = false;
+		$scope.registrationFailure = false;
 
 		$scope.phoneNumberPattern = (function() {
 			return {
