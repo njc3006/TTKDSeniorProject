@@ -1,0 +1,80 @@
+<div class="review row">
+	<h2 class="col-xs-12">Basic Information</h2>
+	<table class="table">
+		<tbody>
+			<tr>
+				<td>First Name</td>
+				<td>{{model.first_name}}</td>
+			</tr>
+			<tr>
+				<td>Last Name</td>
+				<td>{{model.last_name}}</td>
+			</tr>
+			<tr>
+				<td>Address</td>
+				<td>{{model.street}}, {{model.city}}, {{model.state}} {{model.zipcode}}</td>
+			</tr>
+			<tr>
+				<td>Email(s)</td>
+				<td>TBD</td>
+			</tr>
+			<tr>
+				<td>Date of Birth</td>
+				<td>{{model.dob.getMonth() + 1}}/{{model.dob.getDate()}}/{{model.dob.getFullYear()}}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h2 class="col-xs-12">Emergency Contact</h2>
+	<table class="table">
+		<tbody>
+			<tr>
+				<td>Primary Contact Name</td>
+				<td>{{model.primary_full_name}}</td>
+			</tr>
+			<tr>
+				<td>Primary Contact Phone</td>
+				<td>{{model.primary_emergency_phone}}</td>
+			</tr>
+			<tr>
+				<td>Primary Contact Relationship</td>
+				<td>{{model.primary_relationship}}</td>
+			</tr>
+			<tr>
+				<td>Secondary Contact Name</td>
+				<td>{{model.secondary_full_name}}</td>
+			</tr>
+			<tr>
+				<td>Secondary Contact Phone</td>
+				<td>{{model.secondary_emergency_phone}}</td>
+			</tr>
+			<tr>
+				<td>Secondary Contact Relationship</td>
+				<td>{{model.secondary_relationship}}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h2 class="col-xs-12">Waiver</h2>
+	<table class="table">
+		<tbody>
+			<tr>
+				<td>Participant</td>
+				<td>{{model.participant_signature}}</td>
+			</tr>
+			<tr>
+				<td>Guardian</td>
+				<td>{{model.guardian_signature}}</td>
+			</tr>
+			<tr>
+				<td>Signed?</td>
+				<td ng-if="model.participant_signature && model.guardian_signature">
+					Yes
+				</td>
+				<td ng-if="!model.participant_signature || !model.guardian_signature">
+					No
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

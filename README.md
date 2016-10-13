@@ -19,7 +19,9 @@ This project is set up with PyLint. To run the linter, cd to `ttkd_api/` and run
 To install and run the AngularJS app, do the following:
 
 1. Install Node
-2. `cd` into the `ttkd-ui` folder.
-3. run `npm install`
-4. run `npm install -g gulp`
-5. run `gulp` to build the project and run the server.
+2. run `npm install -g gulp` to install Gulp (our build system)
+3. run `npm install -g bower` to install Bower (our ui dependency manager)
+4. `cd` into the `ttkd_ui` folder.
+5. run `npm install`
+6. run `bower install`
+7. run `gulp` to build the project and run the server.

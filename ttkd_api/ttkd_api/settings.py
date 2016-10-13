@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Example: "/var/www/example.com/static/"
 STATICFILES_DIRS = [os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../../ttkd_ui/dist/'))]
 STATIC_ROOT = os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../static/'))
-STATIC_URL = '/'
+STATIC_URL = '/ui/'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 

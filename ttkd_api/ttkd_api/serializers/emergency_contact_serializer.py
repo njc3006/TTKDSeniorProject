@@ -1,15 +1,16 @@
-"""EmailSerializer"""
+"""EmergencyContactSerializer"""
 from rest_framework import serializers
-from ..models.email import Email
+from ..models.emergency_contact import EmergencyContact
 from ..models.person import Person
 
 
-class EmailSerializer(serializers.ModelSerializer):
+class EmergencyContactSerializer(serializers.ModelSerializer):
     """
-    EmailSerializer Outputs Program Model as JSON
+    EmergencyContactSerializer Outputs EmergencyContact Model as JSON
     """
+
     person = serializers.PrimaryKeyRelatedField(queryset=Person.objects.all(), required=False)
 
     class Meta:
-        model = Email
+        model = EmergencyContact
         # No Fields declaration to use all the fields of the model
