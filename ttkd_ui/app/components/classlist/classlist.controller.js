@@ -8,10 +8,11 @@
         $scope.sortAZ = true;
         $scope.sortDisplayString = "A-Z";
         $scope.classes = [];
+        $scope.currentBelt = null;
 
         $scope.filters = {
             showActive: true,
-            showInactive: false,
+            showInactive: true,
             showPresent: false
         };
 
@@ -35,7 +36,6 @@
 
         $scope.updateDisplayed = function(){
             filteredStudents = [];
-            console.log($scope.people);
             angular.forEach($scope.people, function(value, key){
                 if($scope.filters.showActive && value.person.active === $scope.filters.showActive){
                     filteredStudents.push(value);
@@ -51,7 +51,6 @@
         }
 
         $scope.updateCurrentClass = function(curClass){
-            console.log(curClass);
             $scope.getStudents(curClass.id);
         };
 
@@ -72,7 +71,6 @@
         };
 
         $scope.getStudents = function(classId){
-            console.log(classId);
             ClassListService.getAllStudents(classId).then(
                 function(response){
                     $scope.people = response.data;
@@ -81,6 +79,10 @@
                     angular.forEach($scope.people, function(value){
                         value.picture = 'http://placehold.it/110x110';
                     });
+
+                    $scope.people[0].person.belt = 'green';
+                    $scope.people[2].person.belt = 'green';
+                    $scope.people[1].person.belt = 'yellow';
 
                     $scope.updateDisplayed();
             });
