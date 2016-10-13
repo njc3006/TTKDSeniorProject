@@ -61,7 +61,7 @@
 					RegistrationService.registerStudent(registrationPayload).then(function(response) {
 						$scope.registrationSuccess = true;
 					}, function(error) {
-						scope.registrationFailure = true;
+						$scope.registrationFailure = true;
 						console.error(error);
 					});
 				}
@@ -70,10 +70,12 @@
 
 		$scope.addEmail = function() {
 			$scope.registrationInfo.emails.push({email: '', isNew: true});
+			$scope.numElements++;
 		};
 
 		$scope.removeEmail = function(index) {
 			$scope.registrationInfo.emails.splice(index, 1);
+			$scope.numElements--;
 		};
 
 		$scope.selectFormSection = function(index) {
@@ -83,11 +85,31 @@
 				$scope.submitText = 'Continue';
 			}
 
+			$scope.currentFocusIndex = 0;
 			$scope.currentSelectionIndex = index;
 			$scope.currentFormTpl = $scope.formSections[index].templateUrl;
+			$scope.numElements = index === 2 ?
+				($scope.isLegalAdult() ? 1 : 2) :
+				$scope.formSections[index].baseFieldCount;
 
 			$scope.visitedSections[index] = true;
 			$scope.submitted = false;
+		};
+
+		$scope.focusNext = function() {
+			if ($scope.currentFocusIndex < $scope.numElements - 1) {
+				$scope.currentFocusIndex++;
+			}
+		};
+
+		$scope.focusPrevious = function() {
+			if ($scope.currentFocusIndex > 0) {
+				$scope.currentFocusIndex--;
+			}
+		};
+
+		$scope.setFocus = function(index) {
+			$scope.currentFocusIndex = index;
 		};
 
 		$scope.getFormattedEmailList = function() {
@@ -97,20 +119,6 @@
 		$scope.registrationSuccess = false;
 		$scope.registrationFailure = false;
 
-		$scope.phoneNumberPattern = (function() {
-			return {
-				test: function(value) {
-					//Remove all parentheses, spaces, and dashes ==> normalize the input for validation
-					value = value.split(' ').join('');
-					value = value.split('(').join('');
-					value = value.split(')').join('');
-					value = value.split('-').join('');
-
-					return /^[0-9]{10}$/.test(value);
-				}
-			};
-		})();
-
 		$scope.registrationInfo = {
 			emails: [{email: '', isNew: true}]
 		};
@@ -119,22 +127,26 @@
 		$scope.formSections = [
 			{
 				name: 'Basic Information',
-				templateUrl: 'registration/basic_info/basic_info.html'
+				templateUrl: 'registration/basic_info/basic_info.html',
+				baseFieldCount: 11
 			},
 			{
 				name: 'Emergency Contacts',
-				templateUrl: 'registration/emergency_contacts/emergency_contacts.html'
+				templateUrl: 'registration/emergency_contacts/emergency_contacts.html',
+				baseFieldCount: 6
 			},
 			{
 				name: 'Waiver Signature',
-				templateUrl: 'registration/waiver/waiver_sign.html'
+				templateUrl: 'registration/waiver/waiver_sign.html',
 			},
 			{
 				name: 'Review Registration',
-				templateUrl: 'registration/review/reviewRegistration.html'
+				templateUrl: 'registration/review/reviewRegistration.html',
+				baseFieldCount: 1
 			}
 		];
 
+		$scope.currentFocusIndex = 0;
 		$scope.currentSelectionIndex = 0;
 		$scope.selectFormSection($scope.currentSelectionIndex);
 

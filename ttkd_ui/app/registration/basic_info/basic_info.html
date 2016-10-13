@@ -6,6 +6,8 @@
 			name="program"
 			placeholder="Select a Program"
 			ng-model="registrationInfo.program"
+			form-focus="currentFocusIndex === 0"
+			ng-focus="setFocus(0)"
 			ng-required="true"
 			ng-options="program as program.name for program in programs track by program.id">
 			<option value="">Select a Program</option>
@@ -27,6 +29,8 @@
 			name="firstName"
 			class="form-control"
 			placeholder="First Name"
+			form-focus="currentFocusIndex === 1"
+			ng-focus="setFocus(1)"
 			ng-required="true"
 			ng-model="registrationInfo.firstName">
 		<span class="input-group-addon">
@@ -46,6 +50,8 @@
 			name="lastName"
 			class="form-control"
 			placeholder="Last Name"
+			form-focus="currentFocusIndex === 2"
+			ng-focus="setFocus(2)"
 			ng-required="true"
 			ng-model="registrationInfo.lastName">
 		<span class="input-group-addon">
@@ -61,7 +67,14 @@
 		ng-class="{'has-error': registrationForm.dob.$invalid && !registrationForm.dob.$pristine && submitted}">
 	<label >Date of Birth</label>
 	<div class="input-group col-sm-12">
-		<input class="form-control" type="date" name="dob" ng-required="true" ng-model="registrationInfo.dob">
+		<input
+			class="form-control"
+			type="date"
+			name="dob"
+			form-focus="currentFocusIndex === 3"
+			ng-focus="setFocus(3)"
+			ng-required="true"
+			ng-model="registrationInfo.dob">
 		<span class="input-group-addon">
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
@@ -80,6 +93,8 @@
 			name="street"
 			class="form-control"
 			placeholder="Address"
+			form-focus="currentFocusIndex === 4"
+			ng-focus="setFocus(4)"
 			ng-required="true"
 			ng-model="registrationInfo.street">
 		<span class="input-group-addon">
@@ -102,6 +117,8 @@
 				class="form-control"
 				ng-required="true"
 				placeholder="City"
+				form-focus="currentFocusIndex === 5"
+				ng-focus="setFocus(5)"
 				ng-model="registrationInfo.city">
 			<span class="input-group-addon">
 				<i class="glyphicon glyphicon-asterisk"></i>
@@ -119,6 +136,8 @@
 				class="form-control"
 				name="state"
 				placeholder="Select a State"
+				form-focus="currentFocusIndex === 6"
+				ng-focus="setFocus(6)"
 				ng-model="registrationInfo.state"
 				ng-required="true"
 				ng-options="state as state.name for state in states track by state.value">
@@ -142,6 +161,8 @@
 				ng-required="true"
 				class="form-control input-group"
 				placeholder="ZIP Code"
+				form-focus="currentFocusIndex === 7"
+				ng-focus="setFocus(7)"
 				ng-model="registrationInfo.zipcode"
 				ng-pattern="/^[0-9]{5}$/">
 			<span class="input-group-addon">
@@ -162,15 +183,17 @@
 			name="primaryPhone"
 			class="form-control"
 			placeholder="Primary Phone Number"
+			form-focus="currentFocusIndex === 8"
+			ng-focus="setFocus(8)"
 			ng-required="true"
-			ng-pattern="phoneNumberPattern"
+			ng-pattern="/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/"
 			ng-model="registrationInfo.primaryPhone">
 		<span class="input-group-addon">
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
 	</div>
 	<span class="help-block" ng-show="registrationForm.primaryPhone.$invalid && submitted">
-		Must enter a valid, 10-digit, phone number
+		Must enter a valid, 10-digit, phone number (e.g. 123-456-7890)
 	</span>
 </div>
 
@@ -181,10 +204,12 @@
 		name="secondaryPhone"
 		class="form-control"
 		placeholder="Secondary Phone Number"
-		ng-pattern="phoneNumberPattern"
+		form-focus="currentFocusIndex === 9"
+		ng-focus="setFocus(9)"
+		ng-pattern="/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/"
 		ng-model="registrationInfo.secondaryPhone">
-	<span class="help-block" ng-show="registrationForm.primaryPhone.$invalid && submitted">
-		Must enter a valid, 10-digit, phone number
+	<span class="help-block" ng-show="registrationForm.secondaryPhone.$invalid && submitted">
+		Must enter a valid, 10-digit, phone number (e.g. 123-456-7890)
 	</span>
 </div>
 
@@ -211,6 +236,8 @@
 			name="email{{$index}}"
 			class="form-control"
 			placeholder="Email Address"
+			form-focus="currentFocusIndex === (10 + $index)"
+			ng-focus="setFocus(10 + $index)"
 			ng-required="true"
 			ng-model="registrationInfo.emails[$index].email">
 		<span class="input-group-addon">

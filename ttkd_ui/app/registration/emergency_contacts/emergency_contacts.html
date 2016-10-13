@@ -13,6 +13,8 @@
 			ng-required="true"
 			class="form-control"
 			placeholder="Full Name"
+			form-focus="currentFocusIndex === 0"
+			ng-focus="setFocus(0)"
 			ng-model="registrationInfo.emPrimaryFullName">
 		<span class="input-group-addon">
 			<i class="glyphicon glyphicon-asterisk"></i>
@@ -35,7 +37,9 @@
 				ng-required="true"
 				class="form-control input-group"
 				placeholder="Phone Number"
-				ng-pattern="phoneNumberPattern"
+				form-focus="currentFocusIndex === 1"
+				ng-focus="setFocus(1)"
+				ng-pattern="/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/"
 				ng-model="registrationInfo.emPrimaryPhone">
 			<span class="input-group-addon">
 				<i class="glyphicon glyphicon-asterisk"></i>
@@ -44,7 +48,7 @@
 		<span
 			class="help-block"
 			ng-show="registrationForm.emPrimaryPhone.$invalid && submitted">
-			Must enter a valid phone number
+			Must enter a valid phone number (e.g. 123-456-7890)
 		</span>
 	</div>
 	<div
@@ -57,6 +61,8 @@
 				ng-required="true"
 				class="form-control input-group"
 				placeholder="Relationship"
+				form-focus="currentFocusIndex === 2"
+				ng-focus="setFocus(2)"
 				ng-model="registrationInfo.emPrimaryRelationship">
 			<span class="input-group-addon">
 				<i class="glyphicon glyphicon-asterisk"></i>
@@ -86,6 +92,8 @@
 			ng-required="true"
 			class="col-xs-12 form-control spacer-25"
 			placeholder="Full Name"
+			form-focus="currentFocusIndex === 3"
+			ng-focus="setFocus(3)"
 			ng-model="registrationInfo.emSecondaryFullName">
 		<span class="input-group-addon">
 			<i class="glyphicon glyphicon-asterisk"></i>
@@ -108,7 +116,9 @@
 				ng-required="true"
 				class="form-control input-group"
 				placeholder="Phone Number"
-				ng-pattern="phoneNumberPattern"
+				form-focus="currentFocusIndex === 4"
+				ng-focus="setFocus(4)"
+				ng-pattern="/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/"
 				ng-model="registrationInfo.emSecondaryPhone">
 			<span class="input-group-addon">
 				<i class="glyphicon glyphicon-asterisk"></i>
@@ -117,7 +127,7 @@
 		<span
 			class="help-block"
 			ng-show="registrationForm.emSecondaryPhone.$invalid && submitted">
-			Must enter a valid phone number
+			Must enter a valid phone number (e.g. 123-456-7890)
 		</span>
 	</div>
 	<div
@@ -130,6 +140,8 @@
 				ng-required="true"
 				class="form-control input-group"
 				placeholder="Relationship"
+				form-focus="currentFocusIndex === 5"
+				ng-focus="setFocus(5)"
 				ng-model="registrationInfo.emSecondaryRelationship">
 			<span class="input-group-addon">
 				<i class="glyphicon glyphicon-asterisk"></i>

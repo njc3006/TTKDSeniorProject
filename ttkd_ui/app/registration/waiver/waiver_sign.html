@@ -8,6 +8,8 @@
 			name="participantSignature"
 			class="form-control spacer-25"
 			placeholder="Participant Signature"
+			form-focus="currentFocusIndex === 0"
+			ng-focus="setFocus(0)"
 			ng-model="registrationInfo.participantSignature"
 			ng-required="true">
 		<span class="input-group-addon">
@@ -21,6 +23,7 @@
 
 <div class="spacer-25"
 	ng-if="!isLegalAdult()"
+	ng-init="numElements = 2"
 	ng-class="{'has-error': registrationForm.guardianSignature.$invalid && submitted}">
 	<div class="input-group col-sm-12">
 		<input
@@ -28,6 +31,8 @@
 			name="guardianSignature"
 			class="form-control"
 			placeholder="Guardian Signature"
+			form-focus="currentFocusIndex === 1"
+			ng-focus="setFocus(1)"
 			ng-model="registrationInfo.guardianSignature"
 			ng-required="true">
 		<span class="input-group-addon">
