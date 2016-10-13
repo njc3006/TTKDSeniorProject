@@ -158,10 +158,9 @@
 		});
 	}
 
-	RegistrationController.$inject = ['$scope', 'RegistrationSvc', 'ProgramsSvc', 'StateSvc'];
 	angular.module('ttkdApp.registationCtrl', [
 		'ttkdApp.registrationSvc',
 		'ttkdApp.stateService',
 		'ttkdApp.programsSvc'
-	]).controller('RegistrationCtrl', RegistrationController);
+	]).controller('RegistrationCtrl', ['$scope', 'RegistrationSvc', 'ProgramsSvc', 'StateSvc', RegistrationController]);
 })();
