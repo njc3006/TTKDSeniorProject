@@ -37,7 +37,19 @@
 		};
 	}
 
-	function RegistrationController($scope, RegistrationService, ProgramsService, StateService) {
+	function RegistrationController($scope, $timeout, RegistrationService, ProgramsService, StateService) {
+		function resetForm() {
+			$scope.registrationSuccess = false;
+			$scope.registrationFailure = false;
+
+			$scope.visitedSections = {};
+			$scope.registrationInfo = {
+				emails: [{email: '', isNew: true}]
+			};
+
+			$scope.selectFormSection(0);
+		};
+
 		$scope.isLegalAdult = function() {
 			var ageInYears = (new Date()).getFullYear() - $scope.registrationInfo.dob.getFullYear();
 
@@ -71,7 +83,12 @@
 				} else {
 					var registrationPayload = createRegistrationPayload($scope.registrationInfo);
 					RegistrationService.registerStudent(registrationPayload).then(function(response) {
+						resetForm();
+
 						$scope.registrationSuccess = true;
+						$timeout(function() {
+							$scope.registrationSuccess = false;
+						}, 2000);
 					}, function(error) {
 						$scope.registrationFailure = true;
 						console.error(error);
@@ -174,5 +191,12 @@
 		'ttkdApp.registrationSvc',
 		'ttkdApp.stateService',
 		'ttkdApp.programsSvc'
-	]).controller('RegistrationCtrl', ['$scope', 'RegistrationSvc', 'ProgramsSvc', 'StateSvc', RegistrationController]);
+	]).controller('RegistrationCtrl', [
+		'$scope',
+		'$timeout',
+		'RegistrationSvc',
+		'ProgramsSvc',
+		'StateSvc',
+		RegistrationController
+	]);
 })();
