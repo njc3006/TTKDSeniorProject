@@ -3,6 +3,8 @@ ttkd_api URL Configuration
 """
 from django.conf.urls import url, include
 from rest_framework import routers
+from django.conf.urls.static import static
+from django.conf import settings
 
 # Import ViewSets
 from .views.attendance_record_views import AttendanceRecordViewSet
@@ -25,4 +27,4 @@ router.register(r'emails', EmailViewSet)
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
