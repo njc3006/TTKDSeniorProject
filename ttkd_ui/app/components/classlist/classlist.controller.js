@@ -8,6 +8,7 @@
         $scope.sortAZ = true;
         $scope.showActive = true;
         $scope.showInactive = false;
+        $scope.present = false;
 
         $scope.sortDisplayString = "A-Z";
         $scope.classes = [];
@@ -42,7 +43,6 @@
                     console.log(response.data);
                     $scope.currentClass = $scope.classes[1];
                     $scope.getStudents($scope.currentClass.id);
-
             });        
         };
 
@@ -58,7 +58,13 @@
             ClassListService.getAllStudents(classId).then(
                 function(response){
                     $scope.people = response.data;
-                    console.log(response.data);
+
+                    //Until we have picture working this is the default picture for testing/layout
+                    angular.forEach($scope.people, function(value){
+                        value.picture = 'http://placehold.it/110x110';
+                    });
+
+                    console.log($scope.people);
             });
         }
 

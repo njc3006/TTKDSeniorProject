@@ -60,3 +60,17 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 	position: fixed;
 	right: 0;
 }
+
+//Custom styles for the class list page
+.entry span {
+	padding-right: 20px;
+}
+
+.entry div{
+	padding-left: 30px;
+}
+
+.entry-picture {
+	margin-top: 30px;
+	margin-right: 5px;
+}
