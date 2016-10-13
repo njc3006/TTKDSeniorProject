@@ -7,12 +7,10 @@
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
-      //you can set this to no template if you just want to use the html in the page
-      
-
       .state('home', {
         url: '/',
         templateUrl: 'home/home.html',
+        controller: 'HomeCtrl',
         data: {
           pageTitle: 'Home'
         }
@@ -34,7 +32,13 @@
       })
 
       .state('classlist', {
-        url: '/classlist',
+        url: '/classlist/{classId:int}',
+        templateUrl: 'components/classlist/classlist.html',
+        controller: 'ClassListCtrl'
+      })
+
+      .state('studentlist', {
+        url: '/studentlist',
         templateUrl: 'components/classlist/classlist.html',
         controller: 'ClassListCtrl'
       });
