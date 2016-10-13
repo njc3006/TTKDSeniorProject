@@ -1,33 +1,35 @@
 <div class="container-fluid">
-	<div class="row">
+	<div class="row filter-bar">
 		<div class="col-xs-1">
-			<select ng-model="currentClass" ng-change="setDisplayedStudents()"
+			<div class="btn btn-primary" ng-click="toggleSortAlpha()">{{sortDisplayString}}</div>
+		</div>
+		<div class="col-xs-2">
+			<select class="form-control" ng-model="currentClass" ng-change="setDisplayedStudents()"
 			ng-options="class.name for class in classes">
 				<option value="">Select Class</option>
 			</select>
 		</div>
-		<div class="col-xs-1">
-			<div class="btn btn-primary" ng-click="toggleSortAlpha()">{{sortDisplayString}}</div>
-		</div>
-		<div class="col-xs-1">
-			<input type="checkbox" name="activeBox" ng-model="filters.showActive" ng-click="setDisplayedStudents()"> Active
-		</div>
-		<div class="col-xs-1">
-			<input type="checkbox" name="inactiveBox" ng-model="filters.showInactive" ng-click="setDisplayedStudents()"> Inactive
-		</div>
-		<div class="col-xs-1">
-			<input type="checkbox" name="presentBox" ng-model="filters.showPresent" ng-click=""> Present
-		</div>
-		<div class="col-xs-1">
-			<select ng-model="currentBelt" ng-options="belt as belt for belt in belts">
+		<div class="col-xs-2">
+			<select class="form-control" ng-model="currentBelt" ng-options="belt as belt for belt in belts">
 				<option value="">Select Belt</option>
 			</select>
 		</div>
-		<div class="col-xs-1">
-			<input type="search" name="searchbox">
+		<div class="col-xs-3 checkboxes">
+			<span class="checkbox-inline">
+				<label><input type="checkbox" name="activeBox" id="activeBox" ng-model="filters.showActive" ng-click="setDisplayedStudents()">Active</label>
+			</span>
+			<span class="checkbox-inline">
+				<label><input type="checkbox" name="inactiveBox" ng-model="filters.showInactive" ng-click="setDisplayedStudents()">Inactive</label>
+			</span>
+			<span class="checkbox-inline">
+				<label><input type="checkbox" name="presentBox" ng-model="filters.showPresent" ng-click="">Present</label>
+			</span>
 		</div>
-		<div class="col-xs-1">
-			<input type="date" name="date">
+		<div class="col-xs-2">
+			<input type="search" class="form-control" placeholder="Search" name="searchbox">
+		</div>
+		<div class="col-xs-2">
+			<input type="date" class="form-control" name="date">
 		</div>
 	</div>
 
@@ -37,7 +39,6 @@
 				<img ng-src="{{p.picture}}">
 			</div>
 			<div class="col-xs-8 entry">
-				
 				<div class="row"><h2>{{p.first_name}} {{p.last_name}}</h2></div>
 				<div class="row spacer-20">
 					<span class="testing">Email: placeholderEmail@gmail.com</span>
