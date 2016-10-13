@@ -1,5 +1,7 @@
 # ignore django database
 *.sqlite3
+ttkd_api/static/*
+!ttkd_api/static/.gitkeep
 
 #####################################################################
 # Github Recommended Python .gitignore
