@@ -32,10 +32,18 @@
 		</form>
 	</div>
 	<div class="col-md-3 col-sm-3 form-scroll-buttons">
-		<button type="button" class="btn btn-primary btn-large col-sm-5 col-md-5">
+		<button
+			type="button"
+			class="btn btn-primary btn-large col-sm-5 col-md-5"
+			ng-click="focusPrevious()"
+			ng-disabled="numElements === 1 || currentFocusIndex === 0">
 			Previous
 		</button>
-		<button type="button" class="btn btn-primary btn-large col-sm-5 col-md-5 pull-right">
+		<button
+			type="button"
+			class="btn btn-primary btn-large col-sm-5 col-md-5 pull-right"
+			ng-click="focusNext()"
+			ng-disabled="numElements === 1 || currentFocusIndex === (numElements - 1)">
 			Next
 		</button>
 	</div>
