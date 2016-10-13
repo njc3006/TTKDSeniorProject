@@ -17,7 +17,6 @@ var run = require('gulp-run');
 var ngConstant = require('gulp-ng-constant');
 
 const config = require('./gulp.config');
-const BUILD_DIR = argv.production ? config.buildDirProd : config.buildDirDev;
 
 gulp.task('clean', function (cb) {
     del([
@@ -28,7 +27,7 @@ gulp.task('clean', function (cb) {
 gulp.task( 'server', ['build'], function() {
 	connect.server({
 		port: 3000,
-		root: BUILD_DIR,
+		root: config.buildDir,
 		livereload: true
 	});
 });
@@ -45,7 +44,7 @@ gulp.task('scss', [], function(done) {
       keepSpecialComments: 0
     }))
     .pipe(rename({ extname: '.css' }))
-    .pipe(gulp.dest(BUILD_DIR + '/css'))
+    .pipe(gulp.dest(config.buildDir + '/css'))
 		.pipe(connect.reload())
     .on('end', done);
 });
@@ -66,7 +65,7 @@ gulp.task('build-templates', [], function(done) {
 	    .pipe(concat('partials.js'))
 	    .pipe(uglify())
 		.pipe(sourcemaps.write('../maps'))
-    .pipe(gulp.dest(BUILD_DIR + '/js'))
+    .pipe(gulp.dest(config.buildDir + '/js'))
 		.pipe(connect.reload())
 		.on('end', done);
 });
@@ -79,14 +78,14 @@ gulp.task('build-form-config', [], function(done) {
 			wrap: false
 		}))
 		.pipe(uglify())
-		.pipe(gulp.dest(BUILD_DIR + '/js'))
+		.pipe(gulp.dest(config.buildDir + '/js'))
 		.pipe(connect.reload())
 		.on('end', done);
 });
 
 gulp.task('build-fonts', [], function(done) {
   gulp.src(config.fontFiles)
-    .pipe(gulp.dest(BUILD_DIR + '/css/lib'))
+    .pipe(gulp.dest(config.buildDir + '/css/lib'))
     .on('end', done);
 });
 
@@ -95,7 +94,7 @@ gulp.task('build-js-libs', [], function(done) {
 		gulp.src(config.bowerPaths)
 			.pipe(concat('vendor.js'))
 			.pipe(uglify())
-			.pipe(gulp.dest(BUILD_DIR + '/js'))
+			.pipe(gulp.dest(config.buildDir + '/js'))
 			.pipe(connect.reload())
 			.on('end', done);
 	} else {
@@ -104,7 +103,7 @@ gulp.task('build-js-libs', [], function(done) {
 				.pipe(concat('vendor.js'))
 				.pipe(uglify())
 			.pipe(sourcemaps.write('../maps'))
-			.pipe(gulp.dest(BUILD_DIR + '/js'))
+			.pipe(gulp.dest(config.buildDir + '/js'))
 			.pipe(connect.reload())
 			.on('end', done);
 	}
@@ -116,17 +115,15 @@ gulp.task('build-js', [], function(done) {
 			.pipe(concat('app.js'))
 			.pipe(uglify())
 		.pipe(sourcemaps.write('../maps'))
-		.pipe(gulp.dest(BUILD_DIR + '/js'))
+		.pipe(gulp.dest(config.buildDir + '/js'))
 		.pipe(connect.reload())
 		.on('end', done);
 });
 
 gulp.task('build-static', [], function(done) {
-	var indexFile = argv.production ? './app/index_prod.html' : './app/index_dev.html';
-
-	gulp.src([indexFile])
+	gulp.src('./app/index.html')
 		.pipe(rename('index.html'))
-		.pipe(gulp.dest(BUILD_DIR))
+		.pipe(gulp.dest(config.buildDir))
 		.pipe(connect.reload())
 		.on('end', done);
 })

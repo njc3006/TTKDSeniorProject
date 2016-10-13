@@ -1,8 +1,7 @@
 var path = require('path');
 
 module.exports = {
-	buildDirProd: path.normalize('../ttkd_api/ttkd_api/dist'),
-	buildDirDev: 'dist',
+	buildDir: 'dist',
 	bowerPaths: [
 		'./app/lib/moment.js',
 		'./app/lib/angular/angular.min.js',
@@ -19,7 +18,7 @@ module.exports = {
 	fontFiles: [
 		'./app/lib/**/*.woff',
 		'./app/lib/**/*.woff2',
-		'./app/lib/**/*.ttf' 
+		'./app/lib/**/*.ttf'
 	],
 
 	sourceSassPaths: ['./app/**/*.scss']
