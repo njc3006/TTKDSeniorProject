@@ -1,7 +1,8 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-xs-2">
-			<select ng-model="currentClass" ng-options="class as class.name for class in classes">{{class.name}}
+			<select ng-model="currentClass" ng-change="updateCurrentClass(currentClass)"
+			ng-options="class.name for class in classes">{{class.name}}
 			</select>
 		</div>
 		<div class="col-xs-1">
@@ -13,7 +14,7 @@
 		<div class="col-xs-1">
 			<input type="checkbox" name="inactiveBox" value="showInactive"> Inactive
 		</div>
-		<div class="col-xs-2">
+		<div class="col-xs-1">
 			<select ng-model="currentBelt" ng-options="belt as belt for belt in belts">
 				<option value="">Select Belt</option>
 			</select>
@@ -27,26 +28,26 @@
 	</div>
 	
 	<div class="row">
-		<div class="col-xs-12" ng-repeat="person in people">
+		<div class="col-xs-12" ng-repeat="p in people">
 			<div class="col-xs-2">
 				<img ng-src="{{person.picture}}">
 			</div>
 			<div class="col-xs-10">
 				
-				<div class="row">{{person.name}}</div>
+				<div class="row">{{p.person.first_name}} {{p.person.last_name}}</div>
 				<div class="row">
-					{{person.email}}
-					{{person.phone}}
+					{{p.person.emails[0]}}
+					{{p.person.primary_phone}}
 				</div>
 				<div class="row">
 					Emergency Contact 1: 
-					{{person.emgContact1}}
-					{{person.emgPhone1}}
+					{{p.person.emgContact1}}
+					{{p.person.emgPhone1}}
 				</div>
 				<div class="row">
 					Emergency Contact 2: 
-					{{person.emgContact2}}
-					{{person.emgPhone2}}
+					{{p.person.emgContact2}}
+					{{p.person.emgPhone2}}
 				</div>
 			</div>
 		</div>

@@ -4,6 +4,7 @@
 
     .controller('ClassListCtrl', ['$scope', 'ClassListService' , function($scope, ClassListService) {
         $scope.people = [];
+        $scope.allPeople = [];
         $scope.sortAZ = true;
         $scope.showActive = true;
         $scope.showInactive = false;
@@ -24,10 +25,14 @@
             'black'
         ];
 
-
         $scope.toggleSortAlpha = function(){
             $scope.sortAZ = !$scope.sortAZ;
             $scope.sortDisplayString = $scope.sortAZ ? "A-Z" : "Z-A";   //toggle the displayed string
+        };
+
+        $scope.updateCurrentClass = function(curClass){
+            console.log(curClass);
+            $scope.getStudents(curClass.id);
         };
 
         $scope.getClassList = function(){
@@ -36,16 +41,26 @@
                     $scope.classes = response.data;
                     console.log(response.data);
                     $scope.currentClass = $scope.classes[1];
+                    $scope.getStudents($scope.currentClass.id);
 
-                });        
+            });        
         };
 
         $scope.getPeople = function(){
-            ClassListService.getAllPersons().then(
+            ClassListService.getAllPeople().then(
+                function(response){
+                    $scope.allPeople = response.data;
+                    console.log(response.data);
+            });
+        };
+
+        $scope.getStudents = function(classId){
+            ClassListService.getAllStudents(classId).then(
                 function(response){
                     $scope.people = response.data;
-                });
-        };
+                    console.log(response.data);
+            });
+        }
 
         $scope.getClassList();
 
