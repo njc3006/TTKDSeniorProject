@@ -8,6 +8,6 @@
 	}
 
 	ProgramsService.$inject = ['$http', 'apiHost'];
-	angular.module('ttkdApp.programsService', ['ttkdApp.constants'])
+	angular.module('ttkdApp.programsSvc', ['ttkdApp.constants'])
 		.factory('ProgramsSvc', ProgramsService);
 })();
