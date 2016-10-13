@@ -9,13 +9,13 @@
 			<div class="btn btn-primary" ng-click="toggleSortAlpha()">{{sortDisplayString}}</div>
 		</div>
 		<div class="col-xs-1">
-			<input type="checkbox" name="activeBox" value="showActive"> Active
+			<input type="checkbox" name="activeBox" ng-model="filters.showActive" ng-click="getStudents(currentClass.id)"> Active
 		</div>
 		<div class="col-xs-1">
-			<input type="checkbox" name="inactiveBox" value="showInactive"> Inactive
+			<input type="checkbox" name="inactiveBox" ng-model="filters.showInactive" ng-click="getStudents(currentClass.id)"> Inactive
 		</div>
 		<div class="col-xs-1">
-			<input type="checkbox" name="presentBox" value="showPresent"> Present
+			<input type="checkbox" name="presentBox" ng-model="filters.showPresent" ng-click="getStudents(currentClass.id)"> Present
 		</div>
 		<div class="col-xs-1">
 			<select ng-model="currentBelt" ng-options="belt as belt for belt in belts">

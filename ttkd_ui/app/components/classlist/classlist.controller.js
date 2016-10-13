@@ -6,12 +6,14 @@
         $scope.people = [];
         $scope.allPeople = [];
         $scope.sortAZ = true;
-        $scope.showActive = true;
-        $scope.showInactive = false;
-        $scope.present = false;
-
         $scope.sortDisplayString = "A-Z";
         $scope.classes = [];
+
+        $scope.filters = {
+            showActive: true,
+            showInactive: false,
+            showPresent: false
+        };
 
         $scope.belts = [
             'white',
@@ -31,6 +33,23 @@
             $scope.sortDisplayString = $scope.sortAZ ? "A-Z" : "Z-A";   //toggle the displayed string
         };
 
+        $scope.updateDisplayed = function(){
+            filteredStudents = [];
+            console.log($scope.people);
+            angular.forEach($scope.people, function(value, key){
+                if($scope.filters.showActive && value.person.active === $scope.filters.showActive){
+                    filteredStudents.push(value);
+                }
+                else if($scope.filters.showInactive && !value.person.active === $scope.filters.showInactive){
+                    filteredStudents.push(value);
+                }
+
+                //needs to include 'present' 
+            });
+
+            $scope.people = filteredStudents;
+        }
+
         $scope.updateCurrentClass = function(curClass){
             console.log(curClass);
             $scope.getStudents(curClass.id);
@@ -40,7 +59,6 @@
             ClassListService.getClassList().then(
                 function(response){
                     $scope.classes = response.data;
-                    console.log(response.data);
                     $scope.currentClass = $scope.classes[1];
                     $scope.getStudents($scope.currentClass.id);
             });        
@@ -50,11 +68,11 @@
             ClassListService.getAllPeople().then(
                 function(response){
                     $scope.allPeople = response.data;
-                    console.log(response.data);
             });
         };
 
         $scope.getStudents = function(classId){
+            console.log(classId);
             ClassListService.getAllStudents(classId).then(
                 function(response){
                     $scope.people = response.data;
@@ -64,7 +82,7 @@
                         value.picture = 'http://placehold.it/110x110';
                     });
 
-                    console.log($scope.people);
+                    $scope.updateDisplayed();
             });
         }
 
