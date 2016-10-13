@@ -12,8 +12,7 @@
 		'ttkdApp.checkinCtrl',
 		'ttkdApp.partials',
 		'ttkdApp.homeCtrl',
-		'ttkdApp.stateService',
-		'ttkdApp.programsService'
+		'ttkdApp.registationCtrl',
     ]
   );
 })();

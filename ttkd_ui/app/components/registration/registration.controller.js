@@ -127,21 +127,21 @@
 		$scope.formSections = [
 			{
 				name: 'Basic Information',
-				templateUrl: 'registration/basic_info/basic_info.html',
+				templateUrl: 'components/registration/basic_info/basic_info.html',
 				baseFieldCount: 11
 			},
 			{
 				name: 'Emergency Contacts',
-				templateUrl: 'registration/emergency_contacts/emergency_contacts.html',
+				templateUrl: 'components/registration/emergency_contacts/emergency_contacts.html',
 				baseFieldCount: 6
 			},
 			{
 				name: 'Waiver Signature',
-				templateUrl: 'registration/waiver/waiver_sign.html',
+				templateUrl: 'components/registration/waiver/waiver_sign.html',
 			},
 			{
 				name: 'Review Registration',
-				templateUrl: 'registration/review/reviewRegistration.html',
+				templateUrl: 'components/registration/review/reviewRegistration.html',
 				baseFieldCount: 1
 			}
 		];
@@ -159,6 +159,9 @@
 	}
 
 	RegistrationController.$inject = ['$scope', 'RegistrationSvc', 'ProgramsSvc', 'StateSvc'];
-	angular.module('ttkdApp')
-		.controller('RegistrationCtrl', RegistrationController);
+	angular.module('ttkdApp.registationCtrl', [
+		'ttkdApp.registrationSvc',
+		'ttkdApp.stateService',
+		'ttkdApp.programsSvc'
+	]).controller('RegistrationCtrl', RegistrationController);
 })();
