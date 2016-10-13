@@ -13,13 +13,25 @@
 				'first_name': registrationInfo.firstName,
 				'last_name': registrationInfo.lastName,
 				'dob': registrationInfo.dob.getFullYear() + '-' + formattedMonth + '-' + formattedDate,
-				'primary_phone': registrationInfo.primaryPhone,
-				'secondary_phone': registrationInfo.secondaryPhone || '',
+				'primary_phone': registrationInfo.primaryPhone.replace(new RegExp('-', 'g'), ''),
+				'secondary_phone': registrationInfo.secondaryPhone.replace(new RegExp('-', 'g'), '') || '',
 				'street': registrationInfo.street,
 				'city': registrationInfo.city,
 				'zipcode': parseInt(registrationInfo.zipcode),
 				'state': registrationInfo.state.value,
-				'emails': registrationInfo.emails.map(function(email) { return {email: email.email}; })
+				'emails': registrationInfo.emails.map(function(email) { return {email: email.email}; }),
+				'emergency_contacts': [
+					{
+						'full_name': registrationInfo.emPrimaryFullName,
+						'phone_number': registrationInfo.emPrimaryPhone.replace(new RegExp('-', 'g'), ''),
+						'relation': registrationInfo.emPrimaryRelationship
+					},
+					{
+						'full_name': registrationInfo.emSecondaryFullName,
+						'phone_number': registrationInfo.emSecondaryPhone.replace(new RegExp('-', 'g'), ''),
+						'relation': registrationInfo.emSecondaryRelationship
+					}
+				]
 			},
 			'program': registrationInfo.program.id
 		};
