@@ -9,7 +9,11 @@
 				return $http.get('http://localhost:8000/api/persons/');
 			},
 
-			getAllStudents: function(programId) {
+			getAllStudents: function() {
+				return $http.get('http://localhost:8000/api/students');
+			},
+
+			getStudentsFromClass: function(programId) {
 				return $http.get('http://localhost:8000/api/students/?program=' + programId);
 			}
 		};
