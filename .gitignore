@@ -2,6 +2,8 @@
 *.sqlite3
 ttkd_api/static/*
 !ttkd_api/static/.gitkeep
+*.zip
+!python-dist.zip
 
 #####################################################################
 # Github Recommended Python .gitignore
