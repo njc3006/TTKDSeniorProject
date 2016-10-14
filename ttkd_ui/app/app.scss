@@ -35,8 +35,6 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 /* Import Component SCSS */
 @import "./components/nav/nav";
 
-/* Adjust layout */
-
 // Push containers below navbar
 #appContainer {
 	padding-top: 70px;
@@ -46,14 +44,13 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 	margin-bottom: 20px;
 }
 
-//Custom styles for waiver text
-.waiver,
-.review {
-	margin-bottom: 35px;
+.spacer-25 {
+	margin-bottom: 25px;
 }
 
-.form-button {
-	height: 100px;
+//Custom styles for waiver text
+.spacer-35 {
+	margin-bottom: 35px;
 }
 
 .form-scroll-buttons {
