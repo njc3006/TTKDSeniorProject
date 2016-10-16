@@ -9,7 +9,15 @@
 			<a href="" class="thumbnail" ng-click="openCheckinPrompt(person)">
 				<img ng-src="{{person.picture}}">
 				<div class="caption">
-					<span class="person-name">{{person.name}}</span>
+					<span class="person-name">{{person.first_name}} {{person.last_name}}</span>
+				</div>
+			</a>
+		</div>
+		<div class="col-xs-2 right" ng-repeat="person in checkedInPeople">
+			<a href="" class="thumbnail checked-in-student">
+				<img ng-src="{{person.picture}}">
+				<div class="caption">
+					<span class="person-name">{{person.first_name}} {{person.last_name}}</span>
 				</div>
 			</a>
 		</div>
