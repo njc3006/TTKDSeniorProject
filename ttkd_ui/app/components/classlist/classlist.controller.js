@@ -11,6 +11,7 @@
         $scope.classes = [];
         $scope.currentBelt = null;
         $scope.currentClass = null;
+        $scope.query = {};
 
         $scope.filters = {
             showActive: true,
@@ -19,16 +20,16 @@
         };
 
         $scope.belts = [
-            'white',
-            'orange',
-            'yellow',
-            'green',
-            'purple',
-            'blue',
-            'brown',
-            'red',
-            'red/black',
-            'black'
+            'White',
+            'Yellow',
+            'Orange',
+            'Green',
+            'Blue',
+            'Purple',
+            'Red',
+            'Brown',
+            'Hi-Brown',
+            'Provisional'
         ];
 
         //switches the displayed sort order
