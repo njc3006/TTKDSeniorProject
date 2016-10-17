@@ -14,4 +14,4 @@ class AttendanceRecordViewSet(viewsets.ModelViewSet):
     queryset = AttendanceRecord.objects.all()
     serializer_class = AttendanceRecordSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('person', 'program', 'time',)
+    filter_fields = ('person', 'program', 'date',)

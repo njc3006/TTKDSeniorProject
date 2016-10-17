@@ -34,6 +34,7 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 
 /* Import Component SCSS */
 @import "./components/nav/nav";
+@import "./components/checkin/checkin";
 
 // Push containers below navbar
 #appContainer {

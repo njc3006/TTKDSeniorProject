@@ -14,6 +14,6 @@ class PersonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Person
-        fields = ('first_name', 'last_name', 'dob', 'primary_phone', 'secondary_phone', 'street',
-                  'city', 'zipcode', 'state', 'belt', 'stripes', 'extra_strips', 'misc_notes',
-                  'active', 'emails', 'emergency_contacts')
+        fields = ('id', 'first_name', 'last_name', 'dob', 'primary_phone', 'secondary_phone',
+                  'street', 'city', 'zipcode', 'state', 'belt', 'stripes', 'extra_strips',
+                  'misc_notes', 'active', 'emails', 'emergency_contacts')
