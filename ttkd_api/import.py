@@ -123,25 +123,36 @@ for line in open('attendance.csv'):
 
     pk += 1
 
-import_file = open('data.json','r').read()[:-1]
+import_file = open('dump.json','r').read()[:-1]
 
+email_pk = 0
 for student_key in students.keys():
-    import_file += ', {"model": "ttkd_api.person", '
-    import_file += '"pk": ' + str(students[student_key]['pk']) + ', '
-    import_file += '"fields": {"first_name": "' + students[student_key]['first_name'] + '", '
-    import_file += '"last_name": "' + students[student_key]['last_name'] + '", '
-    import_file += '"dob": "' + students[student_key]['dob'] + '", '
-    import_file += '"primary_phone": "' + students[student_key]['primary_phone'] + '", '
-    import_file += '"secondary_phone": "' + students[student_key]['secondary_phone'] + '", '
-    import_file += '"street": "' + students[student_key]['steet'] + '", '
-    import_file += '"city": "' + students[student_key]['city'] + '", '
-    import_file += '"zipcode": "' + students[student_key]['zipcode'] + '", '
-    import_file += '"state": "' + students[student_key]['state'] + '", '
-    import_file += '"belt": null, '
-    import_file += '"stripes": null, '
-    import_file += '"extra_strips": null, '
-    import_file += '"misc_notes": "", '
-    import_file += '"active": true}}'
+    student_info = ''
+    student_info += ', {"model": "ttkd_api.person", '
+    student_info += '"pk": ' + str(students[student_key]['pk']) + ', '
+    student_info += '"fields": {"first_name": "' + students[student_key]['first_name'] + '", '
+    student_info += '"last_name": "' + students[student_key]['last_name'] + '", '
+    student_info += '"dob": "' + students[student_key]['dob'] + '", '
+    student_info += '"primary_phone": "' + students[student_key]['primary_phone'] + '", '
+    student_info += '"secondary_phone": "' + students[student_key]['secondary_phone'] + '", '
+    student_info += '"street": "' + students[student_key]['steet'] + '", '
+    student_info += '"city": "' + students[student_key]['city'] + '", '
+    student_info += '"zipcode": "' + students[student_key]['zipcode'] + '", '
+    student_info += '"state": "' + students[student_key]['state'] + '", '
+    student_info += '"belt": null, '
+    student_info += '"stripes": null, '
+    student_info += '"extra_strips": null, '
+    student_info += '"misc_notes": "", '
+    student_info += '"active": true}}'
+    for email in students[student_key]['emails']:
+        if email != 'null':
+            student_info += ', {"model": "ttkd_api.email", '
+            student_info += '"pk": ' + str(email_pk) + ', '
+            student_info += '"fields": {"person": ' + str(students[student_key]['pk']) + ', '
+            student_info += '"email": "' + email + '"}}'
+            email_pk += 1
+
+    import_file += student_info
 
 for class_key in classes.keys():
     import_file += ', {"model": "ttkd_api.program", '
@@ -152,9 +163,8 @@ for class_key in classes.keys():
 for registration in registrations:
     import_file += ', {"model": "ttkd_api.registration", '
     import_file += '"pk": ' + str(registration['pk']) + ', '
-    import_file += '"fields": {"person": "' + str(registration['person']) + '", '
-    import_file += '"program": "' + str(registration['program']) + '", '
-    import_file += '"active": true}}'
+    import_file += '"fields": {"person": ' + str(registration['person']) + ', '
+    import_file += '"program": ' + str(registration['program']) + '}}'
 
 import_file = import_file.replace('\n','')
 import_file = import_file.replace('\\','\\\\')
