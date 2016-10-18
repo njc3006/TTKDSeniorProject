@@ -6,18 +6,18 @@
         function($scope, $stateParams, ClassListService) {
         $scope.people = [];
         $scope.allStudents = [];
+        $scope.classes = [];
         $scope.sortAZ = true;
         $scope.sortDisplayString = 'A-Z';
-        $scope.classes = [];
-        $scope.currentBelt = null;
-        $scope.currentClass = null;
-        $scope.selectedDate = null;
 
         $scope.filters = {
             showActive: true,
             showInactive: false,
             showPresent: ($stateParams.classId === null ? true : false),
-            searchQuery: null
+            searchQuery: null,
+            currentBelt: null,
+            currentClass: null,
+            selectedDate: null
         };
 
         $scope.belts = [
@@ -70,16 +70,16 @@
 
         //updates the currently displayed list of students based on 
         $scope.setDisplayedStudents = function(){
-            if($scope.currentClass === null && $stateParams.classId !== null){
-                $scope.currentClass = $scope.classes[$stateParams.classId];
+            if($scope.filters.currentClass === null && $stateParams.classId !== null){
+                $scope.filters.currentClass = $scope.classes[$stateParams.classId];
                 
-                //this is only used for initialization, remove it once we have set $scope.currentClass
+                //this is only used for initialization, remove it once we have set $scope.filters.currentClass
                 $stateParams.classId = null;  
             }
 
             //'(x == null)' is the same as 'typeof(x) === "undefined" && x === null'
             //the '==' instead of '===' is intentional, don't change it! 
-            if($scope.currentClass != null && $scope.currentClass.id !== null){
+            if($scope.filters.currentClass != null && $scope.filters.currentClass.id !== null){
                 var tempdata = [];
                 angular.forEach($scope.allStudents, function(value, key){
 
@@ -87,7 +87,7 @@
                     if(key % 2 === 0){ value.belt = 'green'; }
                     else { value.belt = 'yellow'; }
 
-                    if(value.program === $scope.currentClass.id){
+                    if(value.program === $scope.filters.currentClass.id){
                         tempdata.push(value);
                     }
                 });
