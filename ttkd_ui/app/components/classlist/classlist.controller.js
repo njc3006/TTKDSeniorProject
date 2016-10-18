@@ -11,12 +11,13 @@
         $scope.classes = [];
         $scope.currentBelt = null;
         $scope.currentClass = null;
-        $scope.query = {};
+        $scope.selectedDate = null;
 
         $scope.filters = {
             showActive: true,
             showInactive: false,
-            showPresent: ($stateParams.classId === null ? true : false)
+            showPresent: ($stateParams.classId === null ? true : false),
+            searchQuery: null
         };
 
         $scope.belts = [
@@ -76,14 +77,15 @@
                 $stateParams.classId = null;  
             }
 
-            //'(x == null)' is the same as 'typeof(x) === "undefined" && x === null'. Don't change it! 
+            //'(x == null)' is the same as 'typeof(x) === "undefined" && x === null'
+            //the '==' instead of '===' is intentional, don't change it! 
             if($scope.currentClass != null && $scope.currentClass.id !== null){
                 var tempdata = [];
                 angular.forEach($scope.allStudents, function(value, key){
 
                     //temp until backend update TODO: remove
-                    if(key % 2 == 0){ value.belt = "green"; }
-                    else { value.belt = "yellow";}
+                    if(key % 2 === 0){ value.belt = 'green'; }
+                    else { value.belt = 'yellow'; }
 
                     if(value.program === $scope.currentClass.id){
                         tempdata.push(value);
@@ -96,8 +98,8 @@
                 
                 //temp until backend update TODO: remove
                 angular.forEach($scope.allStudents, function(value, key){
-                    if(key % 2 == 0){ value.belt = "green"; }
-                    else { value.belt = "yellow";}
+                    if(key % 2 === 0){ value.belt = 'green'; }
+                    else { value.belt = 'yellow'; }
                 });
 
                 $scope.updateDisplayed($scope.allStudents);
