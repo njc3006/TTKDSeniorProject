@@ -22,7 +22,7 @@
 				<label><input type="checkbox" name="inactiveBox" ng-model="filters.showInactive" ng-click="setDisplayedStudents()">Inactive</label>
 			</span>
 			<span class="checkbox-inline">
-				<label><input type="checkbox" name="presentBox" ng-model="filters.showPresent" ng-click="">Present</label>
+				<label><input type="checkbox" name="presentBox" ng-model="filters.showPresent" ng-click="getAllCheckedIn()">Present</label>
 			</span>
 		</div>
 		<div class="col-xs-2">
@@ -34,25 +34,25 @@
 	</div>
 
 	<div class="row">
-		<div class="col-xs-10 col-xs-offset-1" ng-repeat="p in people | filter: (filters.currentBelt || undefined) && { belt: filters.currentBelt } | filter: filters.searchQuery | orderBy: 'first_name':!sortAZ">
+		<div class="col-xs-10 col-xs-offset-1" ng-repeat="p in people | filter: (filters.currentBelt || undefined) && { person: { belt: filters.currentBelt } }| filter: filters.searchQuery | orderBy: 'person.first_name':!sortAZ">
 			<div class="col-xs-2 text-center entry-picture">
-				<img ng-src="{{p.picture}}">
+				<img ng-src="{{p.person.picture}}">
 			</div>
 			<div class="col-xs-8 entry">
-				<div class="row"><h2>{{p.first_name}} {{p.last_name}}</h2></div>
+				<div class="row"><h2>{{p.person.first_name}} {{p.person.last_name}}</h2></div>
 				<div class="row spacer-20">
 					<span class="testing">Email: placeholderEmail@gmail.com</span>
-					<span>Phone: {{p.primary_phone}}</span>
+					<span>Phone: {{p.person.primary_phone}}</span>
 				</div>
 				<div class="row">
 					Emergency Contact 1: 
-					{{p.emgContact1}} Placeholder Name,
-					{{p.emgPhone1}} 5853332221
+					{{p.person.emgContact1}} Placeholder Name,
+					{{p.person.emgPhone1}} 5853332221
 				</div>
 				<div class="row">
 					Emergency Contact 2: 
-					{{p.emgContact2}} Another Name,
-					{{p.emgPhone2}} 4448887777
+					{{p.person.emgContact2}} Another Name,
+					{{p.person.emgPhone2}} 4448887777
 				</div>
 				<hr>
 			</div>

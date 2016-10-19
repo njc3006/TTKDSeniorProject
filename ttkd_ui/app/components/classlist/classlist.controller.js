@@ -44,7 +44,7 @@
             var tempdata = data;
             //Until we have picture working this is the default picture for testing/layout
             angular.forEach(tempdata, function(value){
-                value.picture = 'http://placehold.it/110x110';
+                value.person.picture = 'http://placehold.it/110x110';
             });
 
             return tempdata;
@@ -55,12 +55,16 @@
             var filteredStudents = [];
 
             angular.forEach(students, function(value, key){
-                if($scope.filters.showActive && value.active === $scope.filters.showActive){
+ 
+                if($scope.filters.showActive && value.person.active === $scope.filters.showActive){
                     filteredStudents.push(value);
                 }
-                else if($scope.filters.showInactive && value.active !== $scope.filters.showInactive){
+                else if($scope.filters.showInactive && value.person.active !== $scope.filters.showInactive){
                     filteredStudents.push(value);
                 }
+                // else if($scope.filters.showPresent ){
+                //     filteredStudents.push(value)
+                // }
 
                 //needs to include 'present' TODO
             });
@@ -70,6 +74,7 @@
 
         //updates the currently displayed list of students based on 
         $scope.setDisplayedStudents = function(){
+            //only runs the first time, used to make sure the current class and classId are synched
             if($scope.filters.currentClass === null && $stateParams.classId !== null){
                 $scope.filters.currentClass = $scope.classes[$stateParams.classId];
                 
@@ -77,6 +82,9 @@
                 $stateParams.classId = null;  
             }
 
+            //
+            //only display a specific class' students
+            //
             //'(x == null)' is the same as 'typeof(x) === "undefined" && x === null'
             //the '==' instead of '===' is intentional, don't change it! 
             if($scope.filters.currentClass != null && $scope.filters.currentClass.id !== null){
@@ -84,8 +92,8 @@
                 angular.forEach($scope.allStudents, function(value, key){
 
                     //temp until backend update TODO: remove
-                    if(key % 2 === 0){ value.belt = 'green'; }
-                    else { value.belt = 'yellow'; }
+                    if(key % 2 === 0){ value.person.belt = 'green'; }
+                    else { value.person.belt = 'yellow'; }
 
                     if(value.program === $scope.filters.currentClass.id){
                         tempdata.push(value);
@@ -94,12 +102,13 @@
                 
                 $scope.updateDisplayed(tempdata);
             }
+            //otherwise display data for all students
             else{
                 
                 //temp until backend update TODO: remove
                 angular.forEach($scope.allStudents, function(value, key){
-                    if(key % 2 === 0){ value.belt = 'green'; }
-                    else { value.belt = 'yellow'; }
+                    if(key % 2 === 0){ value.person.belt = 'green'; }
+                    else { value.person.belt = 'yellow'; }
                 });
 
                 $scope.updateDisplayed($scope.allStudents);
@@ -116,22 +125,21 @@
                 });        
         };
 
+        $scope.getAllCheckedIn = function(){
+            ClassListService.getAllCheckedIn().then(
+                function(response){
+                    $scope.inAttendance = response.data;
+                    console.log($scope.inAttendance);
+                });
+        };
+
         //retrieves the list of all students in the system
         $scope.getAllStudents = function(){
             ClassListService.getAllStudents().then(
                 function(response){
-                     var tempdata = response.data;
+                    var tempdata = response.data;
+                    console.log(tempdata);
                     
-                    //we need a uniform structure for both the students and persons
-                    //to do so we take the information in the "person" property of the student object and put it
-                    //directly into the student object to match the structure of the person object
-                    angular.forEach(tempdata, function(value, key){
-                        angular.forEach(value['person'], function(v2, k2){
-                            value[k2] = v2;
-                            delete value['person'];
-                        });
-                    });
-
                     $scope.allStudents = $scope.transformData(tempdata);
                     $scope.setDisplayedStudents();
                 });        
