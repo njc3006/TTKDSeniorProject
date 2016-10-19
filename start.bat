@@ -1,2 +1,4 @@
 "%~dp0python-3.5.2-embed-amd64\python.exe" manage.py collectstatic --no-input
-start "" "%~dp0python-3.5.2-embed-amd64\python.exe" manage.py runserver 80
+"%~dp0python-3.5.2-embed-amd64\python.exe" manage.py migrate
+"%~dp0python-3.5.2-embed-amd64\python.exe" manage.py loaddata data.json
+start "" "%~dp0python-3.5.2-embed-amd64\python.exe" manage.py runserver 8000
