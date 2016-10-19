@@ -1,14 +1,14 @@
 
 MONTHS = {
-    'Jan': '1',
-    'Feb': '2',
-    'Mar': '3',
-    'Apr': '4',
-    'May': '5',
-    'Jun': '6',
-    'Jul': '7',
-    'Aug': '8',
-    'Sep': '9',
+    'Jan': '01',
+    'Feb': '02',
+    'Mar': '03',
+    'Apr': '04',
+    'May': '05',
+    'Jun': '06',
+    'Jul': '07',
+    'Aug': '08',
+    'Sep': '09',
     'Oct': '10',
     'Nov': '11',
     'Dec': '12',
@@ -17,7 +17,7 @@ MONTHS = {
 
 students = {}
 headerline = True
-pk = 0
+pk = 1
 for line in open('students.csv'):
     if headerline:
         headerline = False
@@ -63,8 +63,8 @@ for line in open('programs.csv'):
 classes = {}
 registrations = []
 headerline = True
-pk = 0
-regpk = 0
+pk = 1
+regpk = 1
 for line in open('classes.csv'):
     if headerline:
         headerline = False
@@ -87,13 +87,13 @@ for line in open('classes.csv'):
         )
         regpk += 1
 
-
     pk += 1
+
 
 attendance = []
 
 headerline = True
-pk = 0
+pk = 1
 for line in open('attendance.csv'):
     if headerline:
         headerline = False
@@ -125,7 +125,7 @@ for line in open('attendance.csv'):
 
 import_file = open('dump.json','r').read()[:-1]
 
-email_pk = 0
+email_pk = 1
 for student_key in students.keys():
     student_info = ''
     student_info += ', {"model": "ttkd_api.person", '
@@ -166,9 +166,20 @@ for registration in registrations:
     import_file += '"fields": {"person": ' + str(registration['person']) + ', '
     import_file += '"program": ' + str(registration['program']) + '}}'
 
+#for check_in in attendance:
+#    import_file += ', {"model": "ttkd_api.attendancerecord", '
+#    import_file += '"pk": ' + str(check_in['pk']) + ', '
+#    import_file += '"fields": {"person": ' + str(check_in['person']) + ', '
+#    import_file += '"date": "' + check_in['date'] + '", '
+#    import_file += '"program": ' + str(check_in['program']) + '}}'
+
+
+
+while ('  ' in import_file):
+	import_file = import_file.replace('  ',' ')
+
 import_file = import_file.replace('\n','')
 import_file = import_file.replace('\\','\\\\')
-print(import_file + ']')
 #print(students)
 #print(classes)
 #print(registrations)
