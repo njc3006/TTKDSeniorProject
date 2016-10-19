@@ -180,7 +180,4 @@ while ('  ' in import_file):
 
 import_file = import_file.replace('\n','')
 import_file = import_file.replace('\\','\\\\')
-#print(students)
-#print(classes)
-#print(registrations)
-#print(attendance)
+open("testload.json",'w').write(import_file + ']')
