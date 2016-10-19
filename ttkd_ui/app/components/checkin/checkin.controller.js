@@ -7,7 +7,7 @@
 				var modalInstance;
 
 		//Hard coded for now until a program is accessible by this controller
-		$scope.programID = 1;
+		$scope.programID = 2;
 		$scope.checkedInPeople = [];
 		$scope.people = [];
 		$scope.checkedInPeopleIds = [];
