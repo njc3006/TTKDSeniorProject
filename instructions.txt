@@ -1,2 +1,3 @@
+Unzip the ttkd.zip file anywhere on your computer.
 In order to run the project, open the ttkd folder, and run "start.bat".
 To stop the program, simply close the command prompt that opened.
