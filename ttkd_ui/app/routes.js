@@ -49,6 +49,12 @@
         controller: 'ClassListCtrl'
       });
 
+			.state('student.detail', {
+				url: '/students/:studentId',
+				templateUrl: 'components/students/detail/student.detail.html',
+				controller: 'StudentDetailCtrl'
+			});
+
       $urlRouterProvider.otherwise('/');
 
   }]);
