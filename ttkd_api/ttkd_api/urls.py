@@ -7,7 +7,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 # Import ViewSets
-from .views.attendance_record_views import AttendanceRecordViewSet
+from .views.attendance_record_views import AttendanceRecordViewSet, AttendanceRecordUsingPersonViewSet
 from .views.person_views import PersonViewSet
 from .views.program_views import ProgramViewSet, StudentList
 from .views.registration_views import RegistrationViewSet
@@ -21,6 +21,7 @@ router.register(r'users', UserViewSet)
 router.register(r'persons', PersonViewSet)
 router.register(r'programs', ProgramViewSet)
 router.register(r'check-ins', AttendanceRecordViewSet)
+router.register(r'checked-in/persons', AttendanceRecordUsingPersonViewSet, 'checked-in-persons')
 router.register(r'registrations', RegistrationViewSet)
 router.register(r'students', StudentList, 'student-list')
 router.register(r'emails', EmailViewSet)
