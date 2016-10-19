@@ -8,8 +8,8 @@ class AttendanceRecordSerializer(serializers.ModelSerializer):
     """
     AttendanceRecordSerializer Outputs Attendance Model as JSON
     """
-    time = serializers.DateTimeField(required=False, default=datetime.datetime.now())
+    date = serializers.DateField(required=False, default=datetime.datetime.now().date())
 
     class Meta:
         model = AttendanceRecord
-        fields = ('person', 'program', 'time')
+        fields = ('person', 'program', 'date')

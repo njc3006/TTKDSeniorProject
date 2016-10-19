@@ -16,4 +16,4 @@ class AttendanceRecord(models.Model):
 
     program = models.ForeignKey(Program)
 
-    time = models.DateTimeField()
+    date = models.DateField()

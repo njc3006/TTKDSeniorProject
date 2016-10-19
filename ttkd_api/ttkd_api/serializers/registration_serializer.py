@@ -5,6 +5,7 @@ from .person_serializer import PersonSerializer
 from ..models.registration import Registration
 from ..models.person import Person
 from ..models.email import Email
+from ..models.emergency_contact import EmergencyContact
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -19,15 +20,23 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         """
-        Create a person, their emails, and then register them for a program
+        Create a person, their emails, their emergency contacts,
+        and then register them for a program
         """
         person_data = validated_data.pop('person')
         email_data = person_data.pop('emails')
+        emergency_contacts_data = person_data.pop('emergency_contacts')
 
         person = Person.objects.create(**person_data)
 
         for an_email_dict in email_data:
             Email.objects.create(person=person, email=an_email_dict['email'])
+
+        for an_emergency_contact_dict in emergency_contacts_data:
+            EmergencyContact.objects.create(person=person,
+                                            relation=an_emergency_contact_dict['relation'],
+                                            phone_number=an_emergency_contact_dict['phone_number'],
+                                            full_name=an_emergency_contact_dict['full_name'])
 
         registration = Registration.objects.create(person=person, program=validated_data['program'])
         return registration

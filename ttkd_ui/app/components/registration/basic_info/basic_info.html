@@ -1,0 +1,250 @@
+<div class="spacer-25"
+	ng-class="{'has-error': registrationForm.program.$invalid && submitted}">
+	<div class="input-group col-sm-12">
+		<select
+			class="form-control"
+			name="program"
+			placeholder="Select a Program"
+			ng-model="registrationInfo.program"
+			form-focus="currentFocusIndex === 0"
+			ng-focus="setFocus(0)"
+			ng-required="true"
+			ng-options="program as program.name for program in programs track by program.id">
+			<option value="">Select a Program</option>
+		</select>
+		<span class="input-group-addon">
+			<i class="glyphicon glyphicon-asterisk"></i>
+		</span>
+	</div>
+	<span class="help-block" ng-show="registrationForm.program.$invalid && submitted">
+		Must select a program
+	</span>
+</div>
+
+<div class="spacer-25"
+	ng-class="{'has-error': registrationForm.firstName.$invalid && submitted}">
+	<div class="input-group col-sm-12">
+		<input
+			type="text"
+			name="firstName"
+			class="form-control"
+			placeholder="First Name"
+			form-focus="currentFocusIndex === 1"
+			ng-focus="setFocus(1)"
+			ng-required="true"
+			ng-model="registrationInfo.firstName">
+		<span class="input-group-addon">
+			<i class="glyphicon glyphicon-asterisk"></i>
+		</span>
+	</div>
+	<span class="help-block" ng-show="registrationForm.firstName.$invalid && submitted">
+		Must provide a first name
+	</span>
+</div>
+
+<div class="spacer-25"
+	ng-class="{'has-error': registrationForm.lastName.$invalid && submitted}">
+	<div class="input-group col-sm-12">
+		<input
+			type="text"
+			name="lastName"
+			class="form-control"
+			placeholder="Last Name"
+			form-focus="currentFocusIndex === 2"
+			ng-focus="setFocus(2)"
+			ng-required="true"
+			ng-model="registrationInfo.lastName">
+		<span class="input-group-addon">
+			<i class="glyphicon glyphicon-asterisk"></i>
+		</span>
+	</div>
+	<span class="help-block" ng-show="registrationForm.lastName.$invalid && submitted">
+		Must provide a last name
+	</span>
+</div>
+
+<div class="spacer-25"
+		ng-class="{'has-error': registrationForm.dob.$invalid && !registrationForm.dob.$pristine && submitted}">
+	<label >Date of Birth</label>
+	<div class="input-group col-sm-12">
+		<input
+			class="form-control"
+			type="date"
+			name="dob"
+			form-focus="currentFocusIndex === 3"
+			ng-focus="setFocus(3)"
+			ng-required="true"
+			ng-model="registrationInfo.dob">
+		<span class="input-group-addon">
+			<i class="glyphicon glyphicon-asterisk"></i>
+		</span>
+	</div>
+	<span class="help-block" ng-show="registrationForm.dob.$invalid && !registrationForm.dob.$pristine && submitted">
+		Must provide a valid Date of Birth
+	</span>
+</div>
+
+<div
+	class="spacer-25"
+	ng-class="{'has-error': registrationForm.street.$invalid && submitted}">
+	<div class="input-group col-sm-12">
+		<input
+			type="text"
+			name="street"
+			class="form-control"
+			placeholder="Address"
+			form-focus="currentFocusIndex === 4"
+			ng-focus="setFocus(4)"
+			ng-required="true"
+			ng-model="registrationInfo.street">
+		<span class="input-group-addon">
+			<i class="glyphicon glyphicon-asterisk"></i>
+		</span>
+	</div>
+	<span class="help-block" ng-show="registrationForm.street.$invalid && submitted">
+		Must provide an address
+	</span>
+</div>
+
+<div class="row spacer-25">
+	<div
+		class="col-xs-4"
+		ng-class="{'has-error': registrationForm.city.$invalid && submitted}">
+		<div class="input-group col-sm-12">
+			<input
+				type="text"
+				name="city"
+				class="form-control"
+				ng-required="true"
+				placeholder="City"
+				form-focus="currentFocusIndex === 5"
+				ng-focus="setFocus(5)"
+				ng-model="registrationInfo.city">
+			<span class="input-group-addon">
+				<i class="glyphicon glyphicon-asterisk"></i>
+			</span>
+		</div>
+		<span class="help-block" ng-show="registrationForm.city.$invalid && submitted">
+			Must enter a city
+		</span>
+	</div>
+	<div
+		class="col-xs-4"
+		ng-class="{'has-error': registrationForm.state.$invalid && submitted}">
+		<div class="input-group col-sm-12">
+			<select
+				class="form-control"
+				name="state"
+				placeholder="Select a State"
+				form-focus="currentFocusIndex === 6"
+				ng-focus="setFocus(6)"
+				ng-model="registrationInfo.state"
+				ng-required="true"
+				ng-options="state as state.name for state in states track by state.value">
+				<option value="">Select a State</option>
+			</select>
+			<span class="input-group-addon">
+				<i class="glyphicon glyphicon-asterisk"></i>
+			</span>
+		</div>
+		<span class="help-block" ng-show="registrationForm.state.$invalid && submitted">
+			Must select a state
+		</span>
+	</div>
+	<div
+		class="col-xs-4"
+		ng-class="{'has-error': registrationForm.zipcode.$invalid && submitted}">
+		<div class="input-group col-sm-12">
+			<input
+				type="text"
+				name="zipcode"
+				ng-required="true"
+				class="form-control input-group"
+				placeholder="ZIP Code"
+				form-focus="currentFocusIndex === 7"
+				ng-focus="setFocus(7)"
+				ng-model="registrationInfo.zipcode"
+				ng-pattern="/^[0-9]{5}$/">
+			<span class="input-group-addon">
+				<i class="glyphicon glyphicon-asterisk"></i>
+			</span>
+		</div>
+		<span class="help-block" ng-show="registrationForm.zipcode.$invalid && submitted">
+			ZIP Code must be a 5-digit number
+		</span>
+	</div>
+</div>
+
+<div class="spacer-25"
+	ng-class="{'has-error': registrationForm.primaryPhone.$invalid && submitted}">
+	<div class="input-group col-sm-12">
+		<input
+			type="text"
+			name="primaryPhone"
+			class="form-control"
+			placeholder="Primary Phone Number (e.g. 123-456-7890)"
+			form-focus="currentFocusIndex === 8"
+			ng-focus="setFocus(8)"
+			ng-required="true"
+			ng-pattern="/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/"
+			ng-model="registrationInfo.primaryPhone">
+		<span class="input-group-addon">
+			<i class="glyphicon glyphicon-asterisk"></i>
+		</span>
+	</div>
+	<span class="help-block" ng-show="registrationForm.primaryPhone.$invalid && submitted">
+		Must enter a valid, 10-digit, phone number (e.g. 123-456-7890)
+	</span>
+</div>
+
+<div class="spacer-25"
+	ng-class="{'has-error': registrationForm.secondaryPhone.$invalid && submitted}">
+	<input
+		type="text"
+		name="secondaryPhone"
+		class="form-control"
+		placeholder="Secondary Phone Number (e.g. 123-456-7890)"
+		form-focus="currentFocusIndex === 9"
+		ng-focus="setFocus(9)"
+		ng-pattern="/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/"
+		ng-model="registrationInfo.secondaryPhone">
+	<span class="help-block" ng-show="registrationForm.secondaryPhone.$invalid && submitted">
+		Must enter a valid, 10-digit, phone number (e.g. 123-456-7890)
+	</span>
+</div>
+
+<hr/>
+<h3>Email Addresses</h3>
+<div class="spacer-25"
+	ng-repeat="email in registrationInfo.emails"
+	ng-class="{'has-error': registrationForm.email{{$index}}.$invalid && submitted && !email.isNew}">
+	<div class="input-group col-sm-12">
+		<span class="input-group-btn">
+			<button type="button" class="btn btn-success" ng-click="addEmail()" ng-show="$last">
+				<i class="glyphicon glyphicon-plus"></i>
+			</button>
+			<button
+				type="button"
+				class="btn btn-danger"
+				ng-click="removeEmail($index)"
+				ng-show="registrationInfo.emails.length > 1 && !$last">
+				<i class="glyphicon glyphicon-minus"></i>
+			</button>
+		</span>
+		<input
+			type="email"
+			name="email{{$index}}"
+			class="form-control"
+			placeholder="Email Address"
+			form-focus="currentFocusIndex === (10 + $index)"
+			ng-focus="setFocus(10 + $index)"
+			ng-required="true"
+			ng-model="registrationInfo.emails[$index].email">
+		<span class="input-group-addon">
+			<i class="glyphicon glyphicon-asterisk"></i>
+		</span>
+	</div>
+	<span class="help-block" ng-show="registrationForm.email{{$index}}.$invalid && submitted && !email.isNew">
+		Must enter a valid email address
+	</span>
+</div>
