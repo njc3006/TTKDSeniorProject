@@ -1,14 +1,22 @@
+var argv = require('yargs').argv;
+
 var gulp = require('gulp');
 var del = require('del');
 var jshint = require('gulp-jshint');
 var concat = require('gulp-concat');
-var uglify = require('gulp-uglifyjs');
+var uglify = require('gulp-uglify');
+var sourcemaps = require('gulp-sourcemaps');
 var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
+var ngHtml2Js = require("gulp-ng-html2js");
 var rename = require('gulp-rename');
 var server = require('gulp-server-livereload');
+var connect = require('gulp-connect');
 var install = require("gulp-install");
 var run = require('gulp-run');
+var ngConstant = require('gulp-ng-constant');
+
+const config = require('./gulp.config');
 
 gulp.task('clean', function (cb) {
     del([
@@ -17,15 +25,11 @@ gulp.task('clean', function (cb) {
 });
 
 gulp.task( 'server', ['build'], function() {
-  gulp.src('dist')
-    .pipe(server({
-      livereload: true,
-      clientConsole: false,
-      directoryListing: false,
-      open: false,
-      host: 'localhost',
-      port: 3000
-    }));
+	connect.server({
+		port: 3000,
+		root: config.buildDir,
+		livereload: true
+	});
 });
 
 gulp.task('scss', [], function(done) {
@@ -35,12 +39,13 @@ gulp.task('scss', [], function(done) {
       console.error(error.toString());
       this.emit('end');
     })
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest(config.buildDir))
     .pipe(minifyCss({
       keepSpecialComments: 0
     }))
-    .pipe(rename({ extname: '.min.css' }))
-    .pipe(gulp.dest('dist'))
+    .pipe(rename({ extname: '.css' }))
+    .pipe(gulp.dest(config.buildDir + '/css'))
+		.pipe(connect.reload())
     .on('end', done);
 });
 
@@ -51,23 +56,71 @@ gulp.task('jshint', [], function(done) {
     .on('end', done);
 });
 
+gulp.task('build-templates', [], function(done) {
+	gulp.src(config.templatePaths)
+		.pipe(sourcemaps.init())
+	    .pipe(ngHtml2Js({
+	        moduleName: 'ttkdApp.partials'
+	    }))
+	    .pipe(concat('partials.js'))
+	    .pipe(uglify())
+		.pipe(sourcemaps.write('../maps'))
+    .pipe(gulp.dest(config.buildDir + '/js'))
+		.pipe(connect.reload())
+		.on('end', done);
+});
+
+gulp.task('build-fonts', [], function(done) {
+  gulp.src(config.fontFiles)
+    .pipe(gulp.dest(config.buildDir + '/css/lib'))
+    .on('end', done);
+});
+
+gulp.task('build-js-libs', [], function(done) {
+	if (argv.production) {
+		gulp.src(config.bowerPaths)
+			.pipe(concat('vendor.js'))
+			.pipe(uglify())
+			.pipe(gulp.dest(config.buildDir + '/js'))
+			.pipe(connect.reload())
+			.on('end', done);
+	} else {
+		gulp.src(config.bowerPaths)
+			.pipe(sourcemaps.init())
+				.pipe(concat('vendor.js'))
+				.pipe(uglify())
+			.pipe(sourcemaps.write('../maps'))
+			.pipe(gulp.dest(config.buildDir + '/js'))
+			.pipe(connect.reload())
+			.on('end', done);
+	}
+});
 
 gulp.task('build-js', [], function(done) {
-	gulp.src('./app/**/*.js')
-		.pipe(gulp.dest('dist'))
+	gulp.src(config.sourcePaths)
+		.pipe(sourcemaps.init())
+			.pipe(concat('app.js'))
+			.pipe(uglify())
+		.pipe(sourcemaps.write('../maps'))
+		.pipe(gulp.dest(config.buildDir + '/js'))
+		.pipe(connect.reload())
 		.on('end', done);
 });
 
 gulp.task('build-static', [], function(done) {
-	gulp.src(['./app/**', '!./app/**/*.js', '!./app/**/*.scss'])
-		.pipe(gulp.dest('dist'))
+	gulp.src('./app/index.html')
+		.pipe(rename('index.html'))
+		.pipe(gulp.dest(config.buildDir))
+		.pipe(connect.reload())
 		.on('end', done);
 })
 
 gulp.task('watch', function() {
   gulp.watch('./app/**/*.scss', ['scss']);
-  gulp.watch('./app/**/*.js', ['build-js', 'jshint']);
+  gulp.watch(['./app/**/*.js', '!./app/lib/**/*.js'], ['build-js', 'jshint']);
   gulp.watch(['./app/**', '!./app/**/*.js', '!./app/**/*.scss'], ['build-static']);
+	gulp.watch(config.templatePaths, ['build-templates']);
+	gulp.watch('app/registration/fields/fields.json', ['build-form-config']);
 });
 
 gulp.task('bootstrap', [], function(done) {
@@ -167,7 +220,8 @@ gulp.task('install', ['angular', 'require', 'bootstrap', 'angular-ui-bootstrap']
   done()
 });
 
-gulp.task('build', ['scss', 'build-js', 'build-static'], function(done) {
+var buildPipeline = ['scss', 'build-js', 'build-js-libs', 'build-fonts', 'build-templates', 'build-static'];
+gulp.task('build', buildPipeline, function(done) {
   done()
 });
 

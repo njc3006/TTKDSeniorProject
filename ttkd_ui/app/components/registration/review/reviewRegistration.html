@@ -1,0 +1,86 @@
+<div class="row spacer-25">
+	<h2 class="col-xs-12">Basic Information</h2>
+	<table class="table">
+		<tbody>
+			<tr>
+				<td>First Name</td>
+				<td>{{registrationInfo.firstName}}</td>
+			</tr>
+			<tr>
+				<td>Last Name</td>
+				<td>{{registrationInfo.lastName}}</td>
+			</tr>
+			<tr>
+				<td>Address</td>
+				<td>
+					{{registrationInfo.street}}, {{registrationInfo.city}}, {{registrationInfo.state.value}} {{registrationInfo.zipcode}}
+				</td>
+			</tr>
+			<tr>
+				<td>Email(s)</td>
+				<td>{{getFormattedEmailList()}}</td>
+			</tr>
+			<tr>
+				<td>Date of Birth</td>
+				<td>{{registrationInfo.dob.getMonth() + 1}}/{{registrationInfo.dob.getDate()}}/{{registrationInfo.dob.getFullYear()}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<div class="row spacer-25">
+	<h2 class="col-xs-12">Emergency Contact</h2>
+	<table class="table">
+		<tbody>
+			<tr>
+				<td>Primary Contact Name</td>
+				<td>{{registrationInfo.emPrimaryFullName}}</td>
+			</tr>
+			<tr>
+				<td>Primary Contact Phone</td>
+				<td>{{registrationInfo.emPrimaryPhone}}</td>
+			</tr>
+			<tr>
+				<td>Primary Contact Relationship</td>
+				<td>{{registrationInfo.emPrimaryRelationship}}</td>
+			</tr>
+			<tr>
+				<td>Secondary Contact Name</td>
+				<td>{{registrationInfo.emSecondaryFullName}}</td>
+			</tr>
+			<tr>
+				<td>Secondary Contact Phone</td>
+				<td>{{registrationInfo.emSecondaryPhone}}</td>
+			</tr>
+			<tr>
+				<td>Secondary Contact Relationship</td>
+				<td>{{registrationInfo.emSecondaryRelationship}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<div class="row review">
+	<h2 class="col-xs-12">Waiver</h2>
+	<table class="table">
+		<tbody>
+			<tr>
+				<td>Participant</td>
+				<td>{{registrationInfo.participantSignature}}</td>
+			</tr>
+			<tr ng-if="!isLegalAdult()">
+				<td>Guardian</td>
+				<td>{{registrationInfo.guardianSignature}}</td>
+			</tr>
+			<tr>
+				<td>Signed?</td>
+				<td ng-if="waiverSigned()">
+					Yes
+				</td>
+				<td ng-if="!waiverSigned()">
+					No
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

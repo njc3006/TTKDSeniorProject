@@ -1,4 +1,4 @@
-<nav ng-show="showNav" class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -7,7 +7,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#/" ng-bind="title"></a>
+      <a class="navbar-brand" href="#/">{{title}}</a>
     </div>
     <script type="text/ng-template" id="nav-item.html">
       <span ng-if="page.name && !page.url">{{page.name}}</span>
@@ -24,6 +24,9 @@
       <ul class="nav navbar-nav">
         <li ng-repeat="page in pages" ng-class="{active: isUrl(page.url)}" ng-include="'nav-item.html'">
         </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><h2 class="current-class">{{currentClass}}</h2></li>
       </ul>
     </div><!--/.nav-collapse -->
   </div>

@@ -32,9 +32,62 @@ $navbar-default-toggle-border-color:       $navbar-default-color;
 $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 @import "./lib/bootstrap-sass/assets/stylesheets/bootstrap";
 
-/* Adjust layout */
+/* Import Component SCSS */
+@import "./components/nav/nav";
+@import "./components/checkin/checkin";
 
 // Push containers below navbar
-.body {
-  margin-top: 50px;
+#appContainer {
+	padding-top: 70px;
+}
+
+.spacer-20 {
+	margin-bottom: 20px;
+}
+
+.spacer-25 {
+	margin-bottom: 25px;
+}
+
+//Custom styles for waiver text
+.spacer-35 {
+	margin-bottom: 35px;
+}
+
+.form-scroll-buttons {
+	position: fixed;
+	right: 0;
+}
+
+//Custom styles for the class list page
+.entry span {
+	padding-right: 20px;
+}
+
+.entry div {
+	padding-left: 30px;
+}
+
+.entry-picture {
+	margin-top: 30px;
+	margin-right: 5px;
+}
+
+.checkboxes {
+	margin-top: 6px;
+}
+
+.filter-bar {
+	margin-bottom: 30px;
+	margin-top: 20px;
+}
+
+label {
+    font-weight: normal;
+}
+
+input[type=checkbox] {
+  vertical-align: middle;
+  position: relative;
+  bottom: 8px;
 }

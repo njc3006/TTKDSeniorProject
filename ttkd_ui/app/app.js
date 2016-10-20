@@ -1,13 +1,21 @@
 (function() {
   'use strict';
 
-  angular.module('app',
+  angular.module('ttkdApp',
     [
-      'app.routes',
-      'app.directives',
-      'app.mainController',
-      'app.navController'
+		'ui.router',
+		'ui.bootstrap',
+		'ttkdApp.constants',
+		'ttkdApp.routes',
+		'ttkdApp.mainCtrl',
+		'ttkdApp.navCtrl',
+		'ttkdApp.checkinCtrl',
+		'ttkdApp.partials',
+		'ttkdApp.homeCtrl',
+		'ttkdApp.registationCtrl',
+		'ttkdApp.classlistCtrl'
     ]
-  );
+  )
+	.constant('apiHost', 'localhost:8000');
 
 })();
