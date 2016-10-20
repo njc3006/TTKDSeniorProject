@@ -58,3 +58,36 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 	position: fixed;
 	right: 0;
 }
+
+//Custom styles for the class list page
+.entry span {
+	padding-right: 20px;
+}
+
+.entry div {
+	padding-left: 30px;
+}
+
+.entry-picture {
+	margin-top: 30px;
+	margin-right: 5px;
+}
+
+.checkboxes {
+	margin-top: 6px;
+}
+
+.filter-bar {
+	margin-bottom: 30px;
+	margin-top: 20px;
+}
+
+label {
+    font-weight: normal;
+}
+
+input[type=checkbox] {
+  vertical-align: middle;
+  position: relative;
+  bottom: 8px;
+}
