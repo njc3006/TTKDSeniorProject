@@ -9,8 +9,8 @@
 		</div>
 		<div class="panel-body">
 			Name: {{primaryEmergencyContact.full_name}}<br/>
-			Relationship: {{primaryEmergencyContact.relationship}}<br/>
-			Phone: {{primaryEmergencyContact.phone}}<br/>
+			Relationship: {{primaryEmergencyContact.relation}}<br/>
+			Phone: {{formatPhoneNumber(primaryEmergencyContact.phone_number)}}<br/>
 		</div>
 	</div>
 
@@ -20,12 +20,12 @@
 		</div>
 		<div class="panel-body">
 			Name: {{secondaryEmergencyContact.full_name}}<br/>
-			Relationship: {{secondaryEmergencyContact.relationship}}<br/>
-			Phone: {{secondaryEmergencyContact.phone}}<br/>
+			Relationship: {{secondaryEmergencyContact.relation}}<br/>
+			Phone: {{formatPhoneNumber(secondaryEmergencyContact.phone_number)}}<br/>
 		</div>
 	</div>
 </div>
 
-<div class="row">
+<div class="row panel panel-primary">
 	TBD: Student Notes
 </div>
