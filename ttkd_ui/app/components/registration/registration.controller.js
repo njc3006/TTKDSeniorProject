@@ -131,11 +131,18 @@
 			return $scope.registrationInfo.emails.map(function(email) { return email.email; }).join(', ');
 		};
 
+		$scope.openCalendar = function() {
+			$scope.registrationInfo.dob.open = true;
+		};
+
 		$scope.registrationSuccess = false;
 		$scope.registrationFailure = false;
 
 		$scope.registrationInfo = {
-			emails: [{email: '', isNew: true}]
+			emails: [{email: '', isNew: true}],
+			dob: {
+				open: false
+			}
 		};
 
 		$scope.visitedSections = {};

@@ -66,15 +66,23 @@
 <div class="spacer-25"
 		ng-class="{'has-error': registrationForm.dob.$invalid && !registrationForm.dob.$pristine && submitted}">
 	<label >Date of Birth</label>
-	<div class="input-group col-sm-12">
+	<div class="input-group">
 		<input
+			type="text"
 			class="form-control"
-			type="date"
 			name="dob"
 			form-focus="currentFocusIndex === 3"
 			ng-focus="setFocus(3)"
 			ng-required="true"
-			ng-model="registrationInfo.dob">
+			uib-datepicker-popup="MM-dd-yyyy"
+			ng-model="registrationInfo.dob.value"
+			is-open="registrationInfo.dob.open"
+			close-text="Close">
+		<span class="input-group-btn">
+			<button class="btn btn-default" ng-click="openCalendar()">
+				<i class="glyphicon glyphicon-calendar"></i>
+			</button>
+		</span>
 		<span class="input-group-addon">
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
