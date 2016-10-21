@@ -7,6 +7,6 @@
 		};
 	}
 
-	angular.module('ttkdApp.registrationSvc', [])
+	angular.module('ttkdApp.registrationSvc', ['ttkdApp.constants'])
 		.factory('RegistrationSvc', ['$http', 'apiHost', RegistrationService]);
 })();
