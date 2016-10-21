@@ -16,6 +16,6 @@
 		'ttkdApp.classlistCtrl'
     ]
   )
-	.constant('apiHost', 'localhost:8000');
+	.constant('apiHost', 'http://localhost:8000');
 
 })();

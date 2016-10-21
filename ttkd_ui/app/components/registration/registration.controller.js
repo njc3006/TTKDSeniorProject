@@ -1,20 +1,22 @@
 (function() {
 	function createRegistrationPayload(registrationInfo) {
-		var formattedMonth = registrationInfo.dob.getMonth() < 9 ?
-			'0' + (registrationInfo.dob.getMonth() + 1) :
-			(registrationInfo.dob.getMonth() + 1);
+		var formattedMonth = registrationInfo.dob.value.getMonth() < 9 ?
+			'0' + (registrationInfo.dob.value.getMonth() + 1) :
+			(registrationInfo.dob.value.getMonth() + 1);
 
-		var formattedDate = registrationInfo.dob.getDate() < 10 ?
-			'0' + registrationInfo.dob.getDate() :
-			registrationInfo.dob.getDate();
+		var formattedDate = registrationInfo.dob.value.getDate() < 10 ?
+			'0' + registrationInfo.dob.value.getDate() :
+			registrationInfo.dob.value.getDate();
+
+		var secondaryPhoneGiven = registrationInfo.secondaryPhone !== undefined;
 
 		return {
 			person: {
 				'first_name': registrationInfo.firstName,
 				'last_name': registrationInfo.lastName,
-				'dob': registrationInfo.dob.getFullYear() + '-' + formattedMonth + '-' + formattedDate,
+				'dob': registrationInfo.dob.value.getFullYear() + '-' + formattedMonth + '-' + formattedDate,
 				'primary_phone': registrationInfo.primaryPhone.replace(new RegExp('-', 'g'), ''),
-				'secondary_phone': registrationInfo.secondaryPhone.replace(new RegExp('-', 'g'), '') || '',
+				'secondary_phone': secondaryPhoneGiven ? registrationInfo.secondaryPhone.replace(new RegExp('-', 'g'), '') : '',
 				'street': registrationInfo.street,
 				'city': registrationInfo.city,
 				'zipcode': parseInt(registrationInfo.zipcode),
@@ -39,7 +41,7 @@
 
 	function RegistrationController($scope, $timeout, $state, RegistrationService, ProgramsService, StateService) {
 		$scope.isLegalAdult = function() {
-			var ageInYears = (new Date()).getFullYear() - $scope.registrationInfo.dob.getFullYear();
+			var ageInYears = (new Date()).getFullYear() - $scope.registrationInfo.dob.value.getFullYear();
 
 			return ageInYears >= 18;
 		};
@@ -131,7 +133,7 @@
 			return $scope.registrationInfo.emails.map(function(email) { return email.email; }).join(', ');
 		};
 
-		$scope.openCalendar = function() {
+		$scope.openCalendar = function($event) {
 			$scope.registrationInfo.dob.open = true;
 		};
 
@@ -141,7 +143,8 @@
 		$scope.registrationInfo = {
 			emails: [{email: '', isNew: true}],
 			dob: {
-				open: false
+				open: false,
+				value: new Date()
 			}
 		};
 

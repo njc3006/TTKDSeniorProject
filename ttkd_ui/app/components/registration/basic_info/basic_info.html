@@ -64,8 +64,8 @@
 </div>
 
 <div class="spacer-25"
-		ng-class="{'has-error': registrationForm.dob.$invalid && !registrationForm.dob.$pristine && submitted}">
-	<label >Date of Birth</label>
+	ng-class="{'has-error': registrationForm.dob.$invalid && submitted}">
+	<label >Date of Birth (e.g. 01-22-2002)</label>
 	<div class="input-group">
 		<input
 			type="text"
@@ -79,7 +79,7 @@
 			is-open="registrationInfo.dob.open"
 			close-text="Close">
 		<span class="input-group-btn">
-			<button class="btn btn-default" ng-click="openCalendar()">
+			<button class="btn btn-default" type="button" ng-click="openCalendar($event)">
 				<i class="glyphicon glyphicon-calendar"></i>
 			</button>
 		</span>
@@ -87,7 +87,7 @@
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
 	</div>
-	<span class="help-block" ng-show="registrationForm.dob.$invalid && !registrationForm.dob.$pristine && submitted">
+	<span class="help-block" ng-show="registrationForm.dob.$invalid && submitted">
 		Must provide a valid Date of Birth
 	</span>
 </div>
