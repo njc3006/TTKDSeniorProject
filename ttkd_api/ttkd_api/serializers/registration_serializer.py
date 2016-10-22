@@ -1,4 +1,4 @@
-"""PersonSerializer"""
+"""RegistrationSerializer"""
 from rest_framework import serializers
 
 from .person_serializer import PersonSerializer
