@@ -4,3 +4,8 @@
     pointer-events: none;
     cursor: default;
 }
+
+.checked-in-student-instruct {
+    opacity: 0.4;
+    filter: alpha(opacity=40); /* msie */
+}

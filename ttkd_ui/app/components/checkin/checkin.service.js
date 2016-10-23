@@ -10,6 +10,9 @@
 			},
 			createCheckin: function(data) {
 				return $http.post('http://localhost:8000/api/check-ins/', data);
+			},
+			deleteCheckin: function(checkinId) {
+				return $http.delete('http://localhost:8000/api/check-ins/' + checkinId + '/');
 			}
 		};
 	}

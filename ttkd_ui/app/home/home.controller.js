@@ -5,7 +5,7 @@
 
     	$scope.activeClass = {
     		name: 'Tiny Turtles',
-    		id: 0
+    		id: 2
     	};
 
     }]);
