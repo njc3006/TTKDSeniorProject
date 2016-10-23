@@ -34,7 +34,7 @@ gulp.task( 'server', ['build'], function() {
 
 gulp.task('scss', [], function(done) {
   gulp.src('./app/app.scss')
-    .pipe(sass())
+    .pipe(sass({precision: 10})) // Set precision to 10 so input groups align
     .on('error', function(error) {
       console.error(error.toString());
       this.emit('end');

@@ -15,7 +15,6 @@
 		'ttkdApp.registationCtrl',
 		'ttkdApp.classlistCtrl'
     ]
-  )
-	.constant('apiHost', 'localhost:8000');
+  );
 
 })();
