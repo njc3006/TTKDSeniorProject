@@ -1,6 +1,30 @@
-<div class="row">
-	<div class="sol-sm-3">
-		<img ng-src="{{studentInfo.picture}}">
+<div class="row spacer-20">
+	<div class="col-sm-2" style="padding-left: 0px">
+		<img class="img-responsive" ng-src="{{studentInfo.picture}}">
+	</div>
+	<div class="col-sm-10">
+		<div class="row spacer-20">
+			<span class="h2">{{studentInfo.first_name}} {{studentInfo.last_name}}</span>
+			<div class="btn-group pull-right">
+				<button class="btn btn-primary" type="button" ng-click="notYetImplemented()">
+					Attendance
+				</button>
+				<button class="btn btn-warning" type="button">Edit</button>
+			</div>
+		</div>
+		<div class="row h4 spacer-20" style="font-weight: normal">
+			<span style="padding-right: 3em">Age: {{currentAge()}}</span>
+			<span>Birthday: {{formattedBirthday()}}</span>
+		</div>
+		<div class="row h4 spacer-20" style="font-weight: normal">
+			<span style="padding-right: 3em">Primary Phone: {{formatPhoneNumber(studentInfo.primary_phone)}}</span>
+			<span ng-if="studentInfo.secondary_phone">
+				Secondary Phone: {{formatPhoneNumber(studentInfo.secondary_phone)}}
+			</span>
+		</div>
+		<div class="row h4" style="font-weight: normal">
+			<span>Address: {{studentInfo.street}}, {{studentInfo.city}}, {{studentInfo.state}} {{studentInfo.zipcode}}</span>
+		</div>
 	</div>
 </div>
 
@@ -10,9 +34,9 @@
 			Primary Emergency Contact
 		</div>
 		<div class="panel-body">
-			Name: {{primaryEmergencyContact.full_name}}<br/>
-			Relationship: {{primaryEmergencyContact.relation}}<br/>
-			Phone: {{formatPhoneNumber(primaryEmergencyContact.phone_number)}}<br/>
+			<p>Name: {{primaryEmergencyContact.full_name}}</p>
+			<p>Relationship: {{primaryEmergencyContact.relation}}</p>
+			<p>Phone: {{formatPhoneNumber(primaryEmergencyContact.phone_number)}}</p>
 		</div>
 	</div>
 
@@ -21,9 +45,9 @@
 			Secondary Emergency Contact
 		</div>
 		<div class="panel-body">
-			Name: {{secondaryEmergencyContact.full_name}}<br/>
-			Relationship: {{secondaryEmergencyContact.relation}}<br/>
-			Phone: {{formatPhoneNumber(secondaryEmergencyContact.phone_number)}}<br/>
+			<p>Name: {{secondaryEmergencyContact.full_name}}<p>
+			<p>Relationship: {{secondaryEmergencyContact.relation}}</p>
+			<p>Phone: {{formatPhoneNumber(secondaryEmergencyContact.phone_number)}}</p>
 		</div>
 	</div>
 </div>

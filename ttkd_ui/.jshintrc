@@ -54,6 +54,7 @@
     "node": true,
 
     "globals": {
+				"moment": false,
         "angular": false,
         "$": false
     }

@@ -4,13 +4,6 @@
 
   .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     $stateProvider
-<<<<<<< 17191a45ea9bb8fd8012c6a9152f000722584645
-
-      //you can set this to no template if you just want to use the html in the page
-
-=======
-      //you can set this to no template if you just want to use the html in the page
->>>>>>> begin fleshing out page
       .state('home', {
         url: '/',
         templateUrl: 'home/home.html',
@@ -48,7 +41,7 @@
         url: '/studentlist',
         templateUrl: 'components/classlist/classlist.html',
         controller: 'ClassListCtrl'
-      });
+      })
 
 			.state('studentDetails', {
 				url: '/students/{studentId}',
