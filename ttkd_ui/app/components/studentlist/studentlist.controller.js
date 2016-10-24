@@ -8,14 +8,12 @@
         $scope.allStudents = [];            //every student in the system
         $scope.classes = [];                //every class in the system
         $scope.attendanceRecords = [];      //all attendance records in the system
-        $scope.inAttendance = [];           //currently present students
         $scope.sortAZ = true;
         $scope.sortDisplayString = 'A-Z';
 
         $scope.filters = {
             showActive: true,
             showInactive: false,
-            showPresent: ($stateParams.classId === null ? true : false),
             searchQuery: null,
             currentBelt: null,
             currentClass: null,
@@ -93,12 +91,6 @@
                 }
             });
 
-            // if($scope.filters.showPresent === true){
-            //     angular.forEach(filteredStudents, function(fVal){
-            //         console.log(fVal);
-            //     });
-            // }
-            
             //if a specific date is selected
             if($scope.selectedDate.value != null){
 

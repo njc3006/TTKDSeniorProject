@@ -14,16 +14,16 @@
 				<option value="">Select Belt</option>
 			</select>
 		</div>
-		<div class="col-xs-3 checkboxes">
+		<div class="col-xs-2 checkboxes">
 			<span class="checkbox-inline">
 				<label><input type="checkbox" name="activeBox" id="activeBox" ng-model="filters.showActive" ng-click="setDisplayedStudents()">Active</label>
 			</span>
 			<span class="checkbox-inline">
 				<label><input type="checkbox" name="inactiveBox" ng-model="filters.showInactive" ng-click="setDisplayedStudents()">Inactive</label>
 			</span>
-			<span class="checkbox-inline">
-				<label><input type="checkbox" name="presentBox" ng-model="filters.showPresent" ng-click="setDisplayedStudents()">Present</label>
-			</span>
+		</div>
+		<div class="col-xs-1">
+			<div class="btn btn-primary" ng-click="today()">Today</div>
 		</div>
 		<div class="col-xs-2">
 			<input type="search" class="form-control" placeholder="Search" name="searchbox" ng-model="filters.searchQuery">
