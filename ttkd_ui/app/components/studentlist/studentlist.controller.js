@@ -93,11 +93,11 @@
                 }
             });
 
-            if($scope.filters.showPresent === true){
-                angular.forEach(filteredStudents, function(fVal){
-                    console.log(fVal);
-                });
-            }
+            // if($scope.filters.showPresent === true){
+            //     angular.forEach(filteredStudents, function(fVal){
+            //         console.log(fVal);
+            //     });
+            // }
             
             //if a specific date is selected
             if($scope.selectedDate.value != null){
@@ -207,7 +207,6 @@
 
             StudentListService.getClassAttendanceRecords(classId, formattedDate).then(
                 function(response){
-                    console.log(response.data);
                     $scope.inAttendance = response.data;
                 });
         };

@@ -53,18 +53,13 @@
 			<div class="col-xs-8 entry">
 				<div class="row"><h2>{{p.person.first_name}} {{p.person.last_name}}</h2></div>
 				<div class="row spacer-20">
-					<span class="testing">Email: placeholderEmail@gmail.com</span>
+					<span ng-repeat="email in p.person.emails | limitTo:1 track by $index">
+						<span>Email: {{email.email}} <br></span>
+					</span>
 					<span>Phone: {{p.person.primary_phone}}</span>
 				</div>
-				<div class="row">
-					Emergency Contact 1: 
-					{{p.person.emgContact1}} Placeholder Name,
-					{{p.person.emgPhone1}} 5853332221
-				</div>
-				<div class="row">
-					Emergency Contact 2: 
-					{{p.person.emgContact2}} Another Name,
-					{{p.person.emgPhone2}} 4448887777
+				<div class="row" ng-repeat="contact in p.person.emergency_contacts | limitTo:2 track by $index">
+					Emergency Contact {{$index + 1}}: {{contact.full_name}}, {{contact.phone_number}}
 				</div>
 				<hr>
 			</div>
