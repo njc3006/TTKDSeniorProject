@@ -17,8 +17,9 @@
 				return $http.get('http://localhost:8000/api/checked-in/persons');
 			},
 
-			getClassAttendenceRecords: function(programId) {
-				return $http.get('http://localhost:8000/api/check-ins/?program=' + programId);
+			getClassAttendanceRecords: function(programId, date) {
+				console.log(programId);
+				return $http.get('http://localhost:8000/api/check-ins/?program=' + programId + '&date=' + date);
 			}
 		};
 	}

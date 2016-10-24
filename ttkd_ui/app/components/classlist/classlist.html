@@ -22,7 +22,7 @@
 				<label><input type="checkbox" name="inactiveBox" ng-model="filters.showInactive" ng-click="setDisplayedStudents()">Inactive</label>
 			</span>
 			<span class="checkbox-inline">
-				<label><input type="checkbox" name="presentBox" ng-model="filters.showPresent" ng-click="">Present</label>
+				<label><input type="checkbox" name="presentBox" ng-model="filters.showPresent" ng-click="setDisplayedStudents()">Present</label>
 			</span>
 		</div>
 		<div class="col-xs-2">
@@ -35,7 +35,8 @@
 		                 ng-model="selectedDate.value"
 		                 is-open="selectedDate.open"
 		                 ng-required="true"
-		                 close-text="Close" />
+		                 close-text="Close"
+		                 placeholder="Date" />
           		<span class="input-group-btn">
 	          		<button class="btn btn-default" ng-click="open()">
 	          		<i class="glyphicon glyphicon-calendar"></i></button> 
