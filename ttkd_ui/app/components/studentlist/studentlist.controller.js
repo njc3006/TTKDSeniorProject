@@ -1,9 +1,9 @@
 (function() {
 
-  angular.module('ttkdApp.classlistCtrl', [])
+  angular.module('ttkdApp.studentlistCtrl', [])
 
-    .controller('ClassListCtrl', ['$scope', '$stateParams', 'ClassListService',
-        function($scope, $stateParams, ClassListService) {
+    .controller('StudentListCtrl', ['$scope', '$stateParams', 'StudentListService',
+        function($scope, $stateParams, StudentListService) {
         $scope.people = [];                 //currently displayed list of students
         $scope.allStudents = [];            //every student in the system
         $scope.classes = [];                //every class in the system
@@ -170,7 +170,7 @@
 
         //retrieves the total list of classes
         $scope.getClassList = function(){
-            ClassListService.getClassList().then(
+            StudentListService.getClassList().then(
                 function(response){
                     $scope.classes = response.data;
 
@@ -180,7 +180,7 @@
 
         //retrieves the list of all students in the system
         $scope.getAllStudents = function(){
-            ClassListService.getAllStudents().then(
+            StudentListService.getAllStudents().then(
                 function(response){
                     var tempdata = response.data;
                     
@@ -191,7 +191,7 @@
 
         //retrieves all attendance records
         $scope.getAllCheckedIn = function(){
-            ClassListService.getAllCheckedIn().then(
+            StudentListService.getAllCheckedIn().then(
                 function(response){
                     $scope.attendanceRecords = response.data;
                 });
@@ -205,7 +205,7 @@
                 classId = $scope.filters.currentClass.id;
             }
 
-            ClassListService.getClassAttendanceRecords(classId, formattedDate).then(
+            StudentListService.getClassAttendanceRecords(classId, formattedDate).then(
                 function(response){
                     console.log(response.data);
                     $scope.inAttendance = response.data;

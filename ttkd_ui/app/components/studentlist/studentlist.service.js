@@ -1,5 +1,5 @@
 (function() {
-	function ClassListService($http, apiHost) {
+	function StudentListService($http, apiHost) {
 		return {
 			getClassList: function() {
 				return $http.get('http://localhost:8000/api/programs/');
@@ -25,5 +25,5 @@
 	}
 
 	angular.module('ttkdApp')
-		.factory('ClassListService', ['$http', 'apiHost', ClassListService]);
+		.factory('StudentListService', ['$http', 'apiHost', StudentListService]);
 })();
