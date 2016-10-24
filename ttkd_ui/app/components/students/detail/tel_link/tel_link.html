@@ -1,5 +1,5 @@
 <span>
-	{{label}}:
+	{{label}}{{label ? ':' : ''}}
 	<a href="tel:{{formatPhoneNumberForLink(phoneNumber)}}">
 		{{formatPhoneNumberForDisplay(phoneNumber)}}
 	</a>
