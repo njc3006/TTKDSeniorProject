@@ -12,18 +12,23 @@
 				<button class="btn btn-warning" type="button">Edit</button>
 			</div>
 		</div>
-		<div class="row h4 spacer-20" style="font-weight: normal">
+		<div class="row h4 spacer-10" style="font-weight: normal">
 			<span style="padding-right: 3em">Age: {{currentAge()}}</span>
 			<span>Birthday: {{formattedBirthday()}}</span>
 		</div>
-		<div class="row h4 spacer-20" style="font-weight: normal">
-			<span style="padding-right: 3em">Primary Phone: {{formatPhoneNumber(studentInfo.primary_phone)}}</span>
-			<span ng-if="studentInfo.secondary_phone">
-				Secondary Phone: {{formatPhoneNumber(studentInfo.secondary_phone)}}
-			</span>
+		<div class="row h4 spacer-10" style="font-weight: normal">
+			<tel-link phone="studentInfo.primary_phone" label="'Primary Phone'" style="padding-right: 3em"></tel-link>
+			<tel-link ng-if="studentInfo.secondary_phone" phone="studentInfo.secondary_phone" label="'Secondary Phone'">
+			</tel-link>
+		</div>
+		<div class="row h4 spacer-10" style="font-weight: normal">
+			<span>Address: {{studentInfo.street}}, {{studentInfo.city}}, {{studentInfo.state}} {{studentInfo.zipcode}}</span>
 		</div>
 		<div class="row h4" style="font-weight: normal">
-			<span>Address: {{studentInfo.street}}, {{studentInfo.city}}, {{studentInfo.state}} {{studentInfo.zipcode}}</span>
+			Emails:
+			<span ng-repeat="email in studentInfo.emails">
+				<a href="mailto:{{email.email}}">{{email.email}}</a>{{$last ? '' : ', '}}
+			</span>
 		</div>
 	</div>
 </div>
@@ -36,7 +41,7 @@
 		<div class="panel-body">
 			<p>Name: {{primaryEmergencyContact.full_name}}</p>
 			<p>Relationship: {{primaryEmergencyContact.relation}}</p>
-			<p>Phone: {{formatPhoneNumber(primaryEmergencyContact.phone_number)}}</p>
+			<p><tel-link phone="primaryEmergencyContact.phone_number" label="'Phone'"></tel-link></p>
 		</div>
 	</div>
 
@@ -47,7 +52,7 @@
 		<div class="panel-body">
 			<p>Name: {{secondaryEmergencyContact.full_name}}<p>
 			<p>Relationship: {{secondaryEmergencyContact.relation}}</p>
-			<p>Phone: {{formatPhoneNumber(secondaryEmergencyContact.phone_number)}}</p>
+			<p><tel-link phone="secondaryEmergencyContact.phone_number" label="'Phone'"></tel-link></p>
 		</div>
 	</div>
 </div>

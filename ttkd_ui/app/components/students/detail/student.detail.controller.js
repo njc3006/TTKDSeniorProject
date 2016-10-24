@@ -1,15 +1,7 @@
 (function() {
 	function StudentDetailController($scope, $stateParams, StudentsService) {
 		$scope.notYetImplemented = function() {
-			alert('This feature has not yet been implemented')
-		};
-
-		$scope.formatPhoneNumber = function(phone) {
-			if (phone === undefined) {
-				return null;
-			}
-
-			return '(' + phone.substring(0, 3) + ') ' + phone.substring(3, 6) + '-' + phone.substring(6);
+			alert('This feature has not yet been implemented');
 		};
 
 		$scope.currentAge = function() {
@@ -28,15 +20,15 @@
 				return null;
 			}
 
-			var formattedMonth = $scope.studentInfo.dob.getMonth() < 9 ?
-				'0' + ($scope.studentInfo.dob.getMonth() + 1) :
-				($scope.studentInfo.dob.getMonth() + 1);
+			return moment($scope.studentInfo.dob).format('MM/DD/YYYY');
+		};
 
-			var formattedDate = $scope.studentInfo.dob.getDate() < 10 ?
-				'0' + $scope.studentInfo.dob.getDate() :
-				$scope.studentInfo.dob.getDate();
+		$scope.getFormattedEmailList = function() {
+			if ($scope.studentInfo === undefined || $scope.studentInfo.emails === undefined) {
+				return null;
+			}
 
-			return formattedMonth + '/' + formattedDate + '/' + $scope.studentInfo.dob.getFullYear();
+			return $scope.studentInfo.emails.map(function(email) { return email.email; }).join(', ');
 		};
 
 		$scope.studentInfo = {};
@@ -58,7 +50,7 @@
 		});
 	}
 
-	angular.module('ttkdApp.studentDetailController', ['ttkdApp.studentsService'])
+	angular.module('ttkdApp.studentDetailController', ['ttkdApp.studentsService', 'ttkdApp.telLinkDir'])
 		.controller('StudentDetailCtrl', [
 			'$scope',
 			'$stateParams',
