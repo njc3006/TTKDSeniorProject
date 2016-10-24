@@ -20,7 +20,7 @@
 		<form
 			name="registrationForm"
 			class="form-horizontal spacer-25"
-			ng-submit="onSubmit(registrationForm.$valid)"
+			ng-submit="onSubmit(registrationForm.$valid, $event)"
 			novalidate>
 				<ng-include src="currentFormTpl"></ng-include>
 				<button
