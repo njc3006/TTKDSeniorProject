@@ -6,7 +6,6 @@
 		function($scope, $stateParams, $document, $filter, $uibModal, CheckinService) {
 				var modalInstance;
 
-		//Hard coded for now until a program is accessible by this controller
 		$scope.programID = $stateParams.programID;
 		$scope.date = new Date();
 		$scope.instructor = true;
