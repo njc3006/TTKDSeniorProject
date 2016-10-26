@@ -2,17 +2,47 @@
 
   angular.module('ttkdApp.checkinCtrl', [])
 
-    .controller('CheckinCtrl', ['$scope', '$stateParams', '$document', '$uibModal', 'CheckinService',
-		function($scope, $stateParams, $document, $uibModal, CheckinService) {
+    .controller('CheckinCtrl', ['$scope', '$stateParams', '$document', '$filter', '$uibModal', 'CheckinService',
+		function($scope, $stateParams, $document, $filter, $uibModal, CheckinService) {
 				var modalInstance;
 
 		//Hard coded for now until a program is accessible by this controller
 		$scope.programID = $stateParams.programID;
+		$scope.date = new Date();
 		$scope.instructor = true;
 		$scope.checkedInPeople = [];
 		$scope.people = [];
 		$scope.checkedInPeopleIds = [];
 		$scope.checkedInPeopleCheckinIds = [];
+
+		$scope.selectedDate = {
+            open: false,
+            value: $scope.date
+        };
+
+        //opens the popup date picker window
+        $scope.open = function(){
+            $scope.selectedDate.open = true;
+        };
+
+        //sets the date picker date to today
+        $scope.today = function(){
+            $scope.selectedDate.value = new Date();
+        };
+
+        $scope.updateCheckins = function(){
+			$scope.date = $scope.selectedDate.value;
+            $scope.checkedInPeople = [];
+			$scope.people = [];
+			$scope.checkedInPeopleIds = [];
+			$scope.checkedInPeopleCheckinIds = [];
+			$scope.getCheckinsForClass();
+        	$scope.getStudents();
+        };
+
+        $scope.formatDate = function(date){
+			return $filter('date')(date, 'yyyy-MM-dd');
+		};
 
 		//transforms the data to include a temp picture property
         $scope.transformData = function(data){
@@ -26,8 +56,8 @@
         };
 
         // Get who is currently checked into the class
-        $scope.getCurrentCheckinsForClass = function(){
-		CheckinService.getCurrentCheckinsForClass($scope.programID).then(
+        $scope.getCheckinsForClass = function(){
+		CheckinService.getCheckinsForClass($scope.programID, $scope.formatDate($scope.date)).then(
 			function(response){
 				 var tempdata = response.data;
 
@@ -78,7 +108,7 @@
         };
 
         // Load the data for the page, must be called in this order
-		$scope.getCurrentCheckinsForClass();
+		$scope.getCheckinsForClass();
         $scope.getStudents();
 
         /*
@@ -104,7 +134,7 @@
         };
 
 		$scope.yes = function() {
-			// create checkin using api
+			// create checkin using api, backend will auto set the date to today
 			CheckinService.createCheckin({'person': $scope.selectedPerson.id, 'program': $scope.programID}).then(
 				function(response){
 				$scope.selectedPerson.checkinID = response.data.id;
@@ -117,8 +147,8 @@
 		};
 
 		$scope.instructClickCheckin = function(person) {
-			// create checkin using api
-			CheckinService.createCheckin({'person': person.id, 'program': $scope.programID}).then(
+			// create checkin using api using the selected date
+			CheckinService.createCheckin({'person': person.id, 'program': $scope.programID, 'date': $scope.formatDate($scope.date)}).then(
 				function(response){
 				person.checkinID = response.data.id;
 				});
