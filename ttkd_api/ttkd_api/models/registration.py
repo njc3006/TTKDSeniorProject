@@ -13,6 +13,6 @@ class Registration(models.Model):
     A Registration ties a Person to a Program
     """
 
-    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    person = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='classes')
 
     program = models.ForeignKey(Program)
