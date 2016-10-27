@@ -10,13 +10,12 @@
 
 		var secondaryPhoneGiven = registrationInfo.secondaryPhone !== undefined;
 
-		return {
+		var payload = {
 			person: {
 				'first_name': registrationInfo.firstName,
 				'last_name': registrationInfo.lastName,
 				'dob': registrationInfo.dob.value.getFullYear() + '-' + formattedMonth + '-' + formattedDate,
 				'primary_phone': registrationInfo.primaryPhone.replace(new RegExp('-', 'g'), ''),
-				'secondary_phone': secondaryPhoneGiven ? registrationInfo.secondaryPhone.replace(new RegExp('-', 'g'), '') : '',
 				'street': registrationInfo.street,
 				'city': registrationInfo.city,
 				'zipcode': parseInt(registrationInfo.zipcode),
@@ -37,6 +36,14 @@
 			},
 			'program': registrationInfo.program.id
 		};
+
+		if (registrationInfo.secondaryPhone !== undefined) {
+			payload.person['secondary_phone'] = registrationInfo.secondaryPhone.replace(new RegExp('-', 'g'), '');
+		} else {
+			payload.person['secondary_phone'] = '';
+		}
+
+		return payload;
 	}
 
 	function RegistrationController($scope, $timeout, $state, RegistrationService, ProgramsService, StateService) {
