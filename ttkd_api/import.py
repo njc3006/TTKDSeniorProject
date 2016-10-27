@@ -110,15 +110,17 @@ for line in open('attendance.csv'):
     data = line.split(',')
 
     programid = None
+    # still doing this so we know if the student is active
     for registration in registrations:
         if registration['person'] == students[data[1]]['pk']:
             programid = registration['program']
             break
 
     if programid == None:
-        programid = 0
         students[data[1]]['active'] = 'false'
 
+    programid = 0 # make all imported attendance marked as being imported
+    
     date = data[2].split(' ')
     attendance.append(
         {
