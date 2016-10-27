@@ -10,6 +10,11 @@
       ProgramsSvc.getProgram(defaultProgramId).then(function onSuccess(response) {
       	$scope.currentProgram = response.data;
       });
+
+      $scope.changeProgram = function(program) {
+        $scope.currentProgram = program;
+      };
+
     }]);
 
 })();

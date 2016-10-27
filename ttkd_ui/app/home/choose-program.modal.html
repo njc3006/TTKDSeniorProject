@@ -1,0 +1,13 @@
+<div class="modal-header">
+  <h3 class="modal-title" id="modal-title">Change Program</h3>
+</div>
+<div class="modal-body" id="modal-body">
+	<button class="btn btn-default btn-block" 
+		ng-repeat="program in programs"
+		ng-click="selectProgram(program)">
+	{{program.name}}
+	</button>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-danger pull-left" type="button" ng-click="closeChangeProgram()">Cancel</button>
+</div>
