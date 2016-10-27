@@ -47,6 +47,7 @@ for line in open('students.csv'):
         'state': data[15],
         'primary_phone': data[17],
         'secondary_phone': data[18],
+        'active': 'true'
     }
     pk += 1
 
@@ -89,6 +90,11 @@ for line in open('classes.csv'):
 
     pk += 1
 
+classes['dummy'] = {
+    'pk': 0,
+    'name': 'import',
+}
+
 
 attendance = []
 
@@ -108,7 +114,8 @@ for line in open('attendance.csv'):
             break
 
     if programid == None:
-        continue
+        programid = 0
+        students[data[1]]['active'] = 'false'
 
     date = data[2].split(' ')
     attendance.append(
@@ -143,7 +150,7 @@ for student_key in students.keys():
     student_info += '"stripes": null, '
     student_info += '"extra_strips": null, '
     student_info += '"misc_notes": "", '
-    student_info += '"active": true}}'
+    student_info += '"active": ' + students[student_key]['active'] + '}}'
     for email in students[student_key]['emails']:
         if email != 'null':
             student_info += ', {"model": "ttkd_api.email", '
@@ -166,12 +173,12 @@ for registration in registrations:
     import_file += '"fields": {"person": ' + str(registration['person']) + ', '
     import_file += '"program": ' + str(registration['program']) + '}}'
 
-#for check_in in attendance:
-#    import_file += ', {"model": "ttkd_api.attendancerecord", '
-#    import_file += '"pk": ' + str(check_in['pk']) + ', '
-#    import_file += '"fields": {"person": ' + str(check_in['person']) + ', '
-#    import_file += '"date": "' + check_in['date'] + '", '
-#    import_file += '"program": ' + str(check_in['program']) + '}}'
+for check_in in attendance:
+    import_file += ', {"model": "ttkd_api.attendancerecord", '
+    import_file += '"pk": ' + str(check_in['pk']) + ', '
+    import_file += '"fields": {"person": ' + str(check_in['person']) + ', '
+    import_file += '"date": "' + check_in['date'] + '", '
+    import_file += '"program": ' + str(check_in['program']) + '}}'
 
 
 
