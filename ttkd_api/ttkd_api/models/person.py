@@ -62,14 +62,6 @@ class Person(models.Model):
         blank=True,
         null=True,
     )
-    stripes = models.PositiveIntegerField(
-        blank=True,
-        null=True,
-    )
-    extra_strips = models.PositiveIntegerField(
-        blank=True,
-        null=True,
-    )
     misc_notes = models.CharField(
         max_length=1000,
         blank=True,

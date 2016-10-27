@@ -18,4 +18,3 @@ class Belt(models.Model):
         blank=True,
         null=True,
     )
-    num_strips = models.PositiveIntegerField()
