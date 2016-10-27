@@ -1,4 +1,16 @@
 (function() {
+	function reformatObject(object) {
+		reformatted = {};
+
+		for (var field in object) {
+			var camelCased = field.replace(/_([a-z])/g, function (g) { return g[1].toUpperCase(); });
+
+			reformatted[camelCased] = object[field];
+		}
+
+		return reformatted;
+	}
+
 	function StudentDetailController($scope, $stateParams, StudentsService) {
 		$scope.notYetImplemented = function() {
 			alert('This feature has not yet been implemented');
@@ -37,13 +49,13 @@
 		$scope.studentRequestFailed = false;
 
 		StudentsService.getStudent($stateParams.studentId).then(function(response) {
-			$scope.studentInfo = response.data.person;
+			$scope.studentInfo = reformatObject(response.data.person);
 
 			$scope.studentInfo.picture = 'http://placehold.it/350x350';
 			$scope.studentInfo.dob = new Date($scope.studentInfo.dob);
 
-			$scope.primaryEmergencyContact   = $scope.studentInfo.emergency_contacts[0];
-			$scope.secondaryEmergencyContact = $scope.studentInfo.emergency_contacts[1];
+			$scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContacts[0]);
+			$scope.secondaryEmergencyContact = reformatObject($scope.studentInfo.emergencyContacts[1]);
 		}, function(error) {
 			console.error(error);
 			$scope.studentRequestFailed = true;
