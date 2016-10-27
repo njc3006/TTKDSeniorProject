@@ -75,6 +75,7 @@ for line in open('classes.csv'):
     classes[data[0]] = {
         'pk': pk,
         'name': programs[data[2]] + ' ' + data[1],
+        'active': 'true'
     }
 
     enrolled = data[3].split('/')
@@ -93,6 +94,7 @@ for line in open('classes.csv'):
 classes['dummy'] = {
     'pk': 0,
     'name': 'import',
+    'active': 'false'
 }
 
 
@@ -165,7 +167,7 @@ for class_key in classes.keys():
     import_file += ', {"model": "ttkd_api.program", '
     import_file += '"pk": ' + str(classes[class_key]['pk']) + ', '
     import_file += '"fields": {"name": "' + classes[class_key]['name'] + '", '
-    import_file += '"active": true}}'
+    import_file += '"active": ' + classes[class_key]['active'] + '}}'
 
 for registration in registrations:
     import_file += ', {"model": "ttkd_api.registration", '
