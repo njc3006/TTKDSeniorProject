@@ -10,4 +10,4 @@ from .picture import Picture
 from .program import Program
 from .registration import Registration
 from .person_stripe import PersonStripe
-from .stripes import Stripe
+from .stripe import Stripe

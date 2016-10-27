@@ -13,6 +13,8 @@ from .views.program_views import ProgramViewSet, StudentList
 from .views.registration_views import RegistrationViewSet
 from .views.email_views import EmailViewSet
 from .views import UserViewSet
+from .views.stripe_views import StripeViewSet
+from .views.person_stripe_views import PersonStripeViewSet
 
 router = routers.DefaultRouter()
 
@@ -25,6 +27,8 @@ router.register(r'checked-in/persons', AttendanceRecordUsingPersonViewSet, 'chec
 router.register(r'registrations', RegistrationViewSet)
 router.register(r'students', StudentList, 'student-list')
 router.register(r'emails', EmailViewSet)
+router.register(r'stripes', StripeViewSet)
+router.register(r'person-stripes', PersonStripeViewSet)
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),
