@@ -1,19 +1,19 @@
 (function() {
-	function CheckinService($http, $filter) {
+	function CheckinService($http, $filter, apiHost) {
 		return {
 			getStudentsFromClass: function(programId) {
-				return $http.get('http://localhost:8000/api/students/?program=' + programId);
+				return $http.get(apiHost + '/api/students/?program=' + programId);
 			},
 			getCurrentCheckinsForClass: function(programId) {
-				return $http.get('http://localhost:8000/api/check-ins/?program=' + programId +
+				return $http.get(apiHost + '/api/check-ins/?program=' + programId +
 					'&date=' + $filter('date')(new Date(), 'yyyy-MM-dd'));
 			},
 			createCheckin: function(data) {
-				return $http.post('http://localhost:8000/api/check-ins/', data);
+				return $http.post(apiHost + '/api/check-ins/', data);
 			}
 		};
 	}
 
 	angular.module('ttkdApp')
-		.factory('CheckinService', ['$http', '$filter', CheckinService]);
+		.factory('CheckinService', ['$http', '$filter', 'apiHost', CheckinService]);
 })();
