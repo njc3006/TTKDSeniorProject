@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid checkin">
 	<div class="row">
 		<div class="col-xs-2" ng-if="instructor">
 			<div class="input-group">
@@ -9,6 +9,7 @@
 						 close-text="Close"
 						 ng-readonly="true"
 						 ng-change="updateCheckins()"
+						 ng-click="selectedDate.open = !selectedDate.open"
 						 show-button-bar="false"/>
 				<span class="input-group-btn">
 					<button class="btn btn-default" ng-click="open()">
