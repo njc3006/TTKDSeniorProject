@@ -2,23 +2,23 @@
 	function ClassListService($http, apiHost) {
 		return {
 			getClassList: function() {
-				return $http.get('http://localhost:8000/api/programs/');
+				return $http.get(apiHost + '/api/programs/');
 			},
 
 			getAllStudents: function() {
-				return $http.get('http://localhost:8000/api/students');
+				return $http.get(apiHost + '/api/students');
 			},
 
 			getStudentsFromClass: function(programId) {
-				return $http.get('http://localhost:8000/api/students/?program=' + programId);
+				return $http.get(apiHost + '/api/students/?program=' + programId);
 			},
 
 			getAllCheckedIn: function() {
-				return $http.get('http://localhost:8000/api/checked-in/persons');
+				return $http.get(apiHost + '/api/checked-in/persons');
 			},
 
 			getClassAttendenceRecords: function(programId) {
-				return $http.get('http://localhost:8000/api/check-ins/?program=' + programId);
+				return $http.get(apiHost + '/api/check-ins/?program=' + programId);
 			}
 		};
 	}
