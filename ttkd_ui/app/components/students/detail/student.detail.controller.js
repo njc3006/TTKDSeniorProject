@@ -44,12 +44,20 @@
 		};
 
 		$scope.studentInfo = {};
+		$scope.beltBorderStyle = {};
 		$scope.primaryEmergencyContact = {};
 		$scope.secondaryEmergencyContact = {};
 		$scope.studentRequestFailed = false;
 
 		StudentsService.getStudent($stateParams.studentId).then(function(response) {
 			$scope.studentInfo = reformatObject(response.data.person);
+
+			if ($scope.studentInfo.belt !== null) {
+				$scope.beltBorderStyle = {
+					'border-style': 'solid',
+					'border-color': $scope.studentInfo.belt
+				};
+			}
 
 			$scope.studentInfo.picture = 'http://placehold.it/350x350';
 			$scope.studentInfo.dob = new Date($scope.studentInfo.dob);

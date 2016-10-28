@@ -1,10 +1,10 @@
 <div class="row spacer-20">
 	<div class="col-sm-2" style="padding-left: 0px">
-		<img class="img-responsive" ng-src="{{studentInfo.picture}}">
+		<img class="img-responsive" ng-src="{{studentInfo.picture}}" ng-style="beltBorderStyle">
 		<button class="btn btn-primary col-sm-12" type="button" ng-click="notYetImplemented()">Change</button>
 	</div>
 	<div class="col-sm-10">
-		<div class="row spacer-20">
+		<div class="row spacer-10">
 			<span class="h2">{{studentInfo.firstName}} {{studentInfo.lastName}}</span>
 			<div class="btn-group pull-right">
 				<button class="btn btn-primary" type="button" ng-click="notYetImplemented()">
@@ -12,6 +12,11 @@
 				</button>
 				<button class="btn btn-warning" type="button" ng-click="notYetImplemented()">Edit</button>
 			</div>
+		</div>
+		<div class="row h4 spacer-10" style="font-weight: normal">
+			Status: <span ng-class="{'text-success': studentInfo.active, 'text-danger': !studentInfo.active}">
+				{{studentInfo.active ? 'Active' : 'Inactive'}}
+			</span>
 		</div>
 		<div class="row h4 spacer-10" style="font-weight: normal">
 			<span style="padding-right: 3em">Age: {{currentAge()}}</span>
