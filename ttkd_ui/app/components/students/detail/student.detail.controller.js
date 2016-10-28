@@ -1,6 +1,6 @@
 (function() {
 	function reformatObject(object) {
-		reformatted = {};
+		var reformatted = {};
 
 		for (var field in object) {
 			if (object.hasOwnProperty(field)) {
@@ -49,26 +49,35 @@
 		$scope.beltBorderStyle = {};
 		$scope.primaryEmergencyContact = {};
 		$scope.secondaryEmergencyContact = {};
+
+		$scope.studentLoaded = false;
 		$scope.studentRequestFailed = false;
+		$scope.studentDoesNotExist = false;
 
 		StudentsService.getStudent($stateParams.studentId).then(function(response) {
+			$scope.studentLoaded = true;
+
 			$scope.studentInfo = reformatObject(response.data.person);
-			console.log($scope.studentInfo);
+
+			$scope.studentInfo.picture = 'http://placehold.it/350x350';
+			$scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
+
+			$scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContacts[0]);
+			$scope.secondaryEmergencyContact = reformatObject($scope.studentInfo.emergencyContacts[1]);
 
 			if ($scope.studentInfo.belt !== null) {
 				$scope.beltBorderStyle = {
 					'border': 'orange 6px solid'
 				};
 			}
-
-			$scope.studentInfo.picture = 'http://placehold.it/350x350';
-			$scope.studentInfo.dob = new Date($scope.studentInfo.dob);
-
-			$scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContacts[0]);
-			$scope.secondaryEmergencyContact = reformatObject($scope.studentInfo.emergencyContacts[1]);
 		}, function(error) {
-			console.error(error);
-			$scope.studentRequestFailed = true;
+			$scope.studentLoaded = true;
+
+			if (error.status === 404) {
+				$scope.studentDoesNotExist = true;
+			} else {
+				$scope.studentRequestFailed = true;
+			}
 		});
 	}
 
