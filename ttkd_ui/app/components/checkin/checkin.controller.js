@@ -6,8 +6,6 @@
 		function($scope, $document, $uibModal, CheckinService) {
 				var modalInstance;
 
-		//Hard coded for now until a program is accessible by this controller
-		$scope.programID = 2;
 		$scope.checkedInPeople = [];
 		$scope.people = [];
 		$scope.checkedInPeopleIds = [];
@@ -25,7 +23,7 @@
 
         // Get who is currently checked into the class
         $scope.getCurrentCheckinsForClass = function(){
-		CheckinService.getCurrentCheckinsForClass($scope.programID).then(
+		CheckinService.getCurrentCheckinsForClass($scope.currentProgram.id).then(
 			function(response){
 				 var tempdata = response.data;
 
@@ -43,7 +41,7 @@
         // Get all of the students from the class and then move the ones that are already
 		// checked in into a separate list
 		$scope.getStudents = function(){
-		CheckinService.getStudentsFromClass($scope.programID).then(
+		CheckinService.getStudentsFromClass($scope.currentProgram.id).then(
 			function(response){
 				 var tempdata = response.data;
 
@@ -101,7 +99,7 @@
 		$scope.yes = function() {
 			// create checkin using api
 			CheckinService.createCheckin({'person': $scope.selectedPerson.id,
-										  'program': $scope.programID});
+										  'program': $scope.currentProgram.id});
 			modalInstance.dismiss('yes');
 
 			//pop person from the list and move them to the end

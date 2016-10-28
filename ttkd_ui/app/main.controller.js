@@ -1,10 +1,20 @@
 (function() {
 
   angular.module('ttkdApp.mainCtrl', [])
-    .controller('MainCtrl', ['$scope', function($scope) {
+    .controller('MainCtrl', ['$scope', 'ProgramsSvc', 'defaultProgramId', 
+    	function($scope, ProgramsSvc, defaultProgramId) {
       $scope.showNav = true;
-      $scope.title = 'Home';
-      $scope.currentClass = 'Tiny Ninjas';
+      $scope.title = 'Tioga Tae Kwon Do';
+      
+      //get the default active program
+      ProgramsSvc.getProgram(defaultProgramId).then(function onSuccess(response) {
+      	$scope.currentProgram = response.data;
+      });
+
+      $scope.changeProgram = function(program) {
+        $scope.currentProgram = program;
+      };
+
     }]);
 
 })();

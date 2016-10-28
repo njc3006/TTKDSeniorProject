@@ -1,14 +1,11 @@
 <div class="container text-center">
-	<div class="spacer-20"></div>
-	<div class="row spacer-20">
-		<h3>Current Class: {{activeClass.name}}</h3>
-	</div>
+	<div class="spacer-35"></div>
 
 	<div class="row spacer-20">
 	 	<a ui-sref="checkin" ui-sref-active="active" class="btn btn-primary">Begin Check-in</a>
 	</div>
 	<div class="row spacer-20">
-		<a ui-sref-active="active" class="btn btn-primary">Change Class</a>
+		<a ui-sref-active="active" class="btn btn-primary" ng-click="openChangeProgram()">Change Program</a>
 	</div>
 	<div class="row spacer-20">
 		<a ui-sref="registration" ui-sref-active="active" class="btn btn-primary">Register</a>
@@ -19,4 +16,7 @@
 	<div class="row">
 		<a ui-sref="studentlist()" ui-sref-active="active" class="btn btn-primary">Student List</a>
 	</div>
+</div>
+
+<div id="#change-program-modal">
 </div>
