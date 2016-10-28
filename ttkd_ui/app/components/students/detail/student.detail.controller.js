@@ -3,9 +3,11 @@
 		reformatted = {};
 
 		for (var field in object) {
-			var camelCased = field.replace(/_([a-z])/g, function (g) { return g[1].toUpperCase(); });
+			if (object.hasOwnProperty(field)) {
+				var camelCased = field.replace(/_([a-z])/g, function (g) { return g[1].toUpperCase(); });
 
-			reformatted[camelCased] = object[field];
+				reformatted[camelCased] = object[field];
+			}
 		}
 
 		return reformatted;
@@ -51,11 +53,11 @@
 
 		StudentsService.getStudent($stateParams.studentId).then(function(response) {
 			$scope.studentInfo = reformatObject(response.data.person);
+			console.log($scope.studentInfo);
 
 			if ($scope.studentInfo.belt !== null) {
 				$scope.beltBorderStyle = {
-					'border-style': 'solid',
-					'border-color': $scope.studentInfo.belt
+					'border': 'orange 6px solid'
 				};
 			}
 
