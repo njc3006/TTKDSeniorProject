@@ -3,7 +3,6 @@ A File that holds the Person Class
 @author AJ Deck, Nick Coriale
 """
 from django.db import models
-from .belt import Belt
 
 
 class Person(models.Model):
@@ -54,11 +53,6 @@ class Person(models.Model):
     )
     state = models.CharField(
         max_length=2,
-        blank=True,
-        null=True,
-    )
-    belt = models.ForeignKey(
-        Belt,
         blank=True,
         null=True,
     )

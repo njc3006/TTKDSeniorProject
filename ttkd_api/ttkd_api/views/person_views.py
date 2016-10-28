@@ -11,4 +11,4 @@ class PersonViewSet(viewsets.ModelViewSet):
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('first_name', 'last_name', 'belt', 'active',)
+    filter_fields = ('first_name', 'last_name', 'active',)

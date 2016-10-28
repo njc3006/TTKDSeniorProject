@@ -7,6 +7,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 # Import ViewSets
+from .views.person_belt_views import PersonBeltViewSet
+from .views.belt_views import BeltViewSet
 from .views.attendance_record_views import AttendanceRecordViewSet, AttendanceRecordUsingPersonViewSet
 from .views.person_views import PersonViewSet
 from .views.program_views import ProgramViewSet, StudentList
@@ -29,6 +31,8 @@ router.register(r'students', StudentList, 'student-list')
 router.register(r'emails', EmailViewSet)
 router.register(r'stripes', StripeViewSet)
 router.register(r'person-stripes', PersonStripeViewSet)
+router.register(r'belts', BeltViewSet)
+router.register(r'person-belts', PersonBeltViewSet)
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),

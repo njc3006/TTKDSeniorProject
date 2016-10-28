@@ -13,7 +13,7 @@ class PersonStripeViewSet(viewsets.ModelViewSet):
     queryset = PersonStripe.objects.all()
     serializer_class = PersonStripeSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('person',)
+    filter_fields = ('person', 'current_stripe',)
 
 
 

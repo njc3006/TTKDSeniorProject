@@ -12,7 +12,4 @@ class StripeViewSet(viewsets.ModelViewSet):
     queryset = Stripe.objects.all()
     serializer_class = StripeSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('belt',)
-
-
-
+    filter_fields = ('active',)

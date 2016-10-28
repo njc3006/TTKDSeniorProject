@@ -9,15 +9,17 @@ from .belt import Belt
 class Stripe(models.Model):
     """
     A Django model
-    Persons will have stripes, this is used to store the information about stripes
+    The system has a set of stripes, and each stripe can be removed in the front end which sets its active to false
     """
-    belt = models.ForeignKey(Belt, on_delete=models.CASCADE)
-
     color = models.CharField(
-        max_length=10,
+        max_length=25,
         blank=True,
         null=True,
     )
 
+    active = models.BooleanField(
+        default=True,
+    )
+
     def __str__(self):
-        return str(self.belt) + " - " + self.color
+        return self.color
