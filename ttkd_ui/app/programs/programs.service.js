@@ -1,7 +1,12 @@
 (function() {
-	function ProgramsService($http, apiHost) {
+	angular.module('ttkdApp.programsSvc', ['ttkdApp.constants'])
+		.factory('ProgramsSvc', ['$http', '$filter', 'apiHost', function($http, $filter, apiHost) {
 		return {
 			getPrograms: function() {
+				return $http.get(apiHost + '/api/programs');
+			},
+
+			getActivePrograms: function() {
 				return $http.get(apiHost + '/api/programs');
 			},
 
@@ -9,8 +14,5 @@
 				return $http.get(apiHost + '/api/programs/'+id);
 			}
 		};
-	}
-
-	angular.module('ttkdApp.programsSvc', ['ttkdApp.constants'])
-		.factory('ProgramsSvc', ['$http', 'apiHost', ProgramsService]);
+	}]);
 })();
