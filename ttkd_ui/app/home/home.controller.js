@@ -28,7 +28,7 @@
     	};
 
     	//initialization
-		ProgramsSvc.getPrograms().then(function onSuccess(response) {
+		ProgramsSvc.getActivePrograms().then(function onSuccess(response) {
 			$scope.programs = response.data;
 		});
 
