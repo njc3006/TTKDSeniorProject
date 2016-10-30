@@ -15,7 +15,7 @@
             showActive: true,
             showInactive: false,
             showPresent: ($stateParams.classId === null ? true : false),
-            searchQuery: null,
+            searchQuery: "",
             currentBelt: null,
             currentClass: null,
         };

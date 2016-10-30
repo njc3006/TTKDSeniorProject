@@ -6,7 +6,7 @@ from ..models.person import Person
 
 class EmailSerializer(serializers.ModelSerializer):
     """
-    EmailSerializer Outputs Program Model as JSON
+    EmailSerializer Outputs Email Model as JSON
     """
     person = serializers.PrimaryKeyRelatedField(queryset=Person.objects.all(), required=False)
 

@@ -9,3 +9,6 @@ from .person import Person
 from .picture import Picture
 from .program import Program
 from .registration import Registration
+from .person_stripe import PersonStripe
+from .person_belt import PersonBelt
+from .stripe import Stripe
