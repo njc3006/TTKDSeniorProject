@@ -20,11 +20,14 @@
       })
 
       .state('checkin', {
-        url: '/checkin',
+        url: '/checkin/{programID:int}',
         templateUrl: 'components/checkin/checkin.html',
         controller: 'CheckinCtrl',
         data: {
           pageTitle: 'Checkin'
+        },
+        params: {
+            instructor: false
         }
       })
 

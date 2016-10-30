@@ -2,13 +2,46 @@
 
   angular.module('ttkdApp.checkinCtrl', [])
 
-    .controller('CheckinCtrl', ['$scope', '$document', '$uibModal', 'CheckinService',
-		function($scope, $document, $uibModal, CheckinService) {
+    .controller('CheckinCtrl', ['$scope', '$stateParams', '$document', '$filter', '$uibModal', 'CheckinService',
+		function($scope, $stateParams, $document, $filter, $uibModal, CheckinService) {
 				var modalInstance;
 
+		$scope.programID = $stateParams.programID;
+		$scope.instructor = $stateParams.instructor;
+		$scope.date = new Date();
 		$scope.checkedInPeople = [];
 		$scope.people = [];
 		$scope.checkedInPeopleIds = [];
+		$scope.checkedInPeopleCheckinIds = [];
+
+		$scope.selectedDate = {
+            open: false,
+            value: $scope.date
+        };
+
+        //opens the popup date picker window
+        $scope.open = function(){
+            $scope.selectedDate.open = true;
+        };
+
+        //sets the date picker date to today
+        $scope.today = function(){
+            $scope.selectedDate.value = new Date();
+        };
+
+        $scope.updateCheckins = function(){
+			$scope.date = $scope.selectedDate.value;
+            $scope.checkedInPeople = [];
+			$scope.people = [];
+			$scope.checkedInPeopleIds = [];
+			$scope.checkedInPeopleCheckinIds = [];
+			$scope.getCheckinsForClass();
+        	$scope.getStudents();
+        };
+
+        $scope.formatDate = function(date){
+			return $filter('date')(date, 'yyyy-MM-dd');
+		};
 
 		//transforms the data to include a temp picture property
         $scope.transformData = function(data){
@@ -22,8 +55,8 @@
         };
 
         // Get who is currently checked into the class
-        $scope.getCurrentCheckinsForClass = function(){
-		CheckinService.getCurrentCheckinsForClass($scope.currentProgram.id).then(
+        $scope.getCheckinsForClass = function(){
+		CheckinService.getCheckinsForClass($scope.programID, $scope.formatDate($scope.date)).then(
 			function(response){
 				 var tempdata = response.data;
 
@@ -33,6 +66,7 @@
 				// of the person object
 				angular.forEach(tempdata, function(value, key){
 					$scope.checkedInPeopleIds.push(value['person']);
+					$scope.checkedInPeopleCheckinIds.push(value['id']);
 				});
 
 			});
@@ -60,7 +94,9 @@
 				//Move the people that are already checked in into a separate list
 				angular.forEach(tempPeople, function(value){
 					var personID = value['id'];
-					if ($scope.checkedInPeopleIds.indexOf(personID) !== -1){
+					var index = $scope.checkedInPeopleIds.indexOf(personID);
+					if (index !== -1){
+						value.checkinID = $scope.checkedInPeopleCheckinIds[index];
 						$scope.checkedInPeople.push(value);
 					}else{
 						$scope.people.push(value);
@@ -71,7 +107,7 @@
         };
 
         // Load the data for the page, must be called in this order
-		$scope.getCurrentCheckinsForClass();
+		$scope.getCheckinsForClass();
         $scope.getStudents();
 
         /*
@@ -97,14 +133,40 @@
         };
 
 		$scope.yes = function() {
-			// create checkin using api
-			CheckinService.createCheckin({'person': $scope.selectedPerson.id,
-										  'program': $scope.currentProgram.id});
+			// create checkin using api, backend will auto set the date to today
+			CheckinService.createCheckin({'person': $scope.selectedPerson.id, 'program': $scope.programID}).then(
+				function(response){
+				$scope.selectedPerson.checkinID = response.data.id;
+				});
 			modalInstance.dismiss('yes');
 
 			//pop person from the list and move them to the end
 			$scope.people.splice($scope.people.indexOf($scope.selectedPerson),1);
 			$scope.checkedInPeople.push($scope.selectedPerson);
+		};
+
+		$scope.instructClickCheckin = function(person) {
+			// create checkin using api using the selected date
+			CheckinService.createCheckin({'person': person.id, 'program': $scope.programID, 'date': $scope.formatDate($scope.date)}).then(
+				function(response){
+				person.checkinID = response.data.id;
+				});
+
+			//pop person from the list and move them to the end
+			$scope.people.splice($scope.people.indexOf(person),1);
+			$scope.checkedInPeople.push(person);
+		};
+
+		$scope.instructClickDeleteCheckin = function(person) {
+			// delete checkin using api
+
+			CheckinService.deleteCheckin(person.checkinID);
+
+			person.checkinID = null;
+
+			//pop person from the checked in list and move them to people
+			$scope.checkedInPeople.splice($scope.checkedInPeople.indexOf(person),1);
+			$scope.people.push(person);
 		};
 
 		$scope.no = function() {
