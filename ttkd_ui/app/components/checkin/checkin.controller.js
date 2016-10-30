@@ -75,7 +75,7 @@
         // Get all of the students from the class and then move the ones that are already
 		// checked in into a separate list
 		$scope.getStudents = function(){
-		CheckinService.getStudentsFromClass($scope.programID).then(
+		CheckinService.getStudentsFromClass($scope.currentProgram.id).then(
 			function(response){
 				 var tempdata = response.data;
 

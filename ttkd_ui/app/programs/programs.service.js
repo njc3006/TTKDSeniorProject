@@ -3,6 +3,10 @@
 		return {
 			getPrograms: function() {
 				return $http.get(apiHost + '/api/programs');
+			},
+
+			getProgram: function(id) {
+				return $http.get(apiHost + '/api/programs/'+id);
 			}
 		};
 	}
