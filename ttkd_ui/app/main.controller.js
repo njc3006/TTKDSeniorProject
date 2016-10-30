@@ -6,10 +6,12 @@
       $scope.showNav = true;
       $scope.title = 'Tioga Tae Kwon Do';
       
-      //get the default active program
-      // ProgramsSvc.getProgram(defaultProgramId).then(function onSuccess(response) {
-      // 	$scope.currentProgram = response.data;
-      // });
+      // get all the active programs, then set the first one in the list to our default
+      ProgramsSvc.getActivePrograms().then(function onSuccess(response) {
+        if(response && response.data.length > 0) {
+      	  $scope.currentProgram = response.data[0];
+        }
+      });
 
       $scope.changeProgram = function(program) {
         $scope.currentProgram = program;
