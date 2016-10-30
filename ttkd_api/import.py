@@ -150,9 +150,6 @@ for student_key in students.keys():
     student_info += '"city": "' + students[student_key]['city'] + '", '
     student_info += '"zipcode": "' + students[student_key]['zipcode'] + '", '
     student_info += '"state": "' + students[student_key]['state'] + '", '
-    student_info += '"belt": null, '
-    student_info += '"stripes": null, '
-    student_info += '"extra_strips": null, '
     student_info += '"misc_notes": "", '
     student_info += '"active": ' + students[student_key]['active'] + '}}'
     for email in students[student_key]['emails']:
