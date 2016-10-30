@@ -7,8 +7,8 @@
 				var modalInstance;
 
 		$scope.programID = $stateParams.programID;
+		$scope.instructor = $stateParams.instructor;
 		$scope.date = new Date();
-		$scope.instructor = true;
 		$scope.checkedInPeople = [];
 		$scope.people = [];
 		$scope.checkedInPeopleIds = [];
