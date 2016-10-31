@@ -5,7 +5,7 @@
 
 			/* Gets every program object */
 			getPrograms: function() {
-				return $http.get(apiHost + '/api/programs/');
+				return $http.get(apiHost + '/api/programs');
 			},
 
 			/* gets only programs with active set to true */
@@ -16,7 +16,7 @@
 
 			/* get a single program by it's id */
 			getProgram: function(id) {
-				return $http.get(apiHost + '/api/programs/' + id);
+				return $http.get(apiHost + '/api/programs/'+id);
 			}
 		};
 	}]);
