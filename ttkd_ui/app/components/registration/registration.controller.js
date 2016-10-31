@@ -183,6 +183,7 @@
 		$scope.selectFormSection($scope.currentSelectionIndex);
 
 		$scope.states = StateService.getStates();
+
 		ProgramsService.getActivePrograms().then(function(response) {
 			//TODO: make this filtering done api side (via a query parameter possibly)
 			$scope.programs = response.data;
