@@ -184,7 +184,10 @@
 
 		$scope.states = StateService.getStates();
 		ProgramsService.getPrograms().then(function(response) {
-			$scope.programs = response.data;
+			//TODO: make this filtering done api side (via a query parameter possibly)
+			$scope.programs = response.data.filter(function(program) {
+				return program.active;
+			});
 		}, function(error) {
 			//TODO: error handling
 		});
