@@ -183,11 +183,9 @@
 		$scope.selectFormSection($scope.currentSelectionIndex);
 
 		$scope.states = StateService.getStates();
-		ProgramsService.getPrograms().then(function(response) {
+		ProgramsService.getActivePrograms().then(function(response) {
 			//TODO: make this filtering done api side (via a query parameter possibly)
-			$scope.programs = response.data.filter(function(program) {
-				return program.active;
-			});
+			$scope.programs = response.data;
 		}, function(error) {
 			//TODO: error handling
 		});
