@@ -183,7 +183,8 @@
 		$scope.selectFormSection($scope.currentSelectionIndex);
 
 		$scope.states = StateService.getStates();
-		ProgramsService.getPrograms().then(function(response) {
+
+		ProgramsService.getActivePrograms().then(function(response) {
 			$scope.programs = response.data;
 		}, function(error) {
 			//TODO: error handling
