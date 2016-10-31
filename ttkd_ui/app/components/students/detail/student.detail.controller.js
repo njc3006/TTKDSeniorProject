@@ -65,10 +65,30 @@
 			$scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContacts[0]);
 			$scope.secondaryEmergencyContact = reformatObject($scope.studentInfo.emergencyContacts[1]);
 
-			if ($scope.studentInfo.belt !== null) {
-				$scope.beltBorderStyle = {
-					'border': 'orange 6px solid'
-				};
+			if ($scope.studentInfo.belts.length > 0) {
+				var currentBelt;
+
+				if ($scope.studentInfo.belts.length === 1) {
+					currentBelt = $scope.studentInfo.belts[0].belt;
+				} else {
+					currentBelt = $scope.studentInfo.belts.reduce(function(prev, curr) {
+						if (curr['current_belt']) {
+							return curr.belt;
+						} else {
+							return prev;
+						}
+					}, $scope.studentInfo.belts[0].belt);
+				}
+
+				if (currentBelt.name === 'white') {
+					$scope.beltBorderStyle = {
+						'border': 'black 10px double'
+					};
+				} else {
+					$scope.beltBorderStyle = {
+						'border': currentBelt.name + ' 6px solid'
+					};
+				}
 			}
 		}, function(error) {
 			$scope.studentLoaded = true;

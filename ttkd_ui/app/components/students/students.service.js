@@ -3,7 +3,7 @@
 		.factory('StudentsSvc', ['$http', 'apiHost', function($http, apiHost) {
 			return {
 				getStudent: function(id) {
-					return $http.get(apiHost + '/api/students/' + id);
+					return $http.get(apiHost + '/api/students/' + id + '/');
 				}
 			};
 		}]);
