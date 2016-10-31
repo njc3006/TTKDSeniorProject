@@ -14,6 +14,11 @@
 				return $http.get(apiHost + '/api/programs/?active=2');
 			},
 
+			/* posts a new program to the api */
+			postNewProgram: function(programData) {
+				return $http.post(apiHost + '/api/programs/', programData);
+			},
+
 			/* get a single program by it's id */
 			getProgram: function(id) {
 				return $http.get(apiHost + '/api/programs/'+id);
