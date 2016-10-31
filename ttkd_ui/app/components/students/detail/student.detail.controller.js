@@ -46,7 +46,8 @@
 		};
 
 		$scope.studentInfo = {};
-		$scope.beltBorderStyle = {};
+		$scope.studentBeltClass = '';
+
 		$scope.primaryEmergencyContact = {};
 		$scope.secondaryEmergencyContact = {};
 
@@ -80,15 +81,7 @@
 					}, $scope.studentInfo.belts[0].belt);
 				}
 
-				if (currentBelt.name === 'white') {
-					$scope.beltBorderStyle = {
-						'border': 'black 10px double'
-					};
-				} else {
-					$scope.beltBorderStyle = {
-						'border': currentBelt.name + ' 6px solid'
-					};
-				}
+				$scope.studentBeltClass = currentBelt.name + '-belt';
 			}
 		}, function(error) {
 			$scope.studentLoaded = true;
@@ -101,7 +94,7 @@
 		});
 	}
 
-	angular.module('ttkdApp.studentDetailController', ['ttkdApp.studentsService', 'ttkdApp.telLinkDir'])
+	angular.module('ttkdApp.studentDetailCtrl', ['ttkdApp.studentsService', 'ttkdApp.telLinkDir'])
 		.controller('StudentDetailCtrl', [
 			'$scope',
 			'$stateParams',
