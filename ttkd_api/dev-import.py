@@ -28,25 +28,25 @@ for line in open('students.csv'):
     students[data[0]] = {
         'pk': pk,
         'first_name': data[1],
-        'last_name': data[2],
+        'last_name': 'TTKD',
         'emails':
         [
-            data[3],
-            data[4],
-            data[5]
+            'fake' + str(pk*10+1) + '@email.com',
+            'fake' + str(pk*10+2) + '@email.com',
+            'fake' + str(pk*10+3) + '@email.com',
         ],
         'emergency_contacts':
         [
-            {'full_name':data[6], 'phone_number':data[7], 'relation':data[8]},
-            {'full_name':data[9], 'phone_number':data[10], 'relation':data[11]},
+            {'full_name':data[6].split(' ')[0], 'phone_number':'1234567890', 'relation':data[8]},
+            {'full_name':data[9].split(' ')[0], 'phone_number':'0987654321', 'relation':data[11]},
         ],
         'dob': date[3] + '-' + MONTHS[date[1]] + '-' + date[2],
-        'steet': data[13],
-        'city': data[14],
-        'zipcode': data[16],
-        'state': data[15],
-        'primary_phone': data[17],
-        'secondary_phone': data[18],
+        'steet': str(pk) + 'TTKD Lane',
+        'city': 'No Where',
+        'zipcode': '123456',
+        'state': 'NY',
+        'primary_phone': '1234567890',
+        'secondary_phone': '0987654321',
         'active': 'true'
     }
     pk += 1
@@ -188,4 +188,4 @@ while ('  ' in import_file):
 
 import_file = import_file.replace('\n','')
 import_file = import_file.replace('\\','\\\\')
-open("import.json",'w').write(import_file + ']')
+open("dev-import.json",'w').write(import_file + ']')
