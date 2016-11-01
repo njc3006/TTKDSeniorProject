@@ -30,6 +30,7 @@
                     function onSuccess(response) {
                         $scope.addProgramMessage = {success: 'Successfuly added ' + program + '.'};
                         $scope.newProgram = "";
+                        getActivePrograms();
                     }, function onFailure(response) {
                         $scope.addProgramMessage = {error: 'Failed to add ' + program + '. Please make sure this program does not already exist.'};
                         $scope.newProgram = "";
@@ -58,9 +59,12 @@
     	};
 
     	//initialization
-		ProgramsSvc.getActivePrograms().then(function onSuccess(response) {
-			$scope.programs = response.data;
-		});
+        var getActivePrograms = function() {
+    		ProgramsSvc.getActivePrograms().then(function onSuccess(response) {
+    			$scope.programs = response.data;
+    		});
+        };
+        getActivePrograms();
 
     }]);
 
