@@ -24,9 +24,7 @@
 
         /* add the typed in program */
         $scope.addProgram = function(program) {
-            console.log("adding Program");
             if(program != "") {
-                console.log("In if");
                 var postData = {name: program};
                 ProgramsSvc.postNewProgram(postData).then(
                     function onSuccess(response) {
