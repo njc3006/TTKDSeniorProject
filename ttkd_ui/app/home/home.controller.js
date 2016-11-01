@@ -31,10 +31,9 @@
                         $scope.addProgramMessage = {success: 'Successfuly added ' + program + '.'};
                         $scope.newProgram = "";
                     }, function onFailure(response) {
-                        $scope.addProgramMessage = {error: 'Failed to add ' + program + '.'};
+                        $scope.addProgramMessage = {error: 'Failed to add ' + program + '. Please make sure this program does not already exist.'};
                         $scope.newProgram = "";
                     });
-                
             }
         };
 
