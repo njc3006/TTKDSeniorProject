@@ -81,7 +81,7 @@
 					}, $scope.studentInfo.belts[0].belt);
 				}
 
-				$scope.studentBeltClass = currentBelt.name + '-belt';
+				$scope.studentBeltClass = currentBelt.name.toLowerCase() + '-belt';
 			}
 		}, function(error) {
 			$scope.studentLoaded = true;
