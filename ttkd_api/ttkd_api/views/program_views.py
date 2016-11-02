@@ -13,6 +13,8 @@ class ProgramViewSet(viewsets.ModelViewSet):
     """
     queryset = Program.objects.all()
     serializer_class = ProgramSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ('name', 'active',)
 
 
 class StudentList(viewsets.ReadOnlyModelViewSet):

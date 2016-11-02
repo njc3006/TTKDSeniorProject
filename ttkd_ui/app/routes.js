@@ -3,13 +3,7 @@
   angular.module('ttkdApp.routes', ['ui.router'])
 
   .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-    // For any unmatched url, send to /
-    $urlRouterProvider.otherwise('/');
-
     $stateProvider
-
-      //you can set this to no template if you just want to use the html in the page
-
       .state('home', {
         url: '/',
         templateUrl: 'home/home.html',
@@ -20,11 +14,14 @@
       })
 
       .state('checkin', {
-        url: '/checkin',
+        url: '/checkin/{programID:int}',
         templateUrl: 'components/checkin/checkin.html',
         controller: 'CheckinCtrl',
         data: {
           pageTitle: 'Checkin'
+        },
+        params: {
+            instructor: false
         }
       })
 
@@ -38,10 +35,15 @@
         url: '/studentlist',
         templateUrl: 'components/studentlist/studentlist.html',
         controller: 'StudentListCtrl'
-      });
+      })
 
-      $urlRouterProvider.otherwise('/');
+			.state('studentDetails', {
+				url: '/students/{studentId}',
+				templateUrl: 'components/students/detail/student.detail.html',
+				controller: 'StudentDetailCtrl'
+			});
 
+			// For any unmatched url, send to /
+	    $urlRouterProvider.otherwise('/');
   }]);
-
 })();

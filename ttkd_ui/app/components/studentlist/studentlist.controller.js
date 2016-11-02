@@ -14,7 +14,7 @@
         $scope.filters = {
             showActive: true,
             showInactive: false,
-            searchQuery: null,
+            searchQuery: "",
             currentBelt: null,
             currentClass: null,
         };

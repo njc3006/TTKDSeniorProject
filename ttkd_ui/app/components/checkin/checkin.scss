@@ -1,6 +1,22 @@
-.checked-in-student {
-    opacity: 0.4;
-    filter: alpha(opacity=40); /* msie */
-    pointer-events: none;
-    cursor: default;
+.checkin {
+	.checked-in-student {
+	    opacity: 0.4;
+	    filter: alpha(opacity=40); /* msie */
+	    pointer-events: none;
+	    cursor: default;
+	}
+
+	.checked-in-student-instruct {
+	    opacity: 0.4;
+	    filter: alpha(opacity=40); /* msie */
+	}
+
+	ul.uib-datepicker-popup {
+		padding: 0;
+		border-radius: 5px;
+
+		.active span {
+			color: white;
+		}
+	}
 }

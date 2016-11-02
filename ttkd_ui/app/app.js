@@ -14,6 +14,7 @@
 		'ttkdApp.homeCtrl',
 		'ttkdApp.registationCtrl',
 		'ttkdApp.studentlistCtrl'
+		'ttkdApp.studentDetailCtrl'
     ]
   );
 

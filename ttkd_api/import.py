@@ -47,6 +47,7 @@ for line in open('students.csv'):
         'state': data[15],
         'primary_phone': data[17],
         'secondary_phone': data[18],
+        'active': 'true'
     }
     pk += 1
 
@@ -74,6 +75,7 @@ for line in open('classes.csv'):
     classes[data[0]] = {
         'pk': pk,
         'name': programs[data[2]] + ' ' + data[1],
+        'active': 'true'
     }
 
     enrolled = data[3].split('/')
@@ -89,6 +91,12 @@ for line in open('classes.csv'):
 
     pk += 1
 
+classes['dummy'] = {
+    'pk': 0,
+    'name': 'import',
+    'active': 'false'
+}
+
 
 attendance = []
 
@@ -102,14 +110,17 @@ for line in open('attendance.csv'):
     data = line.split(',')
 
     programid = None
+    # still doing this so we know if the student is active
     for registration in registrations:
         if registration['person'] == students[data[1]]['pk']:
             programid = registration['program']
             break
 
     if programid == None:
-        continue
+        students[data[1]]['active'] = 'false'
 
+    programid = 0 # make all imported attendance marked as being imported
+    
     date = data[2].split(' ')
     attendance.append(
         {
@@ -139,11 +150,8 @@ for student_key in students.keys():
     student_info += '"city": "' + students[student_key]['city'] + '", '
     student_info += '"zipcode": "' + students[student_key]['zipcode'] + '", '
     student_info += '"state": "' + students[student_key]['state'] + '", '
-    student_info += '"belt": null, '
-    student_info += '"stripes": null, '
-    student_info += '"extra_strips": null, '
     student_info += '"misc_notes": "", '
-    student_info += '"active": true}}'
+    student_info += '"active": ' + students[student_key]['active'] + '}}'
     for email in students[student_key]['emails']:
         if email != 'null':
             student_info += ', {"model": "ttkd_api.email", '
@@ -158,7 +166,7 @@ for class_key in classes.keys():
     import_file += ', {"model": "ttkd_api.program", '
     import_file += '"pk": ' + str(classes[class_key]['pk']) + ', '
     import_file += '"fields": {"name": "' + classes[class_key]['name'] + '", '
-    import_file += '"active": true}}'
+    import_file += '"active": ' + classes[class_key]['active'] + '}}'
 
 for registration in registrations:
     import_file += ', {"model": "ttkd_api.registration", '
@@ -166,12 +174,12 @@ for registration in registrations:
     import_file += '"fields": {"person": ' + str(registration['person']) + ', '
     import_file += '"program": ' + str(registration['program']) + '}}'
 
-#for check_in in attendance:
-#    import_file += ', {"model": "ttkd_api.attendancerecord", '
-#    import_file += '"pk": ' + str(check_in['pk']) + ', '
-#    import_file += '"fields": {"person": ' + str(check_in['person']) + ', '
-#    import_file += '"date": "' + check_in['date'] + '", '
-#    import_file += '"program": ' + str(check_in['program']) + '}}'
+for check_in in attendance:
+    import_file += ', {"model": "ttkd_api.attendancerecord", '
+    import_file += '"pk": ' + str(check_in['pk']) + ', '
+    import_file += '"fields": {"person": ' + str(check_in['person']) + ', '
+    import_file += '"date": "' + check_in['date'] + '", '
+    import_file += '"program": ' + str(check_in['program']) + '}}'
 
 
 

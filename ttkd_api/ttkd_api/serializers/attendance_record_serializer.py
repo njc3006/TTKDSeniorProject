@@ -9,11 +9,10 @@ class AttendanceRecordSerializer(serializers.ModelSerializer):
     """
     AttendanceRecordSerializer Outputs Attendance Model as JSON with person as an ID
     """
-    date = serializers.DateField(required=False, default=datetime.datetime.now().date())
+    date = serializers.DateField(required=False, default=datetime.date.today)
 
     class Meta:
         model = AttendanceRecord
-        fields = ('person', 'program', 'date')
 
 
 class AttendanceRecordSerializerUsingPerson(serializers.ModelSerializer):
@@ -24,4 +23,3 @@ class AttendanceRecordSerializerUsingPerson(serializers.ModelSerializer):
 
     class Meta:
         model = AttendanceRecord
-        fields = ('person', 'program', 'date')
