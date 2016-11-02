@@ -135,11 +135,6 @@
             if($scope.filters.currentClass != null && $scope.filters.currentClass.id !== null){
                 var tempdata = [];
                 angular.forEach($scope.allStudents, function(value, key){
-
-                    //temp until backend update TODO: remove
-                    if(key % 2 === 0){ value.person.belt = 'green'; }
-                    else { value.person.belt = 'yellow'; }
-
                     if(value.program === $scope.filters.currentClass.id){
                         tempdata.push(value);
                     }
@@ -149,13 +144,6 @@
             }
             //otherwise display data for all students
             else{
-                
-                //temp until backend update TODO: remove
-                angular.forEach($scope.allStudents, function(value, key){
-                    if(key % 2 === 0){ value.person.belt = 'green'; }
-                    else { value.person.belt = 'yellow'; }
-                });
-
                 $scope.updateDisplayed($scope.allStudents);
             }
         };
@@ -165,7 +153,6 @@
             StudentListService.getClassList().then(
                 function(response){
                     $scope.classes = response.data;
-
                     $scope.getAllStudents();
                 });        
         };
