@@ -31,16 +31,10 @@
 				controller: 'RegistrationCtrl'
       })
 
-      .state('classlist', {
-        url: '/classlist/{classId:int}',
-        templateUrl: 'components/classlist/classlist.html',
-        controller: 'ClassListCtrl'
-      })
-
       .state('studentlist', {
         url: '/studentlist',
-        templateUrl: 'components/classlist/classlist.html',
-        controller: 'ClassListCtrl'
+        templateUrl: 'components/studentlist/studentlist.html',
+        controller: 'StudentListCtrl'
       })
 
 			.state('studentDetails', {

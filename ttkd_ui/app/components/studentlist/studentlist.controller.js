@@ -1,21 +1,20 @@
 (function() {
 
-  angular.module('ttkdApp.classlistCtrl', [])
+  angular.module('ttkdApp.studentlistCtrl', [])
 
-    .controller('ClassListCtrl', ['$scope', '$stateParams', 'ClassListService',
-        function($scope, $stateParams, ClassListService) {
-        $scope.people = [];
-        $scope.allStudents = [];
-        $scope.classes = [];
-        $scope.inAttendance = [];
+    .controller('StudentListCtrl', ['$scope', '$stateParams', 'StudentListService',
+        function($scope, $stateParams, StudentListService) {
+        $scope.people = [];                 //currently displayed list of students
+        $scope.allStudents = [];            //every student in the system
+        $scope.classes = [];                //every class in the system
+        $scope.attendanceRecords = [];      //all attendance records in the system
         $scope.sortAZ = true;
         $scope.sortDisplayString = 'A-Z';
 
         $scope.filters = {
             showActive: true,
             showInactive: false,
-            showPresent: ($stateParams.classId === null ? true : false),
-            searchQuery: "",
+            searchQuery: '',
             currentBelt: null,
             currentClass: null,
         };
@@ -54,6 +53,19 @@
             $scope.sortDisplayString = $scope.sortAZ ? 'A-Z' : 'Z-A';   //toggle the displayed string
         };
 
+        //I realize the date formatting is hacky and would like a cleaner solution. Feel free to suggest one.
+        $scope.getCurrentFormattedDate = function(date){
+            var formatDay = date.getDate();
+            var formatMonth = date.getMonth() + 1;
+            if(formatDay < 10) { formatDay = '0' + formatDay; }
+            if(formatMonth < 10) { formatMonth = '0 ' + formatMonth; }
+
+            //matches the format returned from the backend, used to find attendance records of the correct day
+            var formattedDate = date.getFullYear() + '-' + formatMonth + '-' + formatDay;
+
+            return formattedDate;
+        };
+
         //transforms the data to include a temp picture property
         $scope.transformData = function(data){
             var tempdata = data;
@@ -77,28 +89,20 @@
                 else if($scope.filters.showInactive && value.person.active !== $scope.filters.showInactive){
                     filteredStudents.push(value);
                 }
-
-                //needs to include 'present' TODO
             });
 
             //if a specific date is selected
             if($scope.selectedDate.value != null){
 
-                //I realize the date formatting is hacky and would like a cleaner solution. Feel free to suggest one.
-                var formatDay = $scope.selectedDate.value.getDate();
-                var formatMonth = $scope.selectedDate.value.getMonth() + 1;
-                if(formatDay < 10) { formatDay = '0' + formatDay; }
-                if(formatMonth < 10) { formatMonth = '0 ' + formatMonth; }
-
-                //matches the format returned from the backend, used to find attendance records of the correct day
-                var formattedDate = $scope.selectedDate.value.getFullYear() + '-' + formatMonth + '-' + formatDay;
+               //matches the format returned from the backend, used to find attendance records of the correct day
+                var formattedDate = $scope.getCurrentFormattedDate($scope.selectedDate.value);
                 var filteredByDate = [];
 
                 //loop through and find all students who have attendance records of the specified date
                 for(var i = 0; i < filteredStudents.length; i++){
-                    for(var j = 0; j < $scope.inAttendance.length; j++){
-                        if(filteredStudents[i].person.id === $scope.inAttendance[j].person.id &&
-                            $scope.inAttendance[j].date === formattedDate){
+                    for(var j = 0; j < $scope.attendanceRecords.length; j++){
+                        if(filteredStudents[i].person.id === $scope.attendanceRecords[j].person.id &&
+                            $scope.attendanceRecords[j].date === formattedDate){
                                 filteredByDate.push(filteredStudents[i]);
                                 break;
                         }
@@ -131,11 +135,6 @@
             if($scope.filters.currentClass != null && $scope.filters.currentClass.id !== null){
                 var tempdata = [];
                 angular.forEach($scope.allStudents, function(value, key){
-
-                    //temp until backend update TODO: remove
-                    if(key % 2 === 0){ value.person.belt = 'green'; }
-                    else { value.person.belt = 'yellow'; }
-
                     if(value.program === $scope.filters.currentClass.id){
                         tempdata.push(value);
                     }
@@ -145,30 +144,22 @@
             }
             //otherwise display data for all students
             else{
-                
-                //temp until backend update TODO: remove
-                angular.forEach($scope.allStudents, function(value, key){
-                    if(key % 2 === 0){ value.person.belt = 'green'; }
-                    else { value.person.belt = 'yellow'; }
-                });
-
                 $scope.updateDisplayed($scope.allStudents);
             }
         };
 
         //retrieves the total list of classes
         $scope.getClassList = function(){
-            ClassListService.getClassList().then(
+            StudentListService.getClassList().then(
                 function(response){
                     $scope.classes = response.data;
-
                     $scope.getAllStudents();
                 });        
         };
 
         //retrieves the list of all students in the system
         $scope.getAllStudents = function(){
-            ClassListService.getAllStudents().then(
+            StudentListService.getAllStudents().then(
                 function(response){
                     var tempdata = response.data;
                     
@@ -179,7 +170,21 @@
 
         //retrieves all attendance records
         $scope.getAllCheckedIn = function(){
-            ClassListService.getAllCheckedIn().then(
+            StudentListService.getAllCheckedIn().then(
+                function(response){
+                    $scope.attendanceRecords = response.data;
+                });
+        };
+
+        $scope.getClassAttendanceRecords = function(){
+            var classId = '';
+            var formattedDate = $scope.getCurrentFormattedDate(new Date());
+       
+            if($scope.filters.currentClass != null){
+                classId = $scope.filters.currentClass.id;
+            }
+
+            StudentListService.getClassAttendanceRecords(classId, formattedDate).then(
                 function(response){
                     $scope.inAttendance = response.data;
                 });
@@ -192,6 +197,10 @@
         //date picker watcher
         $scope.$watch('selectedDate.value', function(newValue, oldValue) {
             $scope.setDisplayedStudents();
+        });
+
+        $scope.$watch('filters.currentClass', function(newValue, oldValue){
+            $scope.getClassAttendanceRecords();
         });
     }]);
 

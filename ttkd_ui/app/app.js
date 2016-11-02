@@ -13,7 +13,7 @@
 		'ttkdApp.partials',
 		'ttkdApp.homeCtrl',
 		'ttkdApp.registationCtrl',
-		'ttkdApp.classlistCtrl',
+		'ttkdApp.studentlistCtrl',
 		'ttkdApp.studentDetailCtrl'
     ]
   );
