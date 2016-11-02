@@ -147,7 +147,12 @@
 
 		$scope.instructClickCheckin = function(person) {
 			// create checkin using api using the selected date
-			CheckinService.createCheckin({'person': person.id, 'program': $scope.programID, 'date': $scope.formatDate($scope.date)}).then(
+			CheckinService.createCheckin(
+				{
+					'person': person.id, 
+					'program': $scope.programID, 
+					'date': $scope.formatDate($scope.date)
+				}).then(
 				function(response){
 				person.checkinID = response.data.id;
 				});
