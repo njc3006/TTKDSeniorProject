@@ -6,7 +6,7 @@
 			},
 
 			getAllStudents: function() {
-				return $http.get(apiHost + '/api/students');
+				return $http.get(apiHost + '/api/students/');
 			},
 
 			getStudentsFromClass: function(programId) {
@@ -14,7 +14,7 @@
 			},
 
 			getAllCheckedIn: function() {
-				return $http.get(apiHost + '/api/checked-in/persons');
+				return $http.get(apiHost + '/api/checked-in/persons/');
 			},
 
 			getClassAttendanceRecords: function(programId, date) {
