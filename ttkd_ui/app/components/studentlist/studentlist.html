@@ -14,33 +14,40 @@
 				<option value="">Select Belt</option>
 			</select>
 		</div>
-		<div class="col-xs-3 checkboxes">
+		<div class="col-xs-2 checkboxes">
 			<span class="checkbox-inline">
 				<label><input type="checkbox" name="activeBox" id="activeBox" ng-model="filters.showActive" ng-click="setDisplayedStudents()">Active</label>
 			</span>
 			<span class="checkbox-inline">
 				<label><input type="checkbox" name="inactiveBox" ng-model="filters.showInactive" ng-click="setDisplayedStudents()">Inactive</label>
 			</span>
-			<span class="checkbox-inline">
-				<label><input type="checkbox" name="presentBox" ng-model="filters.showPresent" ng-click="">Present</label>
-			</span>
+		</div>
+		<div class="col-xs-1">
+			<div class="btn btn-primary" ng-click="today()">Today</div>
 		</div>
 		<div class="col-xs-2">
 			<input type="search" class="form-control" placeholder="Search" name="searchbox" ng-model="filters.searchQuery">
 		</div>
 		<div class="col-xs-2">
 	       	<div class="input-group">
-	          	<input type="text" class="form-control"
+	          	<input type="text" class="form-control" 
 		                 uib-datepicker-popup="MM-dd-yyyy"
 		                 ng-model="selectedDate.value"
 		                 is-open="selectedDate.open"
 		                 ng-required="true"
-		                 close-text="Close" />
+		                 close-text="Close"
+		                 placeholder="Date" />
           		<span class="input-group-btn">
 	          		<button class="btn btn-default" ng-click="open()">
-	          		<i class="glyphicon glyphicon-calendar"></i></button>
+	          		<i class="glyphicon glyphicon-calendar"></i></button> 
 	          	</span>
 	        </div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="display-4">
+		Showing {{people.length}} student<span ng-if="people.length !== 1">s</span>
 		</div>
 	</div>
 
@@ -53,23 +60,18 @@
 			</div>
 			<div class="col-xs-8 entry">
 				<div class="row">
-					<h2>
-						<a ui-sref="studentDetails({studentId: p.id})">{{p.person.first_name}} {{p.person.last_name}}</a>
-					</h2>
+					<a ui-sref="studentDetails({studentId: p.id})">
+						<h2>{{p.person.first_name}} {{p.person.last_name}}</h2>
+					</a>
 				</div>
 				<div class="row spacer-20">
-					<span class="testing">Email: placeholderEmail@gmail.com</span>
+					<span ng-repeat="email in p.person.emails | limitTo:1 track by $index">
+						<span>Email: {{email.email}} <br></span>
+					</span>
 					<span>Phone: {{p.person.primary_phone}}</span>
 				</div>
-				<div class="row">
-					Emergency Contact 1:
-					{{p.person.emgContact1}} Placeholder Name,
-					{{p.person.emgPhone1}} 5853332221
-				</div>
-				<div class="row">
-					Emergency Contact 2:
-					{{p.person.emgContact2}} Another Name,
-					{{p.person.emgPhone2}} 4448887777
+				<div class="row" ng-repeat="contact in p.person.emergency_contacts | limitTo:2 track by $index">
+					Emergency Contact {{$index + 1}}: {{contact.full_name}}, {{contact.phone_number}}
 				</div>
 				<hr>
 			</div>
