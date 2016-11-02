@@ -1,3 +1,5 @@
+from random import randint
+
 
 MONTHS = {
     'Jan': '01',
@@ -14,10 +16,15 @@ MONTHS = {
     'Dec': '12',
 }
 
+STRIPES_BELTS = """,{"model":"ttkd_api.belt","pk":1,"fields":{"name":"White","active":true}},{"model":"ttkd_api.belt","pk":2,"fields":{"name":"Yellow","active":true}},{"model":"ttkd_api.belt","pk":3,"fields":{"name":"Orange","active":true}},{"model":"ttkd_api.belt","pk":4,"fields":{"name":"Green","active":true}},{"model":"ttkd_api.belt","pk":5,"fields":{"name":"Blue","active":true}},{"model":"ttkd_api.belt","pk":6,"fields":{"name":"Purple","active":true}},{"model":"ttkd_api.belt","pk":7,"fields":{"name":"Red","active":true}},{"model":"ttkd_api.belt","pk":8,"fields":{"name":"Brown","active":true}},{"model":"ttkd_api.stripe","pk":1,"fields":{"color":"Black","active":true}},{"model":"ttkd_api.stripe","pk":2,"fields":{"color":"Red","active":true}},{"model":"ttkd_api.stripe","pk":3,"fields":{"color":"Blue","active":true}},{"model":"ttkd_api.stripe","pk":4,"fields":{"color":"Yellow","active":true}},{"model":"ttkd_api.stripe","pk":5,"fields":{"color":"Orange","active":true}},{"model":"ttkd_api.stripe","pk":6,"fields":{"color":"Green","active":true}}"""
 
 students = {}
 headerline = True
 pk = 1
+stripes = []
+belts = []
+stripe_pk = 1
+
 for line in open('students.csv'):
     if headerline:
         headerline = False
@@ -49,6 +56,26 @@ for line in open('students.csv'):
         'secondary_phone': '0987654321',
         'active': 'true'
     }
+    for num in range(randint(0,10)):
+        stripes.append({
+            'pk': stripe_pk,
+            'person': pk,
+            'stripe': randint(1,6),
+            'date_achieved': str(randint(2012,2016)) + '-' + str(randint(1,12)) + '-' + str(randint(1,28)),
+            'current_stripe': ('true' if randint(0,1) else 'false'),
+        })
+
+        stripe_pk += 1
+    belts.append({
+        'pk': pk,
+        'person': pk,
+        'belt': randint(1,8),
+        'date_achieved': str(randint(2012,2016)) + '-' + str(randint(1,12)) + '-' + str(randint(1,28)),
+        'current_belt': 'true'
+    })
+
+
+
     pk += 1
 
 programs = {}
@@ -181,6 +208,23 @@ for check_in in attendance:
     import_file += '"date": "' + check_in['date'] + '", '
     import_file += '"program": ' + str(check_in['program']) + '}}'
 
+import_file += STRIPES_BELTS
+
+for stripe in stripes:
+    import_file += ', {"model": "ttkd_api.personstripe", '
+    import_file += '"pk": ' + str(stripe['pk']) + ', '
+    import_file += '"fields": {"person": ' + str(stripe['person']) + ', '
+    import_file += '"stripe": "' + str(stripe['stripe']) + '", '
+    import_file += '"date_achieved": "' + stripe['date_achieved'] + '", '
+    import_file += '"current_stripe": ' + stripe['current_stripe'] + '}}'
+
+for belt in belts:
+    import_file += ', {"model": "ttkd_api.personbelt", '
+    import_file += '"pk": ' + str(belt['pk']) + ', '
+    import_file += '"fields": {"person": ' + str(belt['person']) + ', '
+    import_file += '"belt": "' + str(belt['belt']) + '", '
+    import_file += '"date_achieved": "' + belt['date_achieved'] + '", '
+    import_file += '"current_belt": ' + belt['current_belt'] + '}}'
 
 
 while ('  ' in import_file):
