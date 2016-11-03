@@ -17,7 +17,6 @@ from .views.email_views import EmailViewSet
 from .views import UserViewSet
 from .views.stripe_views import StripeViewSet
 from .views.person_stripe_views import PersonStripeViewSet
-from rest_framework.authtoken import views
 
 router = routers.DefaultRouter()
 
@@ -37,6 +36,4 @@ router.register(r'person-belts', PersonBeltViewSet)
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),
-    url(r'^api/token-auth/', views.obtain_auth_token),
-    #url(r'^api/api-auth/', include('rest_framework.urls', namespace='rest_framework')), # Adds a login button to the api browser though cant get it to stay logged in.
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

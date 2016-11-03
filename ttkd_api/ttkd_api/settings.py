@@ -37,11 +37,8 @@ ALLOWED_HOSTS = []
 # Django Rest Framework Settings
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
-    ]
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': []
 }
 
 
@@ -54,8 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'ttkd_api',
-    'rest_framework.authtoken',
+    'ttkd_api'
 ]
 
 MIDDLEWARE = [

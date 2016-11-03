@@ -2,11 +2,9 @@
 from rest_framework import viewsets, filters
 from ..serializers.person_stripe_serializer import PersonStripeSerializer
 from ..models.person_stripe import PersonStripe
-from rest_framework import permissions
 
 
 class PersonStripeViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     """
     GET: Returns all PersonStripe Objects To The Route, Or An Instance If Given A PK.
     Filters: person

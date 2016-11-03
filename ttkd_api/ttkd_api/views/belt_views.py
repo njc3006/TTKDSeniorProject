@@ -2,11 +2,9 @@
 from rest_framework import viewsets, filters
 from ..serializers.belt_serializer import BeltSerializer
 from ..models.belt import Belt
-from rest_framework import permissions
 
 
 class BeltViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     """
     GET: Returns all Belt Objects To The Route, Or An Instance If Given A PK. Filters: belt
     POST: Create A Belt
