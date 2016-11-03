@@ -2,6 +2,7 @@
 from rest_framework import viewsets, filters
 from ..serializers.person_serializer import PersonSerializer
 from ..models.person import Person
+from rest_framework import permissions
 
 
 class PersonViewSet(viewsets.ModelViewSet):

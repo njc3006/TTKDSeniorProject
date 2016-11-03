@@ -2,6 +2,7 @@
 from rest_framework import viewsets, filters
 from ..serializers.registration_serializer import RegistrationSerializer
 from ..models.registration import Registration
+from rest_framework import permissions
 
 
 class RegistrationViewSet(viewsets.ModelViewSet):
