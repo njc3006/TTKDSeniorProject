@@ -4,6 +4,8 @@ A File that holds the Person Class
 """
 from django.db import models
 
+from .emergency_contact import EmergencyContact
+
 
 class Person(models.Model):
     """
@@ -64,6 +66,12 @@ class Person(models.Model):
     active = models.BooleanField(
         default=True,
     )
+
+    emergency_contact_1 = models.ForeignKey(EmergencyContact, on_delete=models.CASCADE, blank=True,
+                                            null=True, related_name='emergency_contact_1')
+
+    emergency_contact_2 = models.ForeignKey(EmergencyContact, on_delete=models.CASCADE, blank=True,
+                                            null=True, related_name='emergency_contact_2')
 
     def __str__(self):
         return self.first_name + " " + self.last_name

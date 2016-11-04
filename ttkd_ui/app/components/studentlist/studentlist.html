@@ -70,8 +70,16 @@
 					</span>
 					<span>Phone: {{p.person.primary_phone}}</span>
 				</div>
-				<div class="row" ng-repeat="contact in p.person.emergency_contacts | limitTo:2 track by $index">
-					Emergency Contact {{$index + 1}}: {{contact.full_name}}, {{contact.phone_number}}
+				<div class="row" >
+					Emergency Contact 1:
+					<span ng-if="p.person.emergency_contact_1.full_name!==undefined">
+						{{p.person.emergency_contact_1.full_name}}({{p.person.emergency_contact_1.relation}}) - <tel-link phone="p.person.emergency_contact_1.phone_number"></tel-link>
+					</span>
+					<br>
+					Emergency Contact 2:
+					<span ng-if="p.person.emergency_contact_2.full_name!==undefined">
+						{{p.person.emergency_contact_2.full_name}}({{p.person.emergency_contact_2.relation}}) - <tel-link phone="p.person.emergency_contact_2.phone_number"></tel-link>
+					</span>
 				</div>
 				<hr>
 			</div>
