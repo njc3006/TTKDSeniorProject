@@ -41,13 +41,13 @@ class RegistrationSerializer(serializers.ModelSerializer):
         for an_email_dict in email_data:
             Email.objects.create(person=person, email=an_email_dict['email'])
 
-        if person.emergency_contact_1 is not None:
+        if emergency_contact_1_data is not None:
             person.emergency_contact_1 = EmergencyContact.objects.create(
                 relation=capwords(emergency_contact_1_data['relation']),
                 phone_number=emergency_contact_1_data['phone_number'],
                 full_name=capwords(emergency_contact_1_data['full_name']))
 
-        if person.emergency_contact_2 is not None:
+        if emergency_contact_2_data is not None:
             person.emergency_contact_2 = EmergencyContact.objects.create(
                 relation=capwords(emergency_contact_2_data['relation']),
                 phone_number=emergency_contact_2_data['phone_number'],
