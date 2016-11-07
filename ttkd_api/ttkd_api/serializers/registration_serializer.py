@@ -1,4 +1,5 @@
 """RegistrationSerializer"""
+from string import capwords
 from rest_framework import serializers
 
 from .person_serializer import PersonSerializer
@@ -25,18 +26,34 @@ class RegistrationSerializer(serializers.ModelSerializer):
         """
         person_data = validated_data.pop('person')
         email_data = person_data.pop('emails')
-        emergency_contacts_data = person_data.pop('emergency_contacts')
+
+        emergency_contact_1_data = None
+        emergency_contact_2_data = None
+
+        if 'emergency_contact_1' in person_data:
+            emergency_contact_1_data = person_data.pop('emergency_contact_1')
+
+        if 'emergency_contact_2' in person_data:
+            emergency_contact_2_data = person_data.pop('emergency_contact_2')
 
         person = Person.objects.create(**person_data)
 
         for an_email_dict in email_data:
             Email.objects.create(person=person, email=an_email_dict['email'])
 
-        for an_emergency_contact_dict in emergency_contacts_data:
-            EmergencyContact.objects.create(person=person,
-                                            relation=an_emergency_contact_dict['relation'],
-                                            phone_number=an_emergency_contact_dict['phone_number'],
-                                            full_name=an_emergency_contact_dict['full_name'])
+        if emergency_contact_1_data is not None:
+            person.emergency_contact_1 = EmergencyContact.objects.create(
+                relation=capwords(emergency_contact_1_data['relation']),
+                phone_number=emergency_contact_1_data['phone_number'],
+                full_name=capwords(emergency_contact_1_data['full_name']))
+
+        if emergency_contact_2_data is not None:
+            person.emergency_contact_2 = EmergencyContact.objects.create(
+                relation=capwords(emergency_contact_2_data['relation']),
+                phone_number=emergency_contact_2_data['phone_number'],
+                full_name=capwords(emergency_contact_2_data['full_name']))
+
+        person.save()
 
         registration = Registration.objects.create(person=person, program=validated_data['program'])
         return registration

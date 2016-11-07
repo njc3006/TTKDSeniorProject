@@ -63,8 +63,8 @@
 			$scope.studentInfo.picture = 'http://placehold.it/350x350';
 			$scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
 
-			$scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContacts[0]);
-			$scope.secondaryEmergencyContact = reformatObject($scope.studentInfo.emergencyContacts[1]);
+			$scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContact_1);
+			$scope.secondaryEmergencyContact = reformatObject($scope.studentInfo.emergencyContact_2);
 
 			if ($scope.studentInfo.belts.length > 0) {
 				var currentBelt;
