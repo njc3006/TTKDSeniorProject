@@ -4,7 +4,9 @@
 
 		for (var field in object) {
 			if (object.hasOwnProperty(field)) {
-				var camelCased = field.replace(/_([a-z])/g, function (g) { return g[1].toUpperCase(); });
+				var camelCased = field.replace(/_([a-z])/g, function (g) {
+					return g[1].toUpperCase();
+				});
 
 				reformatted[camelCased] = object[field];
 			}
@@ -80,6 +82,11 @@
 						}
 					}, $scope.studentInfo.belts[0].belt);
 				}
+
+				// TODO: uncomment the following code
+				/*$scope.beltBorder = {
+					'box-shadow': '0 0 0 4px ' + currentBelt.primaryColor + ', 0 0 0 8px ' + currentBelt.secondaryColor;
+				}*/
 
 				$scope.studentBeltClass = currentBelt.name.toLowerCase() + '-belt';
 			}

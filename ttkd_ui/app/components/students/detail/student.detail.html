@@ -14,12 +14,12 @@
 <div ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
 	<div class="row spacer-20">
 		<div class="col-sm-2" style="padding-left: 0px">
-			<img class="img-responsive {{studentBeltClass}}" ng-src="{{studentInfo.picture}}" ng-style="beltBorderStyle">
+			<img class="img-responsive {{studentBeltClass}}" ng-src="{{studentInfo.picture}}">
 			<button class="btn btn-primary col-sm-12" type="button" ng-click="notYetImplemented()">Change</button>
 		</div>
 		<div class="col-sm-10">
 			<div class="row spacer-10">
-				<span class="h2">{{studentInfo.firstName}} {{studentInfo.lastName}}</span>
+				<span class="h2 col-sm-3" style="margin: 0px; padding: 0px">{{studentInfo.firstName}} {{studentInfo.lastName}}</span>
 				<div class="btn-group pull-right">
 					<button class="btn btn-primary" type="button" ng-click="notYetImplemented()">
 						Attendance
