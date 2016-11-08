@@ -73,5 +73,9 @@ class Person(models.Model):
     emergency_contact_2 = models.ForeignKey(EmergencyContact, on_delete=models.CASCADE, blank=True,
                                             null=True, related_name='emergency_contact_2')
 
+    picture_path = models.CharField(
+        max_length=255,
+    )
+
     def __str__(self):
         return self.first_name + " " + self.last_name
