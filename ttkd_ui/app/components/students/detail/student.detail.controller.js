@@ -66,6 +66,29 @@
 			return $scope.studentInfo.emails.map(function(email) { return email.email; }).join(', ');
 		};
 
+		$scope.selectSection = function(index) {
+			$scope.selectedSection = $scope.bottomSections[index];
+		};
+
+		$scope.openCalendar = function() {
+			$scope.filterDate.open = true;
+		};
+
+		$scope.filterDate = {
+			open: false
+		};
+
+		$scope.bottomSections = [
+			{
+				title: 'Notes',
+				templateUrl: 'components/students/detail/notes/notes.panel.html'
+			},
+			{
+				title: 'Attendance',
+				templateUrl: 'components/students/detail/attendance/attendance.html'
+			}
+		];
+
 		$scope.studentInfo = {};
 		$scope.earnedStripes = [];
 		$scope.studentBeltClass = '';
@@ -114,6 +137,8 @@
 				} else {
 					$scope.studentLoaded = true;
 				}
+
+				$scope.selectSection(0);
 			},
 			function(error) {
 				$scope.studentLoaded = true;
