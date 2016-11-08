@@ -6,7 +6,7 @@
     $stateProvider
       .state('home', {
         url: '/',
-        templateUrl: 'home/home.html',
+        templateUrl: 'components/home/home.html',
         controller: 'HomeCtrl',
         data: {
           pageTitle: 'Home'
