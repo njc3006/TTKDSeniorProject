@@ -84,9 +84,9 @@
 				Primary Emergency Contact
 			</div>
 			<div class="panel-body">
-				Name: {{primaryEmergencyContact.fullName}}<br/>
-				Relationship: {{primaryEmergencyContact.relation}}<br/>
-				<tel-link phone="primaryEmergencyContact.phoneNumber" label="'Phone'"></tel-link>
+				Name: {{emergencyContact_1.fullName}}<br/>
+				Relationship: {{emergencyContact_1.relation}}<br/>
+				<tel-link phone="emergencyContact_1.phoneNumber" label="'Phone'"></tel-link>
 			</div>
 		</div>
 
@@ -95,14 +95,27 @@
 				Secondary Emergency Contact
 			</div>
 			<div class="panel-body">
-				Name: {{secondaryEmergencyContact.fullName}}<br/>
-				Relationship: {{secondaryEmergencyContact.relation}}<br/>
-				<tel-link phone="secondaryEmergencyContact.phoneNumber" label="'Phone'"></tel-link>
+				Name: {{emergencyContact_2.fullName}}<br/>
+				Relationship: {{emergencyContact_2.relation}}<br/>
+				<tel-link phone="emergencyContact_2" label="'Phone'"></tel-link>
 			</div>
 		</div>
 	</div>
 
-	<div class="row panel panel-primary" style="min-height: 350px" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
-		{{studentInfo.misc_notes}}
+	<div class="row spacer-20" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
+		<ul class="nav nav-pills">
+			<li
+				role="presentation"
+				ng-repeat="section in bottomSections"
+				ng-click="selectSection($index)"
+				ng-class="{'active': selectedSection === section}">
+				<a ui-sref=".">{{section.title}}</a>
+			</li>
+		</ul>
+	</div>
+	<div
+		class="row"
+		ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed"
+		ng-include="selectedSection.templateUrl">
 	</div>
 </div>
