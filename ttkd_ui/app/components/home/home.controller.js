@@ -23,7 +23,7 @@
                 animation: true,
                 ariaLabelledBy: 'modal-title',
                 ariaDescribedBy: 'modal-body',
-                templateUrl: 'home/add-program.modal.html',
+                templateUrl: 'components/home/add-program.modal.html',
                 scope: $scope
             });
         };
@@ -53,7 +53,7 @@
     			animation: true,
     			ariaLabelledBy: 'modal-title',
     			ariaDescribedBy: 'modal-body',
-    			templateUrl: 'home/choose-program.modal.html',
+    			templateUrl: 'components/home/choose-program.modal.html',
     			scope: $scope
     		});
     	};
