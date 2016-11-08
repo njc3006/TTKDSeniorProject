@@ -60,7 +60,7 @@
 
     	$scope.selectProgram = function(program) {
     		$scope.changeProgram(program);
-    		$scope.closeChangeProgram();
+    		$scope.closeModal();
     	};
 
     	$scope.closeModal = function() {
