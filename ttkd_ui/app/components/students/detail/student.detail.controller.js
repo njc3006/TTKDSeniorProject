@@ -89,6 +89,10 @@
 				}*/
 
 				$scope.studentBeltClass = currentBelt.name.toLowerCase() + '-belt';
+
+				StudentsService.getStudentStripes($stateParams.studentId).then(function(stripes) {
+					console.log(stripes);
+				});
 			}
 		}, function(error) {
 			$scope.studentLoaded = true;
