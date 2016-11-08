@@ -1,27 +1,51 @@
-<div class="row form-inline spacer-20">
-	<div class="form-group col-sm-2">
-		<select class="form-control">
-			<option value=""></option>
-		</select>
-	</div>
-	<div class="form-group col-sm-2">
-		<div class="input-group">
-			<input
-				type="text"
-				class="form-control"
-				name="dob"
-				ng-required="true"
-				uib-datepicker-popup="MM-dd-yyyy"
-				ng-model="filterDate.value"
-				is-open="filterDate.open"
-				close-text="Close">
-			<span class="input-group-btn">
-				<button class="btn btn-default" type="button" ng-click="openCalendar()">
-					<i class="glyphicon glyphicon-calendar"></i>
-				</button>
-			</span>
+<div class="row spacer-25">
+	<form class="form-inline">
+		<div class="form-group col-xs-4 col-md-4">
+			<div>Class</div>
+			<select class="form-control">
+				<option value="">All Classes</option>
+			</select>
 		</div>
-	</div>
+		<div class="form-group col-xs-4 col-md-4">
+			<div>Start Date</div>
+			<div class="input-group">
+				<input
+					type="text"
+					class="form-control"
+					name="dob"
+					ng-required="true"
+					uib-datepicker-popup="MM-dd-yyyy"
+					ng-model="filterDate.start.value"
+					is-open="filterDate.start.open"
+					close-text="Close">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" ng-click="openCalendar(filterDate.start)">
+						<i class="glyphicon glyphicon-calendar"></i>
+					</button>
+				</span>
+			</div>
+		</div>
+		<div class="form-group col-xs-4 col-md-4">
+			<div>End Date</div>
+			<div class="input-group">
+				<input
+					type="text"
+					class="form-control"
+					name="dob"
+					ng-required="true"
+					uib-datepicker-popup="MM-dd-yyyy"
+					ng-model="filterDate.end.value"
+					is-open="filterDate.end.open"
+					min-date="filterDate.start.value"
+					close-text="Close">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" ng-click="openCalendar(filterDate.end)">
+						<i class="glyphicon glyphicon-calendar"></i>
+					</button>
+				</span>
+			</div>
+		</div>
+	</form>
 </div>
 
 <div class="row">

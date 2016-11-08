@@ -70,12 +70,17 @@
 			$scope.selectedSection = $scope.bottomSections[index];
 		};
 
-		$scope.openCalendar = function() {
-			$scope.filterDate.open = true;
+		$scope.openCalendar = function(date) {
+			date.open = true;
 		};
 
 		$scope.filterDate = {
-			open: false
+			start: {
+				open: false
+			},
+			end: {
+				open: false
+			}
 		};
 
 		$scope.bottomSections = [
