@@ -13,6 +13,7 @@
 
 <div ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
 	<div class="row spacer-20">
+<<<<<<< 0e237c4ca25f4cd9409ee54aac15aec2179ccfe4
 <<<<<<< d6e5cea56ef384e46be23eeb06029ba8b9b3b5b8
 		<div class="col-xs-2" style="padding: 0px">
 			<img class="img-responsive {{studentBeltClass}}" ng-src="{{studentInfo.picture}}">
@@ -41,6 +42,26 @@
 =======
 				<span class="h2 col-sm-3" style="margin: 0px; padding: 0px">{{studentInfo.firstName}} {{studentInfo.lastName}}</span>
 >>>>>>> begin adding stripes and multi-colored belts
+=======
+		<div class="col-xs-2" style="padding: 0px">
+			<img class="img-responsive {{studentBeltClass}}" ng-src="{{studentInfo.picture}}">
+			<button class="btn btn-primary col-xs-12" type="button" ng-click="notYetImplemented()">Change</button>
+		</div>
+		<div class="col-xs-1" style="padding-right: 0px">
+			<svg ng-if="earnedStripes.length > 0" style="width: 100%">
+				<line
+					ng-repeat="stripe in earnedStripes track by $index"
+					x1="0"
+					x2="20"
+					y1="{{(($index * 8) + 2)}}"
+					y2="{{(($index * 8) + 2)}}"
+					style="stroke: {{stripe.color | lowercase}}; stroke-width: 3" />
+			</svg>
+		</div>
+		<div class="col-xs-9">
+			<div class="row spacer-10">
+				<span class="h2 col-xs-3" style="margin: 0px; padding: 0px">{{studentInfo.firstName}} {{studentInfo.lastName}}</span>
+>>>>>>> Add stripes display
 				<div class="btn-group pull-right">
 					<button class="btn btn-primary" type="button" ng-click="notYetImplemented()">
 						Attendance

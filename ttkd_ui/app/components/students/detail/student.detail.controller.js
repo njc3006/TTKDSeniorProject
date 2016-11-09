@@ -86,27 +86,15 @@
 						}, $scope.studentInfo.belts[0].belt);
 					}
 
-<<<<<<< fa4570284ecc96d16f084f003ed353f903169d5c
 					$scope.studentBeltClass = currentBelt.name.toLowerCase() + '-belt';
+
+					StudentsService.getStudentStripes($stateParams.studentId).then(function(stripes) {
+						$scope.earnedStripes = stripes;
+					});
 				}
 			},
 			function(error) {
 				$scope.studentLoaded = true;
-=======
-				// TODO: uncomment the following code
-				/*$scope.beltBorder = {
-					'box-shadow': '0 0 0 4px ' + currentBelt.primaryColor + ', 0 0 0 8px ' + currentBelt.secondaryColor;
-				}*/
-
-				$scope.studentBeltClass = currentBelt.name.toLowerCase() + '-belt';
-
-				StudentsService.getStudentStripes($stateParams.studentId).then(function(stripes) {
-					console.log(stripes);
-				});
-			}
-		}, function(error) {
-			$scope.studentLoaded = true;
->>>>>>> Add service method to get all stripes associated with a person
 
 				if (error.status === 404) {
 					$scope.studentDoesNotExist = true;
