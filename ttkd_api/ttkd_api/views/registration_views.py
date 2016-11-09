@@ -1,6 +1,6 @@
 """RegistrationViewSet"""
 from rest_framework import viewsets, filters
-from ..serializers.registration_serializer import RegistrationSerializer
+from ..serializers.registration_serializer import RegistrationSerializer, MinimalRegistrationSerializer
 from ..models.registration import Registration
 
 
@@ -19,3 +19,14 @@ class RegistrationViewSet(viewsets.ModelViewSet):
     serializer_class = RegistrationSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('program', 'person',)
+
+
+class MinimalRegistrationViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    GET: Returns all Registration Objects with minimal persons To The Route, Or An Instance If Given A PK
+    Filters: program, person, person__active
+    """
+    queryset = Registration.objects.filter()
+    serializer_class = MinimalRegistrationSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ('program', 'person', 'person__active')
