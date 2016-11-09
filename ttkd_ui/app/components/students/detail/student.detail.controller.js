@@ -48,6 +48,7 @@
 		};
 
 		$scope.studentInfo = {};
+		$scope.earnedStripes = [];
 		$scope.studentBeltClass = '';
 
 		$scope.primaryEmergencyContact = {};
@@ -57,52 +58,55 @@
 		$scope.studentRequestFailed = false;
 		$scope.studentDoesNotExist = false;
 
-		StudentsService.getStudent($stateParams.studentId).then(function(response) {
-			$scope.studentLoaded = true;
+		StudentsService.getStudent($stateParams.studentId).then(
+			function(response) {
+				$scope.studentLoaded = true;
 
-			$scope.studentInfo = reformatObject(response.data);
+				$scope.studentInfo = reformatObject(response.data);
 
-			$scope.studentInfo.picture = 'http://placehold.it/350x350';
-			$scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
+				$scope.studentInfo.picture = 'http://placehold.it/350x350';
+				$scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
 
-			$scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContact_1);
-			$scope.secondaryEmergencyContact = reformatObject($scope.studentInfo.emergencyContact_2);
+				$scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContact_1);
+				$scope.secondaryEmergencyContact = reformatObject($scope.studentInfo.emergencyContact_2);
 
-			if ($scope.studentInfo.belts.length > 0) {
-				var currentBelt;
+				if ($scope.studentInfo.belts.length > 0) {
+					var currentBelt;
 
-				if ($scope.studentInfo.belts.length === 1) {
-					currentBelt = $scope.studentInfo.belts[0].belt;
-				} else {
-					currentBelt = $scope.studentInfo.belts.reduce(function(prev, curr) {
-						if (curr['current_belt']) {
-							return curr.belt;
-						} else {
-							return prev;
-						}
-					}, $scope.studentInfo.belts[0].belt);
+					if ($scope.studentInfo.belts.length === 1) {
+						currentBelt = $scope.studentInfo.belts[0].belt;
+					} else {
+						currentBelt = $scope.studentInfo.belts.reduce(function(prev, curr) {
+							if (curr['current_belt']) {
+								return curr.belt;
+							} else {
+								return prev;
+							}
+						}, $scope.studentInfo.belts[0].belt);
+					}
+
+					// TODO: uncomment the following code
+					/*$scope.beltBorder = {
+						'box-shadow': '0 0 0 4px ' + currentBelt.primaryColor + ', 0 0 0 8px ' + currentBelt.secondaryColor;
+					}*/
+
+					$scope.studentBeltClass = currentBelt.name.toLowerCase() + '-belt';
+
+					StudentsService.getStudentStripes($stateParams.studentId).then(function(stripes) {
+						$scope.earnedStripes = stripes;
+					});
 				}
+			},
+			function(error) {
+				$scope.studentLoaded = true;
 
-				// TODO: uncomment the following code
-				/*$scope.beltBorder = {
-					'box-shadow': '0 0 0 4px ' + currentBelt.primaryColor + ', 0 0 0 8px ' + currentBelt.secondaryColor;
-				}*/
-
-				$scope.studentBeltClass = currentBelt.name.toLowerCase() + '-belt';
-
-				StudentsService.getStudentStripes($stateParams.studentId).then(function(stripes) {
-					console.log(stripes);
-				});
+				if (error.status === 404) {
+					$scope.studentDoesNotExist = true;
+				} else {
+					$scope.studentRequestFailed = true;
+				}
 			}
-		}, function(error) {
-			$scope.studentLoaded = true;
-
-			if (error.status === 404) {
-				$scope.studentDoesNotExist = true;
-			} else {
-				$scope.studentRequestFailed = true;
-			}
-		});
+		);
 	}
 
 	angular.module('ttkdApp.studentDetailCtrl', ['ttkdApp.studentsService', 'ttkdApp.telLinkDir'])
