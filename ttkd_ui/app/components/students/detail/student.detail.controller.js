@@ -4,9 +4,10 @@
 
 		for (var field in object) {
 			if (object.hasOwnProperty(field)) {
-				var camelCased = field.replace(/_([a-z])/g, function (g) {
-					return g[1].toUpperCase();
-				});
+				var camelCased = field
+					.replace(/\s(.)/g, function($1) { return $1.toUpperCase(); })
+	        .replace(/\s/g, '')
+	        .replace(/^(.)/, function($1) { return $1.toLowerCase(); });
 
 				reformatted[camelCased] = object[field];
 			}
@@ -67,8 +68,8 @@
 				$scope.studentInfo.picture = 'http://placehold.it/350x350';
 				$scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
 
-				$scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContact_1);
-				$scope.secondaryEmergencyContact = reformatObject($scope.studentInfo.emergencyContact_2);
+				$scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContact1);
+				$scope.secondaryEmergencyContact = reformatObject($scope.studentInfo.emergencyContact2);
 
 				if ($scope.studentInfo.belts.length > 0) {
 					var currentBelt;
@@ -84,11 +85,6 @@
 							}
 						}, $scope.studentInfo.belts[0].belt);
 					}
-
-					// TODO: uncomment the following code
-					/*$scope.beltBorder = {
-						'box-shadow': '0 0 0 4px ' + currentBelt.primaryColor + ', 0 0 0 8px ' + currentBelt.secondaryColor;
-					}*/
 
 					$scope.studentBeltClass = currentBelt.name.toLowerCase() + '-belt';
 
