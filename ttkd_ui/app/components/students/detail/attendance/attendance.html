@@ -1,4 +1,4 @@
-<div class="row spacer-25">
+<div class="row spacer-25" style="margin-top: 20px">
 	<form class="form-inline">
 		<div class="form-group col-xs-4 col-md-4">
 			<div>Class</div>
@@ -15,6 +15,7 @@
 					name="dob"
 					ng-required="true"
 					uib-datepicker-popup="MM-dd-yyyy"
+					datepicker-options="datePickerOptions"
 					ng-model="filterDate.start.value"
 					is-open="filterDate.start.open"
 					close-text="Close">
@@ -34,9 +35,9 @@
 					name="dob"
 					ng-required="true"
 					uib-datepicker-popup="MM-dd-yyyy"
+					datepicker-options="datePickerOptions"
 					ng-model="filterDate.end.value"
 					is-open="filterDate.end.open"
-					min-date="filterDate.start.value"
 					close-text="Close">
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="button" ng-click="openCalendar(filterDate.end)">
@@ -49,10 +50,12 @@
 </div>
 
 <div class="row">
-	<table class="table table-striped">
-		<thead>
-			<th>Date</th>
-			<th>Class</th>
-		</thead>
-	</table>
+	<div class="col-sm-12">
+		<table class="table table-striped">
+			<thead>
+				<th>Date</th>
+				<th>Class</th>
+			</thead>
+		</table>
+	</div>
 </div>

@@ -100,19 +100,16 @@
 	</div>
 
 	<div class="row spacer-20" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
-		<ul class="nav nav-pills">
-			<li
-				role="presentation"
-				ng-repeat="section in bottomSections"
-				ng-click="selectSection($index)"
-				ng-class="{'active': selectedSection === section}">
-				<a ui-sref=".">{{section.title}}</a>
-			</li>
-		</ul>
-	</div>
-	<div
-		class="row"
-		ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed"
-		ng-include="selectedSection.templateUrl">
+		<uib-tabset type="pills">
+			<uib-tab heading="Notes">
+				<ng-include src="'components/students/detail/notes/notes.panel.html'"></ng-include>
+			</uib-tab>
+			<uib-tab heading="Attendance">
+				<ng-include
+					src="'components/students/detail/attendance/attendance.html'"
+					ng-controller="StudentAttendanceCtrl">
+				</ng-include>
+			</uib-tab>
+		</uib-tabset>
 	</div>
 </div>
