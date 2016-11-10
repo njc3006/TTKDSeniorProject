@@ -34,7 +34,7 @@
 		};
 	}
 
-	function StudentDetailController($scope, $stateParams, StudentsService) {
+	function StudentDetailController($scope, $stateParams, StudentsService, SharedDataService) {
 		$scope.notYetImplemented = function() {
 			alert('This feature has not yet been implemented');
 		};
@@ -125,6 +125,8 @@
 				}
 			}
 		);
+
+		SharedDataService.setStudentId($stateParams.studentId);
 	}
 
 	angular.module('ttkdApp.studentDetailCtrl', ['ttkdApp.studentsService', 'ttkdApp.telLinkDir'])
@@ -132,6 +134,7 @@
 			'$scope',
 			'$stateParams',
 			'StudentsSvc',
+			'SharedDataSvc',
 			StudentDetailController
 		]);
 })();
