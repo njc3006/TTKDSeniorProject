@@ -12,11 +12,12 @@ from .views.belt_views import BeltViewSet
 from .views.attendance_record_views import AttendanceRecordViewSet, AttendanceRecordUsingPersonViewSet
 from .views.person_views import PersonViewSet
 from .views.program_views import ProgramViewSet, StudentList
-from .views.registration_views import RegistrationViewSet
+from .views.registration_views import RegistrationViewSet, RegistrationWithPeopleViewSet
 from .views.email_views import EmailViewSet
 from .views import UserViewSet
 from .views.stripe_views import StripeViewSet
 from .views.person_stripe_views import PersonStripeViewSet
+from .views.people_views import PeopleViewSet
 
 router = routers.DefaultRouter()
 
@@ -33,6 +34,8 @@ router.register(r'stripes', StripeViewSet)
 router.register(r'person-stripes', PersonStripeViewSet)
 router.register(r'belts', BeltViewSet)
 router.register(r'person-belts', PersonBeltViewSet)
+router.register(r'people', PeopleViewSet, 'people')
+router.register(r'class-people', RegistrationWithPeopleViewSet, 'class-people')
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),
