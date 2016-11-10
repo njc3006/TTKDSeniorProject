@@ -28,7 +28,7 @@
 
 		// If this is here, then everything else is too.
 		// We only want to have this Information if it's there
-		if (registrationInfo.emSecondaryFullName !== undefined) {
+		if (registrationInfo.emSecondaryFullName !== undefined && registrationInfo.emSecondaryFullName.length > 0) {
 			payload.person['emergency_contacts'].push({
 				'full_name': registrationInfo.emSecondaryFullName,
 				'phone_number': registrationInfo.emSecondaryPhone.replace(new RegExp('-', 'g'), ''),
@@ -41,7 +41,10 @@
 
 	function RegistrationController($scope, $timeout, $state, RegistrationService, ProgramsService, StateService) {
 		$scope.isLegalAdult = function() {
-			var ageInYears = (new Date()).getFullYear() - $scope.registrationInfo.dob.value.getFullYear();
+			var today = moment();
+			var birthday = moment($scope.registrationInfo.dob.value);
+
+			var ageInYears = today.diff(birthday, 'years');
 
 			return ageInYears >= 18;
 		};
@@ -61,9 +64,16 @@
 		};
 
 		$scope.anySecondaryContactInfoEntered = function() {
-			return ($scope.registrationInfo.emSecondaryFullName && $scope.registrationInfo.emSecondaryFullName.length > 0) ||
-				($scope.registrationInfo.emSecondaryPhone && $scope.registrationInfo.emSecondaryPhone.length > 0) ||
-				($scope.registrationInfo.emSecondaryRelationship && $scope.registrationInfo.emSecondaryRelationship.length > 0);
+			var fullNameEntered = $scope.registrationInfo.emSecondaryFullName &&
+				$scope.registrationInfo.emSecondaryFullName.length > 0;
+
+			var phoneEntered = $scope.registrationInfo.emSecondaryPhone &&
+				$scope.registrationInfo.emSecondaryPhone.length > 0;
+
+			var relationEntered = $scope.registrationInfo.emSecondaryRelationship &&
+				$scope.registrationInfo.emSecondaryRelationship.length > 0;
+
+			return fullNameEntered || phoneEntered || relationEntered;
 		};
 
 		$scope.onSubmit = function(formIsValid) {
