@@ -15,7 +15,10 @@
 	<div class="row spacer-20">
 		<div class="col-sm-2" style="padding-left: 0px">
 			<img class="img-responsive {{studentBeltClass}}" ng-src="{{studentInfo.picture}}" ng-style="beltBorderStyle">
-			<button class="btn btn-primary col-sm-12" type="button" ng-click="notYetImplemented()">Change</button>
+			<div class="file-upload">
+				<button class="btn btn-primary">Change</button>
+				<input class="btn btn-primary" type="file" ng-model="studentInfo.picture">
+			</div>
 		</div>
 		<div class="col-sm-10">
 			<div class="row spacer-10">

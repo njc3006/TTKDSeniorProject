@@ -45,3 +45,22 @@
 	@extend .belt;
 	border-color: black;
 }
+
+.file-upload {
+	padding-left: 0;
+	padding-right: 0;
+	cursor: pointer;
+
+	button {
+		position: absolute;
+		left: 0;
+		right: 0;
+		cursor: pointer;
+	}
+
+	input {
+		width: 100%;
+		z-index: 99;
+		opacity: 0.2;
+	}
+}
