@@ -72,6 +72,15 @@ class RegistrationSerializer(serializers.ModelSerializer):
         return instance
 
 
+class SimpleRegistrationSerializer(serializers.ModelSerializer):
+    """
+    SimpleRegistrationSerializer Outputs Registration Model as JSON with only a PK for person
+    """
+    class Meta:
+        model = Registration
+        # No Fields declaration to use all the fields of the model
+
+
 class RegistrationWithPeopleSerializer(serializers.ModelSerializer):
     """
     RegistrationSerializer Outputs Registration Model as JSON
