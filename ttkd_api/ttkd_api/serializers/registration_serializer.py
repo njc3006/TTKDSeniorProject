@@ -69,3 +69,12 @@ class RegistrationSerializer(serializers.ModelSerializer):
         instance.program = validated_data.get('program', instance.program)
         instance.save()
         return instance
+
+
+class SimpleRegistrationSerializer(serializers.ModelSerializer):
+    """
+    SimpleRegistrationSerializer Outputs Registration Model as JSON with only a PK for person
+    """
+    class Meta:
+        model = Registration
+        # No Fields declaration to use all the fields of the model
