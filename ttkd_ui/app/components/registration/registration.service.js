@@ -2,7 +2,7 @@
 	function RegistrationService($http, apiHost) {
 		return {
 			registerStudent: function(formData) {
-				return $http.post(apiHost + '/api/registrations/', formData);
+				return $http.post(apiHost + '/api/register/', formData);
 			}
 		};
 	}

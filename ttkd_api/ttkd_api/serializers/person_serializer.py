@@ -18,8 +18,8 @@ class PersonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
         fields = ('id', 'first_name', 'last_name', 'dob', 'primary_phone', 'secondary_phone',
-                  'street', 'city', 'zipcode', 'state', 'belts', 'emails',
-                  'emergency_contact_1', 'emergency_contact_2', 'misc_notes', 'active')
+                  'street', 'city', 'zipcode', 'state', 'belts', 'emails', 'emergency_contact_1',
+                  'emergency_contact_2', 'misc_notes', 'picture_path', 'active')
 
 
 class MinimalPersonSerializer(serializers.ModelSerializer):
@@ -29,5 +29,4 @@ class MinimalPersonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Person
-        # TODO add 'picture' once PR #68 is done
-        fields = ('id', 'first_name', 'last_name', 'active')
+        fields = ('id', 'first_name', 'last_name', 'picture_path', 'active')
