@@ -3,6 +3,7 @@ A File that holds the Person Class
 @author AJ Deck, Nick Coriale
 """
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 from .emergency_contact import EmergencyContact
 
@@ -14,6 +15,10 @@ class Person(models.Model):
     may not instruct
     programs
     """
+
+    def upload_to(instance, filename):
+       return 'pictures/{}/{}'.format(instance.id, filename)
+
     first_name = models.CharField(
         max_length=30,
         blank=True,
@@ -73,9 +78,7 @@ class Person(models.Model):
     emergency_contact_2 = models.ForeignKey(EmergencyContact, on_delete=models.CASCADE, blank=True,
                                             null=True, related_name='emergency_contact_2')
 
-    picture_path = models.CharField(
-        max_length=255,
-    )
+    picture = models.ImageField(_('picture'), blank=True, null=True, upload_to=upload_to)
 
     def __str__(self):
         return self.first_name + " " + self.last_name

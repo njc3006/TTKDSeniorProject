@@ -10,7 +10,7 @@ from django.conf import settings
 from .views.person_belt_views import PersonBeltViewSet
 from .views.belt_views import BeltViewSet
 from .views.attendance_record_views import AttendanceRecordViewSet, AttendanceRecordUsingPersonViewSet
-from .views.person_views import PersonViewSet
+from .views.person_views import PersonViewSet, PersonPictureViewSet
 from .views.program_views import ProgramViewSet, StudentList
 from .views.registration_views import RegistrationViewSet, RegistrationWithPeopleViewSet
 from .views.email_views import EmailViewSet
@@ -24,6 +24,7 @@ router = routers.DefaultRouter()
 # Register Viewsets
 router.register(r'users', UserViewSet)
 router.register(r'persons', PersonViewSet)
+router.register(r'pictures', PersonPictureViewSet)
 router.register(r'programs', ProgramViewSet)
 router.register(r'check-ins', AttendanceRecordViewSet)
 router.register(r'checked-in/persons', AttendanceRecordUsingPersonViewSet, 'checked-in-persons')
