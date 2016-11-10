@@ -19,4 +19,5 @@ class PersonSerializer(serializers.ModelSerializer):
         model = Person
         fields = ('id', 'first_name', 'last_name', 'dob', 'primary_phone', 'secondary_phone',
                   'street', 'city', 'zipcode', 'state', 'belts', 'emails',
-                  'emergency_contact_1', 'emergency_contact_2', 'misc_notes', 'active')
+                  'emergency_contact_1', 'emergency_contact_2', 'misc_notes', 'picture_path',
+                  'active')

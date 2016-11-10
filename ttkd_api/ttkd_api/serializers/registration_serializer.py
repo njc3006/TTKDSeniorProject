@@ -2,6 +2,7 @@
 from string import capwords
 from rest_framework import serializers
 
+from .people_serializer import PeopleSerializer
 from .person_serializer import PersonSerializer
 from ..models.registration import Registration
 from ..models.person import Person
@@ -75,6 +76,17 @@ class SimpleRegistrationSerializer(serializers.ModelSerializer):
     """
     SimpleRegistrationSerializer Outputs Registration Model as JSON with only a PK for person
     """
+    class Meta:
+        model = Registration
+        # No Fields declaration to use all the fields of the model
+
+
+class RegistrationWithPeopleSerializer(serializers.ModelSerializer):
+    """
+    RegistrationSerializer Outputs Registration Model as JSON
+    """
+    person = PeopleSerializer()
+
     class Meta:
         model = Registration
         # No Fields declaration to use all the fields of the model
