@@ -78,7 +78,6 @@
 						$scope.selectFormSection($scope.currentSelectionIndex + 1);
 				} else {
 					var registrationPayload = createRegistrationPayload($scope.registrationInfo);
-					console.log(registrationPayload);
 					RegistrationService.registerStudent(registrationPayload).then(function(response) {
 						$scope.registrationSuccess = true;
 						window.scrollTo(0, 0);
