@@ -89,10 +89,10 @@
 		<input
 			type="text"
 			name="emSecondaryFullName"
-			ng-required="true"
 			class="col-xs-12 form-control spacer-25"
 			placeholder="Full Name"
 			form-focus="currentFocusIndex === 3"
+			ng-required="anySecondaryContactInfoEntered()"
 			ng-focus="setFocus(3)"
 			ng-model="registrationInfo.emSecondaryFullName">
 		<span class="input-group-addon">
@@ -113,10 +113,10 @@
 			<input
 				type="text"
 				name="emSecondaryPhone"
-				ng-required="true"
 				class="form-control input-group"
 				placeholder="Phone Number (e.g. 123-456-7890)"
 				form-focus="currentFocusIndex === 4"
+				ng-required="anySecondaryContactInfoEntered()"
 				ng-focus="setFocus(4)"
 				ng-pattern="/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/"
 				ng-model="registrationInfo.emSecondaryPhone">
@@ -137,10 +137,10 @@
 			<input
 				type="text"
 				name="emSecondaryRelationship"
-				ng-required="true"
 				class="form-control input-group"
 				placeholder="Relationship"
 				form-focus="currentFocusIndex === 5"
+				ng-required="anySecondaryContactInfoEntered()"
 				ng-focus="setFocus(5)"
 				ng-model="registrationInfo.emSecondaryRelationship">
 			<span class="input-group-addon">
