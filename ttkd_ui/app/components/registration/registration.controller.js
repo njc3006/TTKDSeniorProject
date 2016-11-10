@@ -1,38 +1,21 @@
 (function() {
 	function createRegistrationPayload(registrationInfo) {
-		var formattedMonth = registrationInfo.dob.value.getMonth() < 9 ?
-			'0' + (registrationInfo.dob.value.getMonth() + 1) :
-			(registrationInfo.dob.value.getMonth() + 1);
-
-		var formattedDate = registrationInfo.dob.value.getDate() < 10 ?
-			'0' + registrationInfo.dob.value.getDate() :
-			registrationInfo.dob.value.getDate();
-
-		var secondaryPhoneGiven = registrationInfo.secondaryPhone !== undefined;
-
 		var payload = {
 			person: {
 				'first_name': registrationInfo.firstName,
 				'last_name': registrationInfo.lastName,
-				'dob': registrationInfo.dob.value.getFullYear() + '-' + formattedMonth + '-' + formattedDate,
+				'dob': moment(registrationInfo.dob.value).format('YYYY-MM-DD'),
 				'primary_phone': registrationInfo.primaryPhone.replace(new RegExp('-', 'g'), ''),
 				'street': registrationInfo.street,
 				'city': registrationInfo.city,
 				'zipcode': parseInt(registrationInfo.zipcode),
 				'state': registrationInfo.state.value,
 				'emails': registrationInfo.emails.map(function(email) { return {email: email.email}; }),
-				'emergency_contacts': [
-					{
+				'emergency_contacts': [{
 						'full_name': registrationInfo.emPrimaryFullName,
 						'phone_number': registrationInfo.emPrimaryPhone.replace(new RegExp('-', 'g'), ''),
 						'relation': registrationInfo.emPrimaryRelationship
-					},
-					{
-						'full_name': registrationInfo.emSecondaryFullName,
-						'phone_number': registrationInfo.emSecondaryPhone.replace(new RegExp('-', 'g'), ''),
-						'relation': registrationInfo.emSecondaryRelationship
-					}
-				]
+				}]
 			},
 			'program': registrationInfo.program.id
 		};
@@ -41,6 +24,16 @@
 			payload.person['secondary_phone'] = registrationInfo.secondaryPhone.replace(new RegExp('-', 'g'), '');
 		} else {
 			payload.person['secondary_phone'] = '';
+		}
+
+		// If this is here, then everything else is too.
+		// We only want to have this Information if it's there
+		if (registrationInfo.emSecondaryFullName !== undefined) {
+			payload.person['emergency_contacts'].push({
+				'full_name': registrationInfo.emSecondaryFullName,
+				'phone_number': registrationInfo.emSecondaryPhone.replace(new RegExp('-', 'g'), ''),
+				'relation': registrationInfo.emSecondaryRelationship
+			});
 		}
 
 		return payload;
@@ -67,6 +60,12 @@
 			}
 		};
 
+		$scope.anySecondaryContactInfoEntered = function() {
+			return ($scope.registrationInfo.emSecondaryFullName && $scope.registrationInfo.emSecondaryFullName.length > 0) ||
+				($scope.registrationInfo.emSecondaryPhone && $scope.registrationInfo.emSecondaryPhone.length > 0) ||
+				($scope.registrationInfo.emSecondaryRelationship && $scope.registrationInfo.emSecondaryRelationship.length > 0);
+		};
+
 		$scope.onSubmit = function(formIsValid) {
 			$scope.submitted = true;
 
@@ -79,6 +78,7 @@
 						$scope.selectFormSection($scope.currentSelectionIndex + 1);
 				} else {
 					var registrationPayload = createRegistrationPayload($scope.registrationInfo);
+					console.log(registrationPayload);
 					RegistrationService.registerStudent(registrationPayload).then(function(response) {
 						$scope.registrationSuccess = true;
 						window.scrollTo(0, 0);
