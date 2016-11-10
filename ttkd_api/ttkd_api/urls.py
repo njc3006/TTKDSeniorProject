@@ -24,7 +24,6 @@ router = routers.DefaultRouter()
 # Register Viewsets
 router.register(r'users', UserViewSet)
 router.register(r'persons', PersonViewSet)
-router.register(r'pictures', PersonPictureViewSet)
 router.register(r'programs', ProgramViewSet)
 router.register(r'check-ins', AttendanceRecordViewSet)
 router.register(r'checked-in/persons', AttendanceRecordUsingPersonViewSet, 'checked-in-persons')
@@ -40,4 +39,5 @@ router.register(r'class-people', RegistrationWithPeopleViewSet, 'class-people')
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),
+    url(r'^api/pictures/(?P<pk>[0-9]+)/', PersonPictureViewSet.as_view({'post':'picture'}))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
