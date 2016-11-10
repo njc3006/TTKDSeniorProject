@@ -51,16 +51,11 @@
 	padding-right: 0;
 	cursor: pointer;
 
-	button {
-		position: absolute;
-		left: 0;
-		right: 0;
-		cursor: pointer;
+	.vis-input {
+		width: 100%;
 	}
 
-	input {
-		width: 100%;
-		z-index: 99;
-		opacity: 0.2;
+	.hidden-input {
+		display: none;
 	}
 }
