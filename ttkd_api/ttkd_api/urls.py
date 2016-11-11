@@ -39,5 +39,5 @@ router.register(r'class-people', RegistrationWithPeopleViewSet, 'class-people')
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),
-    url(r'^api/pictures/(?P<pk>[0-9]+)/', PersonPictureViewSet.as_view({'post':'picture'}))
+    url(r'^api/person/(?P<pk>[0-9]+)/picture', PersonPictureViewSet.as_view({'post':'picture'}))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

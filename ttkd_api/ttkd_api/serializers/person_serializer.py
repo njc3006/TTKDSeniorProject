@@ -19,7 +19,7 @@ class PersonSerializer(serializers.ModelSerializer):
         model = Person
         fields = ('id', 'first_name', 'last_name', 'dob', 'primary_phone', 'secondary_phone',
                   'street', 'city', 'zipcode', 'state', 'belts', 'emails',
-                  'emergency_contact_1', 'emergency_contact_2', 'misc_notes', 'active')
+                  'emergency_contact_1', 'emergency_contact_2', 'misc_notes', 'picture', 'active')
 
 class PersonPictureSerializer(serializers.HyperlinkedModelSerializer):
     """
@@ -28,7 +28,7 @@ class PersonPictureSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Person
-        fields = ('id', 'picture')
-        readonly_fields = ('picture')
+        fields = ('id', 'picture', 'url')
+        readonly_fields = ('picture', 'url')
 
 

@@ -2,8 +2,10 @@
 A File that holds the Person Class
 @author AJ Deck, Nick Coriale
 """
+import os
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from ..settings import STATIC_ROOT
 
 from .emergency_contact import EmergencyContact
 
@@ -17,7 +19,7 @@ class Person(models.Model):
     """
 
     def upload_to(instance, filename):
-       return 'pictures/{}/{}'.format(instance.id, filename)
+       return 'www/pictures/{}/{}'.format(instance.id, filename)
 
     first_name = models.CharField(
         max_length=30,
