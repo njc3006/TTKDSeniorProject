@@ -13,8 +13,8 @@ from .views.attendance_record_views import AttendanceRecordViewSet, \
     AttendanceRecordUsingPersonViewSet
 from .views.person_views import PersonViewSet
 from .views.program_views import ProgramViewSet, StudentList
-from .views.registration_views import RegistrationViewSet, RegistrationWithPeopleViewSet, \
-    SimpleRegistrationViewSet
+from .views.registration_views import MinimalRegistrationViewSet, RegistrationViewSet, \
+    RegistrationWithPeopleViewSet, SimpleRegistrationViewSet
 from .views.email_views import EmailViewSet
 from .views import UserViewSet
 from .views.stripe_views import StripeViewSet
@@ -29,6 +29,7 @@ router.register(r'persons', PersonViewSet)
 router.register(r'programs', ProgramViewSet)
 router.register(r'check-ins', AttendanceRecordViewSet)
 router.register(r'checked-in/persons', AttendanceRecordUsingPersonViewSet, 'checked-in-persons')
+router.register(r'registrations-minimal', MinimalRegistrationViewSet, 'registrations-minimal')
 router.register(r'register', RegistrationViewSet, 'register')
 router.register(r'registrations', SimpleRegistrationViewSet)
 router.register(r'students', StudentList, 'student-list')

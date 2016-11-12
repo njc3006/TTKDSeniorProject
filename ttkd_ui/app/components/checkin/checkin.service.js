@@ -2,7 +2,7 @@
 	function CheckinService($http, apiHost) {
 		return {
 			getStudentsFromClass: function(programId) {
-				return $http.get(apiHost + '/api/students/?program=' + programId);
+				return $http.get(apiHost + '/api/registrations-minimal/?program=' + programId + '&person__active=2');
 			},
 
 			getCheckinsForClass: function(programId, checkinDate) {
