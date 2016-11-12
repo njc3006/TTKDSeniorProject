@@ -24,3 +24,14 @@ class PersonSerializer(serializers.ModelSerializer):
                   'street', 'city', 'zipcode', 'state', 'belts', 'stripes', 'emails',
                   'emergency_contact_1', 'emergency_contact_2', 'misc_notes', 'picture_path',
                   'active')
+
+
+class MinimalPersonSerializer(serializers.ModelSerializer):
+    """
+    MinimumPersonSerializer Outputs Person Model as JSON with very limited fields
+    """
+
+    class Meta:
+        model = Person
+        fields = ('id', 'first_name', 'last_name', 'picture_path', 'active')
+
