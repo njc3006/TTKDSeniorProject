@@ -2,10 +2,20 @@
 	function StudentAttendanceController($scope, $http, $q, apiHost, SharedDataService) {
 		var uniquePrograms = {};
 
-		$scope.loadCheckIns = function() {
+		$scope.loadCheckIns = function(program, date) {
 			var studentId = SharedDataService.getStudentId();
 
-			$http.get(apiHost + '/api/check-ins/?person=' + studentId).then(
+			var requestEndpoint = apiHost + '/api/check-ins/?person=' + studentId;
+
+			if (program && program.id !== undefined) {
+				requestEndpoint += '&program=' + program.id;
+			}
+
+			if (date !== undefined) {
+				requestEndpoint += '&date=' + moment(date, 'MM/DD/YYYY').format('YYYY-MM-DD');
+			}
+
+			$http.get(requestEndpoint).then(
 				function(checkinsResponse) {
 					var discoveredProgramIds = {};
 
@@ -48,7 +58,7 @@
 		$scope.loadEnrolledPrograms = function() {
 			var studentId = SharedDataService.getStudentId();
 
-			$http.get(apiHost + '/api/registrations/?person=' + studentId).then(
+			$http.get(apiHost + '/api/registrations-minimal/?person=' + studentId).then(
 				function(registrations) {
 					var discoveredProgramIds = {};
 
@@ -85,30 +95,32 @@
 			);
 		};
 
-		$scope.openCalendar = function(date) {
-			date.open = true;
+		$scope.onProgramChange = function() {
+			$scope.loadCheckIns($scope.filterData.selectedProgram, $scope.filterData.date.value);
 		};
 
-		$scope.datePickerOptions = {
-			maxDate: new Date()
+		$scope.openCalendar = function() {
+			$scope.filterData.date.open = true;
 		};
 
-		$scope.filterDate = {
-			start: {
-				open: false
-			},
-			end: {
-				open: false
+		$scope.filterData = {
+			date: {
+				open: false,
+				options: {
+					maxDate: new Date()
+				}
 			}
 		};
 
 		$scope.checkIns = [];
-
 		$scope.enrolledPrograms = [];
-		$scope.selectedProgram = {};
 
 		$scope.loadEnrolledPrograms();
 		$scope.loadCheckIns();
+
+		$scope.$watch('filterData["date"]["value"]', function(newDate) {
+			$scope.loadCheckIns($scope.filterData.selectedProgram, newDate);
+		});
 	}
 
 	angular.module('ttkdApp.studentDetailCtrl')
