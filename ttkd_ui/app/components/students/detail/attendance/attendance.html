@@ -3,7 +3,10 @@
 	<form class="form-inline col-xs-8 col-md-8 col-xs-offset-2 col-md-offset-2">
 		<div class="form-group col-xs-4 col-md-4">
 			<div>Class</div>
-			<select class="form-control">
+			<select
+				class="form-control"
+				ng-model="selectedProgram"
+				ng-options="program as program.name for program in enrolledPrograms track by program.id">
 				<option value="">All Classes</option>
 			</select>
 		</div>
