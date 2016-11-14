@@ -15,7 +15,6 @@
 
 	function StudentDetailController($scope, $stateParams, StudentsService, apiHost) {
 		$scope.apiHost = apiHost;
-		console.log(apiHost);
 
 		$scope.notYetImplemented = function() {
 			alert('This feature has not yet been implemented');
@@ -58,12 +57,20 @@
 		$scope.studentRequestFailed = false;
 		$scope.studentDoesNotExist = false;
 
+		$scope.uploadedFile = null;
+		/* watch for changes in the uploaded file and make a post request */
+		$scope.$watch('uploadedFile', function() {
+			console.log($scope.ploadedFile);
+			if($scope.uploadedFile) {
+				StudentsService.changePicture($scope.studentInfo.id, $scope.uploadedFile)
+			}
+		});
+
 		StudentsService.getStudent($stateParams.studentId).then(function(response) {
 			$scope.studentLoaded = true;
 
 			$scope.studentInfo = reformatObject(response.data.person);
 
-			$scope.studentInfo.picture = 'http://placehold.it/350x350';
 			$scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
 
 			$scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContact_1);
