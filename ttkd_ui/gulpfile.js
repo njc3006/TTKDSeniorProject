@@ -49,6 +49,13 @@ gulp.task('scss', [], function(done) {
     .on('end', done);
 });
 
+gulp.task('img', [], function(done) {
+  gulp.src('./app/**/*.png')
+    .pipe(gulp.dest(config.buildDir + '/img'))
+    .pipe(connect.reload())
+    .on('end', done);
+});
+
 gulp.task('jshint', [], function(done) {
   gulp.src(['./app/**/*.js','!./app/lib/**/*.js'])
     .pipe(jshint())
@@ -107,7 +114,7 @@ gulp.task('build-js', [], function(done) {
 		.on('end', done);
 });
 
-gulp.task('build-static', [], function(done) {
+gulp.task('build-static', ['img'], function(done) {
 	gulp.src('./app/index.html')
 		.pipe(rename('index.html'))
 		.pipe(gulp.dest(config.buildDir))

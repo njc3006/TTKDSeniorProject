@@ -13,7 +13,10 @@
 		return reformatted;
 	}
 
-	function StudentDetailController($scope, $stateParams, StudentsService) {
+	function StudentDetailController($scope, $stateParams, StudentsService, apiHost) {
+		$scope.apiHost = apiHost;
+		console.log(apiHost);
+
 		$scope.notYetImplemented = function() {
 			alert('This feature has not yet been implemented');
 		};
@@ -94,11 +97,12 @@
 		});
 	}
 
-	angular.module('ttkdApp.studentDetailCtrl', ['ttkdApp.studentsService', 'ttkdApp.telLinkDir'])
+	angular.module('ttkdApp.studentDetailCtrl', ['ttkdApp.studentsService', 'ttkdApp.telLinkDir', 'ttkdApp.constants'])
 		.controller('StudentDetailCtrl', [
 			'$scope',
 			'$stateParams',
 			'StudentsSvc',
+			'apiHost',
 			StudentDetailController
 		]);
 })();

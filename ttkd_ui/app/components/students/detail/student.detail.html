@@ -10,11 +10,11 @@
 <div class="row alert alert-danger" role="alert" ng-show="studentRequestFailed">
 	<strong>Could not retrieve student data</strong>
 </div>
-
 <div ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
 	<div class="row spacer-20">
 		<div class="col-sm-2" style="padding-left: 0px">
-			<img class="img-responsive {{studentBeltClass}}" ng-src="{{studentInfo.picture}}" ng-style="beltBorderStyle">
+			<img ng-show="studentInfo.pictureUrl" class="img-responsive {{studentBeltClass}}" ng-src="{{apiHost}}/{{studentInfo.pictureUrl}}" ng-style="beltBorderStyle">
+			<img ng-hide="studentInfo.pictureUrl" class="img-responsive {{studentBeltClass}}" ng-src="./img/components/students/placeholder.png" ng-style="beltBorderStyle">
 			<div class="file-upload">
 				<input class="btn btn-primary vis-input" type="button" value="Change" onclick="document.getElementById('fileUpload').click();">
 				<input class="btn btn-primary hidden-input" type="file" id="fileUpload" name="fileUpload" ng-model="studentInfo.picture">

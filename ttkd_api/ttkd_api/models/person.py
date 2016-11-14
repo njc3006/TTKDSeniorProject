@@ -24,7 +24,7 @@ class Person(models.Model):
         # make a folder with the first and last name
         folder = ""
         if instance.first_name and instance.last_name:
-            folder = instance.first_name + " " + instance.last_name + "/"
+            folder = instance.first_name + "." + instance.last_name + "/"
         partial_url = 'pictures/{}{}'.format(folder, filename)
 
         #now construct the url it will be served from
