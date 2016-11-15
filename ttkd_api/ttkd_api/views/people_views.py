@@ -6,7 +6,8 @@ from ..models.person import Person
 
 class PeopleViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    Returns all People (limited persons) objects to the Route. Filters: first_name, last_name, belt, active
+    Returns all People (limited persons) objects to the Route.
+    Filters: first_name, last_name, belt, active
     """
     queryset = Person.objects.all()
     serializer_class = PeopleSerializer
