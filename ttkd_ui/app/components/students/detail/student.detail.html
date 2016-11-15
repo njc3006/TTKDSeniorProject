@@ -13,37 +13,7 @@
 
 <div ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
 	<div class="row spacer-20">
-<<<<<<< 0e237c4ca25f4cd9409ee54aac15aec2179ccfe4
-<<<<<<< d6e5cea56ef384e46be23eeb06029ba8b9b3b5b8
-		<div class="col-xs-2" style="padding: 0px">
-			<img class="img-responsive {{studentBeltClass}}" ng-src="{{studentInfo.picture}}">
-			<button class="btn btn-primary col-xs-12" type="button" ng-click="notYetImplemented()">Change</button>
-=======
-		<div class="col-sm-2" style="padding-left: 0px">
-			<img class="img-responsive {{studentBeltClass}}" ng-src="{{studentInfo.picture}}">
-			<button class="btn btn-primary col-sm-12" type="button" ng-click="notYetImplemented()">Change</button>
->>>>>>> begin adding stripes and multi-colored belts
-		</div>
-		<div class="col-xs-1" style="padding-right: 0px">
-			<svg ng-if="earnedStripes.length > 0" style="width: 100%">
-				<line
-					ng-repeat="stripe in earnedStripes track by $index"
-					x1="0"
-					x2="20"
-					y1="{{(($index * 8) + 2)}}"
-					y2="{{(($index * 8) + 2)}}"
-					style="stroke: {{stripe.color | lowercase}}; stroke-width: 3" />
-			</svg>
-		</div>
-		<div class="col-xs-9">
-			<div class="row spacer-10">
-<<<<<<< d6e5cea56ef384e46be23eeb06029ba8b9b3b5b8
-				<span class="h2 col-xs-3" style="margin: 0px; padding: 0px">{{studentInfo.firstName}} {{studentInfo.lastName}}</span>
-=======
-				<span class="h2 col-sm-3" style="margin: 0px; padding: 0px">{{studentInfo.firstName}} {{studentInfo.lastName}}</span>
->>>>>>> begin adding stripes and multi-colored belts
-=======
-		<div class="col-xs-2" style="padding: 0px">
+		<div class="col-xs-2 no-padding">
 			<img class="img-responsive {{studentBeltClass}}" ng-src="{{studentInfo.picture}}">
 			<button class="btn btn-primary col-xs-12" type="button" ng-click="notYetImplemented()">Change</button>
 		</div>
@@ -53,15 +23,16 @@
 					ng-repeat="stripe in earnedStripes track by $index"
 					x1="0"
 					x2="20"
-					y1="{{(($index * 8) + 2)}}"
-					y2="{{(($index * 8) + 2)}}"
+					ng:attr:y1="{{(($index * 8) + 2)}}"
+					ng:attr:y2="{{(($index * 8) + 2)}}"
 					style="stroke: {{stripe.color | lowercase}}; stroke-width: 3" />
 			</svg>
 		</div>
 		<div class="col-xs-9">
 			<div class="row spacer-10">
-				<span class="h2 col-xs-3" style="margin: 0px; padding: 0px">{{studentInfo.firstName}} {{studentInfo.lastName}}</span>
->>>>>>> Add stripes display
+				<span class="h2 col-xs-3 no-padding no-margins">
+					{{studentInfo.firstName}} {{studentInfo.lastName}}
+				</span>
 				<div class="btn-group pull-right">
 					<button class="btn btn-primary" type="button" ng-click="notYetImplemented()">
 						Attendance
@@ -69,24 +40,24 @@
 					<button class="btn btn-warning" type="button" ng-click="notYetImplemented()">Edit</button>
 				</div>
 			</div>
-			<div class="row h4 spacer-10" style="font-weight: normal">
+			<div class="row h4 spacer-10 normal-text">
 				Status: <span ng-class="{'text-success': studentInfo.active, 'text-danger': !studentInfo.active}">
 					{{studentInfo.active ? 'Active' : 'Inactive'}}
 				</span>
 			</div>
-			<div class="row h4 spacer-10" style="font-weight: normal">
+			<div class="row h4 spacer-10 normal-text">
 				<span style="padding-right: 3em">Age: {{currentAge()}}</span>
 				<span>Birthday: {{formattedBirthday()}}</span>
 			</div>
-			<div class="row h4 spacer-10" style="font-weight: normal">
+			<div class="row h4 spacer-10 normal-text">
 				<tel-link phone="studentInfo.primaryPhone" label="'Primary Phone'" style="padding-right: 3em"></tel-link>
 				<tel-link ng-if="studentInfo.secondaryPhone" phone="studentInfo.secondaryPhone" label="'Secondary Phone'">
 				</tel-link>
 			</div>
-			<div class="row h4 spacer-10" style="font-weight: normal">
+			<div class="row h4 spacer-10 normal-text">
 				<span>Address: {{studentInfo.street}}, {{studentInfo.city}}, {{studentInfo.state}} {{studentInfo.zipcode}}</span>
 			</div>
-			<div class="row h4" style="font-weight: normal">
+			<div class="row h4 normal-text">
 				Emails:
 				<span ng-repeat="email in studentInfo.emails">
 					<a href="mailto:{{email.email}}">{{email.email}}</a>{{$last ? '' : ', '}}

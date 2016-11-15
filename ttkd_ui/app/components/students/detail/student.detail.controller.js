@@ -4,10 +4,11 @@
 
 		for (var field in object) {
 			if (object.hasOwnProperty(field)) {
-				var camelCased = field
-					.replace(/\s(.)/g, function($1) { return $1.toUpperCase(); })
-	        .replace(/\s/g, '')
-	        .replace(/^(.)/, function($1) { return $1.toLowerCase(); });
+				var camelCased = field.replace(/[\-_\s]+(.)?/g, function(match, chr) {
+		      return chr ? chr.toUpperCase() : '';
+		    });
+
+				camelCased = camelCased.substr(0, 1).toLowerCase() + camelCased.substr(1);
 
 				reformatted[camelCased] = object[field];
 			}
@@ -61,8 +62,6 @@
 
 		StudentsService.getStudent($stateParams.studentId).then(
 			function(response) {
-				$scope.studentLoaded = true;
-
 				$scope.studentInfo = reformatObject(response.data);
 
 				$scope.studentInfo.picture = 'http://placehold.it/350x350';
@@ -92,6 +91,8 @@
 						$scope.earnedStripes = stripes;
 					});
 				}
+
+				$scope.studentLoaded = true;
 			},
 			function(error) {
 				$scope.studentLoaded = true;
