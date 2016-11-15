@@ -58,7 +58,7 @@
 		StudentsService.getStudent($stateParams.studentId).then(function(response) {
 			$scope.studentLoaded = true;
 
-			$scope.studentInfo = reformatObject(response.data.person);
+			$scope.studentInfo = reformatObject(response.data);
 
 			$scope.studentInfo.picture = 'http://placehold.it/350x350';
 			$scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
