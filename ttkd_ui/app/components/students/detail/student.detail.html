@@ -16,8 +16,15 @@
 			<img ng-show="studentInfo.pictureUrl" class="img-responsive {{studentBeltClass}}" ng-src="{{apiHost}}/{{studentInfo.pictureUrl}}" ng-style="beltBorderStyle">
 			<img ng-hide="studentInfo.pictureUrl" class="img-responsive {{studentBeltClass}}" ng-src="./img/components/students/placeholder.png" ng-style="beltBorderStyle">
 			<div class="file-upload">
-				<input class="btn btn-primary vis-input" type="button" value="Change" onclick="document.getElementById('fileUpload').click();">
-				<input class="btn btn-primary hidden-input" type="file" id="fileUpload" name="fileUpload" ng-model="uploadedFile">
+				<!-- <input class="btn btn-primary vis-input" type="button" value="Change" onclick="document.getElementById('fileUpload').click();"> -->
+				<!-- <input class="btn btn-primary hidden-input" type="file" id="fileUpload" name="fileUpload" ng-model="uploadedFile"> -->
+				<input type="file" nv-file-select uploader="uploader"/><br/>
+		        <ul>
+		            <li ng-repeat="item in uploader.queue">
+		                Name: <span ng-bind="item.file.name"></span><br/>
+		                <button ng-click="item.upload()">upload</button>
+		            </li>
+		        </ul>
 			</div>
 		</div>
 		<div class="col-sm-10">

@@ -13,7 +13,11 @@
 		return reformatted;
 	}
 
-	function StudentDetailController($scope, $stateParams, StudentsService, apiHost) {
+	function StudentDetailController($scope, $stateParams, StudentsService, apiHost, FileUploader) {
+		$scope.uploader = new FileUploader({
+			url: apiHost + '/api/person/' + $stateParams.studentId + '/picture'
+		});
+
 		$scope.apiHost = apiHost;
 
 		$scope.notYetImplemented = function() {
@@ -57,15 +61,6 @@
 		$scope.studentRequestFailed = false;
 		$scope.studentDoesNotExist = false;
 
-		$scope.uploadedFile = null;
-		/* watch for changes in the uploaded file and make a post request */
-		$scope.$watch('uploadedFile', function() {
-			console.log($scope.ploadedFile);
-			if($scope.uploadedFile) {
-				StudentsService.changePicture($scope.studentInfo.id, $scope.uploadedFile)
-			}
-		});
-
 		StudentsService.getStudent($stateParams.studentId).then(function(response) {
 			$scope.studentLoaded = true;
 
@@ -104,12 +99,13 @@
 		});
 	}
 
-	angular.module('ttkdApp.studentDetailCtrl', ['ttkdApp.studentsService', 'ttkdApp.telLinkDir', 'ttkdApp.constants'])
+	angular.module('ttkdApp.studentDetailCtrl', ['ttkdApp.studentsService', 'ttkdApp.telLinkDir', 'ttkdApp.constants', 'angularFileUpload'])
 		.controller('StudentDetailCtrl', [
 			'$scope',
 			'$stateParams',
 			'StudentsSvc',
 			'apiHost',
+			'FileUploader',
 			StudentDetailController
 		]);
 })();
