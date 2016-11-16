@@ -102,19 +102,17 @@
 						}, $scope.studentInfo.belts[0].belt);
 					}
 
-					StudentsService.getActiveBelt(currentBelt).then(function(response) {
-						$scope.studentBeltClass = response.data.name.toLowerCase() + '-belt';
-
-						// The stripes list is person-stripe objects, lets find the current ones
-						// and strip off the other information, because in this case we only care
-						// about the stripe objects within the person-stripes
-						angular.forEach($scope.studentInfo.stripes, function(value){
-							if (value['current_stripe']) {
-								$scope.earnedStripes.push(value.stripe);
-							}
-						});
+					$scope.studentInfo.stripes = $scope.studentInfo.stripes.filter(function(personStripe) {
+						return personStripe['current_stripe'];
 					});
-					$scope.studentLoaded = true;
+
+					$scope.beltStyle = getBeltStyle(currentBelt);
+
+					StudentsService.convertPersonStripesToStripes($scope.studentInfo.stripes)
+						.then(function(stripes) {
+							$scope.earnedStripes = stripes;
+							$scope.studentLoaded = true;
+						});
 				} else {
 					$scope.studentLoaded = true;
 				}
