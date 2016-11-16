@@ -58,17 +58,6 @@
             return formattedDate;
         };
 
-        //transforms the data to include a temp picture property
-        $scope.transformData = function(data){
-            var tempdata = data;
-            //Until we have picture working this is the default picture for testing/layout
-            angular.forEach(tempdata, function(value){
-                value.person.picturePath = 'http://placehold.it/110x110';
-            });
-
-            return tempdata;
-        };
-
         //updates the displayed list of students based on the current filters
         $scope.setDisplayedStudents = function(){
             var filteredList = [];
@@ -164,7 +153,7 @@
                         function(response){
                             $scope.allAttendance = response.data;
                 
-                            $scope.allPeople = $scope.transformData(temp2);
+                            $scope.allPeople = temp2;
                             $scope.setDisplayedStudents();
                         });
                 });        
@@ -180,7 +169,7 @@
 
             StudentListService.getStudentsFromClass(classId).then(
                 function (response){
-                    $scope.classPeople = $scope.transformData(response.data);
+                    $scope.classPeople = response.data;
 
                     var formattedDate = $scope.getCurrentFormattedDate(new Date());
                     StudentListService.getClassAttendanceRecords(classId, formattedDate).then(

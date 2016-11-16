@@ -31,7 +31,7 @@
 		</div>
 		<div class="col-xs-2">
 	       	<div class="input-group">
-	          	<input type="text" class="form-control" 
+	          	<input type="text" class="form-control"
 		                 uib-datepicker-popup="MM-dd-yyyy"
 		                 ng-model="selectedDate.value"
 		                 is-open="selectedDate.open"
@@ -40,7 +40,7 @@
 		                 placeholder="Date" />
           		<span class="input-group-btn">
 	          		<button class="btn btn-default" ng-click="open()">
-	          		<i class="glyphicon glyphicon-calendar"></i></button> 
+	          		<i class="glyphicon glyphicon-calendar"></i></button>
 	          	</span>
 	        </div>
 		</div>
@@ -54,16 +54,16 @@
 	</div>
 
 	<div class="row">
-		<!-- <div class="col-xs-10 col-xs-offset-1" ng-repeat="p in people | filter: (filters.currentBelt || undefined) && { person: { belt: filters.currentBelt } }| filter: filters.searchQuery | orderBy: 'person.first_name':!sortAZ"> -->
 			<div class="col-xs-10 col-xs-offset-1" ng-repeat="p in people | filter: displayedFilter | orderBy: 'person.first_name':!sortAZ">
 			<div class="col-xs-2 text-center entry-picture">
-				<a ui-sref="studentDetails({studentId: p.id})">
-					<img ng-src="{{p.person.picturePath}}">
+				<a ui-sref="studentDetails({studentId: p.person.id})">
+					<img ng-show="p.person.picture_url" class="img-responsive" ng-src="{{apiHost}}/{{p.person.picture_url}}" ng-style="beltBorderStyle">
+-					<img ng-hide="p.person.picture_url" class="img-responsive" ng-src="./img/components/students/placeholder.png" ng-style="beltBorderStyle">
 				</a>
 			</div>
 			<div class="col-xs-8 entry">
 				<div class="row">
-					<a ui-sref="studentDetails({studentId: p.id})">
+					<a ui-sref="studentDetails({studentId: p.person.id})">
 						<h2>{{p.person.first_name}} {{p.person.last_name}}</h2>
 					</a>
 				</div>
