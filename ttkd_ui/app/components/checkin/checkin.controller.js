@@ -1,11 +1,12 @@
 (function() {
 
-  angular.module('ttkdApp.checkinCtrl', [])
+  angular.module('ttkdApp.checkinCtrl', ['ttkdApp.constants'])
 
-    .controller('CheckinCtrl', ['$scope', '$stateParams', '$document', '$filter', '$uibModal', 'CheckinService',
-		function($scope, $stateParams, $document, $filter, $uibModal, CheckinService) {
+    .controller('CheckinCtrl', ['$scope', '$stateParams', '$document', '$filter', '$uibModal', 'CheckinService', 'apiHost',
+		function($scope, $stateParams, $document, $filter, $uibModal, CheckinService, apiHost) {
 				var modalInstance;
 
+		$scope.apiHost = apiHost;
 		$scope.programID = $stateParams.programID;
 		$scope.instructor = $stateParams.instructor;
 		$scope.date = new Date();
