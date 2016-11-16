@@ -1,7 +1,6 @@
 """PersonBeltSerializer"""
 from rest_framework import serializers
 
-from ..serializers.belt_serializer import BeltSerializer
 from ..models.person_belt import PersonBelt
 
 
@@ -9,7 +8,6 @@ class PersonBeltSerializer(serializers.ModelSerializer):
     """
     BeltSerializer Outputs PersonBelt Model as JSON
     """
-    belt = BeltSerializer()
 
     class Meta:
         model = PersonBelt
