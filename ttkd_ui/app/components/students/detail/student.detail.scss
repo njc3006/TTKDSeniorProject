@@ -1,3 +1,17 @@
+.file-upload {
+	padding-left: 0;
+	padding-right: 0;
+	cursor: pointer;
+
+	.vis-input {
+		width: 100%;
+	}
+
+	.hidden-input {
+		display: none;
+	}
+}
+
 .belt {
 	border: black 6px solid;
 }
@@ -44,18 +58,4 @@
 .black-belt {
 	@extend .belt;
 	border-color: black;
-}
-
-.file-upload {
-	padding-left: 0;
-	padding-right: 0;
-	cursor: pointer;
-
-	.vis-input {
-		width: 100%;
-	}
-
-	.hidden-input {
-		display: none;
-	}
 }
