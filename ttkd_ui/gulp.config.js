@@ -9,7 +9,6 @@ module.exports = {
 		'./app/lib/api-check/dist/api-check.min.js',
 		'./app/lib/angular-bootstrap/ui-bootstrap.min.js',
 		'./app/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
-		'./app/lib/angular-file-upload/dist/angular-file-upload.min.js',
 	],
 	sourcePaths: ['!./app/**/*_test.js', './app/**/*.js', '!./app/lib/**/*.js'],
 	templatePaths: ['./app/*/**/*.html'],

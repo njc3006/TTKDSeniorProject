@@ -22,22 +22,15 @@ class PersonSerializer(serializers.ModelSerializer):
         model = Person
         fields = ('id', 'first_name', 'last_name', 'dob', 'primary_phone', 'secondary_phone',
                   'street', 'city', 'zipcode', 'state', 'belts', 'stripes', 'emails',
-                  'emergency_contact_1', 'emergency_contact_2', 'misc_notes', 'picture_url',
+                  'emergency_contact_1', 'emergency_contact_2', 'misc_notes', 'picture_path',
                   'active')
 
-class PersonPictureSerializer(serializers.HyperlinkedModelSerializer):
-    """
-    PersonSerializer Outputs Person Model as JSON
-    """
-    class Meta:
-        model = Person
-        fields = ('id', 'picture')
-        readonly_fields = ('picture')
 
 class MinimalPersonSerializer(serializers.ModelSerializer):
     """
     MinimumPersonSerializer Outputs Person Model as JSON with very limited fields
     """
+
     class Meta:
         model = Person
-        fields = ('id', 'first_name', 'last_name', 'picture_url', 'active')
+        fields = ('id', 'first_name', 'last_name', 'picture_path', 'active')

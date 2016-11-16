@@ -1,16 +1,15 @@
 (function() {
 
-  angular.module('ttkdApp.studentlistCtrl', ['ttkdApp.constants'])
+  angular.module('ttkdApp.studentlistCtrl', [])
 
-    .controller('StudentListCtrl', ['$scope', '$stateParams', 'StudentListService', 'apiHost',
-        function($scope, $stateParams, StudentListService, apiHost) {
+    .controller('StudentListCtrl', ['$scope', '$stateParams', 'StudentListService',
+        function($scope, $stateParams, StudentListService) {
         $scope.people = [];                 //currently displayed list of students
         $scope.allStudents = [];            //every student in the system
         $scope.classes = [];                //every class in the system
         $scope.attendanceRecords = [];      //all attendance records in the system
         $scope.sortAZ = true;
         $scope.sortDisplayString = 'A-Z';
-        $scope.apiHost = apiHost;
 
         $scope.filters = {
             showActive: true,

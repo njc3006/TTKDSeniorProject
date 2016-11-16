@@ -8,4 +8,3 @@ gulp build
 cp -R ./dist/* ../dist/static/
 cd ..
 cp start.bat ./dist/
-cp data.json ./dist/
