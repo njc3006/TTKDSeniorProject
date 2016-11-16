@@ -39,7 +39,9 @@
 
 							$scope.checkIns = checkinsResponse.data.map(function(checkIn) {
 								return {
-									date: moment(checkIn.date, 'YYYY-MM-DD').format('MM/DD/YYYY'),
+									id: checkIn.id,
+									dateObj: moment(checkIn.date, 'YYYY-MM-DD').toDate(),
+									formattedDate: moment(checkIn.date, 'YYYY-MM-DD').format('MM/DD/YYYY'),
 									program: uniquePrograms[checkIn.program].name
 								};
 							});

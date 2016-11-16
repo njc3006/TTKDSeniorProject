@@ -42,8 +42,8 @@
 				<th>Class</th>
 			</thead>
 			<tbody>
-				<tr ng-repeat="checkIn in checkIns track by $index">
-					<td>{{checkIn.date}}</td>
+				<tr ng-repeat="checkIn in checkIns | orderBy: 'dateObj':true">
+					<td>{{checkIn.formattedDate}}</td>
 					<td>{{checkIn.program}}</td>
 				</tr>
 			</tbody>
