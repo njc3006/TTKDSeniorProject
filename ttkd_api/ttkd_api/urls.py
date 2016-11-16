@@ -11,7 +11,7 @@ from .views.person_belt_views import PersonBeltViewSet
 from .views.belt_views import BeltViewSet
 from .views.attendance_record_views import AttendanceRecordViewSet, \
     AttendanceRecordUsingPersonViewSet
-from .views.person_views import PersonViewSet, PersonPictureViewSet
+from .views.person_views import PersonViewSet
 from .views.program_views import ProgramViewSet, StudentList
 from .views.registration_views import MinimalRegistrationViewSet, RegistrationViewSet, \
     RegistrationWithPeopleViewSet, SimpleRegistrationViewSet
@@ -43,5 +43,4 @@ router.register(r'class-people', RegistrationWithPeopleViewSet, 'class-people')
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),
-    url(r'^api/person/(?P<pk>[0-9]+)/picture', PersonPictureViewSet.as_view({'post':'picture'}))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

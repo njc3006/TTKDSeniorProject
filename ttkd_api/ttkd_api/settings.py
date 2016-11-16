@@ -21,8 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
 STATIC_ROOT = os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../www/'))
-STATIC_FOLDER = 'static/'
-STATICFILES_DIRS = [os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../' + STATIC_FOLDER))]
+STATICFILES_DIRS = [os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../static/'))]
 STATIC_URL = '/ui/'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/

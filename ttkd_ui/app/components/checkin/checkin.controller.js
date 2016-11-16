@@ -1,12 +1,11 @@
 (function() {
 
-  angular.module('ttkdApp.checkinCtrl', ['ttkdApp.constants'])
+  angular.module('ttkdApp.checkinCtrl', [])
 
-    .controller('CheckinCtrl', ['$scope', '$stateParams', '$document', '$filter', '$uibModal', 'CheckinService', 'apiHost',
-		function($scope, $stateParams, $document, $filter, $uibModal, CheckinService, apiHost) {
+    .controller('CheckinCtrl', ['$scope', '$stateParams', '$document', '$filter', '$uibModal', 'CheckinService',
+		function($scope, $stateParams, $document, $filter, $uibModal, CheckinService) {
 				var modalInstance;
 
-		$scope.apiHost = apiHost;
 		$scope.programID = $stateParams.programID;
 		$scope.instructor = $stateParams.instructor;
 		$scope.date = new Date();
@@ -76,7 +75,7 @@
         // Get all of the students from the class and then move the ones that are already
 		// checked in into a separate list
 		$scope.getStudents = function(){
-		CheckinService.getStudentsFromClass($stateParams.programID).then(
+		CheckinService.getStudentsFromClass($scope.currentProgram.id).then(
 			function(response){
 				 var tempdata = response.data;
 
