@@ -102,17 +102,15 @@
 						}, $scope.studentInfo.belts[0].belt);
 					}
 
-					$scope.studentInfo.stripes = $scope.studentInfo.stripes.filter(function(personStripe) {
-						return personStripe['current_stripe'];
-					});
-
 					$scope.beltStyle = getBeltStyle(currentBelt);
 
-					StudentsService.convertPersonStripesToStripes($scope.studentInfo.stripes)
-						.then(function(stripes) {
-							$scope.earnedStripes = stripes;
-							$scope.studentLoaded = true;
-						});
+					$scope.earnedStripes = $scope.studentInfo.stripes.filter(function(personStripe) {
+						return personStripe['current_stripe'];
+					}).map(function(personStripe) {
+						return personStripe.stripe;
+					});
+
+					$scope.studentLoaded = true;
 				} else {
 					$scope.studentLoaded = true;
 				}

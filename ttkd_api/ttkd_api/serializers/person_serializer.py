@@ -14,7 +14,7 @@ class PersonSerializer(serializers.ModelSerializer):
     """
     emails = EmailSerializer(many=True)
     belts = DetailedPersonBeltSerializer(many=True, read_only=True)
-    stripes = PersonStripeSerializer(many=True, read_only=True)
+    stripes = DetailedPersonStripeSerializer(many=True, read_only=True)
     emergency_contact_1 = EmergencyContactSerializer(required=False)
     emergency_contact_2 = EmergencyContactSerializer(required=False)
 
