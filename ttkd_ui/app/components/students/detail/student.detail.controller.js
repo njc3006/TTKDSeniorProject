@@ -92,8 +92,8 @@
 						// and strip off the other information, because in this case we only care
 						// about the stripe objects within the person-stripes
 						angular.forEach($scope.studentInfo.stripes, function(value){
-							if (value.current_stripe){
-								$scope.earnedStripes.push(value.stripe)
+							if (value['current_stripe']) {
+								$scope.earnedStripes.push(value.stripe);
 							}
 						});
 					});

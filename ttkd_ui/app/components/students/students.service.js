@@ -6,7 +6,7 @@
 					return $http.get(apiHost + '/api/persons/' + id + '/');
 				},
 				getActiveBelt: function(beltId) {
-					return $http.get(apiHost + '/api/belts/' + beltId + '/')
+					return $http.get(apiHost + '/api/belts/' + beltId + '/');
 				}
 			};
 		}]);
