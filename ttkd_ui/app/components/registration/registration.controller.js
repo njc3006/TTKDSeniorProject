@@ -39,7 +39,9 @@
 		return payload;
 	}
 
-	function RegistrationController($scope, $timeout, $state, RegistrationService, ProgramsService, StateService) {
+	function RegistrationController($scope, $rootScope, $timeout, $state, $stateParams, RegistrationService, ProgramsService, StateService) {
+		$rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
+		
 		$scope.isLegalAdult = function() {
 			var today = moment();
 			var birthday = moment($scope.registrationInfo.dob.value);
@@ -206,8 +208,10 @@
 		'ttkdApp.programsSvc'
 	]).controller('RegistrationCtrl', [
 		'$scope',
+		'$rootScope',
 		'$timeout',
 		'$state',
+		'$stateParams',
 		'RegistrationSvc',
 		'ProgramsSvc',
 		'StateSvc',
