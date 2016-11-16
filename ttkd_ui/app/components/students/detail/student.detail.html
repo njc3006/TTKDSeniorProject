@@ -46,9 +46,6 @@
 					{{studentInfo.firstName}} {{studentInfo.lastName}}
 				</span>
 				<div class="btn-group pull-right">
-					<button class="btn btn-primary" type="button" ng-click="notYetImplemented()">
-						Attendance
-					</button>
 					<button class="btn btn-warning" type="button" ng-click="notYetImplemented()">Edit</button>
 				</div>
 			</div>
@@ -84,9 +81,9 @@
 				Primary Emergency Contact
 			</div>
 			<div class="panel-body">
-				Name: {{primaryEmergencyContact.fullName}}<br/>
-				Relationship: {{primaryEmergencyContact.relation}}<br/>
-				<tel-link phone="primaryEmergencyContact.phoneNumber" label="'Phone'"></tel-link>
+				Name: {{emergencyContact_1.fullName}}<br/>
+				Relationship: {{emergencyContact_1.relation}}<br/>
+				<tel-link phone="emergencyContact_1.phoneNumber" label="'Phone'"></tel-link>
 			</div>
 		</div>
 
@@ -95,14 +92,24 @@
 				Secondary Emergency Contact
 			</div>
 			<div class="panel-body">
-				Name: {{secondaryEmergencyContact.fullName}}<br/>
-				Relationship: {{secondaryEmergencyContact.relation}}<br/>
-				<tel-link phone="secondaryEmergencyContact.phoneNumber" label="'Phone'"></tel-link>
+				Name: {{emergencyContact_2.fullName}}<br/>
+				Relationship: {{emergencyContact_2.relation}}<br/>
+				<tel-link phone="emergencyContact_2" label="'Phone'"></tel-link>
 			</div>
 		</div>
 	</div>
 
-	<div class="row panel panel-primary" style="min-height: 350px" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
-		{{studentInfo.misc_notes}}
+	<div class="row spacer-20" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
+		<uib-tabset type="pills">
+			<uib-tab heading="Notes">
+				<ng-include src="'components/students/detail/notes/notes.panel.html'"></ng-include>
+			</uib-tab>
+			<uib-tab heading="Attendance">
+				<ng-include
+					src="'components/students/detail/attendance/attendance.html'"
+					ng-controller="StudentAttendanceCtrl">
+				</ng-include>
+			</uib-tab>
+		</uib-tabset>
 	</div>
 </div>
