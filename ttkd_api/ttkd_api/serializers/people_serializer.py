@@ -16,5 +16,5 @@ class PeopleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
         fields = ('id', 'first_name', 'last_name', 'primary_phone', 'emails', 'emergency_contact_1',
-                  'emergency_contact_2', 'picture_path', 'active')
+                  'emergency_contact_2', 'picture_url', 'active')
 
