@@ -18,14 +18,26 @@
 			<button class="btn btn-primary col-xs-12" type="button" ng-click="notYetImplemented()">Change</button>
 		</div>
 		<div class="col-xs-1 no-right-padding" style="padding-right: 0px">
-			<svg ng-if="earnedStripes.length > 0" style="width: 100%">
-				<line
+			<svg style="width: 100%">
+				<rect
 					ng-repeat="stripe in earnedStripes track by $index"
-					x1="0"
-					x2="20"
-					ng:attr:y1="{{(($index * 8) + 2)}}"
-					ng:attr:y2="{{(($index * 8) + 2)}}"
-					style="stroke: {{'#' + stripe.color | lowercase}}; stroke-width: 3" />
+					ng-if="stripe.color.toLowerCase() !== 'ffffff'"
+					x="0"
+					ng:attr:y="{{(($index * 8) + 2)}}"
+					height="3"
+					width="20"
+					stroke="{{'#' + stripe.color | lowercase}}"
+					fill="{{'#' + stripe.color | lowercase}}" />
+				<rect
+					ng-repeat="stripe in earnedStripes track by $index"
+					ng-if="stripe.color.toLowerCase() === 'ffffff'"
+					x="0"
+					ng:attr:y="{{(($index * 8) + 2)}}"
+					height="3"
+					width="20"
+					stroke="black"
+					stroke-width="1"
+					fill="white" />
 			</svg>
 		</div>
 		<div class="col-xs-9">
