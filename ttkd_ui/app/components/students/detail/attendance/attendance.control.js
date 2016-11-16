@@ -58,7 +58,7 @@
 		$scope.loadEnrolledPrograms = function() {
 			var studentId = SharedDataService.getStudentId();
 
-			$http.get(apiHost + '/api/registrations-minimal/?person=' + studentId).then(
+			$http.get(apiHost + '/api/registrations/?person=' + studentId).then(
 				function(registrations) {
 					var discoveredProgramIds = {};
 
