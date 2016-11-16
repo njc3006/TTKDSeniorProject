@@ -4,7 +4,11 @@
 
 		for (var field in object) {
 			if (object.hasOwnProperty(field)) {
-				var camelCased = field.replace(/_([a-z])/g, function (g) { return g[1].toUpperCase(); });
+				var camelCased = field.replace(/[\-_\s]+(.)?/g, function(match, chr) {
+		      return chr ? chr.toUpperCase() : '';
+		    });
+
+				camelCased = camelCased.substr(0, 1).toLowerCase() + camelCased.substr(1);
 
 				reformatted[camelCased] = object[field];
 			}
@@ -63,7 +67,23 @@
 			onCompleteAll: updateStudent
 		});
 
-		//TODO: remove
+		function getBeltStyle(belt) {
+			var primaryStyle = belt['primary_color'].toLowerCase() === 'ffffff' ?
+				'black 8px double' :
+				'#' + belt['primary_color'] + ' 8px solid';
+
+				var secondaryStyle = belt['secondary_color'].toLowerCase() === 'ffffff' ?
+					'black 8px double' :
+					'#' + belt['secondary_color'] + ' 8px solid';
+
+			return {
+				'border-right': secondaryStyle,
+				'border-left': primaryStyle,
+				'border-top': primaryStyle,
+				'border-bottom': secondaryStyle
+			};
+		}
+
 		$scope.notYetImplemented = function() {
 			alert('This feature has not yet been implemented');
 		};
@@ -96,6 +116,7 @@
 		};
 
 		$scope.studentInfo = {};
+		$scope.earnedStripes = [];
 		$scope.studentBeltClass = '';
 
 		$scope.primaryEmergencyContact = {};
