@@ -35,7 +35,6 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 /* Import Component SCSS */
 @import "./components/nav/nav";
 @import "./components/checkin/checkin";
-@import "./components/students/detail/student.detail";
 
 // Push containers below navbar
 #appContainer {
@@ -57,6 +56,22 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 //Custom styles for waiver text
 .spacer-35 {
 	margin-bottom: 35px;
+}
+
+.normal-text {
+	font-weight: normal;
+}
+
+.no-margins {
+	margin: 0px;
+}
+
+.no-right-padding {
+	padding-right: 0px;
+}
+
+.no-padding {
+	padding: 0px;
 }
 
 .form-scroll-buttons {

@@ -2,7 +2,8 @@
 from string import capwords
 from rest_framework import serializers
 
-from .person_serializer import PersonSerializer
+from .person_serializer import PersonSerializer, MinimalPersonSerializer
+from .people_serializer import PeopleSerializer
 from ..models.registration import Registration
 from ..models.person import Person
 from ..models.email import Email
@@ -69,3 +70,34 @@ class RegistrationSerializer(serializers.ModelSerializer):
         instance.program = validated_data.get('program', instance.program)
         instance.save()
         return instance
+
+
+class MinimalRegistrationSerializer(serializers.ModelSerializer):
+    """
+    MinimalRegistrationSerializer Outputs Registration Model as JSON with a minimal person
+    """
+    person = MinimalPersonSerializer()
+
+    class Meta:
+        model = Registration
+        # No Fields declaration to use all the fields of the model
+
+
+class SimpleRegistrationSerializer(serializers.ModelSerializer):
+    """
+    SimpleRegistrationSerializer Outputs Registration Model as JSON with only a PK for person
+    """
+    class Meta:
+        model = Registration
+        # No Fields declaration to use all the fields of the model
+
+
+class RegistrationWithPeopleSerializer(serializers.ModelSerializer):
+    """
+    RegistrationSerializer Outputs Registration Model as JSON
+    """
+    person = PeopleSerializer()
+
+    class Meta:
+        model = Registration
+        # No Fields declaration to use all the fields of the model

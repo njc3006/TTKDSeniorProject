@@ -38,7 +38,7 @@
       })
 
 			.state('studentDetails', {
-				url: '/students/{studentId}',
+				url: '/students/{studentId:int}',
 				templateUrl: 'components/students/detail/student.detail.html',
 				controller: 'StudentDetailCtrl'
 			});
