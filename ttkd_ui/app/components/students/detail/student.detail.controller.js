@@ -85,14 +85,21 @@
 						}, $scope.studentInfo.belts[0].belt);
 					}
 
-					$scope.studentBeltClass = currentBelt.name.toLowerCase() + '-belt';
-
-					StudentsService.getStudentStripes($stateParams.studentId).then(function(stripes) {
-						$scope.earnedStripes = stripes;
+					$scope.studentInfo.stripes = $scope.studentInfo.stripes.filter(function(personStripe) {
+						return personStripe['current_stripe'];
 					});
-				}
 
-				$scope.studentLoaded = true;
+					StudentsService.getActiveBelt(currentBelt).then(function(response) {
+						$scope.studentBeltClass = response.data.name.toLowerCase() + '-belt';
+
+						StudentsService.convertPersonStripesToStripes($scope.studentInfo.stripes).then(function(stripes) {
+							$scope.earnedStripes = stripes;
+							$scope.studentLoaded = true;
+						});
+					});
+				} else {
+					$scope.studentLoaded = true;
+				}
 			},
 			function(error) {
 				$scope.studentLoaded = true;
