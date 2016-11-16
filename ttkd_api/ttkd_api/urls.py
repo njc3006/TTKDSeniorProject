@@ -9,14 +9,9 @@ from django.conf import settings
 # Import ViewSets
 from .views.person_belt_views import PersonBeltViewSet
 from .views.belt_views import BeltViewSet
-<<<<<<< HEAD
-from .views.attendance_record_views import AttendanceRecordViewSet, AttendanceRecordUsingPersonViewSet
-from .views.person_views import PersonViewSet, PersonPictureViewSet
-=======
 from .views.attendance_record_views import AttendanceRecordViewSet, \
     AttendanceRecordUsingPersonViewSet
-from .views.person_views import PersonViewSet
->>>>>>> 98944fbac3b09c0c82e57b61e5646fabd606b6e1
+from .views.person_views import PersonViewSet, PersonPictureViewSet
 from .views.program_views import ProgramViewSet, StudentList
 from .views.registration_views import MinimalRegistrationViewSet, RegistrationViewSet, \
     RegistrationWithPeopleViewSet, SimpleRegistrationViewSet

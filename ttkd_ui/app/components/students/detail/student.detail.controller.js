@@ -14,12 +14,56 @@
 	}
 
 	function StudentDetailController($scope, $stateParams, StudentsService, apiHost, FileUploader) {
-		$scope.uploader = new FileUploader({
-			url: apiHost + '/api/person/' + $stateParams.studentId + '/picture'
-		});
-
 		$scope.apiHost = apiHost;
 
+		/* function to update this student object */
+		var updateStudent = function(){
+			StudentsService.getStudent($stateParams.studentId).then(function(response) {
+				$scope.studentLoaded = true;
+
+				$scope.studentInfo = reformatObject(response.data);
+
+				$scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
+
+				$scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContact_1);
+				$scope.secondaryEmergencyContact = reformatObject($scope.studentInfo.emergencyContact_2);
+
+				if ($scope.studentInfo.belts.length > 0) {
+					var currentBelt;
+
+					if ($scope.studentInfo.belts.length === 1) {
+						currentBelt = $scope.studentInfo.belts[0].belt;
+					} else {
+						currentBelt = $scope.studentInfo.belts.reduce(function(prev, curr) {
+							if (curr['current_belt']) {
+								return curr.belt;
+							} else {
+								return prev;
+							}
+						}, $scope.studentInfo.belts[0].belt);
+					}
+
+					$scope.studentBeltClass = currentBelt.name.toLowerCase() + '-belt';
+				}
+			}, function(error) {
+				$scope.studentLoaded = true;
+
+				if (error.status === 404) {
+					$scope.studentDoesNotExist = true;
+				} else {
+					$scope.studentRequestFailed = true;
+				}
+			});
+		};
+
+		/* initialize the file uploader */
+		$scope.uploader = new FileUploader({
+			url: apiHost + '/api/person/' + $stateParams.studentId + '/picture',
+			autoUpload: true,
+			onCompleteAll: updateStudent
+		});
+
+		//TODO: remove
 		$scope.notYetImplemented = function() {
 			alert('This feature has not yet been implemented');
 		};
@@ -61,42 +105,7 @@
 		$scope.studentRequestFailed = false;
 		$scope.studentDoesNotExist = false;
 
-		StudentsService.getStudent($stateParams.studentId).then(function(response) {
-			$scope.studentLoaded = true;
-
-			$scope.studentInfo = reformatObject(response.data);
-
-			$scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
-
-			$scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContact_1);
-			$scope.secondaryEmergencyContact = reformatObject($scope.studentInfo.emergencyContact_2);
-
-			if ($scope.studentInfo.belts.length > 0) {
-				var currentBelt;
-
-				if ($scope.studentInfo.belts.length === 1) {
-					currentBelt = $scope.studentInfo.belts[0].belt;
-				} else {
-					currentBelt = $scope.studentInfo.belts.reduce(function(prev, curr) {
-						if (curr['current_belt']) {
-							return curr.belt;
-						} else {
-							return prev;
-						}
-					}, $scope.studentInfo.belts[0].belt);
-				}
-
-				$scope.studentBeltClass = currentBelt.name.toLowerCase() + '-belt';
-			}
-		}, function(error) {
-			$scope.studentLoaded = true;
-
-			if (error.status === 404) {
-				$scope.studentDoesNotExist = true;
-			} else {
-				$scope.studentRequestFailed = true;
-			}
-		});
+		updateStudent();
 	}
 
 	angular.module('ttkdApp.studentDetailCtrl', ['ttkdApp.studentsService', 'ttkdApp.telLinkDir', 'ttkdApp.constants', 'angularFileUpload'])

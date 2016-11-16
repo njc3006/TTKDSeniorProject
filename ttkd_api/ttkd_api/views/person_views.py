@@ -26,12 +26,12 @@ class PersonPictureViewSet(viewsets.GenericViewSet):
     @detail_route(methods=['POST'])
     @parser_classes((FormParser, MultiPartParser,))
     def picture(self, request, *args, **kwargs):
-        if 'upload' in request.data:
+        if 'file' in request.data:
             person = self.get_object()
 
             person.picture.delete()
 
-            upload = request.data['upload']
+            upload = request.data['file']
 
             person.picture.save(upload.name, upload)
 
