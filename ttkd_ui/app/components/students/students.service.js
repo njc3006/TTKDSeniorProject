@@ -3,7 +3,11 @@
 		.factory('StudentsSvc', ['$http', '$q', 'apiHost', function($http, $q, apiHost) {
 			return {
 				getStudent: function(id) {
-					return $http.get(apiHost + '/api/persons/' + id + '/');
+					return $q(function(resolve, reject) {
+						$http.get(apiHost + '/api/persons/' + id + '/').then(function(response) {
+							resolve(response.data);
+						}, reject);
+					});
 				},
 				getActiveBelt: function(beltId) {
 					return $http.get(apiHost + '/api/belts/' + beltId + '/');

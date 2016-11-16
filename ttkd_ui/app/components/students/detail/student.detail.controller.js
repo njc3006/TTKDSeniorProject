@@ -17,6 +17,23 @@
 		return reformatted;
 	}
 
+	function getBeltStyle(belt) {
+		var primaryStyle = belt['primary_color'].toLowerCase() === 'ffffff' ?
+			'black 8px double' :
+			'#' + belt['primary_color'] + ' 8px solid';
+
+			var secondaryStyle = belt['secondary_color'].toLowerCase() === 'ffffff' ?
+				'black 8px double' :
+				'#' + belt['secondary_color'] + ' 8px solid';
+
+		return {
+			'border-right': secondaryStyle,
+			'border-left': primaryStyle,
+			'border-top': primaryStyle,
+			'border-bottom': secondaryStyle
+		};
+	}
+
 	function StudentDetailController($scope, $stateParams, StudentsService) {
 		$scope.notYetImplemented = function() {
 			alert('This feature has not yet been implemented');
@@ -61,8 +78,8 @@
 		$scope.studentDoesNotExist = false;
 
 		StudentsService.getStudent($stateParams.studentId).then(
-			function(response) {
-				$scope.studentInfo = reformatObject(response.data);
+			function(student) {
+				$scope.studentInfo = reformatObject(student);
 
 				$scope.studentInfo.picture = 'http://placehold.it/350x350';
 				$scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
