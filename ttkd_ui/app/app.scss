@@ -59,6 +59,22 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 	margin-bottom: 35px;
 }
 
+.normal-text {
+	font-weight: normal;
+}
+
+.no-margins {
+	margin: 0px;
+}
+
+.no-right-padding {
+	padding-right: 0px;
+}
+
+.no-padding {
+	padding: 0px;
+}
+
 .form-scroll-buttons {
 	position: fixed;
 	right: 0;
