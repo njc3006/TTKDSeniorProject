@@ -17,47 +17,58 @@
 		return reformatted;
 	}
 
-	function StudentDetailController($scope, $stateParams, StudentsService, apiHost, FileUploader) {
+	function StudentDetailController($scope, $stateParams, StudentsService, apiHost, FileUploader, SharedDataSvc) {
 		$scope.apiHost = apiHost;
 
 		/* function to update this student object */
 		var updateStudent = function(){
-			StudentsService.getStudent($stateParams.studentId).then(function(response) {
-				$scope.studentLoaded = true;
+			StudentsService.getStudent($stateParams.studentId).then(
+            function(response) {
+                $scope.studentInfo = reformatObject(response.data);
 
-				$scope.studentInfo = reformatObject(response.data);
+                $scope.studentInfo.picture = 'http://placehold.it/350x350';
+                $scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
 
-				$scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
+                $scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContact1);
+                $scope.secondaryEmergencyContact = reformatObject($scope.studentInfo.emergencyContact2);
 
-				$scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContact_1);
-				$scope.secondaryEmergencyContact = reformatObject($scope.studentInfo.emergencyContact_2);
+                if ($scope.studentInfo.belts.length > 0) {
+                    var currentBelt;
 
-				if ($scope.studentInfo.belts.length > 0) {
-					var currentBelt;
+                    if ($scope.studentInfo.belts.length === 1) {
+                        currentBelt = $scope.studentInfo.belts[0].belt;
+                    } else {
+                        currentBelt = $scope.studentInfo.belts.reduce(function(prev, curr) {
+                            if (curr['current_belt']) {
+                                return curr.belt;
+                            } else {
+                                return prev;
+                            }
+                        }, $scope.studentInfo.belts[0].belt);
+                    }
 
-					if ($scope.studentInfo.belts.length === 1) {
-						currentBelt = $scope.studentInfo.belts[0].belt;
-					} else {
-						currentBelt = $scope.studentInfo.belts.reduce(function(prev, curr) {
-							if (curr['current_belt']) {
-								return curr.belt;
-							} else {
-								return prev;
-							}
-						}, $scope.studentInfo.belts[0].belt);
-					}
+                    $scope.beltStyle = getBeltStyle(currentBelt);
 
-					$scope.studentBeltClass = currentBelt.name.toLowerCase() + '-belt';
-				}
-			}, function(error) {
-				$scope.studentLoaded = true;
+                    $scope.earnedStripes = $scope.studentInfo.stripes.filter(function(personStripe) {
+                        return personStripe['current_stripe'];
+                    }).map(function(personStripe) {
+                        return personStripe.stripe;
+                    });
 
-				if (error.status === 404) {
-					$scope.studentDoesNotExist = true;
-				} else {
-					$scope.studentRequestFailed = true;
-				}
-			});
+                    $scope.studentLoaded = true;
+                } else {
+                    $scope.studentLoaded = true;
+                }
+            },
+            function(error) {
+                $scope.studentLoaded = true;
+
+                if (error.status === 404) {
+                    $scope.studentDoesNotExist = true;
+                } else {
+                    $scope.studentRequestFailed = true;
+                }
+            });
 		};
 
 		/* initialize the file uploader */
@@ -127,6 +138,8 @@
 		$scope.studentDoesNotExist = false;
 
 		updateStudent();
+
+        SharedDataSvc.setStudentId($stateParams.studentId);
 	}
 
 	angular.module('ttkdApp.studentDetailCtrl', ['ttkdApp.studentsService', 'ttkdApp.telLinkDir', 'ttkdApp.constants', 'angularFileUpload'])
@@ -136,6 +149,7 @@
 			'StudentsSvc',
 			'apiHost',
 			'FileUploader',
+			'SharedDataSvc',
 			StudentDetailController
 		]);
 })();
