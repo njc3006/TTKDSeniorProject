@@ -1,3 +1,65 @@
+.file-upload {
+	padding-left: 0;
+	padding-right: 0;
+	cursor: pointer;
+
+	.vis-input {
+		width: 100%;
+	}
+
+	.hidden-input {
+		display: none;
+	}
+}
+
+.belt {
+	border: black 6px solid;
+}
+
+.white-belt {
+	border: black 10px double;
+}
+
+.yellow-belt {
+	@extend .belt;
+	border-color: yellow;
+}
+
+.orange-belt {
+	@extend .belt;
+	border-color: orange;
+}
+
+.green-belt {
+	@extend .belt;
+	border-color: green;
+}
+
+.purple-belt {
+	@extend .belt;
+	border-color: purple;
+}
+
+.blue-belt {
+	@extend .belt;
+	border-color: blue;
+}
+
+.brown-belt {
+	@extend .belt;
+	border-color: brown;
+}
+
+.red-belt {
+	@extend .belt;
+	border-color: red;
+}
+
+.black-belt {
+	@extend .belt;
+	border-color: black;
+}
+
 .tab-content {
 	margin-top: 20px;
 }
