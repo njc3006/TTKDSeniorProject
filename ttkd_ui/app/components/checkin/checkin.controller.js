@@ -2,9 +2,10 @@
 
   angular.module('ttkdApp.checkinCtrl', ['ttkdApp.constants'])
 
-    .controller('CheckinCtrl', ['$scope', '$stateParams', '$document', '$filter', '$uibModal', 'CheckinService', 'apiHost',
-		function($scope, $stateParams, $document, $filter, $uibModal, CheckinService, apiHost) {
-				var modalInstance;
+    .controller('CheckinCtrl', ['$scope', '$rootScope', '$stateParams', '$document', '$filter', '$uibModal', 'CheckinService', 'apiHost',
+		function($scope, $rootScope, $stateParams, $document, $filter, $uibModal, CheckinService, apiHost) {
+		var modalInstance;
+		$rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
 
 		$scope.apiHost = apiHost;
 		$scope.programID = $stateParams.programID;

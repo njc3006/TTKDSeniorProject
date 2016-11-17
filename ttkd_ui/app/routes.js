@@ -27,12 +27,14 @@
 
       .state('registration', {
         url: '/registration',
+        params: { hideCurrentProgram: true },
         templateUrl: 'components/registration/registration.html',
 				controller: 'RegistrationCtrl'
       })
 
       .state('studentlist', {
         url: '/studentlist',
+        params: { hideCurrentProgram: true },
         templateUrl: 'components/studentlist/studentlist.html',
         controller: 'StudentListCtrl'
       })
