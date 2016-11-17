@@ -27,7 +27,8 @@
 	<div class="row">
 		<div class="col-xs-2 right" ng-repeat="person in people | orderBy: 'first_name' ">
 			<a href="" class="thumbnail" ng-click="instructor ? instructClickCheckin(person) : openCheckinPrompt(person)">
-				<img ng-src="{{person.picture}}">
+				<img ng-if="person.picture_url" class="img-responsive {{studentBeltClass}}" ng-src="{{apiHost}}/{{person.picture_url}}" ng-style="beltBorderStyle">
+				<img ng-if="!person.picture_url" class="img-responsive {{studentBeltClass}}" ng-src="./img/components/students/placeholder.png" ng-style="beltBorderStyle">
 				<div class="caption">
 					<span class="person-name">{{person.first_name}} {{person.last_name}}</span>
 				</div>
@@ -35,7 +36,8 @@
 		</div>
 		<div class="col-xs-2 right" ng-repeat="person in checkedInPeople | orderBy: 'first_name'">
 			<a href="" class="thumbnail" ng-class="instructor ? 'checked-in-student-instruct' : 'checked-in-student'" ng-click="instructor ? instructClickDeleteCheckin(person) : ''">
-				<img ng-src="{{person.picture}}">
+				<img ng-show="person.picture_url" class="img-responsive {{studentBeltClass}}" ng-src="{{apiHost}}/{{person.picture_url}}" ng-style="beltBorderStyle">
+				<img ng-hide="person.picture_url" class="img-responsive {{studentBeltClass}}" ng-src="./img/components/students/placeholder.png" ng-style="beltBorderStyle">
 				<div class="caption">
 					<span class="person-name">{{person.first_name}} {{person.last_name}}</span>
 				</div>

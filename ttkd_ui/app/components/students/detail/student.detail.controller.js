@@ -17,24 +17,73 @@
 		return reformatted;
 	}
 
-	function getBeltStyle(belt) {
-		var primaryStyle = belt['primary_color'].toLowerCase() === 'ffffff' ?
-			'black 8px double' :
-			'#' + belt['primary_color'] + ' 8px solid';
+	function StudentDetailController($scope, $stateParams, StudentsService, apiHost, FileUploader) {
+		$scope.apiHost = apiHost;
 
-			var secondaryStyle = belt['secondary_color'].toLowerCase() === 'ffffff' ?
-				'black 8px double' :
-				'#' + belt['secondary_color'] + ' 8px solid';
+		/* function to update this student object */
+		var updateStudent = function(){
+			StudentsService.getStudent($stateParams.studentId).then(function(response) {
+				$scope.studentLoaded = true;
 
-		return {
-			'border-right': secondaryStyle,
-			'border-left': primaryStyle,
-			'border-top': primaryStyle,
-			'border-bottom': secondaryStyle
+				$scope.studentInfo = reformatObject(response.data);
+
+				$scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
+
+				$scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContact_1);
+				$scope.secondaryEmergencyContact = reformatObject($scope.studentInfo.emergencyContact_2);
+
+				if ($scope.studentInfo.belts.length > 0) {
+					var currentBelt;
+
+					if ($scope.studentInfo.belts.length === 1) {
+						currentBelt = $scope.studentInfo.belts[0].belt;
+					} else {
+						currentBelt = $scope.studentInfo.belts.reduce(function(prev, curr) {
+							if (curr['current_belt']) {
+								return curr.belt;
+							} else {
+								return prev;
+							}
+						}, $scope.studentInfo.belts[0].belt);
+					}
+
+					$scope.studentBeltClass = currentBelt.name.toLowerCase() + '-belt';
+				}
+			}, function(error) {
+				$scope.studentLoaded = true;
+
+				if (error.status === 404) {
+					$scope.studentDoesNotExist = true;
+				} else {
+					$scope.studentRequestFailed = true;
+				}
+			});
 		};
-	}
 
-	function StudentDetailController($scope, $stateParams, StudentsService, SharedDataService) {
+		/* initialize the file uploader */
+		$scope.uploader = new FileUploader({
+			url: apiHost + '/api/person/' + $stateParams.studentId + '/picture',
+			autoUpload: true,
+			onCompleteAll: updateStudent
+		});
+
+		function getBeltStyle(belt) {
+			var primaryStyle = belt['primary_color'].toLowerCase() === 'ffffff' ?
+				'black 8px double' :
+				'#' + belt['primary_color'] + ' 8px solid';
+
+				var secondaryStyle = belt['secondary_color'].toLowerCase() === 'ffffff' ?
+					'black 8px double' :
+					'#' + belt['secondary_color'] + ' 8px solid';
+
+			return {
+				'border-right': secondaryStyle,
+				'border-left': primaryStyle,
+				'border-top': primaryStyle,
+				'border-bottom': secondaryStyle
+			};
+		}
+
 		$scope.notYetImplemented = function() {
 			alert('This feature has not yet been implemented');
 		};
@@ -77,64 +126,16 @@
 		$scope.studentRequestFailed = false;
 		$scope.studentDoesNotExist = false;
 
-		StudentsService.getStudent($stateParams.studentId).then(
-			function(student) {
-				$scope.studentInfo = reformatObject(student);
-
-				$scope.studentInfo.picture = 'http://placehold.it/350x350';
-				$scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
-
-				$scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContact1);
-				$scope.secondaryEmergencyContact = reformatObject($scope.studentInfo.emergencyContact2);
-
-				if ($scope.studentInfo.belts.length > 0) {
-					var currentBelt;
-
-					if ($scope.studentInfo.belts.length === 1) {
-						currentBelt = $scope.studentInfo.belts[0].belt;
-					} else {
-						currentBelt = $scope.studentInfo.belts.reduce(function(prev, curr) {
-							if (curr['current_belt']) {
-								return curr.belt;
-							} else {
-								return prev;
-							}
-						}, $scope.studentInfo.belts[0].belt);
-					}
-
-					$scope.beltStyle = getBeltStyle(currentBelt);
-
-					$scope.earnedStripes = $scope.studentInfo.stripes.filter(function(personStripe) {
-						return personStripe['current_stripe'];
-					}).map(function(personStripe) {
-						return personStripe.stripe;
-					});
-
-					$scope.studentLoaded = true;
-				} else {
-					$scope.studentLoaded = true;
-				}
-			},
-			function(error) {
-				$scope.studentLoaded = true;
-
-				if (error.status === 404) {
-					$scope.studentDoesNotExist = true;
-				} else {
-					$scope.studentRequestFailed = true;
-				}
-			}
-		);
-
-		SharedDataService.setStudentId($stateParams.studentId);
+		updateStudent();
 	}
 
-	angular.module('ttkdApp.studentDetailCtrl', ['ttkdApp.studentsService', 'ttkdApp.telLinkDir'])
+	angular.module('ttkdApp.studentDetailCtrl', ['ttkdApp.studentsService', 'ttkdApp.telLinkDir', 'ttkdApp.constants', 'angularFileUpload'])
 		.controller('StudentDetailCtrl', [
 			'$scope',
 			'$stateParams',
 			'StudentsSvc',
-			'SharedDataSvc',
+			'apiHost',
+			'FileUploader',
 			StudentDetailController
 		]);
 })();
