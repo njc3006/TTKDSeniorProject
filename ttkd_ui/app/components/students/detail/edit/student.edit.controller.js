@@ -1,11 +1,11 @@
 (function() {
 	function EditStudentController($scope, $stateParams, StudentsService, StateService) {
 		$scope.addEmail = function() {
-			$scope.registrationInfo.emails.push({email: '', isNew: true});
+			$scope.studentInfo.emails.push({email: '', isNew: true});
 		};
 
 		$scope.removeEmail = function(index) {
-			$scope.registrationInfo.emails.splice(index, 1);
+			$scope.studentInfo.emails.splice(index, 1);
 		};
 
 		$scope.openDob = function() {
