@@ -1,0 +1,129 @@
+<form>
+	<div class="row">
+		<div class="form-group col-xs-5">
+			<label class="control-label">First Name</label>
+			<input type="text" class="form-control input-lg" ng-model="studentInfo.first_name">
+		</div>
+		<div class="form-group col-xs-5">
+			<label class="control-label">Last Name</label>
+			<input type="text" class="form-control input-lg" ng-model="studentInfo.last_name">
+		</div>
+		<div class="form-group col-xs-1" style="padding-top: 24px">
+			<button
+				type="button"
+				class="btn btn-primary btn-lg"
+				uib-btn-checkbox
+				ng-model="studentInfo.active"
+				btn-checkbox-true="true"
+				btn-checkbox-false="false">
+				{{studentInfo.active ? 'Active' : 'Inactive'}}
+			</button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-xs-12">
+			<label class="control-label">Date of Birth</label>
+			<div class="input-group input-group-lg">
+				<input
+					type="text"
+					class="form-control input-lg"
+					uib-datepicker-popup="MM/dd/yyyy"
+					ng-model="studentInfo.dob.value"
+					is-open="studentInfo.dob.open"
+					ng-required="true"
+					close-text="Close" />
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" ng-click="openDob()">
+						<i class="glyphicon glyphicon-calendar"></i>
+					</button>
+				</span>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-xs-6">
+			<label>Primary Phone</label>
+			<input type="text" class="form-control input-lg" ng-model="studentInfo.primary_phone">
+		</div>
+		<div class="form-group col-xs-6">
+			<label>Secondary Phone</label>
+			<input type="text" class="form-control input-lg" ng-model="studentInfo.secondary_phone">
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-xs-12">
+			<label>Address</label>
+			<input type="text" class="form-control input-lg" ng-model="studentInfo.street">
+		</div>
+	</div>
+	<div class="row spacer-20">
+		<div class="form-group col-xs-4">
+			<label>City</label>
+			<input type="text" class="form-control input-lg" ng-model="studentInfo.city">
+		</div>
+		<div class="form-group col-xs-4">
+			<label>State</label>
+			<select
+				class="form-control input-lg"
+				name="state"
+				form-focus="currentFocusIndex === 6"
+				ng-focus="setFocus(6)"
+				ng-model="studentInfo.state"
+				ng-required="true"
+				ng-options="state as state.name for state in states track by state.value">
+				<option value="">Select a State</option>
+			</select>
+		</div>
+		<div class="form-group col-xs-4">
+			<label>Zip Code</label>
+			<input type="text" class="form-control input-lg" ng-model="studentInfo.zipcode">
+		</div>
+	</div>
+	<div class="row">
+		<uib-tabset type="pills" class="col-xs-12">
+			<uib-tab heading="Email Addresses">
+				<div class="spacer-25"
+					ng-repeat="email in studentInfo.emails"
+					ng-class="{'has-error': registrationForm.email{{$index}}.$invalid && submitted && !email.isNew}">
+					<div class="input-group input-group-lg col-sm-12">
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-success" ng-click="addEmail()" ng-show="$last">
+								<i class="glyphicon glyphicon-plus"></i>
+							</button>
+							<button
+								type="button"
+								class="btn btn-danger"
+								ng-click="removeEmail($index)"
+								ng-show="studentInfo.emails.length > 1 && !$last">
+								<i class="glyphicon glyphicon-minus"></i>
+							</button>
+						</span>
+						<input
+							type="email"
+							name="email{{$index}}"
+							class="form-control"
+							placeholder="Email Address"
+							ng-required="true"
+							ng-model="studentInfo.emails[$index].email">
+						<span class="input-group-addon">
+							<i class="glyphicon glyphicon-asterisk"></i>
+						</span>
+					</div>
+					<span class="help-block" ng-show="registrationForm.email{{$index}}.$invalid && submitted && !email.isNew">
+						Must enter a valid email address
+					</span>
+				</div>
+			</uib-tab>
+			<uib-tab heading="Miscellaneous Notes">
+				<textarea class="form-control input-lg" rows="8" ng-model="studentInfo.misc_notes"></textarea>
+			</uib-tab>
+			<uib-tab heading="Belt Assignment">
+				TODO: Add Belt Assignment UI
+			</uib-tab>
+			<uib-tab heading="Stripe Assignment">
+				TODO: Add Stripe Assignment UI
+			</uib-tab>
+		</uib-tabset>
+	</div>
+	<!--<button type="submit" class="btn btn-primary btn-lg" style="margin-left: 15px">Change</button>-->
+</form>

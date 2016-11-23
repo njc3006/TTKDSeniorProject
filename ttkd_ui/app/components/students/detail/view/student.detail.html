@@ -49,7 +49,7 @@
 					{{studentInfo.firstName}} {{studentInfo.lastName}}
 				</span>
 				<div class="btn-group pull-right">
-					<button class="btn btn-warning" type="button" ng-click="notYetImplemented()">Edit</button>
+					<a class="btn btn-warning" ui-sref="editStudentDetails({studentId: studentInfo.id})">Edit</a>
 				</div>
 			</div>
 			<div class="row h4 spacer-10 normal-text">
@@ -105,11 +105,11 @@
 	<div class="row spacer-20" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
 		<uib-tabset type="pills">
 			<uib-tab heading="Notes">
-				<ng-include src="'components/students/detail/notes/notes.panel.html'"></ng-include>
+				<ng-include src="'components/students/detail/view/notes/notes.panel.html'"></ng-include>
 			</uib-tab>
 			<uib-tab heading="Attendance">
 				<ng-include
-					src="'components/students/detail/attendance/attendance.html'"
+					src="'components/students/detail/view/attendance/attendance.html'"
 					ng-controller="StudentAttendanceCtrl">
 				</ng-include>
 			</uib-tab>

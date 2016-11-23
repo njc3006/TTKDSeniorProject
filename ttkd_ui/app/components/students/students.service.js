@@ -6,12 +6,16 @@
 					return $http.get(apiHost + '/api/persons/' + id + '/');
 				},
 
+				updateStudent: function(id, newInfo) {
+					return $http.put(apiHost + '/api/persons/' + id + '/', newInfo);
+				},
+
 				/* post a picture to the api for a student with the given id */
 				changePicture: function(id, picture) {
 					var data = {
 						upload: picture
 					};
-					return $http.post(apiHost + '/api/person/' + id + '/picture', data);
+					return $http.post(apiHost + '/api/person/' + id + '/picture/', data);
 				}
 			};
 		}]);

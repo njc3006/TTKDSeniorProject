@@ -139,7 +139,7 @@
 
 		updateStudent();
 
-        SharedDataSvc.setStudentId($stateParams.studentId);
+    SharedDataSvc.setStudentId($stateParams.studentId);
 	}
 
 	angular.module('ttkdApp.studentDetailCtrl', ['ttkdApp.studentsService', 'ttkdApp.telLinkDir', 'ttkdApp.constants', 'angularFileUpload'])

@@ -1,6 +1,6 @@
 <div class="spacer-25"
 	ng-class="{'has-error': registrationForm.program.$invalid && submitted}">
-	<div class="input-group col-sm-12">
+	<div class="input-group input-group-lg col-sm-12">
 		<select
 			class="form-control"
 			name="program"
@@ -74,7 +74,7 @@
 			form-focus="currentFocusIndex === 3"
 			ng-focus="setFocus(3)"
 			ng-required="true"
-			uib-datepicker-popup="MM-dd-yyyy"
+			uib-datepicker-popup="MM/dd/yyyy"
 			ng-model="registrationInfo.dob.value"
 			is-open="registrationInfo.dob.open"
 			close-text="Close">
