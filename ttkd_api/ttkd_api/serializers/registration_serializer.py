@@ -1,5 +1,6 @@
 """RegistrationSerializer"""
 from string import capwords
+import datetime
 from rest_framework import serializers
 
 from .person_serializer import PersonSerializer, MinimalPersonSerializer
@@ -8,6 +9,8 @@ from ..models.registration import Registration
 from ..models.person import Person
 from ..models.email import Email
 from ..models.emergency_contact import EmergencyContact
+from ..models.belt import Belt
+from ..models.person_belt import PersonBelt
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -37,6 +40,9 @@ class RegistrationSerializer(serializers.ModelSerializer):
         if 'emergency_contact_2' in person_data:
             emergency_contact_2_data = person_data.pop('emergency_contact_2')
 
+        person_data['first_name'] = capwords(person_data['first_name'])
+        person_data['last_name'] = capwords(person_data['last_name'])
+
         person = Person.objects.create(**person_data)
 
         for an_email_dict in email_data:
@@ -55,6 +61,21 @@ class RegistrationSerializer(serializers.ModelSerializer):
                 full_name=capwords(emergency_contact_2_data['full_name']))
 
         person.save()
+
+        # Try and find an active white belt to assign to this new person
+        try:
+            belt = Belt.objects.get(name__contains='white', active=True)
+        except Belt.DoesNotExist:
+            # If an active white belt could not be found, try and get the first belt in the system
+            try:
+                belt = Belt.objects.get(id=1)
+            except Belt.DoesNotExist:
+                # There was not a belt with an id of 1, likely no belts in the system, should never
+                # happen as deletion of belts is not possible
+                belt = None
+
+        if belt is not None:
+            PersonBelt.objects.create(person=person, belt=belt, date_achieved=datetime.date.today())
 
         registration = Registration.objects.create(person=person, program=validated_data['program'])
         return registration
