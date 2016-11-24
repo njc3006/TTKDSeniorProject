@@ -54,7 +54,7 @@
             ProgramsSvc.getActivePrograms().then(function onSuccess(response) {
                 $scope.programs = response.data;
                 var modalElement = angular.element($document[0].querySelector('#modal-area'));
-    		    modalInstance = $uibModal.open({
+                modalInstance = $uibModal.open({
                     animation: true,
                     ariaLabelledBy: 'modal-title',
                     ariaDescribedBy: 'modal-body',
