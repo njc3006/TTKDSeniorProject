@@ -1,4 +1,20 @@
-<form>
+<div class="alert alert-danger" role="alert" ng-show="requestFlags.submission.failure">
+	There was an error submitting the information changes
+</div>
+
+<div class="alert alert-success" role="alert" ng-show="requestFlags.submission.success">
+	Information for {{studentInfo.first_name}} {{studentInfo.last_name}} has been successfully updated
+</div>
+
+<div class="alert alert-info" role="alert" ng-show="!requestFlags.loading.done">
+	Loading...
+</div>
+
+<div class="alert alert-danger" role="alert" ng-show="requestFlags.loading.failure">
+	Student Information could not be loaded!
+</div>
+
+<form ng-submit="submitChanges()">
 	<div class="row">
 		<div class="form-group col-xs-5">
 			<label class="control-label">First Name</label>
@@ -8,7 +24,8 @@
 			<label class="control-label">Last Name</label>
 			<input type="text" class="form-control input-lg" ng-model="studentInfo.last_name">
 		</div>
-		<div class="form-group col-xs-1" style="padding-top: 24px">
+		<div class="form-group col-xs-2">
+			<label class="control-label">Active Status</label>
 			<button
 				type="button"
 				class="btn btn-primary btn-lg"
@@ -79,7 +96,7 @@
 			<input type="text" class="form-control input-lg" ng-model="studentInfo.zipcode">
 		</div>
 	</div>
-	<div class="row">
+	<div class="row spacer-20">
 		<uib-tabset type="pills" class="col-xs-12">
 			<uib-tab heading="Email Addresses">
 				<div class="spacer-25"
@@ -117,6 +134,9 @@
 			<uib-tab heading="Miscellaneous Notes">
 				<textarea class="form-control input-lg" rows="8" ng-model="studentInfo.misc_notes"></textarea>
 			</uib-tab>
+			<uib-tab heading="Emergency Contacts">
+				TODO: Add Emergency Contact inputs
+			</uib-tab>
 			<uib-tab heading="Belt Assignment">
 				TODO: Add Belt Assignment UI
 			</uib-tab>
@@ -125,5 +145,5 @@
 			</uib-tab>
 		</uib-tabset>
 	</div>
-	<!--<button type="submit" class="btn btn-primary btn-lg" style="margin-left: 15px">Change</button>-->
+	<button type="submit" class="btn btn-primary btn-lg">Change</button>
 </form>

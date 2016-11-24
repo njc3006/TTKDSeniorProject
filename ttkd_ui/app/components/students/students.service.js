@@ -6,7 +6,7 @@
 					return $http.get(apiHost + '/api/persons/' + id + '/');
 				},
 
-				updateStudent: function(id, newInfo) {
+				updateStudentInfo: function(id, newInfo) {
 					return $http.put(apiHost + '/api/persons/' + id + '/', newInfo);
 				},
 
