@@ -13,6 +13,12 @@
 		};
 
 		$scope.submitChanges  = function() {
+			$scope.studentInfo['emergency_contact_1']['phone_number'] =
+				$scope.studentInfo['emergency_contact_1']['phone_number'].replace(new RegExp('-', 'g'), '');
+
+				$scope.studentInfo['emergency_contact_2']['phone_number'] =
+					$scope.studentInfo['emergency_contact_2']['phone_number'].replace(new RegExp('-', 'g'), '');
+
 			var payload = angular.extend($scope.studentInfo, {
 				dob: moment($scope.studentInfo.dob.value).format('YYYY-MM-DD'),
 				state: $scope.studentInfo.state.value
@@ -54,6 +60,15 @@
 				value: $scope.studentInfo.state
 			};
 
+			// Add empty entries to emergency contacts as necesary (up to 2)
+			if (!$scope.studentInfo['emergency_contact_1']) {
+				$scope.studentInfo['emergency_contact_1'] = {};
+			}
+
+			if (!$scope.studentInfo['emergency_contact_2']) {
+				$scope.studentInfo['emergency_contact_2'] = {};
+			}
+
 			$scope.requestFlags.loading.done = true;
 		}, function failure(error) {
 			$scope.requestFlags.loading.failure = true;
@@ -61,6 +76,9 @@
 		});
 	}
 
-	angular.module('ttkdApp.editStudentCtrl', ['ttkdApp.studentsService', 'ttkdApp.stateService'])
-		.controller('EditStudentCtrl', ['$scope', '$stateParams', 'StudentsSvc', 'StateSvc', EditStudentController]);
+	angular.module('ttkdApp.editStudentCtrl', [
+		'ttkdApp.studentsService',
+		'ttkdApp.stateService',
+		'ttkdApp.emergencyContacts'
+	]).controller('EditStudentCtrl', ['$scope', '$stateParams', 'StudentsSvc', 'StateSvc', EditStudentController]);
 })();

@@ -1,8 +1,14 @@
-<div class="alert alert-danger" role="alert" ng-show="requestFlags.submission.failure">
+<div class="alert alert-danger alert-dismissible" role="alert" ng-show="requestFlags.submission.failure">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
 	There was an error submitting the information changes
 </div>
 
-<div class="alert alert-success" role="alert" ng-show="requestFlags.submission.success">
+<div class="alert alert-success alert-dismissible" role="alert" ng-show="requestFlags.submission.success">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
 	Information for {{studentInfo.first_name}} {{studentInfo.last_name}} has been successfully updated
 </div>
 
@@ -10,7 +16,10 @@
 	Loading...
 </div>
 
-<div class="alert alert-danger" role="alert" ng-show="requestFlags.loading.failure">
+<div class="alert alert-danger alert-dismissible" role="alert" ng-show="requestFlags.loading.failure">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
 	Student Information could not be loaded!
 </div>
 
@@ -96,7 +105,7 @@
 			<input type="text" class="form-control input-lg" ng-model="studentInfo.zipcode">
 		</div>
 	</div>
-	<div class="row spacer-20">
+	<div class="row spacer-25">
 		<uib-tabset type="pills" class="col-xs-12">
 			<uib-tab heading="Email Addresses">
 				<div class="spacer-25"
@@ -135,7 +144,19 @@
 				<textarea class="form-control input-lg" rows="8" ng-model="studentInfo.misc_notes"></textarea>
 			</uib-tab>
 			<uib-tab heading="Emergency Contacts">
-				TODO: Add Emergency Contact inputs
+				<h2>Primary Emergency Contact</h2>
+				<emergency-contact-input
+					ng-model="studentInfo.emergency_contact_1"
+					required="true">
+				</emergency-contact-input>
+
+				<hr/>
+
+				<h2>Secondary Emergency Contact</h2>
+				<emergency-contact-input
+					ng-model="studentInfo.emergency_contact_2"
+					required="false">
+				</emergency-contact-input>
 			</uib-tab>
 			<uib-tab heading="Belt Assignment">
 				TODO: Add Belt Assignment UI

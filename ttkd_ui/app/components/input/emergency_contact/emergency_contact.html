@@ -1,0 +1,81 @@
+<div>
+	<div class="row spacer-20">
+		<div class="col-xs-12">
+			<div class="input-group input-group-lg" ng-if="required">
+				<input
+					type="text"
+					ng-required="required"
+					class="form-control"
+					placeholder="Full Name"
+					ng-model="ngModel.full_name">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-asterisk"></i>
+				</span>
+			</div>
+			<div ng-if="!required">
+				<input
+					type="text"
+					ng-required="required"
+					class="form-control input-lg"
+					placeholder="Full Name"
+					ng-model="ngModel.full_name">
+			</div>
+		</div>
+		<!--<span class="help-block">
+			Must enter a full name
+		</span>-->
+	</div>
+
+	<div class="row">
+		<div class="col-xs-6">
+			<div class="input-group input-group-lg col-sm-12" ng-if="required">
+				<input
+					type="text"
+					ng-required="required"
+					class="form-control"
+					placeholder="Phone Number (e.g. 123-456-7890)"
+					ng-pattern="/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/"
+					ng-model="ngModel.phone_number">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-asterisk"></i>
+				</span>
+			</div>
+			<div ng-if="!required">
+				<input
+					type="text"
+					ng-required="required"
+					class="form-control input-lg"
+					placeholder="Phone Number (e.g. 123-456-7890)"
+					ng-model="ngModel.phone_number">
+			</div>
+			<!--<span class="help-block">
+				Must enter a valid phone number (e.g. 123-456-7890)
+			</span>-->
+		</div>
+		<div class="col-xs-6">
+			<div class="input-group input-group-lg col-sm-12" ng-if="required">
+				<input
+					type="text"
+					name="emPrimaryRelationship"
+					ng-required="required"
+					class="form-control"
+					placeholder="Relationship"
+					ng-model="ngModel.relation">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-asterisk"></i>
+				</span>
+			</div>
+			<div ng-if="!required">
+				<input
+					type="text"
+					ng-required="required"
+					class="form-control input-lg"
+					placeholder="Relationship"
+					ng-model="ngModel.relation">
+			</div>
+			<!--<span class="help-block">
+				Must enter a relationship
+			</span>-->
+		</div>
+	</div>
+</div>
