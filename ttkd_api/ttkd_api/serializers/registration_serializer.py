@@ -68,7 +68,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         except Belt.DoesNotExist:
             # If an active white belt could not be found, try and get the first belt in the system
             try:
-                belt = Belt.objects.get(id=1)
+                belt = Belt.objects.first()
             except Belt.DoesNotExist:
                 # There was not a belt with an id of 1, likely no belts in the system, should never
                 # happen as deletion of belts is not possible
