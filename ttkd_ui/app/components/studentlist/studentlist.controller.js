@@ -45,17 +45,8 @@
             $scope.sortDisplayString = $scope.sortAZ ? 'A-Z' : 'Z-A';   //toggle the displayed string
         };
 
-        //I realize the date formatting is hacky and would like a cleaner solution. Feel free to suggest one.
         $scope.getCurrentFormattedDate = function(date){
-            var formatDay = date.getDate();
-            var formatMonth = date.getMonth() + 1;
-            if(formatDay < 10) { formatDay = '0' + formatDay; }
-            if(formatMonth < 10) { formatMonth = '0 ' + formatMonth; }
-
-            //matches the format returned from the backend, used to find attendance records of the correct day
-            var formattedDate = date.getFullYear() + '-' + formatMonth + '-' + formatDay;
-
-            return formattedDate;
+            return $filter('date')(date, 'yyyy-MM-dd');
         };
 
         //updates the displayed list of students based on the current filters
@@ -100,20 +91,38 @@
                 filteredList = $filter('filter')(filteredList, $scope.filters.searchQuery);
             }
 
-            //filter based on specific selected belt
-            // if($scope.filters.currentBelt !== ''){
-            //     var filteredByBelt = [];
+            //filter based on specific selected belt (if not null)
+            if($scope.filters.currentBelt){
+                var filteredByBelt = [];
+                var filteredPersonIds = [];
 
-            //     for(var i = 0; i < filteredList.length; i++){
-            //         if(filteredList[i].person.belt && filteredList[i].person.belt === $scope.filters.currentBelt.id){
-            //             filteredByBelt.push(filteredList[i]);
-            //         }
-            //      }
+                StudentListService.getStudentsWithBelt($scope.filters.currentBelt.id).then(
+                        function(response){
+                            // Strip the response down to a list of person ids
+                            angular.forEach(response.data, function(value){
+                                filteredPersonIds.push(value.person);
+                            });
 
-            //     filteredList = filteredByBelt;
-            // }
+                            // For the current filtered list, if the person has the selected belt
+                            // (indicated by being in the list of person ids)
+                            // add them to the filteredByBelt list
+                            for(var i = 0; i < filteredList.length; i++){
+                                var index = filteredPersonIds.indexOf(filteredList[i].person.id);
+                                if (index !== -1){
+                                    filteredByBelt.push(filteredList[i]);
+                                }
+                            }
 
-            $scope.people = filteredList;
+                            filteredList = filteredByBelt;
+                            $scope.people = filteredList;
+                        });
+
+            // This else is needed because of the async response from getStudentsWithBelt above.
+            // Future modification of $scope.people below this else will be overridden after the
+            // response, so if you need to modify $scope.people do it before the belt filtering
+            } else {
+                $scope.people = filteredList;
+            }
         };
       
         //retrieves the master list of belts
@@ -176,30 +185,7 @@
                         function(response){
                             $scope.classAttendance = response.data;
 
-                            // StudentListService.getStudentListWithBelts($scope.classPeople).then(
-                            //     function(response){
-                            //         console.log(reponse.data);
-                            //     });
-
-                            var returned = 0;
-
-                            angular.forEach($scope.classPeople, function(value){
-                                StudentListService.getStudentBelt(value.person.id).then(
-                                    function(response){
-                                        returned += 1;
-                                        value.person.belt = response.data[0];
-
-                                        if(returned === $scope.classPeople.length){
-                                            console.log("DONE");
-                                            console.log($scope.classPeople);
-                                            $scope.setDisplayedStudents();
-                                        }
-                                    });
-                            });
-
-                            // //this might not work because the above async calls might not
-                            // //be done by the time setDisplayedStudents() is called;
-                            // $scope.setDisplayedStudents();
+                            $scope.setDisplayedStudents();
                         });
                 });
         };
