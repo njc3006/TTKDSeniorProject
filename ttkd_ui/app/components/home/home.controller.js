@@ -19,6 +19,7 @@
         };
 
         $scope.openAddProgram = function() {
+            $scope.addProgramMessage = {};
             var modalElement = angular.element($document[0].querySelector('#modal-area'));
             modalInstance = $uibModal.open({
                 animation: true,
