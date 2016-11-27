@@ -1,5 +1,9 @@
 (function() {
 	function EditStudentController($scope, $stateParams, StudentsService, StateService) {
+		function formatPhoneNumber(phone) {
+			return phone.substring(0, 3) + '-' + phone.substring(3, 6) + '-' + phone.substring(6);
+		}
+
 		$scope.addEmail = function() {
 			$scope.studentInfo.emails.push({email: '', isNew: true});
 		};
@@ -49,6 +53,9 @@
 
 		StudentsService.getStudent($stateParams.studentId).then(function success(response) {
 			$scope.studentInfo = response.data;
+
+			$scope.studentInfo['primary_phone'] = formatPhoneNumber($scope.studentInfo['primary_phone']);
+			$scope.studentInfo['secondary_phone'] = formatPhoneNumber($scope.studentInfo['secondary_phone']);
 
 			$scope.studentInfo.dob = {
 				value: moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate(),

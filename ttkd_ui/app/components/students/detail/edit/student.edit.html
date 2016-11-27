@@ -23,15 +23,50 @@
 	Student Information could not be loaded!
 </div>
 
-<form ng-submit="submitChanges()">
+<form name="editForm" ng-submit="submitChanges()" novalidate>
 	<div class="row">
-		<div class="form-group col-xs-5">
+		<div
+			class="form-group col-xs-5"
+			ng-class="{'has-error': editForm.firstName.$invalid, 'has-success': editForm.firstName.$valid}">
 			<label class="control-label">First Name</label>
-			<input type="text" class="form-control input-lg" ng-model="studentInfo.first_name">
+			<div class="input-group input-group-lg">
+				<input
+					name="firstName"
+					type="text"
+					placeholder="First Name"
+					class="form-control input-lg"
+					ng-model="studentInfo.first_name"
+					ng-required="true">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-asterisk"></i>
+				</span>
+			</div>
+			<span
+				class="help-block"
+				ng-show="editForm.firstName.$invalid">
+				First Name is required
+			</span>
 		</div>
-		<div class="form-group col-xs-5">
+		<div
+			class="form-group col-xs-5"
+			ng-class="{'has-error': editForm.lastName.$invalid, 'has-success': editForm.lastName.$valid}">
 			<label class="control-label">Last Name</label>
-			<input type="text" class="form-control input-lg" ng-model="studentInfo.last_name">
+			<div class="input-group input-group-lg">
+				<input
+					name="lastName"
+					type="text"
+					class="form-control input-lg"
+					ng-model="studentInfo.last_name"
+					ng-required="true">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-asterisk"></i>
+				</span>
+			</div>
+			<span
+				class="help-block"
+				ng-show="editForm.lastName.$invalid">
+				Last Name is required
+			</span>
 		</div>
 		<div class="form-group col-xs-2">
 			<label class="control-label">Active Status</label>
@@ -47,12 +82,15 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="form-group col-xs-12">
+		<div
+			class="form-group col-xs-12"
+			ng-class="{'has-error': editForm.dob.$invalid, 'has-success': editForm.dob.$valid}">
 			<label class="control-label">Date of Birth</label>
 			<div class="input-group input-group-lg">
 				<input
+					name="dob"
 					type="text"
-					class="form-control input-lg"
+					class="form-control"
 					uib-datepicker-popup="MM/dd/yyyy"
 					ng-model="studentInfo.dob.value"
 					is-open="studentInfo.dob.open"
@@ -63,64 +101,157 @@
 						<i class="glyphicon glyphicon-calendar"></i>
 					</button>
 				</span>
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-asterisk"></i>
+				</span>
 			</div>
+			<span class="help-block" ng-show="editForm.dob.$invalid">
+				A valid Date of Birth is required
+			</span>
 		</div>
 	</div>
 	<div class="row">
-		<div class="form-group col-xs-6">
-			<label>Primary Phone</label>
-			<input type="text" class="form-control input-lg" ng-model="studentInfo.primary_phone">
+		<div
+			class="form-group col-xs-6"
+			ng-class="{'has-error': editForm.primaryPhone.$invalid, 'has-success': editForm.primaryPhone.$valid}">
+			<label class="control-label">Primary Phone</label>
+			<div class="input-group input-group-lg">
+				<input
+					name="primaryPhone"
+					type="text"
+					class="form-control"
+					ng-model="studentInfo.primary_phone",
+					ng-required="true"
+					ng-pattern="/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-asterisk"></i>
+				</span>
+			</div>
+			<span class="help-text" ng-show="editForm.primaryPhone.$invalid">
+				Enter a valid phone number (e.g. 123-456-7890)
+			</span>
 		</div>
-		<div class="form-group col-xs-6">
-			<label>Secondary Phone</label>
-			<input type="text" class="form-control input-lg" ng-model="studentInfo.secondary_phone">
+		<div
+			class="form-group col-xs-6"
+			ng-class="{'has-error': editForm.secondaryPhone.$invalid, 'has-success': editForm.secondaryPhone.$valid}">
+			<label class="control-label">Secondary Phone</label>
+			<div class="input-group input-group-lg">
+				<input
+					name="secondaryPhone"
+					type="text"
+					class="form-control"
+					ng-model="studentInfo.secondary_phone"
+					ng-required="true"
+					ng-pattern="/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-asterisk"></i>
+				</span>
+			</div>
+			<span class="help-text" ng-show="editForm.secondaryPhone.$invalid">
+				Enter a valid phone number (e.g. 123-456-7890)
+			</span>
 		</div>
 	</div>
 	<div class="row">
-		<div class="form-group col-xs-12">
-			<label>Address</label>
-			<input type="text" class="form-control input-lg" ng-model="studentInfo.street">
+		<div
+			class="form-group col-xs-12"
+			ng-class="{'has-error': editForm.street.$invalid, 'has-success': editForm.street.$valid}">
+			<label class="control-label">Address</label>
+			<div class="input-group input-group-lg">
+				<input
+					name="street"
+					type="text"
+					class="form-control"
+					ng-model="studentInfo.street"
+					ng-required="true">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-asterisk"></i>
+				</span>
+			</div>
+			<span class="help-text" ng-show="editForm.street.$invalid">
+				An address is required
+			</span>
 		</div>
 	</div>
 	<div class="row spacer-20">
-		<div class="form-group col-xs-4">
-			<label>City</label>
-			<input type="text" class="form-control input-lg" ng-model="studentInfo.city">
+		<div
+			class="form-group col-xs-4"
+			ng-class="{'has-error': editForm.city.$invalid, 'has-success': editForm.city.$valid}">
+			<label class="control-label">City</label>
+			<div class="input-group input-group-lg">
+				<input
+					name="city"
+					type="text"
+					class="form-control"
+					ng-model="studentInfo.city"
+					ng-required="true">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-asterisk"></i>
+				</span>
+			</div>
+			<span class="help-text" ng-show="editForm.city.$invalid">
+				City is required
+			</span>
 		</div>
-		<div class="form-group col-xs-4">
-			<label>State</label>
-			<select
-				class="form-control input-lg"
-				name="state"
-				form-focus="currentFocusIndex === 6"
-				ng-focus="setFocus(6)"
-				ng-model="studentInfo.state"
-				ng-required="true"
-				ng-options="state as state.name for state in states track by state.value">
-				<option value="">Select a State</option>
-			</select>
+		<div
+			class="form-group col-xs-4"
+			ng-class="{'has-error': editForm.state.$invalid, 'has-success': editForm.state.$valid}">
+			<label class="control-label">State</label>
+			<div class="input-group input-group-lg">
+				<select
+					class="form-control"
+					name="state"
+					ng-model="studentInfo.state"
+					ng-required="true"
+					ng-options="state as state.name for state in states track by state.value">
+					<option value="">Select a State</option>
+				</select>
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-asterisk"></i>
+				</span>
+			</div>
+			<span class="help-text" ng-show="editForm.state.$invalid">
+				Must select a state
+			</span>
 		</div>
-		<div class="form-group col-xs-4">
-			<label>Zip Code</label>
-			<input type="text" class="form-control input-lg" ng-model="studentInfo.zipcode">
+		<div
+			class="form-group col-xs-4"
+			ng-class="{'has-error': editForm.zipcode.$invalid, 'has-success': editForm.zipcode.$valid}">
+			<label class="control-label">Zip Code</label>
+			<div class="input-group input-group-lg">
+				<input
+					name="zipcode"
+					type="text"
+					class="form-control"
+					ng-model="studentInfo.zipcode"
+					ng-required="true"
+					ng-pattern="/^[0-9]{5}$/">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-asterisk"></i>
+				</span>
+			</div>
+			<span class="help-text" ng-show="editForm.zipcode.$invalid">
+				Must enter a valid zipcode (e.g. 12345)
+			</span>
 		</div>
 	</div>
+
 	<div class="row spacer-25">
 		<uib-tabset type="pills" class="col-xs-12">
 			<uib-tab heading="Email Addresses">
 				<div class="spacer-25"
 					ng-repeat="email in studentInfo.emails"
-					ng-class="{'has-error': registrationForm.email{{$index}}.$invalid && submitted && !email.isNew}">
+					ng-class="{'has-error': editForm.email{{$index}}.$invalid && !editForm.email{{$index}}.$pristine}">
 					<div class="input-group input-group-lg col-sm-12">
 						<span class="input-group-btn">
-							<button type="button" class="btn btn-success" ng-click="addEmail()" ng-show="$last">
+							<button type="button" class="btn btn-success" ng-click="addEmail()" ng-if="$last">
 								<i class="glyphicon glyphicon-plus"></i>
 							</button>
 							<button
 								type="button"
 								class="btn btn-danger"
 								ng-click="removeEmail($index)"
-								ng-show="studentInfo.emails.length > 1">
+								ng-if="studentInfo.emails.length > 1">
 								<i class="glyphicon glyphicon-minus"></i>
 							</button>
 						</span>
@@ -135,7 +266,9 @@
 							<i class="glyphicon glyphicon-asterisk"></i>
 						</span>
 					</div>
-					<span class="help-block" ng-show="registrationForm.email{{$index}}.$invalid && submitted && !email.isNew">
+					<span
+						class="help-block"
+						ng-show="editForm.email{{$index}}.$invalid && !editForm.email{{$index}}.$pristine">
 						Must enter a valid email address
 					</span>
 				</div>
