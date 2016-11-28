@@ -41,7 +41,7 @@
 
 	function RegistrationController($scope, $rootScope, $timeout, $state, $stateParams, RegistrationService, ProgramsService, StateService) {
 		$rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
-		
+
 		$scope.isLegalAdult = function() {
 			var today = moment();
 			var birthday = moment($scope.registrationInfo.dob.value);
@@ -79,8 +79,6 @@
 		};
 
 		$scope.onSubmit = function(formIsValid) {
-			$scope.submitted = true;
-
 			$scope.registrationInfo.emails.forEach(function(email) {
 				email.isNew = false;
 			});
@@ -128,7 +126,6 @@
 				$scope.formSections[index].baseFieldCount;
 
 			$scope.visitedSections[index] = true;
-			$scope.submitted = false;
 		};
 
 		$scope.focusNext = function() {
