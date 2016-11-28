@@ -277,19 +277,24 @@
 				<textarea class="form-control input-lg" rows="8" ng-model="studentInfo.misc_notes"></textarea>
 			</uib-tab>
 			<uib-tab heading="Emergency Contacts">
-				<h2>Primary Emergency Contact</h2>
+				<ng-include src="'components/students/detail/edit/emergency_contacts/emergency_contacts.html'">
+				</ng-include>
+				<!--<h2>Primary Emergency Contact</h2>
 				<emergency-contact-input
 					ng-model="studentInfo.emergency_contact_1"
-					required="true">
+					required="true"
+					uid="primary-contact"
+					form="editForm">
 				</emergency-contact-input>
 
 				<hr/>
-
 				<h2>Secondary Emergency Contact</h2>
 				<emergency-contact-input
 					ng-model="studentInfo.emergency_contact_2"
-					required="false">
-				</emergency-contact-input>
+					required="false"
+					uid="secondary-contact",
+					form="editForm">
+				</emergency-contact-input>-->
 			</uib-tab>
 			<uib-tab heading="Belt Assignment">
 				TODO: Add Belt Assignment UI

@@ -1,5 +1,21 @@
 (function() {
 	function EditStudentController($scope, $stateParams, StudentsService, StateService) {
+		$scope.anySecondaryContactInfoEntered = function() {
+			if ($scope.studentInfo === undefined) {
+				return false;
+			} else if (!$scope.studentInfo['emergency_contact_2']) {
+				return false;
+			}
+
+			var secondary = $scope.studentInfo['emergency_contact_2'];
+
+			var secondaryFullNameEntered = secondary['full_name'] !== undefined && secondary['full_name'].length > 0;
+			var secondaryPhoneEntered = secondary['phone_number'] !== undefined && secondary['phone_number'].length > 0;
+			var secondaryRelationEntered = secondary.relation !== undefined && secondary.relation.length > 0;
+
+			return secondaryFullNameEntered || secondaryPhoneEntered || secondaryRelationEntered;
+		};
+
 		function formatPhoneNumber(phone) {
 			return phone.substring(0, 3) + '-' + phone.substring(3, 6) + '-' + phone.substring(6);
 		}
@@ -20,8 +36,8 @@
 			$scope.studentInfo['emergency_contact_1']['phone_number'] =
 				$scope.studentInfo['emergency_contact_1']['phone_number'].replace(new RegExp('-', 'g'), '');
 
-				$scope.studentInfo['emergency_contact_2']['phone_number'] =
-					$scope.studentInfo['emergency_contact_2']['phone_number'].replace(new RegExp('-', 'g'), '');
+			$scope.studentInfo['emergency_contact_2']['phone_number'] =
+				$scope.studentInfo['emergency_contact_2']['phone_number'].replace(new RegExp('-', 'g'), '');
 
 			var payload = angular.extend($scope.studentInfo, {
 				dob: moment($scope.studentInfo.dob.value).format('YYYY-MM-DD'),
@@ -85,7 +101,6 @@
 
 	angular.module('ttkdApp.editStudentCtrl', [
 		'ttkdApp.studentsService',
-		'ttkdApp.stateService',
-		'ttkdApp.emergencyContacts'
+		'ttkdApp.stateService'
 	]).controller('EditStudentCtrl', ['$scope', '$stateParams', 'StudentsSvc', 'StateSvc', EditStudentController]);
 })();
