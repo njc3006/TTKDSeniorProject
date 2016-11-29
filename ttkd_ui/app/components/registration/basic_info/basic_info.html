@@ -223,36 +223,38 @@
 
 <hr/>
 <h3>Email Addresses</h3>
-<div class="spacer-25"
-	ng-repeat="email in registrationInfo.emails"
-	ng-class="{'has-error': registrationForm.email{{$index}}.$invalid && !registrationForm.email{{$index}}.$pristine, 'has-success': registrationForm.email{{$index}}.$valid}">
-	<div class="input-group col-sm-12">
-		<span class="input-group-btn">
-			<button type="button" class="btn btn-success" ng-click="addEmail()" ng-show="$last">
-				<i class="glyphicon glyphicon-plus"></i>
-			</button>
-			<button
-				type="button"
-				class="btn btn-danger"
-				ng-click="removeEmail($index)"
-				ng-show="registrationInfo.emails.length > 1 && !$last">
-				<i class="glyphicon glyphicon-minus"></i>
-			</button>
+<div class="spacer-25" ng-repeat="email in registrationInfo.emails">
+	<ng-form name="emailForm">
+		<div
+			class="input-group col-sm-12"
+			ng-class="{'has-error': emailForm.email.$invalid && !emailForm.email.$pristine, 'has-success': emailForm.email.$valid}">
+			<span class="input-group-btn">
+				<button type="button" class="btn btn-success" ng-click="addEmail()" ng-show="$last">
+					<i class="glyphicon glyphicon-plus"></i>
+				</button>
+				<button
+					type="button"
+					class="btn btn-danger"
+					ng-click="removeEmail($index)"
+					ng-show="registrationInfo.emails.length > 1 && !$last">
+					<i class="glyphicon glyphicon-minus"></i>
+				</button>
+			</span>
+			<input
+				type="email"
+				name="email"
+				class="form-control"
+				placeholder="Email Address"
+				form-focus="currentFocusIndex === (10 + $index)"
+				ng-focus="setFocus(10 + $index)"
+				ng-required="true"
+				ng-model="email.email">
+			<span class="input-group-addon">
+				<i class="glyphicon glyphicon-asterisk"></i>
+			</span>
+		</div>
+		<span class="help-block" ng-show="registrationForm.email{{$index}}.$invalid && !registrationForm.email{{$index}}.$pristine">
+			Must enter a valid email address
 		</span>
-		<input
-			type="email"
-			name="email{{$index}}"
-			class="form-control"
-			placeholder="Email Address"
-			form-focus="currentFocusIndex === (10 + $index)"
-			ng-focus="setFocus(10 + $index)"
-			ng-required="true"
-			ng-model="registrationInfo.emails[$index].email">
-		<span class="input-group-addon">
-			<i class="glyphicon glyphicon-asterisk"></i>
-		</span>
-	</div>
-	<span class="help-block" ng-show="registrationForm.email{{$index}}.$invalid && !registrationForm.email{{$index}}.$pristine">
-		Must enter a valid email address
-	</span>
+	</ng-form>
 </div>
