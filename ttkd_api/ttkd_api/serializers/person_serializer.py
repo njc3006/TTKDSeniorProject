@@ -31,6 +31,7 @@ class PersonSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         """
         Update the person instance and its emails and emergency contacts
+        DOES NOT SUPPORT PATCH
         """
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
