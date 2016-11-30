@@ -21,7 +21,7 @@
             showInactive: false,
             searchQuery: '',
             currentBelt: null,
-            currentClass: null,
+            currentClassId: null,
         };
 
         $scope.selectedDate = {
@@ -52,8 +52,8 @@
         //updates the displayed list of students based on the current filters
         $scope.setDisplayedStudents = function(){
             var filteredList = [];
-            var displayedPeople = $scope.filters.currentClass ? $scope.classPeople : $scope.allPeople;
-            var displayedAttendance = $scope.filters.currentClass ? $scope.classAttendance : $scope.allAttendance;
+            var displayedPeople = $scope.filters.currentClassId ? $scope.classPeople : $scope.allPeople;
+            var displayedAttendance = $scope.filters.currentClassId ? $scope.classAttendance : $scope.allAttendance;
 
             //filter based on active/inactive checkboxes
             for(var i = 0; i < displayedPeople.length; i++){
@@ -172,8 +172,9 @@
         $scope.getStudentsFromClass = function(){
             var classId = '';
 
-            if($scope.filters.currentClass != null){
-                classId = $scope.filters.currentClass.id;
+            if($scope.filters.currentClassId != null){
+                classId = $scope.filters.currentClassId;
+                console.log($scope.filters.currentClassId)
             }
 
             StudentListService.getStudentsFromClass(classId).then(
@@ -201,8 +202,8 @@
         });
 
         //class dropdown watcher
-        $scope.$watch('filters.currentClass', function(newValue, oldValue){
-            if($scope.filters.currentClass != null){
+        $scope.$watch('filters.currentClassId', function(newValue, oldValue){
+            if($scope.filters.currentClassId != null){
                 $scope.getStudentsFromClass();
             }
         });
