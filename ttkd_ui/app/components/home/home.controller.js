@@ -49,18 +49,14 @@
         };
 
     	$scope.openChangeProgram = function() {
-            // DO NOT change this to a call to getActivePrograms, it cannot be asynchronous, all
-            // the programs need to be set before the modal can be opened.
-            ProgramsSvc.getActivePrograms().then(function onSuccess(response) {
-                $scope.programs = response.data;
-                var modalElement = angular.element($document[0].querySelector('#modal-area'));
-                modalInstance = $uibModal.open({
-                    animation: true,
-                    ariaLabelledBy: 'modal-title',
-                    ariaDescribedBy: 'modal-body',
-                    templateUrl: 'components/home/choose-program.modal.html',
-                    scope: $scope
-                });
+            getActivePrograms();
+            var modalElement = angular.element($document[0].querySelector('#modal-area'));
+            modalInstance = $uibModal.open({
+                animation: true,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                templateUrl: 'components/home/choose-program.modal.html',
+                scope: $scope
             });
 
     	};
