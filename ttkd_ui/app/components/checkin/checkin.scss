@@ -32,12 +32,11 @@
 	}
 }
 
-@media only screen and (min-width: 1320px)  {
+@media only screen and (min-width: 1240px)  {
 	.checkin {
-
+		padding: 0;
 		.thumbnail-area {
-			width: 1320px;
-			margin: 0;
+			width: 1240px;
 		}
 
 		.thumbnail img {
@@ -48,7 +47,7 @@
 	}
 }
 
-@media only screen and (max-width: 1320px) and (min-width: 780px)  {
+@media only screen and (max-width: 1240px) and (min-width: 780px)  {
 	.checkin {
 
 		.thumbnail-area {
@@ -63,7 +62,7 @@
 	}
 }
 
-@media only screen and (max-width: 780px) and (min-width: 400px)  {
+@media only screen and (max-width: 780px) and (min-width: 460px)  {
 	.checkin {
 
 		.thumbnail-area {
