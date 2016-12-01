@@ -25,8 +25,9 @@
 				<ng-include src="currentFormTpl"></ng-include>
 				<button
 					type="submit"
-					class="btn btn-lg btn-primary"
-					name="button">
+					class="btn btn-primary"
+					ng-disabled="registrationForm.$invalid || isTooYoung()"
+					class="btn btn-lg btn-primary">
 					{{submitText}}
 				</button>
 		</form>

@@ -51,6 +51,19 @@
 			return ageInYears >= 18;
 		};
 
+		$scope.isTooYoung = function() {
+			if (!$scope.registrationInfo.dob.value) {
+				return false;
+			}
+
+			var today = moment();
+			var birthday = moment($scope.registrationInfo.dob.value);
+
+			var ageInYears = today.diff(birthday, 'years');
+
+			return ageInYears <= 1;
+		};
+
 		$scope.waiverSigned = function() {
 			var participantSignaturePresent = $scope.registrationInfo.participantSignature !== undefined &&
 				$scope.registrationInfo.participantSignature !== '';
@@ -78,7 +91,7 @@
 			return fullNameEntered || phoneEntered || relationEntered;
 		};
 
-		$scope.onSubmit = function(formIsValid) {
+		$scope.onSubmit = function(formIsValid, isTooYoung) {
 			$scope.registrationInfo.emails.forEach(function(email) {
 				email.isNew = false;
 			});
@@ -159,7 +172,6 @@
 			emails: [{email: '', isNew: true}],
 			dob: {
 				open: false,
-				value: new Date()
 			}
 		};
 

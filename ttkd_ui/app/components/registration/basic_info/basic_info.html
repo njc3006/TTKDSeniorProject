@@ -64,8 +64,8 @@
 </div>
 
 <div class="spacer-25"
-	ng-class="{'has-error': registrationForm.dob.$invalid && !registrationForm.dob.$pristine, 'has-success': registrationForm.dob.$valid}">
-	<label >Date of Birth (e.g. 01-22-2002)</label>
+	ng-class="{'has-error': (registrationForm.dob.$invalid && !registrationForm.dob.$pristine) || isTooYoung(), 'has-success': registrationForm.dob.$valid}">
+	<label class="control-label">Date of Birth (e.g. 01-22-2002)</label>
 	<div class="input-group">
 		<input
 			type="text"
@@ -89,6 +89,9 @@
 	</div>
 	<span class="help-block" ng-show="registrationForm.dob.$invalid && !registrationForm.dob.$pristine">
 		Must provide a valid Date of Birth
+	</span>
+	<span class="help-block" ng-show="isTooYoung()">
+		Age provided is a year old or younger
 	</span>
 </div>
 
