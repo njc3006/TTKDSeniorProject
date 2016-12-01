@@ -23,52 +23,51 @@
 		/* function to update this student object */
 		var updateStudent = function(){
 			StudentsService.getStudent($stateParams.studentId).then(
-            function(response) {
-                $scope.studentInfo = reformatObject(response.data);
+	      function(response) {
+	          $scope.studentInfo = reformatObject(response.data);
 
-                $scope.studentInfo.picture = 'http://placehold.it/350x350';
-                $scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
+	          $scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
 
-                $scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContact1);
-                $scope.secondaryEmergencyContact = reformatObject($scope.studentInfo.emergencyContact2);
+	          $scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContact1);
+	          $scope.secondaryEmergencyContact = reformatObject($scope.studentInfo.emergencyContact2);
 
-                if ($scope.studentInfo.belts.length > 0) {
-                    var currentBelt;
+	          if ($scope.studentInfo.belts.length > 0) {
+	              var currentBelt;
 
-                    if ($scope.studentInfo.belts.length === 1) {
-                        currentBelt = $scope.studentInfo.belts[0].belt;
-                    } else {
-                        currentBelt = $scope.studentInfo.belts.reduce(function(prev, curr) {
-                            if (curr['current_belt']) {
-                                return curr.belt;
-                            } else {
-                                return prev;
-                            }
-                        }, $scope.studentInfo.belts[0].belt);
-                    }
+	              if ($scope.studentInfo.belts.length === 1) {
+	                  currentBelt = $scope.studentInfo.belts[0].belt;
+	              } else {
+	                  currentBelt = $scope.studentInfo.belts.reduce(function(prev, curr) {
+	                      if (curr['current_belt']) {
+	                          return curr.belt;
+	                      } else {
+	                          return prev;
+	                      }
+	                  }, $scope.studentInfo.belts[0].belt);
+	              }
 
-                    $scope.beltStyle = getBeltStyle(currentBelt);
+	              $scope.beltStyle = getBeltStyle(currentBelt);
 
-                    $scope.earnedStripes = $scope.studentInfo.stripes.filter(function(personStripe) {
-                        return personStripe['current_stripe'];
-                    }).map(function(personStripe) {
-                        return personStripe.stripe;
-                    });
+	              $scope.earnedStripes = $scope.studentInfo.stripes.filter(function(personStripe) {
+	                  return personStripe['current_stripe'];
+	              }).map(function(personStripe) {
+	                  return personStripe.stripe;
+	              });
 
-                    $scope.studentLoaded = true;
-                } else {
-                    $scope.studentLoaded = true;
-                }
-            },
-            function(error) {
-                $scope.studentLoaded = true;
+	              $scope.studentLoaded = true;
+	          } else {
+	              $scope.studentLoaded = true;
+	          }
+	      },
+        function(error) {
+            $scope.studentLoaded = true;
 
-                if (error.status === 404) {
-                    $scope.studentDoesNotExist = true;
-                } else {
-                    $scope.studentRequestFailed = true;
-                }
-            });
+            if (error.status === 404) {
+                $scope.studentDoesNotExist = true;
+            } else {
+                $scope.studentRequestFailed = true;
+            }
+        });
 		};
 
 		/* initialize the file uploader */

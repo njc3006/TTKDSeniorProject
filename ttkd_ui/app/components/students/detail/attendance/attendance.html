@@ -9,8 +9,18 @@
 				style="width: 100%"
 				ng-model="filterData.selectedProgram"
 				ng-change="onProgramChange()"
-				ng-options="program as program.name for program in enrolledPrograms track by program.id">
+				<!--ng-options="program as program.name for program in enrolledPrograms track by program.id"-->>
 				<option value="">All Classes</option>
+				<optgroup label="Active">
+ 					<option ng-repeat="program in checkedInPrograms | filter: {active:true}" value="{{program.id}}">
+						{{program.name}}
+					</option>
+ 				</optgroup>
+ 				<optgroup label="Inactive">
+ 					<option ng-repeat="program in checkedInPrograms | filter: {active:false}" value="{{program.id}}">
+						{{program.name}}
+					</option>
+ 				</optgroup>
 			</select>
 		</div>
 		<div class="form-group col-xs-4 col-md-4">
