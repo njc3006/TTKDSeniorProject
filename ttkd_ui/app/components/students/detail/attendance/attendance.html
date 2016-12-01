@@ -10,12 +10,12 @@
 				<!--ng-options="program as program.name for program in enrolledPrograms track by program.id"-->>
 				<option value="">All Classes</option>
 				<optgroup label="Active">
- 					<option ng-repeat="program in enrolledPrograms | filter: {active:true}" value="{{program.id}}">
+ 					<option ng-repeat="program in checkedInPrograms | filter: {active:true}" value="{{program.id}}">
 						{{program.name}}
 					</option>
  				</optgroup>
  				<optgroup label="Inactive">
- 					<option ng-repeat="program in enrolledPrograms | filter: {active:false}" value="{{program.id}}">
+ 					<option ng-repeat="program in checkedInPrograms | filter: {active:false}" value="{{program.id}}">
 						{{program.name}}
 					</option>
  				</optgroup>

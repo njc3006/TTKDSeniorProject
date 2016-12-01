@@ -46,7 +46,7 @@
 								};
 							});
 
-							$scope.enrolledPrograms = Object.keys(uniquePrograms).map(function(programId) {
+							$scope.checkedInPrograms = Object.keys(uniquePrograms).map(function(programId) {
 								return uniquePrograms[programId];
 							});
 						},
