@@ -12,10 +12,16 @@ class EmergencyContact(models.Model):
     """
     relation = models.CharField(
         max_length=30,
+        blank=True,
+        null=True,
     )
     phone_number = models.CharField(
-        max_length=10
+        max_length=10,
+        blank=True,
+        null=True,
     )
     full_name = models.CharField(
         max_length=100,
+        blank=True,
+        null=True,
     )
