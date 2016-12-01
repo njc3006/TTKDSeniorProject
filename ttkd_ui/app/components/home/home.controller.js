@@ -50,14 +50,16 @@
         };
 
     	$scope.openChangeProgram = function() {
-			var modalElement = angular.element($document[0].querySelector('#modal-area'));
-    		modalInstance = $uibModal.open({
-    			animation: true,
-    			ariaLabelledBy: 'modal-title',
-    			ariaDescribedBy: 'modal-body',
-    			templateUrl: 'components/home/choose-program.modal.html',
-    			scope: $scope
-    		});
+            getActivePrograms();
+            var modalElement = angular.element($document[0].querySelector('#modal-area'));
+            modalInstance = $uibModal.open({
+                animation: true,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                templateUrl: 'components/home/choose-program.modal.html',
+                scope: $scope
+            });
+
     	};
 
     	$scope.selectProgram = function(program) {

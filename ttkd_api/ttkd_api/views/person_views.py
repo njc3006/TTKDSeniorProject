@@ -11,7 +11,12 @@ from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 
 class PersonViewSet(viewsets.ModelViewSet):
     """
-    Returns all Person objects to the Route. Filters: first_name, last_name, belt, active
+    Returns all Person objects to the Route.
+    GET: Returns all PersonStripe Objects To The Route, Or An Instance If Given A PK.
+    PUT: Update a specific person. DO NOT SEND EMERGENCY CONTACTS AS NULL
+    PATCH: NOT SUPPORTED
+    POST: NOT SUPPORTED
+    Filters: first_name, last_name, active
     """
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
