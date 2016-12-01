@@ -2,17 +2,13 @@
 	function StudentAttendanceController($scope, $http, $q, apiHost, SharedDataService) {
 		var uniquePrograms = {};
 
-		$scope.loadCheckIns = function(program, date) {
+		$scope.loadCheckIns = function(program) {
 			var studentId = SharedDataService.getStudentId();
 
 			var requestEndpoint = apiHost + '/api/check-ins/?person=' + studentId;
 
 			if (program && program.id !== undefined) {
 				requestEndpoint += '&program=' + program.id;
-			}
-
-			if (date !== undefined) {
-				requestEndpoint += '&date=' + moment(date, 'MM/DD/YYYY').format('YYYY-MM-DD');
 			}
 
 			$http.get(requestEndpoint).then(
@@ -45,6 +41,10 @@
 									program: uniquePrograms[checkIn.program].name
 								};
 							});
+							// Initialize the filteredDates which will potentially be changed and
+							// reset multiple times in the future, but checkIns will remain the
+							// master list
+							$scope.filteredDates = $scope.checkIns;
 						},
 						function(errors) {
 							// TODO: Error Handling
@@ -98,15 +98,25 @@
 		};
 
 		$scope.onProgramChange = function() {
-			$scope.loadCheckIns($scope.filterData.selectedProgram, $scope.filterData.date.value);
+			$scope.loadCheckIns($scope.filterData.selectedProgram, $scope.filterData.startDate.value);
 		};
 
-		$scope.openCalendar = function() {
-			$scope.filterData.date.open = true;
+		$scope.openStartCalendar = function() {
+			$scope.filterData.startDate.open = true;
+		};
+
+		$scope.openEndCalendar = function() {
+			$scope.filterData.endDate.open = true;
 		};
 
 		$scope.filterData = {
-			date: {
+			startDate: {
+				open: false,
+				options: {
+					maxDate: new Date()
+				}
+			},
+			endDate: {
 				open: false,
 				options: {
 					maxDate: new Date()
@@ -114,14 +124,47 @@
 			}
 		};
 
+		$scope.filterDates = function(start, end){
+			$scope.filteredDates = [];
+			angular.forEach($scope.checkIns, function(value){
+				// Start date defin
+				if (start){
+					if (end){
+						// Both start date and end date were defined
+						if (value.dateObj >= start && value.dateObj <= end){
+							$scope.filteredDates.push(value);
+						}
+					} else {
+						// Just the start date was defined
+						if (value.dateObj >= start){
+							$scope.filteredDates.push(value);
+						}
+					}
+				} else if (end){
+					// Just the end date was defined
+					if (value.dateObj <= end){
+						$scope.filteredDates.push(value);
+					}
+				} else {
+					// No filters, set to master list
+					$scope.filteredDates = $scope.checkIns;
+				}
+            });
+		};
+
 		$scope.checkIns = [];
 		$scope.enrolledPrograms = [];
+		$scope.filteredDates = [];
 
 		$scope.loadEnrolledPrograms();
 		$scope.loadCheckIns();
 
-		$scope.$watch('filterData["date"]["value"]', function(newDate) {
-			$scope.loadCheckIns($scope.filterData.selectedProgram, newDate);
+		$scope.$watch('filterData["startDate"]["value"]', function(newDate) {
+			$scope.filterDates(newDate, $scope.filterData.endDate.value);
+		});
+
+		$scope.$watch('filterData["endDate"]["value"]', function(newDate) {
+			$scope.filterDates($scope.filterData.startDate.value, newDate);
 		});
 	}
 

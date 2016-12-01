@@ -12,7 +12,7 @@
 			</select>
 		</div>
 		<div class="form-group col-xs-4 col-md-4 col-xs-offset-3 col-md-offset-3">
-			<div>Date (Format: 03/14/2000)</div>
+			<div>Start Date (Format: 03/14/2000)</div>
 			<div class="input-group">
 				<input
 					type="text"
@@ -21,16 +21,35 @@
 					ng-required="true"
 					uib-datepicker-popup="MM/dd/yyyy"
 					datepicker-options="datePickerOptions"
-					ng-model="filterData.date.value"
-					is-open="filterData.date.open"
+					ng-model="filterData.startDate.value"
+					is-open="filterData.startDate.open"
 					close-text="Close">
 				<span class="input-group-btn">
-					<button class="btn btn-default" type="button" ng-click="openCalendar()">
+					<button class="btn btn-default" type="button" ng-click="openStartCalendar()">
+						<i class="glyphicon glyphicon-calendar"></i>
+					</button>
+				</span>
+			</div>
+			<div>End Date (Format: 03/14/2000)</div>
+			<div class="input-group">
+				<input
+					type="text"
+					class="form-control"
+					name="dob"
+					ng-required="true"
+					uib-datepicker-popup="MM/dd/yyyy"
+					datepicker-options="datePickerOptions"
+					ng-model="filterData.endDate.value"
+					is-open="filterData.endDate.open"
+					close-text="Close">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" ng-click="openEndCalendar()">
 						<i class="glyphicon glyphicon-calendar"></i>
 					</button>
 				</span>
 			</div>
 		</div>
+
 	</form>
 </div>
 
@@ -42,7 +61,7 @@
 				<th>Class</th>
 			</thead>
 			<tbody>
-				<tr ng-repeat="checkIn in checkIns | orderBy: 'dateObj':true">
+				<tr ng-repeat="checkIn in filteredDates | orderBy: 'dateObj':true">
 					<td>{{checkIn.formattedDate}}</td>
 					<td>{{checkIn.program}}</td>
 				</tr>
