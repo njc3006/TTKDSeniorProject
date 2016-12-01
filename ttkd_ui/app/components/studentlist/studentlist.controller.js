@@ -174,7 +174,6 @@
 
             if($scope.filters.currentClassId != null){
                 classId = $scope.filters.currentClassId;
-                console.log($scope.filters.currentClassId)
             }
 
             StudentListService.getStudentsFromClass(classId).then(
