@@ -2,13 +2,13 @@
 	function StudentAttendanceController($scope, $http, $q, apiHost, SharedDataService) {
 		var uniquePrograms = {};
 
-		$scope.loadCheckIns = function(program, date) {
+		$scope.loadCheckIns = function(programId, date) {
 			var studentId = SharedDataService.getStudentId();
 
 			var requestEndpoint = apiHost + '/api/check-ins/?person=' + studentId;
 
-			if (program && program.id !== undefined) {
-				requestEndpoint += '&program=' + program.id;
+			if (programId !== undefined) {
+				requestEndpoint += '&program=' + programId;
 			}
 
 			if (date !== undefined) {
@@ -45,45 +45,9 @@
 									program: uniquePrograms[checkIn.program].name
 								};
 							});
-						},
-						function(errors) {
-							// TODO: Error Handling
-						}
-					);
-				},
-				function(error) {
-					// TODO: Error Handling
-				}
-			);
-		};
 
-		$scope.loadEnrolledPrograms = function() {
-			var studentId = SharedDataService.getStudentId();
-
-			$http.get(apiHost + '/api/registrations/?person=' + studentId).then(
-				function(registrations) {
-					var discoveredProgramIds = {};
-
-					registrations.data.forEach(function(registration) {
-						if (uniquePrograms[registration.program] === undefined) {
-							discoveredProgramIds[registration.program] = true;
-						}
-					});
-
-					var programPromises = [];
-
-					angular.forEach(discoveredProgramIds, function(value, key) {
-						programPromises.push($http.get(apiHost + '/api/programs/' + key + '/'));
-					});
-
-					$q.all(programPromises).then(
-						function(programResponses) {
-							programResponses.forEach(function(resp) {
-								uniquePrograms[resp.data.id] = resp.data;
-							});
-
-							$scope.enrolledPrograms = registrations.data.map(function(registration) {
-								return uniquePrograms[registration.program];
+							$scope.enrolledPrograms = Object.keys(uniquePrograms).map(function(programId) {
+								return uniquePrograms[programId];
 							});
 						},
 						function(errors) {
@@ -117,7 +81,6 @@
 		$scope.checkIns = [];
 		$scope.enrolledPrograms = [];
 
-		$scope.loadEnrolledPrograms();
 		$scope.loadCheckIns();
 
 		$scope.$watch('filterData["date"]["value"]', function(newDate) {
