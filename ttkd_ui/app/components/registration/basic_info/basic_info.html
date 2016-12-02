@@ -65,7 +65,7 @@
 
 <div class="spacer-25"
 	ng-class="{'has-error': (registrationForm.dob.$invalid && !registrationForm.dob.$pristine) || isTooYoung(), 'has-success': registrationForm.dob.$valid}">
-	<label class="control-label">Date of Birth (e.g. 01-22-2002)</label>
+	<label class="control-label">Date of Birth (format: 01/22/2002)</label>
 	<div class="input-group">
 		<input
 			type="text"
@@ -74,7 +74,7 @@
 			form-focus="currentFocusIndex === 3"
 			ng-focus="setFocus(3)"
 			ng-required="true"
-			uib-datepicker-popup="MM-dd-yyyy"
+			uib-datepicker-popup="MM/dd/yyyy"
 			ng-model="registrationInfo.dob.value"
 			is-open="registrationInfo.dob.open"
 			close-text="Close">
@@ -193,18 +193,20 @@
 			type="text"
 			name="primaryPhone"
 			class="form-control"
-			placeholder="Primary Phone Number (e.g. 123-456-7890)"
+			placeholder="Primary Phone Number"
 			form-focus="currentFocusIndex === 8"
 			ng-focus="setFocus(8)"
 			ng-required="true"
-			ng-pattern="/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/"
-			ng-model="registrationInfo.primaryPhone">
+			ng-model="registrationInfo.primaryPhone"
+			mask="(999) 999-9999"
+			clean="true"
+			validate="true">
 		<span class="input-group-addon">
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
 	</div>
 	<span class="help-block" ng-show="registrationForm.primaryPhone.$invalid && !registrationForm.primaryPhone.$pristine">
-		Must enter a valid, 10-digit, phone number (e.g. 123-456-7890)
+		Must enter a valid, 10-digit, phone number
 	</span>
 </div>
 
@@ -214,13 +216,15 @@
 		type="text"
 		name="secondaryPhone"
 		class="form-control"
-		placeholder="Secondary Phone Number (e.g. 123-456-7890)"
+		placeholder="Secondary Phone Number"
 		form-focus="currentFocusIndex === 9"
 		ng-focus="setFocus(9)"
-		ng-pattern="/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/"
-		ng-model="registrationInfo.secondaryPhone">
+		ng-model="registrationInfo.secondaryPhone"
+		mask="(999) 999-9999"
+		clean="true"
+		validate="true">
 	<span class="help-block" ng-show="registrationForm.secondaryPhone.$invalid && !registrationForm.secondaryPhone.$pristine">
-		Must enter a valid, 10-digit, phone number (e.g. 123-456-7890)
+		Must enter a valid, 10-digit, phone number
 	</span>
 </div>
 
