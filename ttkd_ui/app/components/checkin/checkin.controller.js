@@ -122,6 +122,7 @@
 
 			modalInstance = $uibModal.open({
 				animation: true,
+				windowClass: 'checkin-modal',
 				ariaLabelledBy: 'modal-title',
 		  		ariaDescribedBy: 'modal-body',
 		  		templateUrl: 'components/checkin/checkin.modal.html',
