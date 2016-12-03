@@ -211,7 +211,7 @@
 </div>
 
 <div class="spacer-25"
-	ng-class="{'has-error': registrationForm.secondaryPhone.$invalid && !registrationForm.secondaryPhone.$pristine, 'has-success': registrationForm.secondaryPhone.$valid}">
+	ng-class="{'has-error': registrationForm.secondaryPhone.$invalid && !registrationForm.secondaryPhone.$pristine, 'has-success': registrationForm.secondaryPhone.$valid && registrationInfo.secondaryPhone.length > 0}">
 	<input
 		type="text"
 		name="secondaryPhone"
