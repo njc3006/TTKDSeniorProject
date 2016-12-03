@@ -39,7 +39,8 @@
 		return payload;
 	}
 
-	function RegistrationController($scope, $rootScope, $timeout, $state, $stateParams, RegistrationService, ProgramsService, StateService) {
+	function RegistrationController($scope, $rootScope, $timeout, $state, $stateParams, RegistrationService, 
+		ProgramsService, StateService) {
 		$rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
 
 		$scope.isLegalAdult = function() {
