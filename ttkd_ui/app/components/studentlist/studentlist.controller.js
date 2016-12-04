@@ -2,7 +2,8 @@
 
   angular.module('ttkdApp.studentlistCtrl', ['ttkdApp.constants'])
 
-    .controller('StudentListCtrl', ['$scope', '$rootScope', '$filter', '$stateParams', 'StudentListService', 'ProgramsSvc', 'apiHost',
+    .controller('StudentListCtrl', ['$scope', '$rootScope', '$filter', '$stateParams', 'StudentListService', 
+        'ProgramsSvc', 'apiHost',
         function($scope, $rootScope, $filter, $stateParams, StudentListService, ProgramsSvc, apiHost) {
         $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
         $scope.apiHost = apiHost;
