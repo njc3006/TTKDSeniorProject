@@ -22,7 +22,15 @@
 			</tr>
 			<tr>
 				<td>Date of Birth</td>
-				<td>{{registrationInfo.dob.value.getMonth() + 1}}/{{registrationInfo.dob.value.getDate()}}/{{registrationInfo.dob.value.getFullYear()}}</td>
+				<td>{{formattedDob()}}</td>
+			</tr>
+			<tr>
+				<td>Primary Phone</td>
+				<td>{{formattedPhoneNumber(registrationInfo.primaryPhone)}}</td>
+			</tr>
+			<tr>
+				<td>Secondary Phone</td>
+				<td>{{formattedPhoneNumber(registrationInfo.secondaryPhone)}}</td>
 			</tr>
 		</tbody>
 	</table>
@@ -38,7 +46,7 @@
 			</tr>
 			<tr>
 				<td>Primary Contact Phone</td>
-				<td>{{registrationInfo.emPrimaryPhone}}</td>
+				<td>{{formattedPhoneNumber(registrationInfo.emPrimaryPhone)}}</td>
 			</tr>
 			<tr>
 				<td>Primary Contact Relationship</td>
@@ -50,7 +58,7 @@
 			</tr>
 			<tr>
 				<td>Secondary Contact Phone</td>
-				<td>{{registrationInfo.emSecondaryPhone}}</td>
+				<td>{{formattedPhoneNumber(registrationInfo.emSecondaryPhone)}}</td>
 			</tr>
 			<tr>
 				<td>Secondary Contact Relationship</td>

@@ -5,7 +5,7 @@
 				'first_name': registrationInfo.firstName,
 				'last_name': registrationInfo.lastName,
 				'dob': moment(registrationInfo.dob.value).format('YYYY-MM-DD'),
-				'primary_phone': registrationInfo.primaryPhone.replace(new RegExp('-', 'g'), ''),
+				'primary_phone': registrationInfo.primaryPhone,
 				'street': registrationInfo.street,
 				'city': registrationInfo.city,
 				'zipcode': parseInt(registrationInfo.zipcode),
@@ -13,7 +13,7 @@
 				'emails': registrationInfo.emails.map(function(email) { return {email: email.email}; }),
 				'emergency_contacts': [{
 						'full_name': registrationInfo.emPrimaryFullName,
-						'phone_number': registrationInfo.emPrimaryPhone.replace(new RegExp('-', 'g'), ''),
+						'phone_number': registrationInfo.emPrimaryPhone,
 						'relation': registrationInfo.emPrimaryRelationship
 				}]
 			},
@@ -39,7 +39,8 @@
 		return payload;
 	}
 
-	function RegistrationController($scope, $rootScope, $timeout, $state, $stateParams, RegistrationService, ProgramsService, StateService) {
+	function RegistrationController($scope, $rootScope, $timeout, $state, $stateParams, RegistrationService, 
+		ProgramsService, StateService) {
 		$rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
 
 		$scope.isLegalAdult = function() {
@@ -62,6 +63,16 @@
 			var ageInYears = today.diff(birthday, 'years');
 
 			return ageInYears <= 1;
+		};
+
+		$scope.formattedDob = function() {
+			return moment($scope.registrationInfo.dob.value).format('MM/DD/YYYY')
+		};
+
+		$scope.formattedPhoneNumber = function(phone) {
+			if (phone === undefined) return '';
+
+			return '(' + phone.substring(0, 3) + ') ' + phone.substring(3, 6) + '-' + phone.substring(6);
 		};
 
 		$scope.waiverSigned = function() {
@@ -214,7 +225,8 @@
 	angular.module('ttkdApp.registationCtrl', [
 		'ttkdApp.registrationSvc',
 		'ttkdApp.stateService',
-		'ttkdApp.programsSvc'
+		'ttkdApp.programsSvc',
+		'ngMask'
 	]).controller('RegistrationCtrl', [
 		'$scope',
 		'$rootScope',

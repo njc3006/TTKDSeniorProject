@@ -32,6 +32,12 @@
 	}
 }
 
+.checkin-modal img {
+	max-height: 360px;
+	width:auto;
+	margin:auto;
+}
+
 @media only screen and (min-width: 1240px)  {
 	.checkin {
 		padding: 0;
@@ -76,4 +82,3 @@
 
 	}
 }
-

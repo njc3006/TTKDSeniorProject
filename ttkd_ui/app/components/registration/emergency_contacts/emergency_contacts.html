@@ -36,11 +36,13 @@
 				name="emPrimaryPhone"
 				ng-required="true"
 				class="form-control input-group"
-				placeholder="Phone Number (e.g. 123-456-7890)"
+				placeholder="Phone Number"
 				form-focus="currentFocusIndex === 1"
 				ng-focus="setFocus(1)"
-				ng-pattern="/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/"
-				ng-model="registrationInfo.emPrimaryPhone">
+				ng-model="registrationInfo.emPrimaryPhone"
+				mask="(999) 999-9999"
+				clean="true"
+				validate="true">
 			<span class="input-group-addon">
 				<i class="glyphicon glyphicon-asterisk"></i>
 			</span>
@@ -48,7 +50,7 @@
 		<span
 			class="help-block"
 			ng-show="registrationForm.emPrimaryPhone.$invalid && !registrationForm.emPrimaryPhone.$pristine">
-			Must enter a valid phone number (e.g. 123-456-7890)
+			Must enter a valid phone number
 		</span>
 	</div>
 	<div
@@ -113,12 +115,14 @@
 				type="text"
 				name="emSecondaryPhone"
 				class="form-control input-group"
-				placeholder="Phone Number (e.g. 123-456-7890)"
+				placeholder="Phone Number"
 				form-focus="currentFocusIndex === 4"
 				ng-required="anySecondaryContactInfoEntered()"
 				ng-focus="setFocus(4)"
-				ng-pattern="/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/"
-				ng-model="registrationInfo.emSecondaryPhone">
+				ng-model="registrationInfo.emSecondaryPhone"
+				mask="(999) 999-9999"
+				clean="true"
+				validate="true">
 			<span class="input-group-addon">
 				<i class="glyphicon glyphicon-asterisk"></i>
 			</span>
@@ -126,7 +130,7 @@
 		<span
 			class="help-block"
 			ng-show="registrationForm.emSecondaryPhone.$invalid && !registrationForm.emSecondaryPhone.$pristine">
-			Must enter a valid phone number (e.g. 123-456-7890)
+			Must enter a valid phone number
 		</span>
 	</div>
 	<div
