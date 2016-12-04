@@ -22,6 +22,10 @@
 				return $http.get(apiHost + '/api/person-belts/?belt=' + beltId + '&current_belt=2');
 			},
 
+			getStudentsBelt: function(studentId) {
+				return $http.get(apiHost + '/api/person-belts/?person=' + studentId + '&current_belt=2');
+			},
+
 			getBeltList: function(){
 				return $http.get(apiHost + '/api/belts/');
 			}
