@@ -39,7 +39,7 @@
 		return payload;
 	}
 
-	function RegistrationController($scope, $rootScope, $timeout, $state, $stateParams, RegistrationService, 
+	function RegistrationController($scope, $rootScope, $timeout, $state, $stateParams, RegistrationService,
 		ProgramsService, StateService) {
 		$rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
 
@@ -66,11 +66,13 @@
 		};
 
 		$scope.formattedDob = function() {
-			return moment($scope.registrationInfo.dob.value).format('MM/DD/YYYY')
+			return moment($scope.registrationInfo.dob.value).format('MM/DD/YYYY');
 		};
 
 		$scope.formattedPhoneNumber = function(phone) {
-			if (phone === undefined) return '';
+			if (phone === undefined || phone.length === 0) {
+				return '';
+			}
 
 			return '(' + phone.substring(0, 3) + ') ' + phone.substring(3, 6) + '-' + phone.substring(6);
 		};
