@@ -24,7 +24,7 @@
 		var updateStudent = function(){
 			StudentsService.getStudent($stateParams.studentId).then(
 	      function(response) {
-	          $scope.studentInfo = reformatObject(response.data);
+						$scope.studentInfo = reformatObject(response.data);
 
 	          $scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
 
@@ -141,7 +141,7 @@
         SharedDataSvc.setStudentId($stateParams.studentId);
 	}
 
-	angular.module('ttkdApp.studentDetailCtrl', ['ttkdApp.studentsService', 'ttkdApp.telLinkDir', 
+	angular.module('ttkdApp.studentDetailCtrl', ['ttkdApp.studentsService', 'ttkdApp.telLinkDir',
 		'ttkdApp.constants', 'angularFileUpload'])
 		.controller('StudentDetailCtrl', [
 			'$scope',
