@@ -28,7 +28,7 @@ To install and run the AngularJS app, do the following:
 
 ### Using the import script
 You must either be in the scripts folder or the ttkd_api folder when you run the script
-You must also have all 4 of the required json files (from the mango dump of the old system):
+You must also have all 4 of the required json files in the folder you are executing the script from (these come from the mongo dump of the old system):
 
 1. students.json
 2. attendances.json
@@ -37,7 +37,7 @@ You must also have all 4 of the required json files (from the mango dump of the 
 
 there are 2 possible additional options when running the script:
 
-1. belts - Adds default belts into the import.
+1. belts - Adds default belts into the import. (This is soon being deprecated to be a default) 
 2. mask - Removes any sensitive personal data when loading in the old files. If used in conjunction with the belts flag it will also generate fake relationships of belts and stripes to persons in the import.
 
 `python import_json.py <belt|stripe|belts|stripes> <mask>`
