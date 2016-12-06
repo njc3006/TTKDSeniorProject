@@ -1,0 +1,25 @@
+<div class="container text-center">
+	<div class="spacer-35"></div>
+
+	<div class="row spacer-20">
+	 	<a ui-sref="checkin({programID: currentProgram.id})" ui-sref-active="active" class="btn btn-primary">Begin Check-in</a>
+	</div>
+	<div class="row spacer-20">
+	 	<a ui-sref="checkin({programID: currentProgram.id, instructor: true})" ui-sref-active="active" class="btn btn-primary">Instructor Check-in</a>
+	</div>
+	<div class="row spacer-20">
+		<a ui-sref-active="active" class="btn btn-primary" ng-click="openChangeProgram()">Change Program</a>
+	</div>
+	<div class="row spacer-20">
+		<a ui-sref-active="active" class="btn btn-primary" ng-click="openAddProgram()">Add Program</a>
+	</div>
+	<div class="row spacer-20">
+		<a ui-sref="registration" ui-sref-active="active" class="btn btn-primary">Register</a>
+	</div>
+	<div class="row">
+		<a ui-sref="studentlist" ui-sref-active="active" class="btn btn-primary">Student List</a>
+	</div>
+</div>
+
+<div id="modal-area">
+</div>

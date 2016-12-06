@@ -1,6 +1,84 @@
-.checked-in-student {
-    opacity: 0.4;
-    filter: alpha(opacity=40); /* msie */
-    pointer-events: none;
-    cursor: default;
+.checkin {
+
+	.checked-in-student {
+	    opacity: 0.4;
+	    filter: alpha(opacity=40); /* msie */
+	    pointer-events: none;
+	    cursor: default;
+	}
+
+	.checked-in-student-instruct {
+	    opacity: 0.4;
+	    filter: alpha(opacity=40); /* msie */
+	}
+
+	ul.uib-datepicker-popup {
+		padding: 0;
+		border-radius: 5px;
+
+		.active span {
+			color: white;
+		}
+	}
+
+	.thumbnail {
+		float: left;
+		margin-right: 10px;
+		margin-left: 10px;
+	}
+
+	.thumbnail-area {
+		margin: auto;
+	}
+}
+
+.checkin-modal img {
+	max-height: 360px;
+	width:auto;
+	margin:auto;
+}
+
+@media only screen and (min-width: 1240px)  {
+	.checkin {
+		padding: 0;
+		.thumbnail-area {
+			width: 1140px;
+		}
+
+		.thumbnail img {
+			width: 160px;
+			height: 160px;
+		}
+
+	}
+}
+
+@media only screen and (max-width: 1240px) and (min-width: 780px)  {
+	.checkin {
+
+		.thumbnail-area {
+			width: 720px;
+		}
+
+		.thumbnail img {
+			width: 150px;
+			height: 150px;
+		}
+
+	}
+}
+
+@media only screen and (max-width: 780px) and (min-width: 460px)  {
+	.checkin {
+
+		.thumbnail-area {
+			width: 400px;
+		}
+
+		.thumbnail img {
+			width: 170px;
+			height: 170px;
+		}
+
+	}
 }

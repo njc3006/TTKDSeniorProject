@@ -1,7 +1,7 @@
 <ng-include src="'components/registration/waiver/waiver_text.html'"></ng-include>
 
 <div class="spacer-25"
-	ng-class="{'has-error': registrationForm.participantSignature.$invalid && submitted}">
+	ng-class="{'has-error': registrationForm.participantSignature.$invalid && !registrationForm.participantSignature.$pristine, 'has-success': registrationForm.participantSignature.$valid}">
 	<div class="input-group col-sm-12">
 		<input
 			type="text"
@@ -16,7 +16,7 @@
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
 	</div>
-	<span class="help-block" ng-show="registrationForm.participantSignature.$invalid && submitted">
+	<span class="help-block" ng-show="registrationForm.participantSignature.$invalid && !registrationForm.participantSignature.$pristine">
 		Participant must provide a digital signature
 	</span>
 </div>
@@ -24,7 +24,7 @@
 <div class="spacer-25"
 	ng-if="!isLegalAdult()"
 	ng-init="numElements = 2"
-	ng-class="{'has-error': registrationForm.guardianSignature.$invalid && submitted}">
+	ng-class="{'has-error': registrationForm.guardianSignature.$invalid && !registrationForm.guardianSignature.$pristine, 'has-success': registrationForm.guardianSignature.$valid}">
 	<div class="input-group col-sm-12">
 		<input
 			type="text"
@@ -39,7 +39,7 @@
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
 	</div>
-	<span class="help-block" ng-show="registrationForm.guardianSignature.$invalid  && submitted">
+	<span class="help-block" ng-show="registrationForm.guardianSignature.$invalid  && !registrationForm.guardianSignature.$pristine">
 		Guardian must provide a digital signature
 	</span>
 </div>

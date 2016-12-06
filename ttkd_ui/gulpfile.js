@@ -34,7 +34,7 @@ gulp.task( 'server', ['build'], function() {
 
 gulp.task('scss', [], function(done) {
   gulp.src('./app/app.scss')
-    .pipe(sass())
+    .pipe(sass({precision: 10})) // Set precision to 10 so input groups align
     .on('error', function(error) {
       console.error(error.toString());
       this.emit('end');
@@ -46,6 +46,13 @@ gulp.task('scss', [], function(done) {
     .pipe(rename({ extname: '.css' }))
     .pipe(gulp.dest(config.buildDir + '/css'))
 		.pipe(connect.reload())
+    .on('end', done);
+});
+
+gulp.task('img', [], function(done) {
+  gulp.src('./app/**/*.png')
+    .pipe(gulp.dest(config.buildDir + '/img'))
+    .pipe(connect.reload())
     .on('end', done);
 });
 
@@ -107,7 +114,7 @@ gulp.task('build-js', [], function(done) {
 		.on('end', done);
 });
 
-gulp.task('build-static', [], function(done) {
+gulp.task('build-static', ['img'], function(done) {
 	gulp.src('./app/index.html')
 		.pipe(rename('index.html'))
 		.pipe(gulp.dest(config.buildDir))

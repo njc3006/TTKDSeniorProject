@@ -1,12 +1,11 @@
 <div class="modal-header">
-  <h3 class="modal-title" id="modal-title">Confirm Check-in</h3>
+  <h3 class="modal-title" id="modal-title">Confirm Check-in: Is this you?</h3>
 </div>
 <div class="modal-body" id="modal-body">
-  <img class="center-block" ng-src="http://placehold.it/350x350">
-  <br>
-  <p class="text-center">Is this you?</p>
+	<img ng-show="selectedPerson.picture_url" class="img-responsive {{studentBeltClass}}" ng-src="{{apiHost}}/{{selectedPerson.picture_url}}" ng-style="beltBorderStyle">
+	<img ng-hide="selectedPerson.picture_url" class="img-responsive {{studentBeltClass}}" ng-src="./img/components/students/placeholder.png" ng-style="beltBorderStyle">
 </div>
 <div class="modal-footer">
-  <button class="btn btn-primary pull-left" type="button" ng-click="yes()">YES</button>
-  <button class="btn btn-warning pull-right" type="button" ng-click="no()">NO</button>
+  <button class="btn btn-danger btn-lg pull-left" type="button" ng-click="no()">No</button>
+  <button class="btn btn-success btn-lg pull-right" type="button" ng-click="yes()">Yes</button>
 </div>
