@@ -21,7 +21,3 @@ def export_data(request):
         return Response(status=HTTP_200_OK)
     else:
         return Response("File missing from post data", status=HTTP_400_BAD_REQUEST)
-
-
-
-

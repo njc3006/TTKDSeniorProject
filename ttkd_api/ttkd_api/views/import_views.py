@@ -22,7 +22,3 @@ def import_data(request):
             return Response(status=HTTP_200_OK)
         return Response("Bad file path, file not found", status=HTTP_400_BAD_REQUEST)
     return Response("File missing from post data", status=HTTP_400_BAD_REQUEST)
-
-
-
-
