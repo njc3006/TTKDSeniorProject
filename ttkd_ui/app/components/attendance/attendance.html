@@ -1,0 +1,72 @@
+<div class="row">
+	<div class="col-xs-2 col-xs-offset-1">
+		<input
+			class="form-control"
+			type="text"
+			placeholder="Student"
+			ng-model="filterData.students">
+	</div>
+	<div class="col-xs-2">
+		<select
+			class="form-control"
+			ng-model="filterData.class">
+			<option value="">-----</option>
+			<optgroup label="Active">
+				<option ng-repeat="program in allPrograms | filter: {active:true}" value="{{program.id}}">
+					{{program.name}}
+				</option>
+			</optgroup>
+			<optgroup label="Inactive">
+				<option ng-repeat="program in allPrograms | filter: {active:false}" value="{{program.id}}">
+					{{program.name}}
+				</option>
+			</optgroup>
+		</select>
+	</div>
+	<div class="col-xs-2">
+		<div class="input-group">
+			<input
+				type="text"
+				class="form-control"
+				placeholder="Start Date"
+				uib-datepicker-popup="MM/dd/yyyy"
+				ng-model="filterData.startDate.value"
+				is-open="filterData.startDate.open"
+				close-text="Close">
+			<span class="input-group-btn">
+				<button class="btn btn-default" type="button" ng-click="openCalendar(filterData.startDate)">
+					<i class="glyphicon glyphicon-calendar"></i>
+				</button>
+			</span>
+		</div>
+	</div>
+	<div class="col-xs-2">
+		<div class="input-group">
+			<input
+				type="text"
+				class="form-control"
+				placeholder="Start Date"
+				uib-datepicker-popup="MM/dd/yyyy"
+				ng-model="filterData.endDate.value"
+				is-open="filterData.endDate.open"
+				close-text="Close">
+			<span class="input-group-btn">
+				<button class="btn btn-default" type="button" ng-click="openCalendar(filterData.endDate)">
+					<i class="glyphicon glyphicon-calendar"></i>
+				</button>
+			</span>
+		</div>
+	</div>
+	<div class="col-xs-2">
+		<button
+			type="button"
+			class="btn btn-primary"
+			ng-model="filterData.condensed"
+			uib-btn-checkbox>
+        {{filterData.condensed ? 'Condensed' : 'Uncondensed'}}
+    </button>
+	</div>
+</div>
+<div class="row">
+
+</div>

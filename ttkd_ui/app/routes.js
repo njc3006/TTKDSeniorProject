@@ -43,6 +43,12 @@
 				url: '/students/{studentId:int}',
 				templateUrl: 'components/students/detail/student.detail.html',
 				controller: 'StudentDetailCtrl'
+			})
+
+			.state('attendance', {
+				url: '/attendance',
+				templateUrl: 'components/attendance/attendance.html',
+				controller: 'AttendanceCtrl'
 			});
 
 			// For any unmatched url, send to /
