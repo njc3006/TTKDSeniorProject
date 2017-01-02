@@ -1,4 +1,4 @@
-<div class="container-fluid checkin">
+<div class="container checkin">
 	<div class="row">
 		<div class="col-xs-2" ng-if="instructor">
 			<div class="input-group">
@@ -24,25 +24,26 @@
 			<h2 ng-if="instructor">Click A Student Picture to Check Them In</h2>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-xs-2 right" ng-repeat="person in people | orderBy: 'first_name' ">
-			<a href="" class="thumbnail" ng-click="instructor ? instructClickCheckin(person) : openCheckinPrompt(person)">
+	<div class="row thumbnail-area">
+			<a href="" class="thumbnail" 
+					ng-click="instructor ? instructClickCheckin(person) : openCheckinPrompt(person)"
+					ng-repeat="person in people | orderBy: 'first_name' ">
 				<img ng-if="person.picture_url" class="img-responsive {{studentBeltClass}}" ng-src="{{apiHost}}/{{person.picture_url}}" ng-style="beltBorderStyle">
 				<img ng-if="!person.picture_url" class="img-responsive {{studentBeltClass}}" ng-src="./img/components/students/placeholder.png" ng-style="beltBorderStyle">
 				<div class="caption">
 					<span class="person-name">{{person.first_name}} {{person.last_name}}</span>
 				</div>
 			</a>
-		</div>
-		<div class="col-xs-2 right" ng-repeat="person in checkedInPeople | orderBy: 'first_name'">
-			<a href="" class="thumbnail" ng-class="instructor ? 'checked-in-student-instruct' : 'checked-in-student'" ng-click="instructor ? instructClickDeleteCheckin(person) : ''">
+			<a href="" class="thumbnail" 
+					ng-class="instructor ? 'checked-in-student-instruct' : 'checked-in-student'"
+					ng-click="instructor ? instructClickDeleteCheckin(person) : ''"
+					ng-repeat="person in checkedInPeople | orderBy: 'first_name'">
 				<img ng-show="person.picture_url" class="img-responsive {{studentBeltClass}}" ng-src="{{apiHost}}/{{person.picture_url}}" ng-style="beltBorderStyle">
 				<img ng-hide="person.picture_url" class="img-responsive {{studentBeltClass}}" ng-src="./img/components/students/placeholder.png" ng-style="beltBorderStyle">
 				<div class="caption">
 					<span class="person-name">{{person.first_name}} {{person.last_name}}</span>
 				</div>
 			</a>
-		</div>
 	</div>
 </div>
 

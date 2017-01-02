@@ -1,12 +1,17 @@
-<div class="container-fluid">
+<div class="container">
 	<div class="row filter-bar">
 		<div class="col-xs-1">
 			<div class="btn btn-primary" ng-click="toggleSortAlpha()">{{sortDisplayString}}</div>
 		</div>
 		<div class="col-xs-2">
-			<select class="form-control" ng-model="filters.currentClass" ng-change="setDisplayedStudents()"
-			ng-options="class.name for class in classes | orderBy: 'active':true">
+			<select class="form-control" ng-model="filters.currentClassId" ng-change="setDisplayedStudents()">
 				<option value="">Select Class</option>
+				<optgroup label="Active">
+					<option ng-repeat="class in classes | filter: {active:true}" value="{{class.id}}">{{class.name}}</option>
+				</optgroup>
+				<optgroup label="Inactive">
+					<option ng-repeat="class in classes | filter: {active:false}" value="{{class.id}}">{{class.name}}</option>
+				</optgroup>
 			</select>
 		</div>
 		<div class="col-xs-2">
@@ -37,7 +42,7 @@
 		                 is-open="selectedDate.open"
 		                 ng-required="true"
 		                 close-text="Close"
-		                 placeholder="Date" />
+		                 placeholder="Attnd. Date" />
           		<span class="input-group-btn">
 	          		<button class="btn btn-default" ng-click="open()">
 	          		<i class="glyphicon glyphicon-calendar"></i></button>
