@@ -94,10 +94,6 @@
 			};
 		}
 
-		$scope.notYetImplemented = function() {
-			alert('This feature has not yet been implemented');
-		};
-
 		$scope.currentAge = function() {
 			if ($scope.studentInfo === undefined || $scope.studentInfo.dob === undefined) {
 				return null;
