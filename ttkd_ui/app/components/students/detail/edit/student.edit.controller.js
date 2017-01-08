@@ -16,14 +16,6 @@
 			return secondaryFullNameEntered || secondaryPhoneEntered || secondaryRelationEntered;
 		};
 
-		function formatPhoneNumber(phone) {
-			if (phone === undefined || phone === null) {
-				return '';
-			}
-
-			return phone.substring(0, 3) + '-' + phone.substring(3, 6) + '-' + phone.substring(6);
-		}
-
 		$scope.addEmail = function() {
 			$scope.studentInfo.emails.push({email: '', isNew: true});
 		};
@@ -37,13 +29,8 @@
 		};
 
 		$scope.submitChanges  = function() {
-			$scope.studentInfo['emergency_contact_1']['phone_number'] =
-				$scope.studentInfo['emergency_contact_1']['phone_number'].replace(new RegExp('-', 'g'), '');
-
-			$scope.studentInfo['emergency_contact_2']['phone_number'] =
-				$scope.studentInfo['emergency_contact_2']['phone_number'].replace(new RegExp('-', 'g'), '');
-
-			var payload = angular.extend($scope.studentInfo, {
+			var payload = angular.copy($scope.studentInfo);
+			payload = angular.extend(payload, {
 				dob: moment($scope.studentInfo.dob.value).format('YYYY-MM-DD'),
 				state: $scope.studentInfo.state.value
 			});
@@ -74,9 +61,6 @@
 		StudentsService.getStudent($stateParams.studentId).then(function success(response) {
 			$scope.studentInfo = response.data;
 
-			$scope.studentInfo['primary_phone'] = formatPhoneNumber($scope.studentInfo['primary_phone']);
-			$scope.studentInfo['secondary_phone'] = formatPhoneNumber($scope.studentInfo['secondary_phone']);
-
 			$scope.studentInfo.dob = {
 				value: moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate(),
 				open: false
@@ -105,6 +89,7 @@
 
 	angular.module('ttkdApp.editStudentCtrl', [
 		'ttkdApp.studentsService',
-		'ttkdApp.stateService'
+		'ttkdApp.stateService',
+		'ttkdApp.emergencyContactDir'
 	]).controller('EditStudentCtrl', ['$scope', '$stateParams', 'StudentsSvc', 'StateSvc', EditStudentController]);
 })();

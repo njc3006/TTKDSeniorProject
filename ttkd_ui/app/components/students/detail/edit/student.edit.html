@@ -73,7 +73,7 @@
 				<label class="control-label">Active Status</label>
 				<button
 					type="button"
-					class="btn btn-primary btn-lg"
+					class="form-control btn btn-primary"
 					uib-btn-checkbox
 					ng-model="studentInfo.active"
 					btn-checkbox-true="true"
@@ -125,33 +125,29 @@
 						class="form-control"
 						ng-model="studentInfo.primary_phone",
 						ng-required="true"
-						ng-pattern="/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/">
+						mask="(999) 999-9999"
+						clean="true">
 					<span class="input-group-addon">
 						<i class="glyphicon glyphicon-asterisk"></i>
 					</span>
 				</div>
 				<span class="help-text" ng-show="editForm.primaryPhone.$invalid">
-					Enter a valid phone number (e.g. 123-456-7890)
+					Enter a valid phone number
 				</span>
 			</div>
 			<div
 				class="form-group col-xs-6"
-				ng-class="{'has-error': editForm.secondaryPhone.$invalid, 'has-success': editForm.secondaryPhone.$valid}">
+				ng-class="{'has-error': editForm.secondaryPhone.$invalid, 'has-success': editForm.secondaryPhone.$valid && editForm.secondaryPhone.length > 0}">
 				<label class="control-label">Secondary Phone</label>
-				<div class="input-group">
-					<input
-						name="secondaryPhone"
-						type="text"
-						class="form-control"
-						ng-model="studentInfo.secondary_phone"
-						ng-required="true"
-						ng-pattern="/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/">
-					<span class="input-group-addon">
-						<i class="glyphicon glyphicon-asterisk"></i>
-					</span>
-				</div>
+				<input
+					name="secondaryPhone"
+					type="text"
+					class="form-control"
+					ng-model="studentInfo.secondary_phone"
+					mask="(999) 999-9999"
+					clean="true">
 				<span class="help-text" ng-show="editForm.secondaryPhone.$invalid">
-					Enter a valid phone number (e.g. 123-456-7890)
+					Enter a valid phone number
 				</span>
 			</div>
 		</div>
@@ -282,24 +278,18 @@
 					<textarea class="form-control" rows="8" ng-model="studentInfo.misc_notes"></textarea>
 				</uib-tab>
 				<uib-tab heading="Emergency Contacts">
-					<ng-include src="'components/students/detail/edit/emergency_contacts/emergency_contacts.html'">
-					</ng-include>
-					<!--<h2>Primary Emergency Contact</h2>
+					<h2>Primary Emergency Contact</h2>
 					<emergency-contact-input
 						ng-model="studentInfo.emergency_contact_1"
-						required="true"
-						uid="primary-contact"
-						form="editForm">
+						required="true">
 					</emergency-contact-input>
 
 					<hr/>
 					<h2>Secondary Emergency Contact</h2>
 					<emergency-contact-input
 						ng-model="studentInfo.emergency_contact_2"
-						required="false"
-						uid="secondary-contact",
-						form="editForm">
-					</emergency-contact-input>-->
+						required="anySecondaryContactInfoEntered()">
+					</emergency-contact-input>
 				</uib-tab>
 				<uib-tab heading="Belt Assignment">
 					TODO: Add Belt Assignment UI
