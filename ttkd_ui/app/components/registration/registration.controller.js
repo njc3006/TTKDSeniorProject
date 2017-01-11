@@ -17,8 +17,14 @@
 						'relation': registrationInfo.emPrimaryRelationship
 				}]
 			},
-			'program': registrationInfo.program.id
+			'program': registrationInfo.program.id,
+			'waiver_signature': registrationInfo.participantSignature
 		};
+
+		// We only need to add the guardian signature if there was one
+		if (registrationInfo.guardianSignature !== undefined) {
+			payload['guardian_signature'] = registrationInfo.guardianSignature;
+		}
 
 		if (registrationInfo.secondaryPhone !== undefined) {
 			payload.person['secondary_phone'] = registrationInfo.secondaryPhone.replace(new RegExp('-', 'g'), '');

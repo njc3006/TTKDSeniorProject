@@ -1,6 +1,7 @@
 """RegistrationSerializer"""
 from string import capwords
 import datetime
+from django.utils import timezone
 from rest_framework import serializers
 
 from .person_serializer import PersonSerializer, MinimalPersonSerializer
@@ -77,7 +78,16 @@ class RegistrationSerializer(serializers.ModelSerializer):
         if belt is not None:
             PersonBelt.objects.create(person=person, belt=belt, date_achieved=datetime.date.today())
 
-        registration = Registration.objects.create(person=person, program=validated_data['program'])
+        if 'guardian_signature' in validated_data:
+            guardian_sig = validated_data['guardian_signature']
+        else:
+            guardian_sig = None
+
+        registration = \
+            Registration.objects.create(person=person, program=validated_data['program'],
+                                        waiver_signature=validated_data['waiver_signature'],
+                                        guardian_signature=guardian_sig,
+                                        signature_timestamp=timezone.now())
         return registration
 
     def update(self, instance, validated_data):
@@ -89,6 +99,12 @@ class RegistrationSerializer(serializers.ModelSerializer):
         If you want to update a person instance, PUT to the persons endpoint
         """
         instance.program = validated_data.get('program', instance.program)
+        instance.waiver_signature = validated_data.get('waiver_signature',
+                                                       instance.waiver_signature)
+        instance.guardian_signature = validated_data.get('guardian_signature',
+                                                         instance.guardian_signature)
+        instance.signature_timestamp = validated_data.get('signature_timestamp',
+                                                          instance.signature_timestamp)
         instance.save()
         return instance
 
