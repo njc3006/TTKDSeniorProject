@@ -18,18 +18,17 @@ class Registration(models.Model):
     program = models.ForeignKey(Program)
 
     waiver_signature = models.CharField(
-        max_length=30,
+        max_length=60,
         blank=True,
         null=True,
     )
 
     guardian_signature = models.CharField(
-        max_length=30,
+        max_length=60,
         blank=True,
         null=True,
     )
 
     signature_timestamp = models.DateTimeField(
-        blank=True,
-        null=True,
+        auto_now=True
     )

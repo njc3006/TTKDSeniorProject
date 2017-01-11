@@ -86,8 +86,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         registration = \
             Registration.objects.create(person=person, program=validated_data['program'],
                                         waiver_signature=validated_data['waiver_signature'],
-                                        guardian_signature=guardian_sig,
-                                        signature_timestamp=timezone.now())
+                                        guardian_signature=guardian_sig)
         return registration
 
     def update(self, instance, validated_data):
@@ -103,8 +102,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
                                                        instance.waiver_signature)
         instance.guardian_signature = validated_data.get('guardian_signature',
                                                          instance.guardian_signature)
-        instance.signature_timestamp = validated_data.get('signature_timestamp',
-                                                          instance.signature_timestamp)
         instance.save()
         return instance
 
