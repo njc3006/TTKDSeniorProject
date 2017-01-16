@@ -1,8 +1,9 @@
 (function() {
 
   angular.module('ttkdApp.homeCtrl', [])
-    .controller('HomeCtrl', ['$scope', '$uibModal', '$document', 'ProgramsSvc',
-     function($scope, $uibModal, $document, ProgramsSvc) {
+    .controller('HomeCtrl', ['$scope', '$rootScope', '$stateParams', '$uibModal', '$document', 'ProgramsSvc',
+     function($scope, $rootScope, $stateParams, $uibModal, $document, ProgramsSvc) {
+        $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
 
     	var modalInstance;
      	$scope.programs = [];
@@ -18,12 +19,13 @@
         };
 
         $scope.openAddProgram = function() {
+            $scope.addProgramMessage = {};
             var modalElement = angular.element($document[0].querySelector('#modal-area'));
             modalInstance = $uibModal.open({
                 animation: true,
                 ariaLabelledBy: 'modal-title',
                 ariaDescribedBy: 'modal-body',
-                templateUrl: 'home/add-program.modal.html',
+                templateUrl: 'components/home/add-program.modal.html',
                 scope: $scope
             });
         };
@@ -48,19 +50,21 @@
         };
 
     	$scope.openChangeProgram = function() {
-			var modalElement = angular.element($document[0].querySelector('#modal-area'));
-    		modalInstance = $uibModal.open({
-    			animation: true,
-    			ariaLabelledBy: 'modal-title',
-    			ariaDescribedBy: 'modal-body',
-    			templateUrl: 'home/choose-program.modal.html',
-    			scope: $scope
-    		});
+            getActivePrograms();
+            var modalElement = angular.element($document[0].querySelector('#modal-area'));
+            modalInstance = $uibModal.open({
+                animation: true,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                templateUrl: 'components/home/choose-program.modal.html',
+                scope: $scope
+            });
+
     	};
 
     	$scope.selectProgram = function(program) {
     		$scope.changeProgram(program);
-    		$scope.closeChangeProgram();
+    		$scope.closeModal();
     	};
 
     	$scope.closeModal = function() {

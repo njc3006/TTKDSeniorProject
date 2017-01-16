@@ -1,83 +1,120 @@
-<div class="row alert alert-info" role="alert" ng-show="!studentLoaded">
-	<strong>Loading...</strong>
-</div>
+<div class="container">
+	<div class="row alert alert-info" role="alert" ng-show="!studentLoaded">
+		<strong>Loading...</strong>
+	</div>
 
 
-<div class="row alert alert-info" role="alert" ng-show="studentDoesNotExist">
-	<strong>This student does not exist</strong>
-</div>
+	<div class="row alert alert-info" role="alert" ng-show="studentDoesNotExist">
+		<strong>This student does not exist</strong>
+	</div>
 
-<div class="row alert alert-danger" role="alert" ng-show="studentRequestFailed">
-	<strong>Could not retrieve student data</strong>
-</div>
-
-<div ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
-	<div class="row spacer-20">
-		<div class="col-sm-2" style="padding-left: 0px">
-			<img class="img-responsive {{studentBeltClass}}" ng-src="{{studentInfo.picture}}" ng-style="beltBorderStyle">
-			<button class="btn btn-primary col-sm-12" type="button" ng-click="notYetImplemented()">Change</button>
-		</div>
-		<div class="col-sm-10">
-			<div class="row spacer-10">
-				<span class="h2">{{studentInfo.firstName}} {{studentInfo.lastName}}</span>
-				<div class="btn-group pull-right">
-					<button class="btn btn-primary" type="button" ng-click="notYetImplemented()">
-						Attendance
-					</button>
-					<button class="btn btn-warning" type="button" ng-click="notYetImplemented()">Edit</button>
+	<div class="row alert alert-danger" role="alert" ng-show="studentRequestFailed">
+		<strong>Could not retrieve student data</strong>
+	</div>
+	<div ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
+		<div class="row spacer-20">
+			<div class="col-sm-2" style="padding-left: 0px">
+				<img ng-if="studentInfo.pictureUrl" class="img-responsive {{studentBeltClass}}" ng-src="{{apiHost}}/{{studentInfo.pictureUrl}}" ng-style="beltStyle">
+				<img ng-if="!studentInfo.pictureUrl" class="img-responsive {{studentBeltClass}}" ng-src="./img/components/students/placeholder.png" ng-style="beltStyle">
+				<div class="file-upload">
+					<input class="btn btn-primary vis-input" type="button" value="Change" onclick="document.getElementById('file-upload').click();">
+					<input id="file-upload" class="btn btn-primary hidden-input" type="file" nv-file-select uploader="uploader"/><br/>
 				</div>
 			</div>
-			<div class="row h4 spacer-10" style="font-weight: normal">
-				Status: <span ng-class="{'text-success': studentInfo.active, 'text-danger': !studentInfo.active}">
-					{{studentInfo.active ? 'Active' : 'Inactive'}}
-				</span>
+			<div class="col-xs-1 no-right-padding" style="padding-right: 0px">
+				<svg style="width: 100%">
+					<rect
+						ng-repeat="stripe in earnedStripes track by $index"
+						ng-if="stripe.color.toLowerCase() !== 'ffffff'"
+						x="0"
+						ng:attr:y="{{(($index * 8) + 2)}}"
+						height="3"
+						width="20"
+						stroke="{{'#' + stripe.color | lowercase}}"
+						fill="{{'#' + stripe.color | lowercase}}" />
+					<rect
+						ng-repeat="stripe in earnedStripes track by $index"
+						ng-if="stripe.color.toLowerCase() === 'ffffff'"
+						x="0"
+						ng:attr:y="{{(($index * 8) + 2)}}"
+						height="3"
+						width="20"
+						stroke="black"
+						stroke-width="1"
+						fill="white" />
+				</svg>
 			</div>
-			<div class="row h4 spacer-10" style="font-weight: normal">
-				<span style="padding-right: 3em">Age: {{currentAge()}}</span>
-				<span>Birthday: {{formattedBirthday()}}</span>
-			</div>
-			<div class="row h4 spacer-10" style="font-weight: normal">
-				<tel-link phone="studentInfo.primaryPhone" label="'Primary Phone'" style="padding-right: 3em"></tel-link>
-				<tel-link ng-if="studentInfo.secondaryPhone" phone="studentInfo.secondaryPhone" label="'Secondary Phone'">
-				</tel-link>
-			</div>
-			<div class="row h4 spacer-10" style="font-weight: normal">
-				<span>Address: {{studentInfo.street}}, {{studentInfo.city}}, {{studentInfo.state}} {{studentInfo.zipcode}}</span>
-			</div>
-			<div class="row h4" style="font-weight: normal">
-				Emails:
-				<span ng-repeat="email in studentInfo.emails">
-					<a href="mailto:{{email.email}}">{{email.email}}</a>{{$last ? '' : ', '}}
-				</span>
+			<div class="col-xs-9">
+				<div class="row spacer-10">
+					<span class="h2 col-xs-3 no-padding no-margins">
+						{{studentInfo.firstName}} {{studentInfo.lastName}}
+					</span>
+					<div class="btn-group pull-right">
+						<button class="btn btn-warning" type="button" ng-click="notYetImplemented()">Edit</button>
+					</div>
+				</div>
+				<div class="row h4 spacer-10 normal-text">
+					Status: <span ng-class="{'text-success': studentInfo.active, 'text-danger': !studentInfo.active}">
+						{{studentInfo.active ? 'Active' : 'Inactive'}}
+					</span>
+				</div>
+				<div class="row h4 spacer-10 normal-text">
+					<span style="padding-right: 3em">Age: {{currentAge()}}</span>
+					<span>Birthday: {{formattedBirthday()}}</span>
+				</div>
+				<div class="row h4 spacer-10 normal-text">
+					<tel-link phone="studentInfo.primaryPhone" label="'Primary Phone'" style="padding-right: 3em"></tel-link>
+					<tel-link ng-if="studentInfo.secondaryPhone" phone="studentInfo.secondaryPhone" label="'Secondary Phone'">
+					</tel-link>
+				</div>
+				<div class="row h4 spacer-10 normal-text">
+					<span>Address: {{studentInfo.street}}, {{studentInfo.city}}, {{studentInfo.state}} {{studentInfo.zipcode}}</span>
+				</div>
+				<div class="row h4 normal-text">
+					Emails:
+					<span ng-repeat="email in studentInfo.emails">
+						<a href="mailto:{{email.email}}">{{email.email}}</a>{{$last ? '' : ', '}}
+					</span>
+				</div>
 			</div>
 		</div>
-	</div>
 
-	<div class="row" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
-		<div class="panel panel-primary col-sm-5">
-			<div class="panel-heading">
-				Primary Emergency Contact
+		<div class="row" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
+			<div class="panel panel-primary col-xs-5">
+				<div class="panel-heading">
+					Primary Emergency Contact
+				</div>
+				<div class="panel-body">
+					Name: {{primaryEmergencyContact.fullName}}<br/>
+					Relationship: {{primaryEmergencyContact.relation}}<br/>
+					<tel-link phone="primaryEmergencyContact.phoneNumber" label="'Phone'"></tel-link>
+				</div>
 			</div>
-			<div class="panel-body">
-				Name: {{primaryEmergencyContact.fullName}}<br/>
-				Relationship: {{primaryEmergencyContact.relation}}<br/>
-				<tel-link phone="primaryEmergencyContact.phoneNumber" label="'Phone'"></tel-link>
+
+			<div class="panel panel-primary col-xs-5 pull-right" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
+				<div class="panel-heading">
+					Secondary Emergency Contact
+				</div>
+				<div class="panel-body">
+					Name: {{secondaryEmergencyContact.fullName}}<br/>
+					Relationship: {{secondaryEmergencyContact.relation}}<br/>
+					<tel-link phone="secondaryEmergencyContact.phoneNumber" label="'Phone'"></tel-link>
+				</div>
 			</div>
 		</div>
 
-		<div class="panel panel-primary col-sm-5 pull-right" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
-			<div class="panel-heading">
-				Secondary Emergency Contact
-			</div>
-			<div class="panel-body">
-				Name: {{secondaryEmergencyContact.fullName}}<br/>
-				Relationship: {{secondaryEmergencyContact.relation}}<br/>
-				<tel-link phone="secondaryEmergencyContact.phoneNumber" label="'Phone'"></tel-link>
-			</div>
+		<div class="row spacer-20" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
+			<uib-tabset type="pills">
+				<uib-tab heading="Notes">
+					<ng-include src="'components/students/detail/notes/notes.panel.html'"></ng-include>
+				</uib-tab>
+				<uib-tab heading="Attendance">
+					<ng-include
+						src="'components/students/detail/attendance/attendance.html'"
+						ng-controller="StudentAttendanceCtrl">
+					</ng-include>
+				</uib-tab>
+			</uib-tabset>
 		</div>
-	</div>
-
-	<div class="row panel panel-primary" style="min-height: 350px" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
-		{{studentInfo.misc_notes}}
 	</div>
 </div>

@@ -1,16 +1,22 @@
-<div class="container-fluid">
+<div class="container">
 	<div class="row filter-bar">
 		<div class="col-xs-1">
 			<div class="btn btn-primary" ng-click="toggleSortAlpha()">{{sortDisplayString}}</div>
 		</div>
 		<div class="col-xs-2">
-			<select class="form-control" ng-model="filters.currentClass" ng-change="setDisplayedStudents()"
-			ng-options="class.name for class in classes">
+			<select class="form-control" ng-model="filters.currentClassId" ng-change="setDisplayedStudents()">
 				<option value="">Select Class</option>
+				<optgroup label="Active">
+					<option ng-repeat="class in classes | filter: {active:true}" value="{{class.id}}">{{class.name}}</option>
+				</optgroup>
+				<optgroup label="Inactive">
+					<option ng-repeat="class in classes | filter: {active:false}" value="{{class.id}}">{{class.name}}</option>
+				</optgroup>
 			</select>
 		</div>
 		<div class="col-xs-2">
-			<select class="form-control" ng-model="filters.currentBelt" ng-options="belt as belt for belt in belts">
+			<select class="form-control" ng-model="filters.currentBelt" ng-change="setDisplayedStudents()" 
+			ng-options="belt.name for belt in belts">
 				<option value="">Select Belt</option>
 			</select>
 		</div>
@@ -26,41 +32,43 @@
 			<div class="btn btn-primary" ng-click="today()">Today</div>
 		</div>
 		<div class="col-xs-2">
-			<input type="search" class="form-control" placeholder="Search" name="searchbox" ng-model="filters.searchQuery">
+			<input type="search" class="form-control" placeholder="Search" name="searchbox" id="searchbox" ng-model="filters.searchQuery">
 		</div>
 		<div class="col-xs-2">
 	       	<div class="input-group">
-	          	<input type="text" class="form-control" 
+	          	<input type="text" class="form-control"
 		                 uib-datepicker-popup="MM-dd-yyyy"
 		                 ng-model="selectedDate.value"
 		                 is-open="selectedDate.open"
 		                 ng-required="true"
 		                 close-text="Close"
-		                 placeholder="Date" />
+		                 placeholder="Attnd. Date" />
           		<span class="input-group-btn">
 	          		<button class="btn btn-default" ng-click="open()">
-	          		<i class="glyphicon glyphicon-calendar"></i></button> 
+	          		<i class="glyphicon glyphicon-calendar"></i></button>
 	          	</span>
 	        </div>
 		</div>
 	</div>
 
 	<div class="row">
-		<div class="display-4">
-		Showing {{people.length}} student<span ng-if="people.length !== 1">s</span>
+		<div class="display-4"">
+			Showing {{people.length}} student<span ng-if="people.length !== 1">s</span>
+
 		</div>
 	</div>
 
 	<div class="row">
-		<div class="col-xs-10 col-xs-offset-1" ng-repeat="p in people | filter: (filters.currentBelt || undefined) && { person: { belt: filters.currentBelt } }| filter: filters.searchQuery | orderBy: 'person.first_name':!sortAZ">
+			<div class="col-xs-10 col-xs-offset-1" ng-repeat="p in people | filter: displayedFilter | orderBy: 'person.first_name':!sortAZ">
 			<div class="col-xs-2 text-center entry-picture">
-				<a ui-sref="studentDetails({studentId: p.id})">
-					<img ng-src="{{p.person.picture}}">
+				<a ui-sref="studentDetails({studentId: p.person.id})">
+					<img ng-if="p.person.picture_url" class="img-responsive" ng-src="{{apiHost}}/{{p.person.picture_url}}" ng-style="beltStyle">
+					<img ng-if="!p.person.picture_url" class="img-responsive" ng-src="./img/components/students/placeholder.png" ng-style="beltStyle">
 				</a>
 			</div>
 			<div class="col-xs-8 entry">
 				<div class="row">
-					<a ui-sref="studentDetails({studentId: p.id})">
+					<a ui-sref="studentDetails({studentId: p.person.id})">
 						<h2>{{p.person.first_name}} {{p.person.last_name}}</h2>
 					</a>
 				</div>
@@ -70,8 +78,16 @@
 					</span>
 					<span>Phone: {{p.person.primary_phone}}</span>
 				</div>
-				<div class="row" ng-repeat="contact in p.person.emergency_contacts | limitTo:2 track by $index">
-					Emergency Contact {{$index + 1}}: {{contact.full_name}}, {{contact.phone_number}}
+				<div class="row" >
+					Emergency Contact 1:
+					<span ng-if="p.person.emergency_contact_1.full_name !== undefined">
+						{{p.person.emergency_contact_1.full_name}}({{p.person.emergency_contact_1.relation}}) - <tel-link phone="p.person.emergency_contact_1.phone_number"></tel-link>
+					</span>
+					<br>
+					Emergency Contact 2:
+					<span ng-if="p.person.emergency_contact_2.full_name !== undefined">
+						{{p.person.emergency_contact_2.full_name}}({{p.person.emergency_contact_2.relation}}) - <tel-link phone="p.person.emergency_contact_2.phone_number"></tel-link>
+					</span>
 				</div>
 				<hr>
 			</div>

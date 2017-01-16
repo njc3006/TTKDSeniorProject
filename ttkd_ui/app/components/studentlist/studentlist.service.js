@@ -1,25 +1,29 @@
 (function() {
 	function StudentListService($http, apiHost) {
 		return {
-			getClassList: function() {
-				return $http.get(apiHost + '/api/programs/');
-			},
-
 			getAllStudents: function() {
-				return $http.get(apiHost + '/api/students/');
+				return $http.get(apiHost + '/api/people/');
 			},
 
 			getStudentsFromClass: function(programId) {
-				return $http.get(apiHost + '/api/students/?program=' + programId);
+				return $http.get(apiHost + '/api/class-people/?program=' + programId);
 			},
 
 			getAllCheckedIn: function() {
-				return $http.get(apiHost + '/api/checked-in/persons/');
+				return $http.get(apiHost + '/api/check-ins/');
 			},
 
 			getClassAttendanceRecords: function(programId, date) {
-				console.log(programId);
 				return $http.get(apiHost + '/api/check-ins/?program=' + programId + '&date=' + date);
+			},
+
+			getStudentsWithBelt: function(beltId) {
+				//current_belt = 2 is the student's current belt
+				return $http.get(apiHost + '/api/person-belts/?belt=' + beltId + '&current_belt=2');
+			},
+
+			getBeltList: function(){
+				return $http.get(apiHost + '/api/belts/');
 			}
 		};
 	}

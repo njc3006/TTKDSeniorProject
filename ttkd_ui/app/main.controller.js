@@ -1,11 +1,11 @@
 (function() {
 
-  angular.module('ttkdApp.mainCtrl', [])
-    .controller('MainCtrl', ['$scope', 'ProgramsSvc', 
-    	function($scope, ProgramsSvc) {
+  angular.module('ttkdApp.mainCtrl', ['ttkdApp.constants'])
+    .controller('MainCtrl', ['$scope', 'companyName', 'ProgramsSvc',
+    	function($scope, companyName, ProgramsSvc) {
       $scope.showNav = true;
-      $scope.title = 'Tioga Tae Kwon Do';
-      
+      $scope.title = companyName;
+
       // get all the active programs, then set the first one in the list to our default
       ProgramsSvc.getActivePrograms().then(function onSuccess(response) {
         if(response && response.data.length > 0) {

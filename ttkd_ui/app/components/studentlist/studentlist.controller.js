@@ -1,13 +1,19 @@
 (function() {
 
-  angular.module('ttkdApp.studentlistCtrl', [])
+  angular.module('ttkdApp.studentlistCtrl', ['ttkdApp.constants'])
 
-    .controller('StudentListCtrl', ['$scope', '$stateParams', 'StudentListService',
-        function($scope, $stateParams, StudentListService) {
-        $scope.people = [];                 //currently displayed list of students
-        $scope.allStudents = [];            //every student in the system
-        $scope.classes = [];                //every class in the system
-        $scope.attendanceRecords = [];      //all attendance records in the system
+    .controller('StudentListCtrl', ['$scope', '$rootScope', '$filter', '$stateParams', 'StudentListService', 
+        'ProgramsSvc', 'apiHost',
+        function($scope, $rootScope, $filter, $stateParams, StudentListService, ProgramsSvc, apiHost) {
+        $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
+        $scope.apiHost = apiHost;
+        $scope.people = [];
+        $scope.allPeople = [];
+        $scope.classPeople = [];
+        $scope.allAttendance = [];
+        $scope.classAttendance = [];
+        $scope.classes = [];
+        $scope.belts = [];
         $scope.sortAZ = true;
         $scope.sortDisplayString = 'A-Z';
 
@@ -16,21 +22,8 @@
             showInactive: false,
             searchQuery: '',
             currentBelt: null,
-            currentClass: null,
+            currentClassId: null,
         };
-
-        $scope.belts = [
-            'White',
-            'Yellow',
-            'Orange',
-            'Green',
-            'Blue',
-            'Purple',
-            'Red',
-            'Brown',
-            'Hi-Brown',
-            'Provisional'
-        ];
 
         $scope.selectedDate = {
             open: false,
@@ -53,107 +46,99 @@
             $scope.sortDisplayString = $scope.sortAZ ? 'A-Z' : 'Z-A';   //toggle the displayed string
         };
 
-        //I realize the date formatting is hacky and would like a cleaner solution. Feel free to suggest one.
         $scope.getCurrentFormattedDate = function(date){
-            var formatDay = date.getDate();
-            var formatMonth = date.getMonth() + 1;
-            if(formatDay < 10) { formatDay = '0' + formatDay; }
-            if(formatMonth < 10) { formatMonth = '0 ' + formatMonth; }
-
-            //matches the format returned from the backend, used to find attendance records of the correct day
-            var formattedDate = date.getFullYear() + '-' + formatMonth + '-' + formatDay;
-
-            return formattedDate;
+            return $filter('date')(date, 'yyyy-MM-dd');
         };
 
-        //transforms the data to include a temp picture property
-        $scope.transformData = function(data){
-            var tempdata = data;
-            //Until we have picture working this is the default picture for testing/layout
-            angular.forEach(tempdata, function(value){
-                value.person.picture = 'http://placehold.it/110x110';
-            });
+        //updates the displayed list of students based on the current filters
+        $scope.setDisplayedStudents = function(){
+            var filteredList = [];
+            var displayedPeople = $scope.filters.currentClassId ? $scope.classPeople : $scope.allPeople;
+            var displayedAttendance = $scope.filters.currentClassId ? $scope.classAttendance : $scope.allAttendance;
 
-            return tempdata;
-        };
-
-        //filters out and displays specific students based on the current $scope.filters criteria
-        $scope.updateDisplayed = function(students){
-            var filteredStudents = [];
-
-            //filter out students based on the active/inactive options
-            angular.forEach(students, function(value, key){
-                if($scope.filters.showActive && value.person.active === $scope.filters.showActive){
-                    filteredStudents.push(value);
+            //filter based on active/inactive checkboxes
+            for(var i = 0; i < displayedPeople.length; i++){
+                var person = displayedPeople[i].person;
+                if(($scope.filters.showActive && (person.active === $scope.filters.showActive)) || 
+                    ($scope.filters.showInactive && (person.active !== $scope.filters.showInactive))){
+                        filteredList.push(displayedPeople[i]);
                 }
-                else if($scope.filters.showInactive && value.person.active !== $scope.filters.showInactive){
-                    filteredStudents.push(value);
-                }
-            });
+            }
 
-            //if a specific date is selected
+            //filter based on specific selected date
             if($scope.selectedDate.value != null){
 
-               //matches the format returned from the backend, used to find attendance records of the correct day
+                //matches the format returned from the backend, used to find attendance records of the correct day
                 var formattedDate = $scope.getCurrentFormattedDate($scope.selectedDate.value);
                 var filteredByDate = [];
 
                 //loop through and find all students who have attendance records of the specified date
-                for(var i = 0; i < filteredStudents.length; i++){
-                    for(var j = 0; j < $scope.attendanceRecords.length; j++){
-                        if(filteredStudents[i].person.id === $scope.attendanceRecords[j].person.id &&
-                            $scope.attendanceRecords[j].date === formattedDate){
-                                filteredByDate.push(filteredStudents[i]);
+                for(var k = 0; k < filteredList.length; k++){
+                    for(var j = 0; j < displayedAttendance.length; j++){
+                        if(filteredList[k].person.id === displayedAttendance[j].person &&
+                            displayedAttendance[j].date === formattedDate){
+                                filteredByDate.push(filteredList[k]);
                                 break;
                         }
                     }
                 }
 
                 //update the filtered list
-                filteredStudents = filteredByDate;
+                filteredList = filteredByDate;
             }
 
-            //and update the bound variable to reflect the filtered changes
-            $scope.people = filteredStudents;
+            //filter based on search criteria
+            if($scope.filters.searchQuery !== ''){
+                filteredList = $filter('filter')(filteredList, $scope.filters.searchQuery);
+            }
+
+            //filter based on specific selected belt (if not null)
+            if($scope.filters.currentBelt){
+                var filteredByBelt = [];
+                var filteredPersonIds = [];
+
+                StudentListService.getStudentsWithBelt($scope.filters.currentBelt.id).then(
+                        function(response){
+                            // Strip the response down to a list of person ids
+                            angular.forEach(response.data, function(value){
+                                filteredPersonIds.push(value.person);
+                            });
+
+                            // For the current filtered list, if the person has the selected belt
+                            // (indicated by being in the list of person ids)
+                            // add them to the filteredByBelt list
+                            for(var i = 0; i < filteredList.length; i++){
+                                var index = filteredPersonIds.indexOf(filteredList[i].person.id);
+                                if (index !== -1){
+                                    filteredByBelt.push(filteredList[i]);
+                                }
+                            }
+
+                            filteredList = filteredByBelt;
+                            $scope.people = filteredList;
+                        });
+
+            // This else is needed because of the async response from getStudentsWithBelt above.
+            // Future modification of $scope.people below this else will be overridden after the
+            // response, so if you need to modify $scope.people do it before the belt filtering
+            } else {
+                $scope.people = filteredList;
+            }
         };
-
-        //updates the currently displayed list of students based on 
-        $scope.setDisplayedStudents = function(){
-
-            //only runs the first time, used to make sure the current class and classId are synched
-            if($scope.filters.currentClass === null && $stateParams.classId !== null){
-                $scope.filters.currentClass = $scope.classes[$stateParams.classId];
-                
-                //this is only used for initialization, remove it once we have set $scope.filters.currentClass
-                $stateParams.classId = null;  
-            }
-
-            //only display a specific class' students
-            //
-            //'(x == null)' is the same as 'typeof(x) === "undefined" && x === null'
-            //the '==' instead of '===' is intentional, don't change it! 
-            if($scope.filters.currentClass != null && $scope.filters.currentClass.id !== null){
-                var tempdata = [];
-                angular.forEach($scope.allStudents, function(value, key){
-                    if(value.program === $scope.filters.currentClass.id){
-                        tempdata.push(value);
-                    }
+      
+        //retrieves the master list of belts
+        $scope.getBeltList = function(){
+            StudentListService.getBeltList().then(
+                function(response){
+                    $scope.belts = response.data;
                 });
-                
-                $scope.updateDisplayed(tempdata);
-            }
-            //otherwise display data for all students
-            else{
-                $scope.updateDisplayed($scope.allStudents);
-            }
         };
 
         //retrieves the total list of classes
         $scope.getClassList = function(){
-            StudentListService.getClassList().then(
+            ProgramsSvc.getPrograms().then(
                 function(response){
                     $scope.classes = response.data;
-                    $scope.getAllStudents();
                 });        
         };
 
@@ -162,46 +147,72 @@
             StudentListService.getAllStudents().then(
                 function(response){
                     var tempdata = response.data;
-                    
-                    $scope.allStudents = $scope.transformData(tempdata);
-                    $scope.setDisplayedStudents();
+                    var temp2 = [];
+
+                    angular.forEach(tempdata, function(value){
+                        var transformed = {
+                            id: value.id,
+                            person: value,
+                            program: null
+                        };
+
+                        temp2.push(transformed);
+                    });
+
+                    StudentListService.getAllCheckedIn().then(
+                        function(response){
+                            $scope.allAttendance = response.data;
+                
+                            $scope.allPeople = temp2;
+                            $scope.setDisplayedStudents();
+                        });
                 });        
         };
 
-        //retrieves all attendance records
-        $scope.getAllCheckedIn = function(){
-            StudentListService.getAllCheckedIn().then(
-                function(response){
-                    $scope.attendanceRecords = response.data;
-                });
-        };
-
-        $scope.getClassAttendanceRecords = function(){
+        //retrieves the list of students in a specific class
+        $scope.getStudentsFromClass = function(){
             var classId = '';
-            var formattedDate = $scope.getCurrentFormattedDate(new Date());
-       
-            if($scope.filters.currentClass != null){
-                classId = $scope.filters.currentClass.id;
+
+            if($scope.filters.currentClassId != null){
+                classId = $scope.filters.currentClassId;
             }
 
-            StudentListService.getClassAttendanceRecords(classId, formattedDate).then(
-                function(response){
-                    $scope.inAttendance = response.data;
+            StudentListService.getStudentsFromClass(classId).then(
+                function (response){
+                    $scope.classPeople = response.data;
+
+                    var formattedDate = $scope.getCurrentFormattedDate(new Date());
+                    StudentListService.getClassAttendanceRecords(classId, formattedDate).then(
+                        function(response){
+                            $scope.classAttendance = response.data;
+
+                            $scope.setDisplayedStudents();
+                        });
                 });
         };
 
-        //initialization call
+        //initialization
         $scope.getClassList();
-        $scope.getAllCheckedIn();
+        $scope.getBeltList();
+        $scope.getAllStudents();
 
         //date picker watcher
         $scope.$watch('selectedDate.value', function(newValue, oldValue) {
             $scope.setDisplayedStudents();
         });
 
-        $scope.$watch('filters.currentClass', function(newValue, oldValue){
-            $scope.getClassAttendanceRecords();
+        //class dropdown watcher
+        $scope.$watch('filters.currentClassId', function(newValue, oldValue){
+            if($scope.filters.currentClassId != null){
+                $scope.getStudentsFromClass();
+            }
         });
+
+        //searchbox watcher
+        $scope.$watch('filters.searchQuery', function(newValue, oldValue) {
+            $scope.setDisplayedStudents();
+        });
+
     }]);
 
 })();

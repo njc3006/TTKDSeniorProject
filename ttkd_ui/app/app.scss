@@ -27,6 +27,11 @@ $navbar-default-toggle-hover-bg:           darken($navbar-default-bg, 6.5%);
 $navbar-default-toggle-icon-bar-bg:        $navbar-default-color;
 $navbar-default-toggle-border-color:       $navbar-default-color;
 
+//remove button border radius
+$border-radius-base: 0px;
+$border-radius-large: 0px;
+$border-radius-small: 0px;
+
 
 // Import Bootstrap
 $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
@@ -54,14 +59,31 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 	margin-bottom: 25px;
 }
 
+// make btn-lg have more padding
+.btn-lg {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
 //Custom styles for waiver text
 .spacer-35 {
 	margin-bottom: 35px;
 }
 
-.form-scroll-buttons {
-	position: fixed;
-	right: 0;
+.normal-text {
+	font-weight: normal;
+}
+
+.no-margins {
+	margin: 0px;
+}
+
+.no-right-padding {
+	padding-right: 0px;
+}
+
+.no-padding {
+	padding: 0px;
 }
 
 //Custom styles for the class list page

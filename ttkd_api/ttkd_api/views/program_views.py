@@ -1,4 +1,5 @@
 """ProgramViewSet"""
+from django.db.models.functions import Lower
 from rest_framework import viewsets, filters
 from ..serializers.program_serializer import ProgramSerializer
 from ..serializers.registration_serializer import RegistrationSerializer
@@ -13,7 +14,7 @@ class ProgramViewSet(viewsets.ModelViewSet):
     GET: Returns all Program Objects To The Route, Or An Instance If Given A PK
     POST: Create A Program
     """
-    queryset = Program.objects.all()
+    queryset = Program.objects.all().order_by(Lower('name'))
     serializer_class = ProgramSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('name', 'active',)
