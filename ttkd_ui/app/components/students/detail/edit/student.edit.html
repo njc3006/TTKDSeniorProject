@@ -174,7 +174,7 @@
 			</div>
 		</div>
 
-		<div class="row">
+		<div class="row spacer-20">
 			<div
 				class="form-group col-xs-4"
 				ng-class="{'has-error': editForm.city.$invalid, 'has-success': editForm.city.$valid}">
@@ -206,6 +206,7 @@
 						ng-required="true"
 						ng-options="state as state.name for state in states track by state.value">
 						<option value="">Select a State</option>
+						<option ng-repeat="state in states" value="state.value">{{state.name}}</option>
 					</select>
 					<span class="input-group-addon">
 						<i class="glyphicon glyphicon-asterisk"></i>
@@ -240,33 +241,35 @@
 		<div class="row spacer-25">
 			<uib-tabset type="pills" class="col-xs-12">
 				<uib-tab heading="Email Addresses">
-					<div class="spacer-25"
+					<div class="spacer-10"
 						ng-repeat="email in studentInfo.emails"
-						ng-class="{'has-error': editForm.email{{$index}}.$invalid && !editForm.email{{$index}}.$pristine}">
-						<div class="input-group col-sm-12">
-							<span class="input-group-btn">
-								<button type="button" class="btn btn-success" ng-click="addEmail()" ng-if="$last">
-									<i class="glyphicon glyphicon-plus"></i>
-								</button>
-								<button
-									type="button"
-									class="btn btn-danger"
-									ng-click="removeEmail($index)"
-									ng-if="studentInfo.emails.length > 1">
-									<i class="glyphicon glyphicon-minus"></i>
-								</button>
-							</span>
-							<input
-								type="email"
-								name="email{{$index}}"
-								class="form-control"
-								placeholder="Email Address"
-								ng-required="true"
-								ng-model="studentInfo.emails[$index].email">
-							<span class="input-group-addon">
-								<i class="glyphicon glyphicon-asterisk"></i>
-							</span>
-						</div>
+						ng-class="{'has-error': emailForm.email.$invalid && !emailForm.email.$pristine, 'has-success': emailForm.email.$valid}">
+						<ng-form name='emailForm'>
+							<div class="input-group col-sm-12">
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-success" ng-click="addEmail()" ng-if="$last">
+										<i class="glyphicon glyphicon-plus"></i>
+									</button>
+									<button
+										type="button"
+										class="btn btn-danger"
+										ng-click="removeEmail($index)"
+										ng-if="studentInfo.emails.length > 1">
+										<i class="glyphicon glyphicon-minus"></i>
+									</button>
+								</span>
+								<input
+									type="email"
+									name="email"
+									class="form-control"
+									placeholder="Email Address"
+									ng-required="true"
+									ng-model="studentInfo.emails[$index].email">
+								<span class="input-group-addon">
+									<i class="glyphicon glyphicon-asterisk"></i>
+								</span>
+							</div>
+						</ng-form>
 						<span
 							class="help-block"
 							ng-show="editForm.email{{$index}}.$invalid && !editForm.email{{$index}}.$pristine">
@@ -292,13 +295,25 @@
 					</emergency-contact-input>
 				</uib-tab>
 				<uib-tab heading="Belt Assignment">
-					TODO: Add Belt Assignment UI
+					<div class="col-sm-6">
+						<span class="h3">
+							Current belt: {{currentBelt.name}}
+						</span>
+					</div>
+					<div class="col-sm-6">
+						<select
+							class="form-control"
+							ng-options="belt as belt.name for belt in allBelts track by belt.id"
+							ng-model="newBelt">
+							<option value="">Select a Belt</option>
+						</select>
+					</div>
 				</uib-tab>
 				<uib-tab heading="Stripe Assignment">
-					TODO: Add Stripe Assignment UI
+					<stripe-select></stripe-select>
 				</uib-tab>
 			</uib-tabset>
 		</div>
-		<button type="submit" class="btn btn-primary btn-lg">Change</button>
+		<button type="submit" class="btn btn-primary btn-lg spacer-25">Change</button>
 	</form>
 </div>

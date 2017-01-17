@@ -1,5 +1,14 @@
 (function() {
-	function EditStudentController($scope, $stateParams, StudentsService, StateService) {
+	function EditStudentController($scope, $stateParams, $http, apiHost, StudentsService, StateService) {
+		$scope.makeBeltSquare = function(primaryColor, secondaryColor) {
+			return {
+				width: '20px',
+				height: '10px',
+				'background-color': primaryColor,
+				'border-bottom': '10px solid ' + secondaryColor
+			};
+		};
+
 		$scope.anySecondaryContactInfoEntered = function() {
 			if ($scope.studentInfo === undefined) {
 				return false;
@@ -36,7 +45,14 @@
 			});
 
 			StudentsService.updateStudentInfo($stateParams.studentId, payload).then(function success(response) {
-				$scope.requestFlags.submission.success = true;
+				StudentsService.updateStudentBelt($stateParams.studentId, $scope.oldPersonBelt, $scope.newBelt.id).then(
+					function success(response) {
+						$scope.requestFlags.submission.success = true;
+					},
+					function failure(error) {
+
+					}
+				);
 			}, function failure(error) {
 				console.log(error);
 				$scope.requestFlags.submission.failure = true;
@@ -55,8 +71,15 @@
 		};
 
 		$scope.studentInfo = {};
+		$scope.newBelt = {};
 
 		$scope.states = StateService.getStates();
+
+		$http.get(apiHost + '/api/belts/').then(function success(response) {
+			$scope.allBelts = response.data;
+		}, function failure(error) {
+			$scope.requestFlags.loading.failure = true;
+		});
 
 		StudentsService.getStudent($stateParams.studentId).then(function success(response) {
 			$scope.studentInfo = response.data;
@@ -66,11 +89,6 @@
 				open: false
 			};
 
-			$scope.studentInfo.state = {
-				id: $scope.studentInfo.state,
-				value: $scope.studentInfo.state
-			};
-
 			// Add empty entries to emergency contacts as necesary (up to 2)
 			if (!$scope.studentInfo['emergency_contact_1']) {
 				$scope.studentInfo['emergency_contact_1'] = {};
@@ -78,6 +96,26 @@
 
 			if (!$scope.studentInfo['emergency_contact_2']) {
 				$scope.studentInfo['emergency_contact_2'] = {};
+			}
+
+			if ($scope.studentInfo.belts.length > 0) {
+					var currentBelt;
+
+					if ($scope.studentInfo.belts.length === 1) {
+							currentBelt = $scope.studentInfo.belts[0];
+					} else {
+							currentBelt = $scope.studentInfo.belts.reduce(function(prev, curr) {
+									if (curr['current_belt']) {
+											return curr;
+									} else {
+											return prev;
+									}
+							});
+					}
+
+					$scope.currentBelt = currentBelt.belt;
+					$scope.oldPersonBelt = currentBelt;
+					//$scope.beltStyle = getBeltStyle(currentBelt);
 			}
 
 			$scope.requestFlags.loading.done = true;
@@ -90,6 +128,15 @@
 	angular.module('ttkdApp.editStudentCtrl', [
 		'ttkdApp.studentsService',
 		'ttkdApp.stateService',
-		'ttkdApp.emergencyContactDir'
-	]).controller('EditStudentCtrl', ['$scope', '$stateParams', 'StudentsSvc', 'StateSvc', EditStudentController]);
+		'ttkdApp.emergencyContactDir',
+		'ttkdApp.constants'
+	]).controller('EditStudentCtrl', [
+		'$scope',
+		'$stateParams',
+		'$http',
+		'apiHost',
+		'StudentsSvc',
+		'StateSvc',
+		EditStudentController
+	]);
 })();
