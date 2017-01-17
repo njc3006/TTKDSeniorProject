@@ -26,7 +26,7 @@
 		};
 
 		$scope.addEmail = function() {
-			$scope.studentInfo.emails.push({email: '', isNew: true});
+			$scope.studentInfo.emails.push({email: ''});
 		};
 
 		$scope.removeEmail = function(index) {
@@ -35,6 +35,57 @@
 
 		$scope.openDob = function() {
 			$scope.studentInfo.dob.open = true;
+		};
+
+		$scope.onAllStripeClick = function(index) {
+			var selectedStripe = $scope.allStripes[index];
+
+			selectedStripe.active = !selectedStripe.active;
+
+			if (selectedStripe.active) {
+				$scope.selectedFromAllStripes.push($scope.allStripes[index]);
+			} else {
+				$scope.selectedFromAllStripes = $scope.selectedFromAllStripes.filter(function(stripe) {
+					return stripe.id !== selectedStripe.id;
+				});
+			}
+		};
+
+		$scope.onStudentStripeClick = function(index) {
+			var selectedStripe = $scope.studentStripes[index];
+
+			selectedStripe.active = !selectedStripe.active;
+
+			if (selectedStripe.active) {
+				$scope.selectedFromStudentStripes.push(index);
+			} else {
+				$scope.selectedFromStudentStripes = $scope.selectedFromStudentStripes.filter(function(idx) {
+					return idx !== index;
+				});
+			}
+		};
+
+		$scope.addSelectedStripesToStudent = function() {
+			$scope.studentStripes = $scope.studentStripes.concat($scope.selectedFromAllStripes.map(function(stripe) {
+				var newStripe = {};
+				angular.copy(stripe, newStripe);
+				newStripe.active = false;
+				return newStripe;
+			}));
+
+			$scope.selectedFromAllStripes = [];
+			$scope.allStripes.forEach(function(stripe) {
+				stripe.active = false;
+			});
+		};
+
+		$scope.removeSelectedStripesFromStudent = function() {
+			$scope.selectedFromStudentStripes.sort();
+			for (var i = $scope.selectedFromStudentStripes.length - 1; i > -1; i--) {
+				$scope.studentStripes.splice($scope.selectedFromStudentStripes[i], 1);
+			}
+
+			$scope.selectedFromStudentStripes = [];
 		};
 
 		$scope.submitChanges  = function() {
@@ -47,6 +98,8 @@
 			StudentsService.updateStudentInfo($stateParams.studentId, payload).then(function success(response) {
 				StudentsService.updateStudentBelt($stateParams.studentId, $scope.oldPersonBelt, $scope.newBelt.id).then(
 					function success(response) {
+						//TODO: compute stripe deltas and submit to API
+
 						$scope.requestFlags.submission.success = true;
 					},
 					function failure(error) {
@@ -54,7 +107,6 @@
 					}
 				);
 			}, function failure(error) {
-				console.log(error);
 				$scope.requestFlags.submission.failure = true;
 			});
 		};
@@ -70,19 +122,37 @@
 			}
 		};
 
+		$scope.selectedFromAllStripes = [];
+		$scope.selectedFromStudentStripes = [];
+
 		$scope.studentInfo = {};
 		$scope.newBelt = {};
 
 		$scope.states = StateService.getStates();
 
-		$http.get(apiHost + '/api/belts/').then(function success(response) {
-			$scope.allBelts = response.data;
-		}, function failure(error) {
-			$scope.requestFlags.loading.failure = true;
-		});
+		$http.get(apiHost + '/api/stripes/').then(
+			function success(response) {
+				$scope.allStripes = response.data.map(function(stripe) {
+					stripe.active = false;
+					return stripe;
+				});
+			},
+			function failure(error) {
+				$scope.requestFlags.loading.failure = true;
+			}
+		);
 
 		StudentsService.getStudent($stateParams.studentId).then(function success(response) {
 			$scope.studentInfo = response.data;
+
+			$scope.studentStripes = $scope.studentInfo.stripes.filter(function(stripe) {
+				return stripe['current_stripe'];
+			}).map(function(personStripe) {
+				var copy = {};
+				angular.copy(personStripe.stripe, copy);
+				copy.active = false;
+				return copy;
+			});
 
 			$scope.studentInfo.dob = {
 				value: moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate(),

@@ -294,23 +294,47 @@
 						required="anySecondaryContactInfoEntered()">
 					</emergency-contact-input>
 				</uib-tab>
+
 				<uib-tab heading="Belt Assignment">
-					<div class="col-sm-6">
-						<span class="h3">
-							Current belt: {{currentBelt.name}}
-						</span>
-					</div>
-					<div class="col-sm-6">
-						<select
-							class="form-control"
-							ng-options="belt as belt.name for belt in allBelts track by belt.id"
-							ng-model="newBelt">
-							<option value="">Select a Belt</option>
-						</select>
-					</div>
+					<belt-select current-belt="currentBelt" new-belt="newBelt"></belt-select>
 				</uib-tab>
+
 				<uib-tab heading="Stripe Assignment">
-					<stripe-select></stripe-select>
+					<div class="form-group col-sm-5">
+						<label class="control-label h4">Current Stripes</label>
+						<ul class="list-group">
+							<a
+								ui-sref="."
+								class="list-group-item"
+								ng-repeat="stripe in studentStripes"
+								ng-click="onStudentStripeClick($index)"
+								ng-class="{'active': stripe.active}">
+								{{stripe.name}}
+							</a>
+						</ul>
+					</div>
+					<div class="col-sm-2 h4-align">
+						<button type="button" class="btn btn-primary form-control spacer-10" ng-click="removeSelectedStripesFromStudent()">
+							<span class="glyphicon glyphicon-chevron-right"></span>
+						</button>
+
+						<button type="button" class="btn btn-primary form-control" ng-click="addSelectedStripesToStudent()">
+							<span class="glyphicon glyphicon-chevron-left"></span>
+						</button>
+					</div>
+					<div class="form-group col-sm-5">
+						<label class="control-label h4">Available Stripes</label>
+						<ul class="list-group">
+							<a
+								ui-sref="."
+								class="list-group-item"
+								ng-repeat="stripe in allStripes"
+								ng-click="onAllStripeClick($index)"
+								ng-class="{'active': stripe.active}">
+								{{stripe.name}}
+							</a>
+						</ul>
+					</div>
 				</uib-tab>
 			</uib-tabset>
 		</div>
