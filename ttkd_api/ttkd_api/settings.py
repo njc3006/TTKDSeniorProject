@@ -129,3 +129,6 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+# TTKD Directories
+BACKUP_DIR = 'C:\\Users\\' + os.getlogin() + '\\ttkd\\backups\\'
