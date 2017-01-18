@@ -1,4 +1,4 @@
-import json, sys, os, random, datetime
+import json, sys, os, random
 
 students_file = open("students.json").read()
 attendances_file = open("attendances.json").read()
