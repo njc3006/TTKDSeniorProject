@@ -21,8 +21,8 @@
 					<input id="file-upload" class="btn btn-primary hidden-input" type="file" nv-file-select uploader="uploader"/><br/>
 				</div>
 			</div>
-			<div class="col-xs-1 no-right-padding" style="padding-right: 0px">
-				<svg style="width: 100%">
+			<div class="col-xs-1 no-right-padding">
+				<svg class="stripes">
 					<rect
 						ng-repeat="stripe in earnedStripes track by $index"
 						ng-if="stripe.color.toLowerCase() !== 'ffffff'"

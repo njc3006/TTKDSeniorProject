@@ -28,7 +28,6 @@ $navbar-default-toggle-icon-bar-bg:        $navbar-default-color;
 $navbar-default-toggle-border-color:       $navbar-default-color;
 
 //remove button border radius
-$border-radius-base: 0px;
 $border-radius-large: 0px;
 $border-radius-small: 0px;
 
@@ -107,6 +106,10 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 .filter-bar {
 	margin-bottom: 30px;
 	margin-top: 20px;
+}
+
+select {
+	width: 100% !important;
 }
 
 label {
