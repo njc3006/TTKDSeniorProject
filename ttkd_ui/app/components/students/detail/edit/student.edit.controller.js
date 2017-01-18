@@ -106,23 +106,22 @@
 			}
 
 			if ($scope.studentInfo.belts.length > 0) {
-					var currentBelt;
+				var currentBelt;
 
-					if ($scope.studentInfo.belts.length === 1) {
-							currentBelt = $scope.studentInfo.belts[0];
-					} else {
-							currentBelt = $scope.studentInfo.belts.reduce(function(prev, curr) {
-									if (curr['current_belt']) {
-											return curr;
-									} else {
-											return prev;
-									}
-							});
-					}
+				if ($scope.studentInfo.belts.length === 1) {
+					currentBelt = $scope.studentInfo.belts[0];
+				} else {
+					currentBelt = $scope.studentInfo.belts.reduce(function(prev, curr) {
+						if (curr['current_belt']) {
+							return curr;
+						} else {
+							return prev;
+						}
+					});
+				}
 
-					$scope.currentBelt = currentBelt.belt;
-					$scope.oldPersonBelt = currentBelt;
-					//$scope.beltStyle = getBeltStyle(currentBelt);
+				$scope.currentBelt = currentBelt.belt;
+				$scope.oldPersonBelt = currentBelt;
 			}
 
 			$scope.requestFlags.loading.done = true;
