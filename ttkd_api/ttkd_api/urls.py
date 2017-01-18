@@ -47,5 +47,5 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^api/person/(?P<pk>[0-9]+)/picture', PersonPictureViewSet.as_view({'post':'picture'})),
     url(r'^api/export/', export_data),
-    url(r'^api/import', import_data)
+    url(r'^api/import/', import_data)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
