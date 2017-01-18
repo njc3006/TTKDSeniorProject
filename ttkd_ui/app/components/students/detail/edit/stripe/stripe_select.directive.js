@@ -34,12 +34,14 @@
 		};
 
 		controller.addSelectedStripesToStudent = function() {
-			controller.studentStripes = controller.studentStripes.concat(controller.selectedFromAllStripes.map(function(stripe) {
-				var newStripe = {};
-				angular.copy(stripe, newStripe);
-				newStripe.active = false;
-				return newStripe;
-			}));
+			controller.studentStripes = controller.studentStripes.concat(
+				controller.selectedFromAllStripes.map(function(stripe) {
+					var newStripe = {};
+					angular.copy(stripe, newStripe);
+					newStripe.active = false;
+					return newStripe;
+				})
+			);
 
 			controller.selectedFromAllStripes = [];
 			controller.allStripes.forEach(function(stripe) {
