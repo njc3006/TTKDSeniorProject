@@ -1,13 +1,45 @@
 (function() {
-	function EditStudentController($scope, $stateParams, $http, apiHost, StudentsService, StateService) {
-		$scope.makeBeltSquare = function(primaryColor, secondaryColor) {
-			return {
-				width: '20px',
-				height: '10px',
-				'background-color': primaryColor,
-				'border-bottom': '10px solid ' + secondaryColor
-			};
-		};
+	function EditStudentController($scope, $stateParams, StudentsService, StateService) {
+		function arrayDiff(lhs, rhs, lhsIdFunction, rhsIdFunction) {
+			return lhs.filter(function(item) {
+			  for (var i in rhs) {
+			    if (lhsIdFunction(item) === rhsIdFunction(rhs[i])) { return false; }
+			  }
+
+			  return true;
+			});
+		}
+
+		function submitStripeChanges() {
+			//compute which stripes were added
+			var newStripes = arrayDiff(
+				$scope.studentInfo.stripes,
+				$scope.studentInfo.oldStripes,
+				function(item) { return item.id; },
+				function(item) { return item.stripe.id; }
+			);
+
+			//compute which stripes where deleted
+			var oldPersonStripes = arrayDiff(
+				$scope.studentInfo.oldStripes,
+				$scope.studentInfo.stripes,
+				function(item) { return item.stripe.id; },
+				function(item) { return item.id; }
+			);
+
+			StudentsService.updateStudentStripes(
+				$stateParams.studentId,
+				oldPersonStripes,
+				newStripes
+			).then(
+				function success(response) {
+					$scope.requestFlags.submission.success = true;
+				},
+				function failure(error) {
+					$scope.requestFlags.submission.failure = true;
+				}
+			);
+		}
 
 		$scope.anySecondaryContactInfoEntered = function() {
 			if ($scope.studentInfo === undefined) {
@@ -44,20 +76,29 @@
 				state: $scope.studentInfo.state.value
 			});
 
-			StudentsService.updateStudentInfo($stateParams.studentId, payload).then(function success(response) {
-				StudentsService.updateStudentBelt($stateParams.studentId, $scope.oldPersonBelt, $scope.newBelt.id).then(
-					function success(response) {
-						//TODO: compute stripe deltas and submit to API
-
-						$scope.requestFlags.submission.success = true;
-					},
-					function failure(error) {
-
+			StudentsService.updateStudentInfo($stateParams.studentId, payload).then(
+				function success(response) {
+					if ($scope.studentInfo.newBelt) {
+						StudentsService.updateStudentBelt(
+							$stateParams.studentId,
+							$scope.oldPersonBelt,
+							$scope.studentInfo.newBelt.id
+						).then(
+							function success(response) {
+								submitStripeChanges();
+							},
+							function failure(error) {
+								console.log(error);
+								$scope.requestFlags.submission.failure = true;
+							}
+						);
+					} else {
+						submitStripeChanges();
 					}
-				);
-			}, function failure(error) {
-				$scope.requestFlags.submission.failure = true;
-			});
+				}, function failure(error) {
+					$scope.requestFlags.submission.failure = true;
+				}
+			);
 		};
 
 		$scope.requestFlags = {
@@ -68,7 +109,7 @@
 			submission: {
 				success: false,
 				failure: false
-			}
+			},
 		};
 
 		$scope.selectedFromAllStripes = [];
@@ -81,6 +122,14 @@
 
 		StudentsService.getStudent($stateParams.studentId).then(function success(response) {
 			$scope.studentInfo = response.data;
+
+			$scope.studentInfo.oldStripes = $scope.studentInfo.stripes.filter(function(stripe) {
+				return stripe['current_stripe'];
+			}).map(function(stripe) {
+				var copy = {};
+				angular.copy(stripe, copy);
+				return copy;
+			});
 
 			$scope.studentInfo.stripes = $scope.studentInfo.stripes.filter(function(stripe) {
 				return stripe['current_stripe'];
@@ -139,8 +188,6 @@
 	]).controller('EditStudentCtrl', [
 		'$scope',
 		'$stateParams',
-		'$http',
-		'apiHost',
 		'StudentsSvc',
 		'StateSvc',
 		EditStudentController

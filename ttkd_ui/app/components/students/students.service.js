@@ -14,6 +14,7 @@
 					oldPersonBelt['current_belt'] = false;
 					oldPersonBelt.belt = oldPersonBelt.belt.id;
 
+					console.log(newBeltId);
 					var newBeltPayload = {
 						'current_belt': true,
 						belt: newBeltId,
@@ -22,13 +23,29 @@
 					};
 
 					return $q.all([
-						$http.put(apiHost + '/api/person-belt/' + oldPersonBelt.id + '/', oldPersonBelt),
-						$http.post(apiHost + '/api/person-belt/', newBeltPayload)
+						$http.put(apiHost + '/api/person-belts/' + oldPersonBelt.id + '/', oldPersonBelt),
+						$http.post(apiHost + '/api/person-belts/', newBeltPayload)
 					]);
 				},
 
-				updateStudentStripes: function(id, oldStripes, newStripes) {
-					
+				updateStudentStripes: function(id, oldPersonStripes, newStripes) {
+					var newPersonStripes = newStripes.map(function(stripe) {
+						return $http.post(apiHost + '/api/person-stripes/', {
+							'current_stripe': true,
+							person: id,
+							stripe: stripe.id,
+							'date_achieved': moment().format('YYYY-MM-DD')
+						});
+					});
+
+					var updatedPersonStripes = oldPersonStripes.map(function(personStripe) {
+						personStripe['current_stripe'] = false;
+						personStripe.stripe = personStripe.stripe.id;
+
+						return $http.put(apiHost + '/api/person-stripes/' + personStripe.id + '/', personStripe);
+					});
+
+					return $q.all(newPersonStripes.concat(updatedPersonStripes));
 				},
 
 				/* post a picture to the api for a student with the given id */

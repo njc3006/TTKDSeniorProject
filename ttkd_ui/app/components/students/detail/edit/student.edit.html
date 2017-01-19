@@ -1,30 +1,30 @@
-<div class="alert alert-danger alert-dismissible" role="alert" ng-show="requestFlags.submission.failure">
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-		<span aria-hidden="true">&times;</span>
-	</button>
-	There was an error submitting the information changes
-</div>
-
-<div class="alert alert-success alert-dismissible" role="alert" ng-show="requestFlags.submission.success">
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-		<span aria-hidden="true">&times;</span>
-	</button>
-	Information for {{studentInfo.first_name}} {{studentInfo.last_name}} has been successfully updated
-</div>
-
-<div class="alert alert-info" role="alert" ng-show="!requestFlags.loading.done">
-	Loading...
-</div>
-
-<div class="alert alert-danger alert-dismissible" role="alert" ng-show="requestFlags.loading.failure">
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-		<span aria-hidden="true">&times;</span>
-	</button>
-	Student Information could not be loaded!
-</div>
-
 <div class="container">
-	<form name="editForm" ng-submit="submitChanges()" novalidate>
+	<div class="alert alert-danger alert-dismissible" role="alert" ng-show="requestFlags.submission.failure">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		There was an error submitting the information changes
+	</div>
+
+	<div class="alert alert-success alert-dismissible" role="alert" ng-show="requestFlags.submission.success">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		Information for {{studentInfo.first_name}} {{studentInfo.last_name}} has been successfully updated
+	</div>
+
+	<div class="alert alert-info" role="alert" ng-show="!requestFlags.loading.done">
+		Loading...
+	</div>
+
+	<div class="alert alert-danger alert-dismissible" role="alert" ng-show="requestFlags.loading.failure">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		Student Information could not be loaded!
+	</div>
+
+	<form name="editForm" ng-submit="submitChanges()" novalidate ng-show="!requestFlags.loading.failure">
 		<div class="row">
 			<div
 				class="form-group col-xs-5"
