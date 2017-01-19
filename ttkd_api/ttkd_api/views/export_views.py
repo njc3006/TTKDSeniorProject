@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.status import *
 from django.core.management import call_command
-from ..settings import BACKUP_DIR
+from ..settings import BACKUP_FILES_DIR
 import sys
 import os
 import datetime
@@ -17,11 +17,11 @@ def export_data(request):
     NOTE THIS TAKES A FEW SECONDS
     """
 
-    if not os.path.exists(BACKUP_DIR):
-        os.makedirs(BACKUP_DIR)
+    if not os.path.exists(BACKUP_FILES_DIR):
+        os.makedirs(BACKUP_FILES_DIR)
 
-    backup_file = BACKUP_DIR + 'ttkd_backup_' + \
-        datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.json'
+    backup_file = os.path.join(BACKUP_FILES_DIR, 'ttkd_backup_' +
+                               datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.json')
 
     sysout = sys.stdout
     with open(backup_file, 'w') as f:

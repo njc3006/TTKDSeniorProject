@@ -131,4 +131,6 @@ USE_TZ = True
 
 
 # TTKD Directories
-BACKUP_DIR = 'C:\\Users\\' + os.getlogin() + '\\ttkd\\backups\\'
+USER_FILES_DIR = os.path.join(os.path.join('C:/Users', os.getlogin()), 'ttkd')
+BACKUP_FILES_DIR = os.path.join(USER_FILES_DIR, 'backups')
+PICTURES_DIR = os.path.join(USER_FILES_DIR, 'pictures')
