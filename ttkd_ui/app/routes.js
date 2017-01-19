@@ -13,6 +13,12 @@
         }
       })
 
+      .state('importexport', {
+        url: '/importexport',
+        templateUrl: 'components/importexport/importexport.html',
+        controller: 'ImportExportCtrl'
+      })
+
       .state('checkin', {
         url: '/checkin/{programID:int}',
         templateUrl: 'components/checkin/checkin.html',
