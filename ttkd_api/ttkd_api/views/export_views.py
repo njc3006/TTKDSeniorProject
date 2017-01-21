@@ -29,4 +29,4 @@ def export_data(request):
         call_command('dumpdata', 'ttkd_api')
         sys.stdout = sysout
 
-    return Response(status=HTTP_200_OK)
+    return Response({'File': backup_file}, status=HTTP_200_OK)
