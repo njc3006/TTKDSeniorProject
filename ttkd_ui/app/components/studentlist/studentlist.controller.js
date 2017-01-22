@@ -16,6 +16,8 @@
         $scope.belts = [];
         $scope.sortAZ = true;
         $scope.sortDisplayString = 'A-Z';
+        $scope.currentPage = 1;
+        $scope.itemsPerPage = 5;
 
         $scope.filters = {
             showActive: true,
@@ -123,6 +125,8 @@
             // response, so if you need to modify $scope.people do it before the belt filtering
             } else {
                 $scope.people = filteredList;
+               /* $scope.people = filteredList.slice((($scope.currentPage - 1) * $scope.itemsPerPage), 
+                    (($scope.currentPage) * $scope.itemsPerPage));*/
             }
         };
       
