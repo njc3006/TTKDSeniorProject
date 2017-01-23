@@ -1,8 +1,10 @@
 """AttendanceRecordSerializer"""
 import datetime
 from rest_framework import serializers
+
+from ..serializers.program_serializer import CSVProgramSerializer
 from ..models.attendance_record import AttendanceRecord
-from .person_serializer import PersonSerializer
+from .person_serializer import PersonSerializer, CSVPersonSerializer
 
 
 class AttendanceRecordSerializer(serializers.ModelSerializer):
@@ -23,3 +25,16 @@ class AttendanceRecordSerializerUsingPerson(serializers.ModelSerializer):
 
     class Meta:
         model = AttendanceRecord
+
+
+class AttendanceRecordSerializerForCSV(serializers.ModelSerializer):
+    """
+    AttendanceRecordSerializerForCSV Outputs attendance model as csv
+    """
+
+    person = CSVPersonSerializer()
+    program = CSVProgramSerializer()
+
+    class Meta:
+        model = AttendanceRecord
+        fields = ('date', 'program', 'person',)

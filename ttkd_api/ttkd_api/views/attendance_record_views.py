@@ -1,7 +1,10 @@
 """AttendanceRecordViewSet"""
 from rest_framework import viewsets, filters
-from ..serializers.attendance_record_serializer import AttendanceRecordSerializer, AttendanceRecordSerializerUsingPerson
+from ..serializers.attendance_record_serializer import AttendanceRecordSerializer, \
+    AttendanceRecordSerializerUsingPerson, AttendanceRecordSerializerForCSV
 from ..models.attendance_record import AttendanceRecord
+from rest_framework.settings import api_settings
+from rest_framework_csv import renderers as r
 
 
 class AttendanceRecordViewSet(viewsets.ModelViewSet):
@@ -24,5 +27,16 @@ class AttendanceRecordUsingPersonViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = AttendanceRecord.objects.all()
     serializer_class = AttendanceRecordSerializerUsingPerson
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ('person', 'program', 'date',)
+
+
+class AttendanceRecordsCSVViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    GET: Return All AttendanceRecord Objects to the route as a csv
+    """
+    renderer_classes = (r.CSVRenderer,)
+    queryset = AttendanceRecord.objects.all()
+    serializer_class = AttendanceRecordSerializerForCSV
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('person', 'program', 'date',)

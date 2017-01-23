@@ -11,3 +11,12 @@ class ProgramSerializer(serializers.ModelSerializer):
     class Meta:
         model = Program
         # No Fields declaration to use all the fields of the model
+
+
+class CSVProgramSerializer(serializers.ModelSerializer):
+    """
+    CSVProgramSerializer Outputs program model with just it's name
+    """
+    class Meta:
+        model = Program
+        fields = ('name',)

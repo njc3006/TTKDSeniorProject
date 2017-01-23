@@ -10,11 +10,6 @@
 			},
 
 			// TODO
-			exportAttendance: function() {
-				return $http.get(apiHost + '/api/?/');
-			},
-
-			// TODO
 			exportContacts: function() {
 				return $http.get(apiHost + '/api/=?=');
 			},

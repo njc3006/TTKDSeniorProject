@@ -1,8 +1,8 @@
 (function () {
     angular.module('ttkdApp.importExportCtrl', ['ttkdApp.constants'])
         .controller('ImportExportCtrl', ['$scope', '$rootScope', '$filter', '$stateParams', 'ImportExportService',
-            'apiHost','$document', '$uibModal',
-            function ($scope, $rootScope, $filter, $stateParams, ImportExportService, apiHost, $document, $uibModal) {
+            'apiHost','$document', '$uibModal', '$window',
+            function ($scope, $rootScope, $filter, $stateParams, ImportExportService, apiHost, $document, $uibModal, $window) {
 
                 var modalInstance;
                 $scope.apiHost = apiHost;
@@ -20,29 +20,34 @@
                 };
 
                 $scope.createBackup = function(){
-                ImportExportService.initiateBackup().then(
-                    function(response) {
-                        var createdFile = response.data["File"];
-                        $scope.modalMessage ="System backup created. File: " + createdFile;
-                        $scope.modalDisabledOk = false;
-                    });
+                    ImportExportService.initiateBackup().then(
+                        function(response) {
+                            var createdFile = response.data["File"];
+                            $scope.modalMessage ="System backup created. File: " + createdFile;
+                            $scope.modalDisabledOk = false;
+                        });
                 };
 
                 $scope.restore = function (data) {
-                ImportExportService.importBackup(data).then(
-                    function(response) {
-                        $scope.modalMessage = response.data;
-                        $scope.modalTitle = "Restore - Successful";
-                        $scope.modalDisabledOk = false;
-                    },
-                    function(error) {
-                        $scope.modalMessage = "Something went wrong while restoring the system, " +
-                            "please make sure your backup file is a correctly formated json file." +
-                            " The error message is: " + error.data["detail"];
-                        $scope.modalTitle = "Restore - Error";
-                        $scope.modalDisabledOk = false;
-                    }
+                    ImportExportService.importBackup(data).then(
+                        function(response) {
+                            $scope.modalMessage = response.data;
+                            $scope.modalTitle = "Restore - Successful";
+                            $scope.modalDisabledOk = false;
+                        },
+                        function(error) {
+                            $scope.modalMessage = "Something went wrong while restoring the system, " +
+                                "please make sure your backup file is a correctly formated json file." +
+                                " The error message is: " + error.data["detail"];
+                            $scope.modalTitle = "Restore - Error";
+                            $scope.modalDisabledOk = false;
+                        }
                     );
+                };
+
+                $scope.exportAttendanceRecords = function () {
+                   $window.open($scope.apiHost + '/api/attendancecsv', '_blank');
+
                 };
 
                 $scope.fileChosen = function () {
