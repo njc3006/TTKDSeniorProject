@@ -1,11 +1,11 @@
 """UserViewSet"""
-from django.contrib.auth.models import User
-from rest_framework import viewsets
 from ..serializers import UserSerializer
-from rest_framework import permissions
+from django.contrib.auth.models import User
+from rest_framework import permissions, viewsets
 
 
 class UserViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAdminUser,)
     """
     Returns all User objects to the Route
     """

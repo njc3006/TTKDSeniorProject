@@ -16,7 +16,7 @@ from .views.program_views import ProgramViewSet, StudentList
 from .views.registration_views import MinimalRegistrationViewSet, RegistrationViewSet, \
     RegistrationWithPeopleViewSet, SimpleRegistrationViewSet
 from .views.email_views import EmailViewSet
-from .views import UserViewSet
+from .views.user_views import UserViewSet
 from .views.stripe_views import StripeViewSet
 from .views.person_stripe_views import PersonStripeViewSet
 from .views.people_views import PeopleViewSet
@@ -44,7 +44,7 @@ router.register(r'class-people', RegistrationWithPeopleViewSet, 'class-people')
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),
-    url(r'^api/person/(?P<pk>[0-9]+)/picture', PersonPictureViewSet.as_view({'post':'picture'}))
+    url(r'^api/person/(?P<pk>[0-9]+)/picture', PersonPictureViewSet.as_view({'post':'picture'})),
     url(r'^api/token-auth/', views.obtain_auth_token),
     #url(r'^api/api-auth/', include('rest_framework.urls', namespace='rest_framework')), # Adds a login button to the api browser though cant get it to stay logged in.
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
