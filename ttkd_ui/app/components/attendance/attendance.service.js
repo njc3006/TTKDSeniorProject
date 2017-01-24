@@ -1,5 +1,5 @@
 (function() {
-	function AttendanceService($http, $q, apiHost) {
+	function AttendanceService($http, $q, apiHost, StudentsService) {
 		return {
 			getGroupedByStudentRecords: function(filterData) {
 				return $q(function(resolve, reject) {
@@ -14,6 +14,10 @@
 						var uniqueStudents = {};
 
 						response.data.forEach(function(attendanceRecord) {
+							if (filterData.endDate && moment(attendanceRecord.date, 'YYYY-MM-DD').isAfter(filterData.endDate)) {
+								return;
+							}
+
 							if (!uniqueStudents[attendanceRecord.person]) {
 								uniqueStudents[attendanceRecord.person] = {
 									attendanceRecords: [attendanceRecord],
@@ -27,9 +31,9 @@
 
 								var date = moment(attendanceRecord.date, 'YYYY-MM-DD');
 
-								if (date < student.minDate) {
+								if (student.minDate && date < student.minDate) {
 									student.minDate = date;
-								} else if (date > student.maxDate) {
+								} else if (student.maxDate && date > student.maxDate) {
 									student.maxDate = date;
 								}
 							}
@@ -58,6 +62,6 @@
 		};
 	}
 
-	angular.module('ttkdApp.attendanceService', ['ttkdApp.constants'])
-		.factory('AttendanceSvc', ['$http', '$q', 'apiHost', AttendanceService]);
+	angular.module('ttkdApp.attendanceService', ['ttkdApp.constants', 'ttkdApp.studentsService'])
+		.factory('AttendanceSvc', ['$http', '$q', 'apiHost', 'StudentsSvc', AttendanceService]);
 })();

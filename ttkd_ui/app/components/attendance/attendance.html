@@ -1,130 +1,98 @@
-<div class="row spacer-25">
-	<div class="col-xs-2 col-xs-offset-1">
-		<input
-			class="form-control"
-			type="text"
-			placeholder="Student"
-			ng-model="filterData.student">
-	</div>
-	<div class="col-xs-2">
-		<select
-			class="form-control"
-			ng-model="filterData.program">
-			<option value="">-----</option>
-			<optgroup label="Active">
-				<option ng-repeat="program in allPrograms | filter: {active:true}" value="{{program.id}}">
-					{{program.name}}
-				</option>
-			</optgroup>
-			<optgroup label="Inactive">
-				<option ng-repeat="program in allPrograms | filter: {active:false}" value="{{program.id}}">
-					{{program.name}}
-				</option>
-			</optgroup>
-		</select>
-	</div>
-	<div class="col-xs-2">
-		<div class="input-group">
+<div class="container">
+	<div class="row spacer-25">
+		<div class="col-xs-2 col-xs-offset-1">
 			<input
-				type="text"
 				class="form-control"
-				placeholder="Start Date"
-				uib-datepicker-popup="MM/dd/yyyy"
-				ng-model="filterData.startDate.value"
-				is-open="filterData.startDate.open"
-				close-text="Close">
-			<span class="input-group-btn">
-				<button class="btn btn-default" type="button" ng-click="openCalendar(filterData.startDate)">
-					<i class="glyphicon glyphicon-calendar"></i>
-				</button>
-			</span>
-		</div>
-	</div>
-	<div class="col-xs-2">
-		<div class="input-group">
-			<input
 				type="text"
-				class="form-control"
-				placeholder="End Date"
-				uib-datepicker-popup="MM/dd/yyyy"
-				ng-model="filterData.endDate.value"
-				is-open="filterData.endDate.open"
-				close-text="Close">
-			<span class="input-group-btn">
-				<button class="btn btn-default" type="button" ng-click="openCalendar(filterData.endDate)">
-					<i class="glyphicon glyphicon-calendar"></i>
-				</button>
-			</span>
+				placeholder="Student"
+				ng-model="filterData.student">
 		</div>
-	</div>
-	<div class="col-xs-2">
-		<button
-			type="button"
-			class="btn btn-primary"
-			ng-model="filterData.condensed"
-			uib-btn-checkbox>
-        {{filterData.condensed ? 'Condensed' : 'Uncondensed'}}
-    </button>
-	</div>
-</div>
-
-<div class="row" ng-repeat="(studentId, attendance) in attendanceRecords">
-	<div class="panel panel-default" ng-repeat="record in attendance.attendanceRecords">
-		<div class="panel-body">
-			<div ng-if="filterData.condensed">
-				<div class="col-xs-11">
-					<div class="row">
-						<span class="h2">{{attendance.firstName + ' ' + attendance.lastName}}</span>
-						<span class="h2 pull-right">
-							{{attendance.minDate.format('MM/DD/YYYY') + ' - ' + attendance.maxDate.format('MM/DD/YYYY')}}
-						</span>
-					</div>
-					<div class="row">
-						<span class="h2">Class</span>
-					</div>
-				</div>
-				<div class="col-xs-1">
-					<span class="h1">{{record.length}}</span>
-				</div>
-			</div>
-			<div ng-if="!filterData.condensed">
-				<div>
-					<div class="row">
-						<span class="h2">{{attendance.firstName + ' ' + attendance.lastName}}</span>
-						<span class="h2 pull-right">
-							{{attendance.minDate.format('MM/DD/YYYY') + ' - ' + attendance.maxDate.format('MM/DD/YYYY')}}
-						</span>
-					</div>
-					<div class="row">
-						<span class="h2">Class</span>
-					</div>
-				</div>
-				</div>
+		<div class="col-xs-2">
+			<select
+				class="form-control"
+				ng-model="filterData.program">
+				<option value="">-----</option>
+				<optgroup label="Active">
+					<option ng-repeat="program in allPrograms | filter: {active:true}" value="{{program.id}}">
+						{{program.name}}
+					</option>
+				</optgroup>
+				<optgroup label="Inactive">
+					<option ng-repeat="program in allPrograms | filter: {active:false}" value="{{program.id}}">
+						{{program.name}}
+					</option>
+				</optgroup>
+			</select>
+		</div>
+		<div class="col-xs-2">
+			<div class="input-group">
+				<input
+					type="text"
+					class="form-control"
+					placeholder="Start Date"
+					uib-datepicker-popup="MM/dd/yyyy"
+					ng-model="filterData.startDate.value"
+					is-open="filterData.startDate.open"
+					close-text="Close">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" ng-click="openCalendar(filterData.startDate)">
+						<i class="glyphicon glyphicon-calendar"></i>
+					</button>
+				</span>
 			</div>
 		</div>
+		<div class="col-xs-2">
+			<div class="input-group">
+				<input
+					type="text"
+					class="form-control"
+					placeholder="End Date"
+					uib-datepicker-popup="MM/dd/yyyy"
+					ng-model="filterData.endDate.value"
+					is-open="filterData.endDate.open"
+					close-text="Close">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" ng-click="openCalendar(filterData.endDate)">
+						<i class="glyphicon glyphicon-calendar"></i>
+					</button>
+				</span>
+			</div>
+		</div>
+		<div class="col-xs-2">
+			<button
+				type="button"
+				class="btn btn-primary"
+				ng-model="filterData.condensed"
+				uib-btn-checkbox>
+	        {{filterData.condensed ? 'Condensed' : 'Uncondensed'}}
+	    </button>
+		</div>
 	</div>
-</div>
 
-<!--<div class="row">
-	<div ng-repeat="(studentId, attendance) in attendanceRecords">
-		<div class="panel panel-default" ng-repeat="record in attendance.attendanceRecords">
+	<div class="row" ng-if="filterData.condensed">
+		<div class=" panel panel-default">
 			<div class="panel-body">
-				<div ng-class="{'col-xs-11': filterData.condensed, 'col-xs-12': !filterData.condensed}">
+				<div class="col-sm-11">
 					<div class="row">
-						<span class="h3">{{attendance.firstName + ' ' + attendance.lastName}}</span>
-						<span class="h3 pull-right" ng-if="!filterData.condensed">{{format(record.date)}}</span>
-						<span class="h3 pull-right" ng-if="filterData.condensed">
-							{{attendance.minDate.format('MM/DD/YYYY') + ' - ' + attendance.maxDate.format('MM/DD/YYYY')}}
-						</span>
+						<span class="h4 col-sm-6">Sam Gamgee</span>
+						<span class="h4 col-sm-6">10/14/16 - 10/24/16</span>
 					</div>
 					<div class="row">
-
+						<span class="h4 col-sm-12">Class</span>
 					</div>
 				</div>
-				<div class="col-xs-1" ng-if="filterData.condensed">
-					{{attendance.attendanceRecords.length}}
+				<div class="well well-sm col-sm-1 pull-right">
+					<span class="h3">3</span>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>-->
+
+	<div class="row" ng-if="!filterData.condensed">
+		<div class=" panel panel-default">
+			<div class="panel-body">
+				This is a panel
+			</div>
+		</div>
+	</div>
+</div>
