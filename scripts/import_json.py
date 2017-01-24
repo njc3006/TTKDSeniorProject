@@ -174,7 +174,13 @@ for import_class in classes_import:
             "pk": registration_pk,
             "fields": {
                 "person": students[student['$oid']]['pk'],
-                "program": class_pk
+                "program": class_pk,
+                "waiver_signature": 'IMPORT',
+                "guardian_signature": 'IMPORT',
+                # Our graduation date, since this is a worthless timestamp anyway.
+                # Using datetime would give a timestamp warning that cannot be fixed without
+                # installing other modules, and that's not worth it
+                "signature_timestamp": "2017-05-20 00:00Z"
             }
         })
 
