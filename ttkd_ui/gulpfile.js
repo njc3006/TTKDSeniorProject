@@ -24,7 +24,7 @@ gulp.task('clean', function (cb) {
     ], cb);
 });
 
-gulp.task( 'server', ['build'], function() {
+gulp.task( 'server', ['builddev'], function() {
 	connect.server({
 		port: 3000,
 		root: config.buildDir,
@@ -227,9 +227,29 @@ gulp.task('install', ['angular', 'require', 'bootstrap', 'angular-ui-bootstrap']
   done()
 });
 
+gulp.task('devconfig', function(done) {
+  gulp.src('./app/dev.constants.js')
+    .pipe(rename('constants.js'))
+    .pipe(gulp.dest('./app/'))
+    .on('end', done)
+});
+
+gulp.task('stageconfig', function(done) {
+  gulp.src('./app/stage.constants.js')
+    .pipe(rename('constants.js'))
+    .pipe(gulp.dest('./app/'))
+    .on('end', done)
+});
+
 var buildPipeline = ['scss', 'build-js', 'build-js-libs', 'build-fonts', 'build-templates', 'build-static'];
-gulp.task('build', buildPipeline, function(done) {
-  done()
+var devPipeline = ['devconfig'].concat(buildPipeline);
+gulp.task('builddev', devPipeline, function(done) {
+  done();
+});
+
+var stagePipeline = ['stageconfig'].concat(buildPipeline);
+gulp.task('buildstage', stagePipeline, function(done) {
+  done();
 });
 
 gulp.task('default', ['server','watch', 'jshint']);
