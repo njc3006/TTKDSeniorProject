@@ -158,6 +158,11 @@
 				open: false
 			};
 
+			$scope.studentInfo.state = {
+				name: $scope.studentInfo.state,
+				value: $scope.studentInfo.state
+			};
+
 			// Add empty entries to emergency contacts as necesary (up to 2)
 			if (!$scope.studentInfo['emergency_contact_1']) {
 				$scope.studentInfo['emergency_contact_1'] = {};

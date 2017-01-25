@@ -55,6 +55,10 @@
 				controller.studentStripes.splice(controller.selectedFromStudentStripes[i], 1);
 			}
 
+			if (controller.studentStripes.length > 0) {
+				controller.studentStripes[0].active = true;
+			}
+
 			controller.selectedFromStudentStripes = [];
 		};
 
