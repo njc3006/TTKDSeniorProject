@@ -9,6 +9,10 @@
 				return $http.post(apiHost + '/api/import/', data);
 			},
 
+			exportAttendance: function() {
+				return $http.get(apiHost + '/api/csv/attendance');
+			},
+
 			// TODO
 			exportContacts: function() {
 				return $http.get(apiHost + '/api/=?=');

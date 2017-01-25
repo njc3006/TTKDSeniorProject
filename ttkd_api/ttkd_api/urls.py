@@ -8,11 +8,11 @@ from django.conf import settings
 
 # Import ViewSets
 from .views.import_views import import_data
-from .views.export_views import export_data
+from .views.export_views import export_data, export_attendance
 from .views.person_belt_views import PersonBeltViewSet
 from .views.belt_views import BeltViewSet
 from .views.attendance_record_views import AttendanceRecordViewSet, \
-    AttendanceRecordUsingPersonViewSet, AttendanceRecordsCSVViewSet
+    AttendanceRecordUsingPersonViewSet
 from .views.person_views import PersonViewSet, PersonPictureViewSet
 from .views.program_views import ProgramViewSet, StudentList
 from .views.registration_views import MinimalRegistrationViewSet, RegistrationViewSet, \
@@ -31,7 +31,6 @@ router.register(r'persons', PersonViewSet)
 router.register(r'programs', ProgramViewSet)
 router.register(r'check-ins', AttendanceRecordViewSet)
 router.register(r'checked-in/persons', AttendanceRecordUsingPersonViewSet, 'checked-in-persons')
-router.register(r'attendancecsv', AttendanceRecordsCSVViewSet)
 router.register(r'registrations-minimal', MinimalRegistrationViewSet, 'registrations-minimal')
 router.register(r'register', RegistrationViewSet, 'register')
 router.register(r'registrations', SimpleRegistrationViewSet)
@@ -47,6 +46,7 @@ router.register(r'class-people', RegistrationWithPeopleViewSet, 'class-people')
 urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^api/person/(?P<pk>[0-9]+)/picture', PersonPictureViewSet.as_view({'post':'picture'})),
+    url(r'^api/import/', import_data),
     url(r'^api/export/', export_data),
-    url(r'^api/import/', import_data)
+    url(r'^api/csv/attendance', export_attendance)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

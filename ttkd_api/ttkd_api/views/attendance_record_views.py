@@ -29,14 +29,3 @@ class AttendanceRecordUsingPersonViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = AttendanceRecordSerializerUsingPerson
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('person', 'program', 'date',)
-
-
-class AttendanceRecordsCSVViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    GET: Return All AttendanceRecord Objects to the route as a csv
-    """
-    renderer_classes = (r.CSVRenderer,)
-    queryset = AttendanceRecord.objects.all()
-    serializer_class = AttendanceRecordSerializerForCSV
-    filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('person', 'program', 'date',)
