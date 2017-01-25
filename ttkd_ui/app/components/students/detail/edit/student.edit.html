@@ -1,15 +1,9 @@
 <div class="container">
-	<div class="alert alert-danger alert-dismissible" role="alert" ng-show="requestFlags.submission.failure">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-		There was an error submitting the information changes
+	<div class="alert alert-danger" ng-show="requestFlags.submission.failure" uib-alert close="closeErrorAlert()">
+		here was an error submitting the information changes
 	</div>
 
-	<div class="alert alert-success alert-dismissible" role="alert" ng-show="requestFlags.submission.success">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
+	<div class="alert alert-success" ng-show="requestFlags.submission.success" uib-alert close="closeSuccessAlert()">
 		Information for {{studentInfo.first_name}} {{studentInfo.last_name}} has been successfully updated
 	</div>
 
@@ -17,14 +11,18 @@
 		Loading...
 	</div>
 
-	<div class="alert alert-danger alert-dismissible" role="alert" ng-show="requestFlags.loading.failure">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
+	<div class="alert alert-danger" ng-show="requestFlags.loading.failure" role="alert">
 		Student Information could not be loaded!
 	</div>
 
-	<form name="editForm" ng-submit="submitChanges()" novalidate ng-show="!requestFlags.loading.failure">
+	<div class="row form-group spacer-20" ng-show="!requestFlags.loading.failure && requestFlags.loading.done">
+		<a ui-sref="studentDetails({studentId: studentInfo.id})" class="btn btn-primary">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+			Back
+		</a>
+	</div>
+
+	<form name="editForm" ng-submit="submitChanges(editForm.$valid)" novalidate ng-show="!requestFlags.loading.failure">
 		<div class="row">
 			<div
 				class="form-group col-xs-5"
@@ -126,7 +124,8 @@
 						ng-model="studentInfo.primary_phone",
 						ng-required="true"
 						mask="(999) 999-9999"
-						clean="true">
+						clean="true"
+						validate="true">
 					<span class="input-group-addon">
 						<i class="glyphicon glyphicon-asterisk"></i>
 					</span>
@@ -137,7 +136,7 @@
 			</div>
 			<div
 				class="form-group col-xs-6"
-				ng-class="{'has-error': editForm.secondaryPhone.$invalid, 'has-success': editForm.secondaryPhone.$valid && editForm.secondaryPhone.length > 0}">
+				ng-class="{'has-error': editForm.secondaryPhone.$invalid, 'has-success': editForm.secondaryPhone.$valid && studentInfo.secondary_phone.length > 0}">
 				<label class="control-label">Secondary Phone</label>
 				<input
 					name="secondaryPhone"
@@ -145,7 +144,8 @@
 					class="form-control"
 					ng-model="studentInfo.secondary_phone"
 					mask="(999) 999-9999"
-					clean="true">
+					clean="true"
+					validate="true">
 				<span class="help-text" ng-show="editForm.secondaryPhone.$invalid">
 					Enter a valid phone number
 				</span>
@@ -304,6 +304,6 @@
 				</uib-tab>
 			</uib-tabset>
 		</div>
-		<button type="submit" class="btn btn-primary btn-lg spacer-25">Change</button>
+		<button type="submit" class="btn btn-primary btn-lg spacer-25" ng-disabled="!editForm.$valid">Update</button>
 	</form>
 </div>

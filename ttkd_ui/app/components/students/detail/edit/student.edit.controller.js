@@ -34,9 +34,11 @@
 			).then(
 				function success(response) {
 					$scope.requestFlags.submission.success = true;
+					window.scrollTo(0, 0);
 				},
 				function failure(error) {
 					$scope.requestFlags.submission.failure = true;
+					window.scrollTo(0, 0);
 				}
 			);
 		}
@@ -69,36 +71,47 @@
 			$scope.studentInfo.dob.open = true;
 		};
 
-		$scope.submitChanges  = function() {
-			var payload = angular.copy($scope.studentInfo);
-			payload = angular.extend(payload, {
-				dob: moment($scope.studentInfo.dob.value).format('YYYY-MM-DD'),
-				state: $scope.studentInfo.state.value
-			});
+		$scope.closeSuccessAlert = function() {
+			$scope.requestFlags.submission.success = false;
+		};
 
-			StudentsService.updateStudentInfo($stateParams.studentId, payload).then(
-				function success(response) {
-					if ($scope.studentInfo.newBelt) {
-						StudentsService.updateStudentBelt(
-							$stateParams.studentId,
-							$scope.oldPersonBelt,
-							$scope.studentInfo.newBelt.id
-						).then(
-							function success(response) {
-								submitStripeChanges();
-							},
-							function failure(error) {
-								console.log(error);
-								$scope.requestFlags.submission.failure = true;
-							}
-						);
-					} else {
-						submitStripeChanges();
+		$scope.closeErrorAlert = function() {
+			$scope.requestFlags.submission.failure = false;
+		};
+
+		$scope.submitChanges  = function(formIsValid) {
+			if (formIsValid) {
+				var payload = angular.copy($scope.studentInfo);
+				payload = angular.extend(payload, {
+					dob: moment($scope.studentInfo.dob.value).format('YYYY-MM-DD'),
+					state: $scope.studentInfo.state.value
+				});
+
+				StudentsService.updateStudentInfo($stateParams.studentId, payload).then(
+					function success(response) {
+						if ($scope.studentInfo.newBelt) {
+							StudentsService.updateStudentBelt(
+								$stateParams.studentId,
+								$scope.oldPersonBelt,
+								$scope.studentInfo.newBelt.id
+							).then(
+								function success(response) {
+									submitStripeChanges();
+								},
+								function failure(error) {
+									$scope.requestFlags.submission.failure = true;
+									window.scrollTo(0, 0);
+								}
+							);
+						} else {
+							submitStripeChanges();
+						}
+					}, function failure(error) {
+						$scope.requestFlags.submission.failure = true;
+						window.scrollTo(0, 0);
 					}
-				}, function failure(error) {
-					$scope.requestFlags.submission.failure = true;
-				}
-			);
+				);
+			}
 		};
 
 		$scope.requestFlags = {
@@ -177,6 +190,23 @@
 		}, function failure(error) {
 			$scope.requestFlags.loading.failure = true;
 			$scope.requestFlags.loading.done = true;
+		});
+
+		$scope.$watch('studentInfo["newBelt"]', function(newBelt) {
+			if (newBelt === null || newBelt === undefined) {
+				return;
+			}
+
+			if (newBelt.id !== $scope.currentBelt.id) {
+				$scope.studentInfo.stripes = [];
+			} else {
+				$scope.studentInfo.stripes = $scope.studentInfo.oldStripes.map(function(personStripe) {
+					var copy = {};
+					angular.copy(personStripe.stripe, copy);
+					copy.active = false;
+					return copy;
+				});
+			}
 		});
 	}
 
