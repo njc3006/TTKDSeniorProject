@@ -110,13 +110,3 @@ class MinimalPersonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
         fields = ('id', 'first_name', 'last_name', 'picture_url', 'active')
-
-
-class CSVPersonSerializer(serializers.ModelSerializer):
-    """
-    CSVPersonSerializer Outputs person model with just the first name and last name for csv use
-    """
-
-    class Meta:
-        model = Person
-        fields = ('first_name', 'last_name')

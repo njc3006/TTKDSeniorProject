@@ -1,10 +1,8 @@
 """AttendanceRecordViewSet"""
 from rest_framework import viewsets, filters
 from ..serializers.attendance_record_serializer import AttendanceRecordSerializer, \
-    AttendanceRecordSerializerUsingPerson, AttendanceRecordSerializerForCSV
+    AttendanceRecordSerializerUsingPerson
 from ..models.attendance_record import AttendanceRecord
-from rest_framework.settings import api_settings
-from rest_framework_csv import renderers as r
 
 
 class AttendanceRecordViewSet(viewsets.ModelViewSet):

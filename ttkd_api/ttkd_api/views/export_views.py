@@ -1,16 +1,22 @@
+"""
+export_views.py is a file that defines all the endpoints that can be used to export data,
+such as system backups (as json files) or csv exports of the system's data.
+"""
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.status import *
 from django.core.management import call_command
+from django.http import HttpResponse
 from ..settings import BACKUP_FILES_DIR, STATIC_URL, STATICFILES_DIR
+from ..models import AttendanceRecord
 import sys
 import os
 import datetime
-from ttkd_api.models import AttendanceRecord
-from django.http import HttpResponse
 import json
 
 
+# noinspection PyUnusedLocal
 @api_view(['POST', ])
 def export_data(request):
     """
@@ -34,33 +40,36 @@ def export_data(request):
 
     return Response({'File': backup_file}, status=HTTP_200_OK)
 
+
+# noinspection PyUnusedLocal
+@api_view(['GET', ])
 def export_attendance(request):
     """
     Create a temp CSV file in the static files directory containing
     the attendance records in the system.
     Returns: Relative URL to the file
     """
-    if request.method == "GET":
-        file = os.path.join(os.path.join(STATICFILES_DIR, 'tmp'), 'attendance.csv')
-        url = STATIC_URL + 'tmp/attendance.csv'
+    file = os.path.join(os.path.join(STATICFILES_DIR, 'tmp'), 'attendance.csv')
+    url = STATIC_URL + 'tmp/attendance.csv'
 
-        if not os.path.exists(os.path.join(STATICFILES_DIR, 'tmp')):
-            os.makedirs(os.path.join(STATICFILES_DIR, 'tmp'))
+    if not os.path.exists(os.path.join(STATICFILES_DIR, 'tmp')):
+        os.makedirs(os.path.join(STATICFILES_DIR, 'tmp'))
 
-        try:
-            f = open(file, 'w')
-            # print the headers into the file
-            f.write('Date, First Name, Last Name, Program\n')
-            # get all attendance records
-            records = AttendanceRecord.objects.all().order_by('date') # TODO: Might be helpful to apply filtering options?
+    # noinspection PyBroadException
+    try:
+        f = open(file, 'w')
+        # print the headers into the file
+        f.write('Date, First Name, Last Name, Program\n')
+        # get all attendance records
 
-            # write each record to the file
-            for record in records:
-                f.write(','.join([record.date.isoformat(), record.person.first_name, record.person.last_name, record.program.name]) + '\n')
-            f.close()
-            return HttpResponse(json.dumps({'url':url}), status=200)
-        except:
-            return HttpResponse(status=500)
-    else:
-        # return method not allowed
-        return HttpResponse(status=405)
+        # TODO: Might be helpful to apply filtering options?
+        records = AttendanceRecord.objects.all().order_by('date')
+
+        # write each record to the file
+        for record in records:
+            f.write(','.join([record.date.isoformat(), record.person.first_name,
+                              record.person.last_name, record.program.name]) + '\n')
+        f.close()
+        return HttpResponse(json.dumps({'url': url}), status=200)
+    except:
+        return HttpResponse(status=500)
