@@ -8,7 +8,7 @@ programs_file = open("programs.json").read()
 args = sys.argv
 
 mask = "mask" in args
-belts = "belt" in args or "stripe" in args or "belts" in args or "stripes" in args
+nobelts = "nobelt" in args or "nostripe" in args or "nobelts" in args or "nostripes" in args
 
 os.system("python ../ttkd_api/manage.py migrate")
 os.system("python ../ttkd_api/manage.py dumpdata > dump.json")
@@ -29,7 +29,7 @@ models_changing = [
     "ttkd_api.personbelt",
     "ttkd_api.personstripe"
 ]
-if belts:
+if not nobelts:
     models_changing.append("ttkd_api.belt")
     models_changing.append("ttkd_api.stripe")
 for i in range(len(dump_import)-1,-1, -1): # run backwards so we dont get indexing issues as we remove indexs
@@ -174,7 +174,13 @@ for import_class in classes_import:
             "pk": registration_pk,
             "fields": {
                 "person": students[student['$oid']]['pk'],
-                "program": class_pk
+                "program": class_pk,
+                "waiver_signature": 'IMPORT',
+                "guardian_signature": 'IMPORT',
+                # Our graduation date, since this is a worthless timestamp anyway.
+                # Using datetime would give a timestamp warning that cannot be fixed without
+                # installing other modules, and that's not worth it
+                "signature_timestamp": "2017-05-20 00:00Z"
             }
         })
 
@@ -215,7 +221,7 @@ for attendance in attendances:
 for registration in registrations:
     dump_import.append(registration)
 
-if belts:
+if not nobelts:
     for item in json.loads('[{"model":"ttkd_api.belt","pk":1,"fields":{"name":"White","primary_color":"ffffff","secondary_color":"ffffff","active":true}},{"model":"ttkd_api.belt","pk":2,"fields":{"name":"Yellow","primary_color":"ffff00","secondary_color":"ffff00","active":true}},{"model":"ttkd_api.belt","pk":3,"fields":{"name":"Orange","primary_color":"ffa500","secondary_color":"ffa500","active":true}},{"model":"ttkd_api.belt","pk":4,"fields":{"name":"Green","primary_color":"00ff00","secondary_color":"00ff00","active":true}},{"model":"ttkd_api.belt","pk":5,"fields":{"name":"Blue","primary_color":"0000ff","secondary_color":"0000ff","active":true}},{"model":"ttkd_api.belt","pk":6,"fields":{"name":"Purple","primary_color":"551a8b","secondary_color":"551a8b","active":true}},{"model":"ttkd_api.belt","pk":7,"fields":{"name":"Red","primary_color":"ff0000","secondary_color":"ff0000","active":true}},{"model":"ttkd_api.belt","pk":8,"fields":{"name":"Brown","primary_color":"f4a460","secondary_color":"f4a460","active":true}},{"model":"ttkd_api.belt","pk":9,"fields":{"name":"Hi-Brown","primary_color":"000000","secondary_color":"f4a460","active":true}},{"model":"ttkd_api.belt","pk":10,"fields":{"name":"Hi-Provisional","primary_color":"000000","secondary_color":"ff0000","active":true}},{"model":"ttkd_api.stripe","pk":1,"fields":{"name":"Black","color":"000000","active":true}},{"model":"ttkd_api.stripe","pk":2,"fields":{"name":"Red","color":"ff0000","active":true}},{"model":"ttkd_api.stripe","pk":3,"fields":{"name":"Blue","color":"0000ff","active":true}},{"model":"ttkd_api.stripe","pk":4,"fields":{"name":"Yellow","color":"ffff00","active":true}},{"model":"ttkd_api.stripe","pk":5,"fields":{"name":"Orange","color":"ffa500","active":true}},{"model":"ttkd_api.stripe","pk":6,"fields":{"name":"Green","color":"00ff00","active":true}}]'):
         dump_import.append(item)
     for item in belts_and_stripes:
