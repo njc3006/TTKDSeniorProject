@@ -242,13 +242,14 @@ gulp.task('stageconfig', function(done) {
 });
 
 var buildPipeline = ['scss', 'build-js', 'build-js-libs', 'build-fonts', 'build-templates', 'build-static'];
-var devPipeline = ['devconfig'].concat(buildPipeline);
-gulp.task('builddev', devPipeline, function(done) {
+
+gulp.task('builddev', ['devconfig'], function(done) {
+  gulp.start(buildPipeline);
   done();
 });
 
-var stagePipeline = ['stageconfig'].concat(buildPipeline);
-gulp.task('buildstage', stagePipeline, function(done) {
+gulp.task('buildstage', ['stageconfig'], function(done) {
+  gulp.start(buildPipeline);
   done();
 });
 
