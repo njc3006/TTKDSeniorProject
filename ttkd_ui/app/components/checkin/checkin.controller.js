@@ -12,7 +12,6 @@
 		$scope.programID = $stateParams.programID;
 		$scope.instructor = $stateParams.instructor;
 		$scope.date = new Date();
-		$scope.checkedInPeople = [];
 		$scope.people = [];
 		$scope.checkedInPeopleIds = [];
 		$scope.checkedInPeopleCheckinIds = [];
@@ -34,7 +33,6 @@
 
         $scope.updateCheckins = function(){
 			$scope.date = $scope.selectedDate.value;
-            $scope.checkedInPeople = [];
 			$scope.people = [];
 			$scope.checkedInPeopleIds = [];
 			$scope.checkedInPeopleCheckinIds = [];
@@ -52,6 +50,7 @@
             //Until we have picture working this is the default picture for testing/layout
             angular.forEach(tempdata, function(value){
                 value.picture = 'http://placehold.it/350x350';
+                value.checkedIn = false;
             });
 
             return tempdata;
@@ -100,11 +99,9 @@
 					var index = $scope.checkedInPeopleIds.indexOf(personID);
 					if (index !== -1){
 						value.checkinID = $scope.checkedInPeopleCheckinIds[index];
-						$scope.checkedInPeople.push(value);
-					}else{
-						$scope.people.push(value);
+						value.checkedIn = true;
 					}
-
+					$scope.people.push(value);
 				});
 			});
         };
@@ -144,9 +141,7 @@
 				});
 			modalInstance.dismiss('yes');
 
-			//pop person from the list and move them to the end
-			$scope.people.splice($scope.people.indexOf($scope.selectedPerson),1);
-			$scope.checkedInPeople.push($scope.selectedPerson);
+			$scope.selectedPerson.checkedIn = true;
 		};
 
 		$scope.instructClickCheckin = function(person) {
@@ -161,21 +156,15 @@
 				person.checkinID = response.data.id;
 				});
 
-			//pop person from the list and move them to the end
-			$scope.people.splice($scope.people.indexOf(person),1);
-			$scope.checkedInPeople.push(person);
+			person.checkedIn = true;
 		};
 
 		$scope.instructClickDeleteCheckin = function(person) {
 			// delete checkin using api
 
 			CheckinService.deleteCheckin(person.checkinID);
-
 			person.checkinID = null;
-
-			//pop person from the checked in list and move them to people
-			$scope.checkedInPeople.splice($scope.checkedInPeople.indexOf(person),1);
-			$scope.people.push(person);
+			person.checkedIn = false;
 		};
 
 		$scope.no = function() {
