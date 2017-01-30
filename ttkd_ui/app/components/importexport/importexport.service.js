@@ -13,9 +13,8 @@
 				return $http.get(apiHost + '/api/csv/attendance');
 			},
 
-			// TODO
 			exportContacts: function() {
-				return $http.get(apiHost + '/api/=?=');
+				return $http.get(apiHost + '/api/csv/contacts');
 			},
 
 			// TODO

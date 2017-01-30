@@ -89,6 +89,30 @@
                     );
                 };
 
+                $scope.exportContacts = function() {
+                    $scope.modalTitle = "Export Contacts";
+                    $scope.exportError = "";
+                    $scope.showExportError = false;
+                    $scope.loadingExport = true;
+                    $scope.fileUrl = "#";
+                    openCSVModal();
+                    ImportExportService.exportContacts().then(
+                        function(response) {
+                           $scope.loadingExport = false;
+                           $scope.fileUrl = apiHost + response.data.url;
+                        },
+                        function(response) {
+                            if(response.statusText != "") {
+                                $scope.exportError = response.statusText;
+                            } else {
+                                $scope.exportError = "An error occured connecting to the server."
+                            }
+                            $scope.loadingExport = false;
+                            $scope.showExportError = true;
+                        }
+                    );
+                };
+
                 $scope.fileChosen = function () {
                      $scope.modalDisabledConfirm = false;
                      $scope.modalConfirmTitle = '';
