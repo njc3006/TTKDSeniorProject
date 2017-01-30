@@ -129,3 +129,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+# TTKD Directories
+USER_FILES_DIR = os.path.join(os.path.join('C:/Users', os.getlogin()), 'ttkd')
+BACKUP_FILES_DIR = os.path.join(USER_FILES_DIR, 'backups')
+PICTURES_DIR = os.path.join(USER_FILES_DIR, 'pictures')
