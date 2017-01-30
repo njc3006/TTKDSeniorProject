@@ -8,7 +8,7 @@ from django.conf import settings
 
 # Import ViewSets
 from .views.import_views import import_data
-from .views.export_views import export_data, export_attendance
+from .views.export_views import export_data, export_attendance, export_contacts
 from .views.person_belt_views import PersonBeltViewSet
 from .views.belt_views import BeltViewSet
 from .views.attendance_record_views import AttendanceRecordViewSet, \
@@ -48,5 +48,6 @@ urlpatterns = [
     url(r'^api/person/(?P<pk>[0-9]+)/picture', PersonPictureViewSet.as_view({'post':'picture'})),
     url(r'^api/import/', import_data),
     url(r'^api/export/', export_data),
-    url(r'^api/csv/attendance', export_attendance)
+    url(r'^api/csv/attendance', export_attendance),
+    url(r'^api/csv/contacts', export_contacts)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
