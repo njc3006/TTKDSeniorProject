@@ -31,7 +31,7 @@ STATIC_URL = '/ui/'
 SECRET_KEY = 'jhasfd879*f8aV7yafFdasfjji^%02\df]}vbcx#234125gs'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
