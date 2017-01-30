@@ -40,4 +40,20 @@ there are 2 possible additional options when running the script:
 1. nobelts - Does not add default belts into the import.
 2. mask - Removes any sensitive personal data when loading in the old files. This flag will also generate fake relationships of belts and stripes to persons in the import unless one of the variations of the nobelts flag is used.
 
-`python import_json.py <nobelt|nostripe|nobelts|nostripes> <mask>`
+`python import_json.py <belt|stripe|belts|stripes> <mask>`
+
+### Building a Release
+To build a release for the project, setup a unix-like environment with the following dependencies installed (In addition to the dependencies needed to build the project):
+
+- unzip
+- zip
+
+Then, issue the following commands:
+
+```
+cd scripts
+./build-release.sh
+```
+
+- If you would like to start with a specific data set, export your data using `python manage.py dumpdata > data.json`, then put `data.json` in the root project directory.
+- If you change the requirements.txt of this project, you will need to extract `scripts/python-dist.zip`, copy and paste your python libraries you added into `python-dist/python-X.X.X-embed-amd64/Lib/site-packages`, and re-zip `python-X.X.X-embed-amd64`.

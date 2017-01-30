@@ -122,7 +122,7 @@ for student in students_import:
         })
         emergency_pk += 1
 
-    if (mask & belts):
+    if (mask):
         belts_and_stripes.append({
             "model": "ttkd_api.personbelt",
             "pk": person_pk,
