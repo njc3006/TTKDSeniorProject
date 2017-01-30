@@ -42,11 +42,12 @@ def export_data(request):
 
 
 # noinspection PyUnusedLocal
-@api_view(['GET', ])
+@api_view(['POST', ])
 def export_attendance(request):
     """
     Create a temp CSV file in the static files directory containing
     the attendance records in the system.
+    Filters: person__active, program
     Returns: Relative URL to the file
     """
     file = os.path.join(os.path.join(STATICFILES_DIR, 'tmp'), 'attendance.csv')
@@ -62,8 +63,10 @@ def export_attendance(request):
         f.write('Date, First Name, Last Name, Program\n')
         # get all attendance records
 
-        # TODO: Might be helpful to apply filtering options?
-        records = AttendanceRecord.objects.all().order_by('date')
+        # The ** will expand the dictionary into a parameter=value form
+        # ex. program=5, person__active=true
+        # The order by -date, will order by date descending because of the -
+        records = AttendanceRecord.objects.filter(**request.data).order_by('-date')
 
         # write each record to the file
         for record in records:

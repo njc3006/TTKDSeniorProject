@@ -8,9 +8,8 @@
                 'ImportExportService',
                 'apiHost',
                 '$document', 
-                '$uibModal', 
-                '$window',
-                '$http',
+                '$uibModal',
+                'ProgramsSvc',
             function (
                 $scope, 
                 $rootScope, 
@@ -19,9 +18,8 @@
                 ImportExportService, 
                 apiHost, 
                 $document, 
-                $uibModal, 
-                $window,
-                $http
+                $uibModal,
+                ProgramsSvc
             ) {
 
                 var modalInstance;
@@ -31,6 +29,21 @@
                 $scope.modalDisabledConfirm = true;
                 $scope.modalConfirmTitle = '';
                 $scope.modalTitle = '';
+                $scope.exportOptions = {
+                    exportActive : true,
+                    exportInactive : false,
+                    SelectedProgram : null
+                };
+
+                //retrieves the total list of classes
+                $scope.getProgramsList = function(){
+                    ProgramsSvc.getPrograms().then(
+                        function(response){
+                            $scope.programs = response.data;
+                        });
+                };
+
+                $scope.programs = $scope.getProgramsList();
 
                 $scope.backup = function() {
                     $scope.modalMessage = 'Please wait while we create a system backup.....';
@@ -66,32 +79,53 @@
                 };
 
                 $scope.exportAttendanceRecords = function() {
-                    $scope.modalTitle = "Export Attendance Records";
-                    $scope.exportError = "";
+                    $scope.modalTitle = 'Export Attendance Records';
+                    $scope.exportError = '';
                     $scope.showExportError = false;
                     $scope.loadingExport = true;
-                    $scope.fileUrl = "#";
+                    $scope.fileUrl = '#';
+                    openCSVOptionsModal();
+                };
+
+                $scope.fileChosen = function () {
+                    $scope.modalDisabledConfirm = false;
+                    $scope.modalConfirmTitle = '';
+                };
+
+                $scope.startExport = function() {
+                    modalInstance.dismiss('startExport');
+                    var data = {};
+
+                    if (!($scope.exportOptions.exportActive && $scope.exportOptions.exportInactive)) {
+                        if ($scope.exportOptions.exportActive) {
+                            data['person__active'] = true;
+                        }
+
+                        if ($scope.exportOptions.exportInactive) {
+                            data['person__active'] = false;
+                        }
+                    }
+
+                    if ($scope.exportOptions.SelectedProgram) {
+                        data['program'] = $scope.exportOptions.SelectedProgram;
+                    }
+
                     openCSVModal();
-                    ImportExportService.exportAttendance().then(
+                    ImportExportService.exportAttendance(data).then(
                         function(response) {
-                           $scope.loadingExport = false;
-                           $scope.fileUrl = apiHost + response.data.url;
+                            $scope.loadingExport = false;
+                            $scope.fileUrl = apiHost + response.data.url;
                         },
                         function(response) {
-                            if(response.statusText != "") {
+                            if(response.statusText != '') {
                                 $scope.exportError = response.statusText;
                             } else {
-                                $scope.exportError = "An error occured connecting to the server."
+                                $scope.exportError = 'An error occured connecting to the server.';
                             }
                             $scope.loadingExport = false;
                             $scope.showExportError = true;
                         }
                     );
-                };
-
-                $scope.fileChosen = function () {
-                     $scope.modalDisabledConfirm = false;
-                     $scope.modalConfirmTitle = '';
                 };
 
                 var openCSVModal = function() {
@@ -106,6 +140,25 @@
                         ariaLabelledBy: 'modal-title',
                         ariaDescribedBy: 'modal-body',
                         templateUrl: 'components/importexport/export-csv.modal.html',
+                        scope: $scope
+                    });
+
+                    modalInstance.result.then(function (selectedItem) {
+                    }, function () {
+                    });
+                };
+
+                var openCSVOptionsModal = function() {
+                    var modalElement = angular.element($document[0].querySelector('#modal-area'));
+
+                    modalInstance = $uibModal.open({
+                        animation: true,
+                        backdrop  : 'static',
+                        keyboard  : false,
+                        windowClass: 'export-modal',
+                        ariaLabelledBy: 'modal-title',
+                        ariaDescribedBy: 'modal-body',
+                        templateUrl: 'components/importexport/export-csv-options.modal.html',
                         scope: $scope
                     });
 
@@ -159,8 +212,13 @@
                     modalInstance.dismiss('ok');
                 };
 
+
                 $scope.cancelRestore = function() {
                     modalInstance.dismiss('cancelRestore');
+                };
+
+                $scope.cancelExport = function() {
+                    modalInstance.dismiss('cancelExport');
                 };
 
                 $scope.confirmRestore = function() {
