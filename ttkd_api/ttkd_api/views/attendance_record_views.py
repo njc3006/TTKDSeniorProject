@@ -12,6 +12,7 @@ class AttendanceRecordViewSet(viewsets.ModelViewSet):
     POST: Create a Check-In record to the passed program,
     Time Is Not Required System Will Generate If Not Passed
     """
+    permission_classes = (permissions.IsAuthenticated,)
     queryset = AttendanceRecord.objects.all()
     serializer_class = AttendanceRecordSerializer
     filter_backends = (filters.DjangoFilterBackend,)
