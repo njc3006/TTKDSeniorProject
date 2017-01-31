@@ -29,6 +29,9 @@ class UserSerializer(serializers.ModelSerializer):
 		)
 
 		user.set_password(validated_data['password'])
+		
+		setattr(user, 'is_staff', validated_data['is_staff'])
+		
 		user.save()
 
 		return user
