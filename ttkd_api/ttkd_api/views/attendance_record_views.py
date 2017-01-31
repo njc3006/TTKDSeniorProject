@@ -6,6 +6,7 @@ from rest_framework import permissions
 
 
 class AttendanceRecordViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
     """
     GET: Returns All AttendanceRecord Objects To The Route AKA Check-ins with person as an ID.
     Filters: person, program, time

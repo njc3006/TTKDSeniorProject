@@ -1,5 +1,5 @@
 """PersonViewSet"""
-from rest_framework import viewsets, filters
+from rest_framework import viewsets, filters, permissions
 from ..serializers.person_serializer import PersonSerializer, PersonPictureSerializer
 from ..models.person import Person
 from ..permissions import custom_permissions
@@ -27,6 +27,7 @@ class PersonViewSet(viewsets.ModelViewSet):
 
 
 class PersonPictureViewSet(viewsets.GenericViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = Person.objects.all()
     serializer_class = PersonPictureSerializer
 
