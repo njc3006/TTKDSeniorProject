@@ -2,7 +2,7 @@
 export_views.py is a file that defines all the endpoints that can be used to export data,
 such as system backups (as json files) or csv exports of the system's data.
 """
-
+import xlsxwriter as xlsxwriter
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.status import *
@@ -180,3 +180,119 @@ def export_contacts(request):
         return HttpResponse(json.dumps({'url': url}), status=200)
     else:
         return HttpResponse(status=500)
+
+
+# noinspection PyUnusedLocal
+@api_view(['GET', ])
+def export_to_excel(request):
+    """
+    Create an excel spreadsheet that represents the system
+    """
+
+    file = os.path.join(os.path.join(STATICFILES_DIR, 'tmp'), 'export.xlsx')
+    url = STATIC_URL + 'tmp/export.xlsx'
+
+    workbook = xlsxwriter.Workbook(file)
+    worksheet = workbook.add_worksheet('Students')
+
+    bold = workbook.add_format({'bold': True})
+    phone_format = workbook.add_format({'num_format': '[<=9999999]###-####;(###) ###-####'})
+
+    starting_headers = ['First Name', 'Last Name', 'Primary Phone', 'Secondary Phone',
+                        'Address Street', 'Address City', 'Address State', 'Address ZIP', 'Active',
+                        'Email 1']
+
+    header_row = 0
+    header_column = 0
+
+    for header in starting_headers:
+        worksheet.write(header_row, header_column, header, bold)
+        header_column += 1
+
+    num_emails = 1
+
+    contacts = Person.objects.all().order_by('last_name')
+
+    row = 1
+    column = 0
+
+    for i in range(0, len(contacts)):
+
+        worksheet.write(row, column,
+                        contacts[i].first_name if contacts[i].first_name is not None else "")
+        column += 1
+        worksheet.write(row, column,
+                        contacts[i].last_name if contacts[i].last_name is not None else "")
+        column += 1
+
+        if contacts[i].primary_phone is not None and contacts[i].primary_phone != "":
+            worksheet.write(row, column, int(contacts[i].primary_phone), phone_format)
+        column += 1
+
+        if contacts[i].secondary_phone is not None and contacts[i].secondary_phone != "":
+            worksheet.write(row, column, int(contacts[i].secondary_phone), phone_format)
+        column += 1
+
+        worksheet.write(row, column, contacts[i].street if contacts[i].street is not None else "")
+        column += 1
+        worksheet.write(row, column, contacts[i].city if contacts[i].city is not None else "")
+        column += 1
+        worksheet.write(row, column, contacts[i].state if contacts[i].state is not None else "")
+        column += 1
+
+        if contacts[i].zipcode is not None and contacts[i].zipcode != "":
+            worksheet.write(row, column, int(contacts[i].zipcode))
+        column += 1
+
+        worksheet.write(row, column, contacts[i].active if contacts[i].active is not None else "")
+        column += 1
+
+        emails = contacts[i].emails.all()
+        for j in range(0, emails.count()):
+            if (j + 1) > num_emails:
+                worksheet.write(header_row, header_column, 'Email ' + str(j + 1), bold)
+                header_column += 1
+                num_emails += 1
+            worksheet.write(row, column, emails[j].email)
+            column += 1
+
+        row += 1
+        column = 0
+
+    emergency_contact_headers = ['Emergency Contact 1 Full Name',
+                                 'Emergency Contact 1 Phone Number', 'Emergency Contact 1 Relation',
+                                 'Emergency Contact 2 Full Name',
+                                 'Emergency Contact 2 Phone Number', 'Emergency Contact 2 Relation']
+
+    for header in emergency_contact_headers:
+        worksheet.write(header_row, header_column, header, bold)
+        header_column += 1
+
+    row = 1
+    column = len(starting_headers) + num_emails
+
+    for i in range(0, len(contacts)):
+
+        worksheet.write(row, column, contacts[i].emergency_contact_1.full_name)
+        column += 1
+        emc_phone_1 = contacts[i].emergency_contact_1.phone_number
+        if emc_phone_1 is not None and emc_phone_1 != "":
+            worksheet.write(row, column, int(emc_phone_1))
+        column += 1
+        worksheet.write(row, column, contacts[i].emergency_contact_1.relation)
+        column += 1
+
+        worksheet.write(row, column, contacts[i].emergency_contact_2.full_name)
+        column += 1
+        emc_phone_2 = contacts[i].emergency_contact_2.phone_number
+        if emc_phone_2 is not None and emc_phone_2 != "":
+            worksheet.write(row, column, int(emc_phone_2))
+        column += 1
+        worksheet.write(row, column, contacts[i].emergency_contact_2.relation)
+
+        row +=1
+        column =0
+
+    workbook.close()
+
+    return HttpResponse(json.dumps({'url': url}), status=200)

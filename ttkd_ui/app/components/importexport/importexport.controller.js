@@ -121,7 +121,7 @@
 
                     $scope.openCSVModal();
 
-                    if ($scope.modalTitle == 'Export Attendance Records'){
+                    if ($scope.modalTitle === 'Export Attendance Records'){
                         ImportExportService.exportAttendance(data).then(
                             function(response) {
                                 $scope.loadingExport = false;
@@ -137,7 +137,7 @@
                                 $scope.showExportError = true;
                             }
                         );
-                    } else if ($scope.modalTitle == 'Export Contacts') {
+                    } else if ($scope.modalTitle === 'Export Contacts') {
                         ImportExportService.exportContacts(data).then(
                             function(response) {
                                $scope.loadingExport = false;
@@ -154,6 +154,31 @@
                             }
                         );
                     }
+                };
+
+                $scope.exportExcel = function () {
+                    $scope.modalTitle = 'Export System to Excel';
+                    $scope.exportError = '';
+                    $scope.showExportError = false;
+                    $scope.loadingExport = true;
+                    $scope.fileUrl = '#';
+                    $scope.openCSVModal();
+                    ImportExportService.exportSystem().then(
+                        function(response) {
+                           $scope.loadingExport = false;
+                           $scope.fileUrl = apiHost + response.data.url;
+                        },
+                        function(response) {
+                            if(response.statusText !== '') {
+                                $scope.exportError = response.statusText;
+                            } else {
+                                $scope.exportError = 'An error occurred connecting to the server.';
+                            }
+                            $scope.loadingExport = false;
+                            $scope.showExportError = true;
+                        }
+                    );
+
                 };
 
                 $scope.openCSVModal = function() {

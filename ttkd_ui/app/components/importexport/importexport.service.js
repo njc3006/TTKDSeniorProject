@@ -17,9 +17,8 @@
 				return $http.post(apiHost + '/api/csv/contacts', data);
 			},
 
-			// TODO
 			exportSystem: function() {
-				return $http.get(apiHost + '/api/?');
+				return $http.get(apiHost + '/api/excel/system');
 			}
 		};
 	}
