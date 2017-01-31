@@ -6,7 +6,8 @@
   <a  ng-hide="loadingExport || showExportError"
       class="btn btn-block btn-success"
       ng-href="{{fileUrl}}"
-      ng-click="ok()">
+      ng-click="ok()"
+      download>
     Download your export
   </a>
   <div class="alert alert-danger" ng-show="showExportError">

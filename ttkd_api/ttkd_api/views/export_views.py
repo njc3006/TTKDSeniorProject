@@ -79,11 +79,12 @@ def export_data(request):
     return Response({'File': backup_file}, status=HTTP_200_OK)
 
 # noinspection PyUnusedLocal
-@api_view(['GET', ])
+@api_view(['POST', ])
 def export_attendance(request):
     """
     Create a temp CSV file in the static files directory containing
     the attendance records in the system.
+    Filters: person__active, program
     Returns: Relative URL to the file
     """
     print("Starting")
@@ -94,12 +95,13 @@ def export_attendance(request):
 
     # noinspection PyBroadException
     headers = ['Date', 'First Name', 'Last Name', 'Program']
-    records = AttendanceRecord.objects.all().order_by('date')
 
-    # transform each record
+    # The ** will expand the dictionary into a parameter=value form
+    # ex. program=5, person__active=true
+    # The order by -date, will order by date descending because of the -
+    records = AttendanceRecord.objects.filter(**request.data).order_by('-date')
     records_list = records.values_list('date', 'person__first_name', 'person__last_name', 'program__name')
 
-    print("Creating CSV")
     # create the file and respond
     if create_csv(file, headers, records_list):
         return HttpResponse(json.dumps({'url': url}), status=200)

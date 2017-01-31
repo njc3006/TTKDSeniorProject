@@ -9,8 +9,8 @@
 				return $http.post(apiHost + '/api/import/', data);
 			},
 
-			exportAttendance: function() {
-				return $http.get(apiHost + '/api/csv/attendance');
+			exportAttendance: function(data) {
+				return $http.post(apiHost + '/api/csv/attendance', data);
 			},
 
 			exportContacts: function() {
