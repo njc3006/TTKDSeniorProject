@@ -15,12 +15,14 @@ import os
 import datetime
 import json
 
+
 def create_tmp_folder():
     """
     A helper function to create a temp folder if it does not exist.
     """
     if not os.path.exists(os.path.join(STATICFILES_DIR, 'tmp')):
         os.makedirs(os.path.join(STATICFILES_DIR, 'tmp'))
+
 
 def create_csv(file, headers, data):
     """
@@ -37,14 +39,15 @@ def create_csv(file, headers, data):
     output = ""
     for header in headers:
         output += header + ", "
-    output += "\r\n"
+    output += "\n"
 
     # iterate through each data object
     for row in data:
         for value in row:
             output += str(value) + ", "
-        output += '\r\n'
+        output += '\n'
 
+    # noinspection PyBroadException
     try:
         f = open(file, 'w')
         f.write(output)
@@ -78,6 +81,7 @@ def export_data(request):
 
     return Response({'File': backup_file}, status=HTTP_200_OK)
 
+
 # noinspection PyUnusedLocal
 @api_view(['POST', ])
 def export_attendance(request):
@@ -93,20 +97,21 @@ def export_attendance(request):
 
     create_tmp_folder()
 
-    # noinspection PyBroadException
     headers = ['Date', 'First Name', 'Last Name', 'Program']
 
     # The ** will expand the dictionary into a parameter=value form
     # ex. program=5, person__active=true
     # The order by -date, will order by date descending because of the -
     records = AttendanceRecord.objects.filter(**request.data).order_by('-date')
-    records_list = records.values_list('date', 'person__first_name', 'person__last_name', 'program__name')
+    records_list = records.values_list('date', 'person__first_name', 'person__last_name',
+                                       'program__name')
 
     # create the file and respond
     if create_csv(file, headers, records_list):
         return HttpResponse(json.dumps({'url': url}), status=200)
     else:
         return HttpResponse(status=500)
+
 
 # noinspection PyUnusedLocal
 @api_view(['GET', ])
@@ -121,8 +126,8 @@ def export_contacts(request):
 
     create_tmp_folder()
 
-    # noinspection PyBroadException
-    headers = ['First Name', 'Last Name', 'Primary Phone', 'Secondary Phone', 'Address Street', 'Address City', 'Address State', 'Address ZIP', 'Email 1']
+    headers = ['First Name', 'Last Name', 'Primary Phone', 'Secondary Phone', 'Address Street',
+               'Address City', 'Address State', 'Address ZIP', 'Email 1']
     num_emails = 1
     contacts = Person.objects.all().order_by('last_name')
 

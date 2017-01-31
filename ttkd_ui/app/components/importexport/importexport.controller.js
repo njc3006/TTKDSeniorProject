@@ -84,7 +84,7 @@
                     $scope.showExportError = false;
                     $scope.loadingExport = true;
                     $scope.fileUrl = '#';
-                    openCSVOptionsModal();
+                    $scope.openCSVOptionsModal();
                 };
 
                 $scope.fileChosen = function () {
@@ -110,14 +110,14 @@
                         data['program'] = $scope.exportOptions.SelectedProgram;
                     }
 
-                    openCSVModal();
+                    $scope.openCSVModal();
                     ImportExportService.exportAttendance(data).then(
                         function(response) {
                             $scope.loadingExport = false;
                             $scope.fileUrl = apiHost + response.data.url;
                         },
                         function(response) {
-                            if(response.statusText != '') {
+                            if(response.statusText !== '') {
                                 $scope.exportError = response.statusText;
                             } else {
                                 $scope.exportError = 'An error occured connecting to the server.';
@@ -128,24 +128,23 @@
                     );
                 };
 
-<<<<<<< HEAD
                 $scope.exportContacts = function() {
-                    $scope.modalTitle = "Export Contacts";
-                    $scope.exportError = "";
+                    $scope.modalTitle = 'Export Contacts';
+                    $scope.exportError = '';
                     $scope.showExportError = false;
                     $scope.loadingExport = true;
-                    $scope.fileUrl = "#";
-                    openCSVModal();
+                    $scope.fileUrl = '#';
+                    $scope.openCSVModal();
                     ImportExportService.exportContacts().then(
                         function(response) {
                            $scope.loadingExport = false;
                            $scope.fileUrl = apiHost + response.data.url;
                         },
                         function(response) {
-                            if(response.statusText != "") {
+                            if(response.statusText !== '') {
                                 $scope.exportError = response.statusText;
                             } else {
-                                $scope.exportError = "An error occured connecting to the server."
+                                $scope.exportError = 'An error occurred connecting to the server.';
                             }
                             $scope.loadingExport = false;
                             $scope.showExportError = true;
@@ -153,14 +152,7 @@
                     );
                 };
 
-                $scope.fileChosen = function () {
-                     $scope.modalDisabledConfirm = false;
-                     $scope.modalConfirmTitle = '';
-                };
-
-=======
->>>>>>> 891cb580d6ec3b161b9988d7924a7c8bcc5d8fe1
-                var openCSVModal = function() {
+                $scope.openCSVModal = function() {
                     var modalElement = angular.element($document[0].querySelector('#modal-area'));
                     $scope.showCSVModal = true;
 
@@ -180,7 +172,7 @@
                     });
                 };
 
-                var openCSVOptionsModal = function() {
+                $scope.openCSVOptionsModal = function() {
                     var modalElement = angular.element($document[0].querySelector('#modal-area'));
 
                     modalInstance = $uibModal.open({
