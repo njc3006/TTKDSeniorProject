@@ -87,6 +87,15 @@
                     $scope.openCSVOptionsModal();
                 };
 
+                $scope.exportContacts = function() {
+                    $scope.modalTitle = 'Export Contacts';
+                    $scope.exportError = '';
+                    $scope.showExportError = false;
+                    $scope.loadingExport = true;
+                    $scope.fileUrl = '#';
+                    $scope.openCSVOptionsModal();
+                };
+
                 $scope.fileChosen = function () {
                     $scope.modalDisabledConfirm = false;
                     $scope.modalConfirmTitle = '';
@@ -111,45 +120,40 @@
                     }
 
                     $scope.openCSVModal();
-                    ImportExportService.exportAttendance(data).then(
-                        function(response) {
-                            $scope.loadingExport = false;
-                            $scope.fileUrl = apiHost + response.data.url;
-                        },
-                        function(response) {
-                            if(response.statusText !== '') {
-                                $scope.exportError = response.statusText;
-                            } else {
-                                $scope.exportError = 'An error occured connecting to the server.';
-                            }
-                            $scope.loadingExport = false;
-                            $scope.showExportError = true;
-                        }
-                    );
-                };
 
-                $scope.exportContacts = function() {
-                    $scope.modalTitle = 'Export Contacts';
-                    $scope.exportError = '';
-                    $scope.showExportError = false;
-                    $scope.loadingExport = true;
-                    $scope.fileUrl = '#';
-                    $scope.openCSVModal();
-                    ImportExportService.exportContacts().then(
-                        function(response) {
-                           $scope.loadingExport = false;
-                           $scope.fileUrl = apiHost + response.data.url;
-                        },
-                        function(response) {
-                            if(response.statusText !== '') {
-                                $scope.exportError = response.statusText;
-                            } else {
-                                $scope.exportError = 'An error occurred connecting to the server.';
+                    if ($scope.modalTitle == 'Export Attendance Records'){
+                        ImportExportService.exportAttendance(data).then(
+                            function(response) {
+                                $scope.loadingExport = false;
+                                $scope.fileUrl = apiHost + response.data.url;
+                            },
+                            function(response) {
+                                if(response.statusText !== '') {
+                                    $scope.exportError = response.statusText;
+                                } else {
+                                    $scope.exportError = 'An error occurred connecting to the server.';
+                                }
+                                $scope.loadingExport = false;
+                                $scope.showExportError = true;
                             }
-                            $scope.loadingExport = false;
-                            $scope.showExportError = true;
-                        }
-                    );
+                        );
+                    } else if ($scope.modalTitle == 'Export Contacts') {
+                        ImportExportService.exportContacts(data).then(
+                            function(response) {
+                               $scope.loadingExport = false;
+                               $scope.fileUrl = apiHost + response.data.url;
+                            },
+                            function(response) {
+                                if(response.statusText !== '') {
+                                    $scope.exportError = response.statusText;
+                                } else {
+                                    $scope.exportError = 'An error occurred connecting to the server.';
+                                }
+                                $scope.loadingExport = false;
+                                $scope.showExportError = true;
+                            }
+                        );
+                    }
                 };
 
                 $scope.openCSVModal = function() {

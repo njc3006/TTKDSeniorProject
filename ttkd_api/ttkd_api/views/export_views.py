@@ -9,7 +9,7 @@ from rest_framework.status import *
 from django.core.management import call_command
 from django.http import HttpResponse
 from ..settings import BACKUP_FILES_DIR, STATIC_URL, STATICFILES_DIR
-from ..models import AttendanceRecord, Person
+from ..models import AttendanceRecord, Person, Registration
 import sys
 import os
 import datetime
@@ -114,11 +114,12 @@ def export_attendance(request):
 
 
 # noinspection PyUnusedLocal
-@api_view(['GET', ])
+@api_view(['POST', ])
 def export_contacts(request):
     """
     Create a temp CSV file in the static files directory containing
     the contact records in the system.
+    Filters: person__active, program
     Returns: Relative URL to the file
     """
     file = os.path.join(os.path.join(STATICFILES_DIR, 'tmp'), 'contacts.csv')
@@ -127,13 +128,33 @@ def export_contacts(request):
     create_tmp_folder()
 
     headers = ['First Name', 'Last Name', 'Primary Phone', 'Secondary Phone', 'Address Street',
-               'Address City', 'Address State', 'Address ZIP', 'Email 1']
+               'Address City', 'Address State', 'Address ZIP', 'Active', 'Email 1']
     num_emails = 1
-    contacts = Person.objects.all().order_by('last_name')
+
+    filters = {}
+
+    contacts = []
+
+    if 'program' in request.data:
+        if 'person__active' in request.data:
+            filters['person__active'] = request.data['person__active']
+
+        filters['program'] = request.data['program']
+
+        # select related prevents the bellow registration.person from re-querying database
+        registrations = Registration.objects.select_related('person').filter(**filters)\
+            .order_by('person__last_name')
+
+        for registration in registrations:
+            contacts.append(registration.person)
+    else:
+        if 'person__active' in request.data:
+            filters['active'] = request.data['person__active']
+        contacts = Person.objects.filter(**filters).order_by('last_name')
 
     # transform each object
     contacts_list = []
-    for i in range(0, contacts.count()):
+    for i in range(0, len(contacts)):
         contact = [
             contacts[i].first_name if contacts[i].first_name is not None else "",
             contacts[i].last_name if contacts[i].last_name is not None else "",
@@ -142,7 +163,8 @@ def export_contacts(request):
             contacts[i].street if contacts[i].street is not None else "",
             contacts[i].city if contacts[i].city is not None else "",
             contacts[i].state if contacts[i].state is not None else "",
-            contacts[i].zipcode if contacts[i].zipcode is not None else ""
+            contacts[i].zipcode if contacts[i].zipcode is not None else "",
+            contacts[i].active if contacts[i].active is not None else ""
         ]
 
         emails = contacts[i].emails.all()
