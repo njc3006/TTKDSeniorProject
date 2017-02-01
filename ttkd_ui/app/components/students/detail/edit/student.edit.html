@@ -16,10 +16,14 @@
 	</div>
 
 	<div class="row form-group spacer-20" ng-show="!requestFlags.loading.failure && requestFlags.loading.done">
-		<a ui-sref="studentDetails({studentId: studentInfo.id})" class="btn btn-primary">
+		<button class="btn btn-primary" ng-click="backNavigate()">
 			<span class="glyphicon glyphicon-chevron-left"></span>
 			Back
-		</a>
+		</button>
+		<!--<a ui-sref="studentDetails({studentId: studentInfo.id})" class="btn btn-primary">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+			Back
+		</a>-->
 	</div>
 
 	<form name="editForm" ng-submit="submitChanges(editForm.$valid)" novalidate ng-show="!requestFlags.loading.failure">

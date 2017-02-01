@@ -10,6 +10,13 @@
 			});
 		}
 
+		function areDifferent(lhs, rhs, lhsIdFunction, rhsIdFunction) {
+			var lhsDiff = arrayDiff(lhs, rhs, lhsIdFunction, rhsIdFunction),
+				rhsDiff = arrayDiff(rhs, lhs, rhsIdFunction, lhsIdFunction);
+
+			return lhsDiff.length > 0 || rhsDiff.length > 0;
+		}
+
 		function submitStripeChanges() {
 			//compute which stripes were added
 			var newStripes = arrayDiff(
@@ -43,6 +50,69 @@
 				}
 			);
 		}
+
+		$scope.backNavigate = function() {
+			var hasUnsavedChanges = false;
+
+			angular.forEach($scope.studentInfo, function(value, key) {
+				if (!hasUnsavedChanges) {
+					switch (key) {
+						case 'stripes':
+							hasUnsavedChanges = areDifferent(
+								value,
+								$scope.studentInfo.oldStripes,
+								function(item) { return item.id; },
+								function(item) { return item.stripe.id; }
+							);
+							break;
+						case 'currentBelt':
+							hasUnsavedChanges = value.id !== $scope.studentInfo.newBelt.id;
+							break;
+						case 'emergency_contact_1':
+						case 'emergency_contact_2':
+							hasUnsavedChanges =
+								value.relation !== $scope.oldStudent[key].relation ||
+								value['phone_number'] !== $scope.oldStudent[key]['phone_number'] ||
+								value['full_name'] !== $scope.oldStudent[key]['full_name'];
+							break;
+						case 'emails':
+							hasUnsavedChanges = areDifferent(
+								value,
+								$scope.oldStudent[key],
+								function(email) {return email.email;},
+								function(email) {return email.email;}
+							);
+							break;
+						case 'dob':
+							hasUnsavedChanges =
+								value.value.getTime() !== moment($scope.oldStudent.dob, 'YYYY-MM-DD').toDate().getTime();
+							break;
+						case 'state':
+							hasUnsavedChanges = value.value !== $scope.oldStudent[key];
+							break;
+						case 'belts':
+						case 'stripes':
+						case 'oldStripes':
+						case 'newBelt':
+							break;
+						default:
+							hasUnsavedChanges = value !== $scope.oldStudent[key];
+							break;
+					}
+				}
+			});
+
+			//console.log(hasUnsavedChanges);
+			if (hasUnsavedChanges) {
+				var shouldBackNavigate = confirm('There are unsaved changes, are you sure you wish to leave?');
+
+				if (shouldBackNavigate) {
+					$state.go('studentDetails', {studentId: $stateParams.studentId});
+				}
+			} else {
+				$state.go('studentDetails', {studentId: $stateParams.studentId});
+			}
+		};
 
 		$scope.anySecondaryContactInfoEntered = function() {
 			if ($scope.studentInfo === undefined) {
@@ -137,6 +207,9 @@
 
 		StudentsService.getStudent($stateParams.studentId).then(function success(response) {
 			$scope.oldStudent = angular.copy(response.data);
+			delete $scope.oldStudent.belts;
+			delete $scope.oldStudent.stripes;
+
 			$scope.studentInfo = response.data;
 
 			$scope.studentInfo.oldStripes = $scope.studentInfo.stripes.filter(function(stripe) {
