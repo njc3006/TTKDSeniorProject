@@ -15,6 +15,7 @@
 
       .state('importexport', {
         url: '/importexport',
+        params: { hideCurrentProgram: true },
         templateUrl: 'components/importexport/importexport.html',
         controller: 'ImportExportCtrl'
       })
