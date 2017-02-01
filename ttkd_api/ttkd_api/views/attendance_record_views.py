@@ -1,6 +1,7 @@
 """AttendanceRecordViewSet"""
 from rest_framework import viewsets, filters
-from ..serializers.attendance_record_serializer import AttendanceRecordSerializer, AttendanceRecordSerializerUsingPerson
+from ..serializers.attendance_record_serializer import AttendanceRecordSerializer, \
+    AttendanceRecordSerializerUsingPerson, DetailedAttendanceRecordSerializer
 from ..models.attendance_record import AttendanceRecord
 
 
@@ -16,6 +17,13 @@ class AttendanceRecordViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('person', 'program', 'date',)
 
+class DetailedAttendanceRecordViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    """
+    queryset = AttendanceRecord.objects.all()
+    serializer_class = DetailedAttendanceRecordSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ('person', 'program',)
 
 class AttendanceRecordUsingPersonViewSet(viewsets.ReadOnlyModelViewSet):
     """
