@@ -192,6 +192,8 @@ def export_to_excel(request):
     file = os.path.join(os.path.join(STATICFILES_DIR, 'tmp'), 'export.xlsx')
     url = STATIC_URL + 'tmp/export.xlsx'
 
+    create_tmp_folder()
+
     workbook = xlsxwriter.Workbook(file)
     worksheet = workbook.add_worksheet('Students')
 
@@ -269,29 +271,35 @@ def export_to_excel(request):
         header_column += 1
 
     row = 1
-    column = len(starting_headers) + num_emails
+    starting_column = len(starting_headers) + (num_emails - 1)
 
-    for i in range(0, len(contacts)):
+    for contact in contacts:
 
-        worksheet.write(row, column, contacts[i].emergency_contact_1.full_name)
-        column += 1
-        emc_phone_1 = contacts[i].emergency_contact_1.phone_number
-        if emc_phone_1 is not None and emc_phone_1 != "":
-            worksheet.write(row, column, int(emc_phone_1))
-        column += 1
-        worksheet.write(row, column, contacts[i].emergency_contact_1.relation)
-        column += 1
+        column = starting_column
 
-        worksheet.write(row, column, contacts[i].emergency_contact_2.full_name)
-        column += 1
-        emc_phone_2 = contacts[i].emergency_contact_2.phone_number
-        if emc_phone_2 is not None and emc_phone_2 != "":
-            worksheet.write(row, column, int(emc_phone_2))
-        column += 1
-        worksheet.write(row, column, contacts[i].emergency_contact_2.relation)
+        if contact.emergency_contact_1 is not None:
+            worksheet.write(row, column, contact.emergency_contact_1.full_name)
+            column += 1
+            emc_phone_1 = contact.emergency_contact_1.phone_number
+            if emc_phone_1 is not None and emc_phone_1 != "":
+                worksheet.write(row, column, int(emc_phone_1), phone_format)
+            column += 1
+            worksheet.write(row, column, contact.emergency_contact_1.relation)
+            column += 1
 
-        row +=1
-        column =0
+        else:
+            column += 3
+
+        if contact.emergency_contact_2 is not None:
+            worksheet.write(row, column, contact.emergency_contact_2.full_name)
+            column += 1
+            emc_phone_2 = contact.emergency_contact_2.phone_number
+            if emc_phone_2 is not None and emc_phone_2 != "":
+                worksheet.write(row, column, int(emc_phone_2), phone_format)
+            column += 1
+            worksheet.write(row, column, contact.emergency_contact_2.relation)
+
+        row += 1
 
     workbook.close()
 
