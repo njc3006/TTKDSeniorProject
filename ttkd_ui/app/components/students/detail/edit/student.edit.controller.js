@@ -1,5 +1,5 @@
 (function() {
-	function EditStudentController($scope, $stateParams, StudentsService, StateService) {
+	function EditStudentController($scope, $state, $stateParams, $timeout, StudentsService, StateService) {
 		function arrayDiff(lhs, rhs, lhsIdFunction, rhsIdFunction) {
 			return lhs.filter(function(item) {
 			  for (var i in rhs) {
@@ -27,16 +27,15 @@
 				function(item) { return item.id; }
 			);
 
-			//console.log($scope.studentInfo.oldStripes);
 			StudentsService.updateStudentStripes(
 				$stateParams.studentId,
 				oldPersonStripes,
 				newStripes
 			).then(
 				function success(responses) {
-					//TODO: update state so this can be changed multiple times
 					$scope.requestFlags.submission.success = true;
 					window.scrollTo(0, 0);
+					$timeout($state.reload, 1000);
 				},
 				function failure(error) {
 					$scope.requestFlags.submission.failure = true;
@@ -98,8 +97,8 @@
 								$scope.studentInfo.newBelt.id
 							).then(
 								function success(response) {
-									$scope.currentBelt = $scope.studentInfo.newBelt;
-									$scope.oldPersonBelt = response[1].data;
+									//$scope.currentBelt = $scope.studentInfo.newBelt;
+									//$scope.oldPersonBelt = response[1].data;
 									submitStripeChanges();
 								},
 								function failure(error) {
@@ -137,6 +136,7 @@
 		$scope.states = StateService.getStates();
 
 		StudentsService.getStudent($stateParams.studentId).then(function success(response) {
+			$scope.oldStudent = angular.copy(response.data);
 			$scope.studentInfo = response.data;
 
 			$scope.studentInfo.oldStripes = $scope.studentInfo.stripes.filter(function(stripe) {
@@ -226,7 +226,9 @@
 		'ttkdApp.constants'
 	]).controller('EditStudentCtrl', [
 		'$scope',
+		'$state',
 		'$stateParams',
+		'$timeout',
 		'StudentsSvc',
 		'StateSvc',
 		EditStudentController
