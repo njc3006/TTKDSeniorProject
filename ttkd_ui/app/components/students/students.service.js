@@ -12,9 +12,8 @@
 
 				updateStudentBelt: function(id, oldPersonBelt, newBeltId) {
 					oldPersonBelt['current_belt'] = false;
-					oldPersonBelt.belt = oldPersonBelt.belt.id;
+					oldPersonBelt.belt = oldPersonBelt.belt.id || oldPersonBelt.belt;
 
-					console.log(newBeltId);
 					var newBeltPayload = {
 						'current_belt': true,
 						belt: newBeltId,
@@ -40,7 +39,7 @@
 
 					var updatedPersonStripes = oldPersonStripes.map(function(personStripe) {
 						personStripe['current_stripe'] = false;
-						personStripe.stripe = personStripe.stripe.id;
+						personStripe.stripe = personStripe.stripe.id || personStripe.stripe;
 
 						return $http.put(apiHost + '/api/person-stripes/' + personStripe.id + '/', personStripe);
 					});

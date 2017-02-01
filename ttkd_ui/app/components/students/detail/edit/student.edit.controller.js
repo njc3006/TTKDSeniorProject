@@ -27,12 +27,14 @@
 				function(item) { return item.id; }
 			);
 
+			//console.log($scope.studentInfo.oldStripes);
 			StudentsService.updateStudentStripes(
 				$stateParams.studentId,
 				oldPersonStripes,
 				newStripes
 			).then(
-				function success(response) {
+				function success(responses) {
+					//TODO: update state so this can be changed multiple times
 					$scope.requestFlags.submission.success = true;
 					window.scrollTo(0, 0);
 				},
@@ -96,6 +98,8 @@
 								$scope.studentInfo.newBelt.id
 							).then(
 								function success(response) {
+									$scope.currentBelt = $scope.studentInfo.newBelt;
+									$scope.oldPersonBelt = response[1].data;
 									submitStripeChanges();
 								},
 								function failure(error) {
@@ -129,7 +133,6 @@
 		$scope.selectedFromStudentStripes = [];
 
 		$scope.studentInfo = {};
-		$scope.newBelt = {};
 
 		$scope.states = StateService.getStates();
 
@@ -188,6 +191,7 @@
 				}
 
 				$scope.currentBelt = currentBelt.belt;
+				$scope.studentInfo.newBelt = angular.copy($scope.currentBelt);
 				$scope.oldPersonBelt = currentBelt;
 			}
 

@@ -57,9 +57,10 @@
 
 			if (controller.studentStripes.length > 0) {
 				controller.studentStripes[0].active = true;
+				controller.selectedFromStudentStripes = [controller.studentStripes[0]];
+			} else {
+				controller.selectedFromStudentStripes = [];
 			}
-
-			controller.selectedFromStudentStripes = [];
 		};
 
 		$http.get(apiHost + '/api/stripes/').then(
