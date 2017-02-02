@@ -13,6 +13,13 @@
         }
       })
 
+      .state('importexport', {
+        url: '/importexport',
+        params: { hideCurrentProgram: true },
+        templateUrl: 'components/importexport/importexport.html',
+        controller: 'ImportExportCtrl'
+      })
+
       .state('checkin', {
         url: '/checkin/{programID:int}',
         templateUrl: 'components/checkin/checkin.html',
