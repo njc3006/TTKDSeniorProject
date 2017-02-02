@@ -91,7 +91,7 @@ for student in students_import:
             "street": student['address']['street'] if not mask else "123 TTKD Lane",
             "city": student['address']['city'] if not mask else "No Where",
             "zipcode": student['address']['zip'] if not mask else "12345",
-            "state": student['address']['state'] if not mask else "KA",
+            "state": student['address']['state'] if not mask else "KS",
             "misc_notes": "",
             "active": True,
             "emergency_contact_1": emergency_pk,
