@@ -1,6 +1,5 @@
 """Custom Permissions for more specific definitions"""
 from rest_framework import permissions
-import json
 
 class IsUserOrReadOnly(permissions.BasePermission):
     """
@@ -29,6 +28,8 @@ class IsUserOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
+        data = request.data.dict()
+
         # Is the user being modified or an admin.
         return request.user.is_staff or (obj.id == request.user.id and ("is_staff" not in data or not data["is_staff"]))
 
@@ -40,7 +41,7 @@ class IsAdminOrAuthReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
         # Read permissions are allowed to any request,
         # so we'll always allow GET, HEAD or OPTIONS requests.
-        if request.user == "AnonymousUser":
+        if request.user.is_anonymous:
             return False
 
         if request.method in permissions.SAFE_METHODS:
@@ -52,7 +53,7 @@ class IsAdminOrAuthReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         # Read permissions are allowed to any request,
         # so we'll always allow GET, HEAD or OPTIONS requests.
-        if request.user == "AnonymousUser":
+        if request.user.is_anonymous:
             return False
 
         if request.method in permissions.SAFE_METHODS:
