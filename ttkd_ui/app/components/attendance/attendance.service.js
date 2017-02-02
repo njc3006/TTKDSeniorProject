@@ -1,40 +1,51 @@
 (function() {
 	function AttendanceService($http, $q, apiHost, StudentsService) {
 		return {
+			getUngroupedRecords: function(filterData) {
+				return $q(function(resolve, reject) {
+
+				});
+			},
+
 			getGroupedByStudentRecords: function(filterData) {
 				return $q(function(resolve, reject) {
 					var requestConfig = {
 						params: {
-							program: filterData.program,
-							date: moment(filterData.startDate).format('YYYY-MM-DD')
+							program: filterData.program
 						}
 					};
 
-					$http.get(apiHost + '/api/check-ins/', requestConfig).then(function success(response) {
+					$http.get(apiHost + '/api/check-ins-detailed/', requestConfig).then(function success(response) {
 						var uniqueStudents = {};
 
 						response.data.forEach(function(attendanceRecord) {
 							if (filterData.endDate && moment(attendanceRecord.date, 'YYYY-MM-DD').isAfter(filterData.endDate)) {
 								return;
+							} else if (filterData.startDate && moment(attendanceRecord.date, 'YYYY-MM-DD').isBefore(filterData.startDate)) {
+								return;
 							}
 
 							if (!uniqueStudents[attendanceRecord.person]) {
-								uniqueStudents[attendanceRecord.person] = {
-									attendanceRecords: [attendanceRecord],
-									minDate: moment(attendanceRecord.date, 'YYYY-MM-DD'),
-									maxDate: moment(attendanceRecord.date, 'YYYY-MM-DD')
+								uniqueStudents[attendanceRecord.person.id] = {
+									name: attendanceRecord.person['first_name'] + ' ' + attendanceRecord.person['last_name']
+									programs: {},
 								};
+
+								uniqueStudents[attendanceRecord.person.id].programs[attendanceRecord.program.id] {
+									name: attendanceRecord.program.name,
+									minDate:  moment(attendanceRecord.date, 'YYYY-MM-DD').toDate(),
+									maxDate:  moment(attendanceRecord.date, 'YYYY-MM-DD').toDate()
+								}
 							} else {
-								var student = uniqueStudents[attendanceRecord.person];
+								var student = uniqueStudents[attendanceRecord.person.id],
+									program = student.programs[attendanceRecord.program.id];
 
-								student.attendanceRecords.push(attendanceRecord);
+								var date = moment(attendanceRecord.date, 'YYYY-MM-DD').toDate();
 
-								var date = moment(attendanceRecord.date, 'YYYY-MM-DD');
-
-								if (student.minDate && date < student.minDate) {
-									student.minDate = date;
-								} else if (student.maxDate && date > student.maxDate) {
-									student.maxDate = date;
+								if (program.minDate && date.getTime() < student.minDate.getTime()) {
+									program.minDate = date;
+								} else if (program.maxDate && date.getTime() > program.maxDate.getTime()) {
+									program.maxDate = date;
 								}
 							}
 						});
