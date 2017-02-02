@@ -1,0 +1,98 @@
+<ng-form name="contactForm">
+	<div class="spacer-25">
+		<div ng-class="{'has-error': contactForm.fullName.$invalid && !contactForm.fullName.$pristine, 'has-success': contactForm.fullName.$valid}">
+			<div class="input-group" ng-if="required">
+				<input
+					type="text"
+					name="fullName"
+					ng-required="required"
+					class="form-control"
+					placeholder="Full Name"
+					ng-model="ngModel.full_name">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-asterisk"></i>
+				</span>
+			</div>
+			<div ng-if="!required">
+				<input
+					type="text"
+					name="fullName"
+					ng-required="required"
+					class="form-control"
+					placeholder="Full Name"
+					ng-model="ngModel.full_name">
+			</div>
+			<span
+				class="help-block"
+				ng-show="contactForm.fullName.$invalid && !contactForm.fullName.$pristine">
+				Must enter a full name
+			</span>
+		</div>
+	</div>
+	<div class="row">
+		<div
+			class="col-xs-6"
+			ng-class="{'has-error': contactForm.phone.$invalid && !contactForm.phone.$pristine, 'has-success': contactForm.phone.$valid}">
+			<div class="input-group" ng-if="required">
+				<input
+					type="text"
+					name="phone"
+					ng-required="required"
+					class="form-control"
+					placeholder="Phone Number"
+					ng-model="ngModel.phone_number"
+					mask="(999) 999-9999"
+					clean="true">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-asterisk"></i>
+				</span>
+			</div>
+			<div ng-if="!required">
+				<input
+					type="text"
+					name="phone"
+					ng-required="required"
+					class="form-control"
+					placeholder="Phone Number"
+					ng-model="ngModel.phone_number"
+					mask="(999) 999-9999"
+					clean="true">
+			</div>
+			<span
+				class="help-block"
+				ng-show="contactForm.phone.$invalid && !contactForm.phone.$pristine">
+				Must enter a valid phone number (e.g. 123-456-7890)
+			</span>
+		</div>
+		<div
+			class="col-xs-6"
+			ng-class="{'has-error': contactForm.relation.$invalid && !contactForm.relation.$pristine, 'has-success': contactForm.relation.$valid}">
+			<div class="input-group"  ng-if="required">
+				<input
+					type="text"
+					name="relation"
+					ng-required="required"
+					class="form-control"
+					placeholder="Relationship"
+					ng-model="ngModel.relation">
+				<span class="input-group-addon">
+					<i class="glyphicon glyphicon-asterisk"></i>
+				</span>
+			</div>
+			<div ng-if="!required">
+				<input
+					type="text"
+					name="relation"
+					ng-required="required"
+					class="form-control"
+					placeholder="Relationship"
+					ng-model="ngModel.relation">
+			</div>
+			<span
+				class="help-block"
+				ng-show="contactForm.relation.$invalid && !contactForm.relation.$pristine">
+				Must enter a relationship
+			</span>
+		</div>
+	</div>
+</ng-form>
