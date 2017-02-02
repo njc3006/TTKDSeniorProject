@@ -20,7 +20,7 @@
 			calendar.open = true;
 		};
 
-		$scope.loadAttendanceRecords = function() {
+		function loadAttendanceRecords() {
 			var filterData = $scope.filterData;
 
 			if ($scope.filterData.startDate) {
@@ -31,12 +31,25 @@
 				filterData.endDate = $scope.filterData.endDate.value;
 			}
 
-			AttendanceService.getGroupedByStudentRecords(filterData).then(function success(uniqueStudents) {
-				$scope.attendanceRecords = uniqueStudents;
-				$scope.displayStudents = $scope.attendanceRecords;
-			}, function failure(error) {
-				console.log(error);
-			});
+			if ($scope.filterData.condensed) {
+				AttendanceService.getGroupedByStudentRecords(filterData).then(
+					function success(groupedRecords) {
+						$scope.attendanceRecords = groupedRecords;
+					},
+					function error(error) {
+
+					}
+				);
+			} else {
+				AttendanceService.getUngroupedRecords(filterData).then(
+					function success(ungroupedRecords) {
+						$scope.attendanceRecords = ungroupedRecords;
+					},
+					function error(error) {
+
+					}
+				);
+			}
 		};
 
 		$scope.filterData = {
@@ -45,36 +58,19 @@
 		};
 
 		$scope.$watch('filterData["startDate"]["value"]', function(newDate) {
-			$scope.loadAttendanceRecords();
+			loadAttendanceRecords();
 		});
 
 		$scope.$watch('filterData["endDate"]["value"]', function(newDate) {
-			$scope.loadAttendanceRecords();
+			loadAttendanceRecords();
 		});
 
 		$scope.$watch('filterData["program"]', function(newProgram) {
-			$scope.loadAttendanceRecords();
+			loadAttendanceRecords();
 		});
 
 		$scope.$watch('filterData["student"]', function(newStudentName) {
-			if (!$scope.filterData.student) return;
-
-			var tokens = newStudentName.split();
-
-			if (tokens.length === 1) {
-				var name = tokens[0];
-
-				$scope.displayStudents = filterObject($scope.attendanceRecords, function(record) {
-					return record.firstName.indexOf(name) !== -1 || record.lastName.indexOf(name) !== -1;
-				});
-			} else if (tokens.length === 2) {
-				var firstName = tokens[0], lastName = tokens[1];
-
-				$scope.displayStudents = filterObject($scope.attendanceRecords, function(record) {
-					return record.firstName.toLowerCase() === firstName.toLowerCase() ||
-						record.lastName.toLowerCase() === lastName.toLowerCase();
-				});
-			}
+			loadAttendanceRecords();
 		});
 
 		ProgramService.getPrograms().then(function success(response) {
@@ -86,6 +82,15 @@
 		$scope.loadAttendanceRecords();
 	}
 
-	angular.module('ttkdApp.attendanceCtrl', ['ttkdApp.programsSvc', 'ttkdApp.attendanceService'])
-		.controller('AttendanceCtrl', ['$scope', 'ProgramsSvc', 'AttendanceSvc', AttendanceController]);
+	angular.module('ttkdApp.attendanceCtrl', [
+		'ttkdApp.programsSvc',
+		'ttkdApp.attendanceService',
+		'ttkdApp.studentsService'
+	]).controller('AttendanceCtrl', [
+		'$scope',
+		'ProgramsSvc',
+		'AttendanceSvc',
+		'StudentsSvc',
+		AttendanceController
+	]);
 })();

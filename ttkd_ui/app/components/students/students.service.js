@@ -6,6 +6,17 @@
 					return $http.get(apiHost + '/api/persons/' + id + '/');
 				},
 
+				getStudentByName: function(firstName, lastName) {
+					var config = {
+						params: {
+							'first_name': firstName,
+							'last_name': lastName
+						}
+					};
+
+					return $http.get(apiHost + '/api/persons/', config);
+				},
+
 				/* post a picture to the api for a student with the given id */
 				changePicture: function(id, picture) {
 					var data = {

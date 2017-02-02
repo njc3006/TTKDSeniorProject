@@ -15,27 +15,55 @@
 						}
 					};
 
+					var firstName, lastName;
+					if (filterData.student) {
+						var splitName = filterData.student.split(' ');
+						firstName = splitName[0];
+						lastName = splitName[1];
+					}
+
+					var startMoment, endMoment;
+					if (filterData.startDate) {
+						startMoment = moment(filterData.startDate);
+					}
+
+					if (filterData.endDate) {
+						endMoment = moment(filterData.endDate);
+					}
+
 					$http.get(apiHost + '/api/check-ins-detailed/', requestConfig).then(function success(response) {
 						var uniqueStudents = {};
 
 						response.data.forEach(function(attendanceRecord) {
-							if (filterData.endDate && moment(attendanceRecord.date, 'YYYY-MM-DD').isAfter(filterData.endDate)) {
+							if (endMoment && endMoment.isBefore(attendanceRecord.date)) {
 								return;
-							} else if (filterData.startDate && moment(attendanceRecord.date, 'YYYY-MM-DD').isBefore(filterData.startDate)) {
+							} else if (startMoment && startMoment.isAfter(filterData.startDate)) {
 								return;
+							}
+
+							if (firstName) {
+								if (attendanceRecord.person['first_name'].indexOf(firstName) === -1) {
+									return;
+								}
+							} else if (firstName && lastName) {
+								if (attendanceRecord.person['first_name'].indexOf(firstName) === -1) {
+									if (attendanceRecord.person['last_name'].indexOf(lastName) === -1) {
+										return;
+									}
+								}
 							}
 
 							if (!uniqueStudents[attendanceRecord.person]) {
 								uniqueStudents[attendanceRecord.person.id] = {
-									name: attendanceRecord.person['first_name'] + ' ' + attendanceRecord.person['last_name']
+									name: attendanceRecord.person['first_name'] + ' ' + attendanceRecord.person['last_name'],
 									programs: {},
 								};
 
-								uniqueStudents[attendanceRecord.person.id].programs[attendanceRecord.program.id] {
+								uniqueStudents[attendanceRecord.person.id].programs[attendanceRecord.program.id] = {
 									name: attendanceRecord.program.name,
 									minDate:  moment(attendanceRecord.date, 'YYYY-MM-DD').toDate(),
 									maxDate:  moment(attendanceRecord.date, 'YYYY-MM-DD').toDate()
-								}
+								};
 							} else {
 								var student = uniqueStudents[attendanceRecord.person.id],
 									program = student.programs[attendanceRecord.program.id];
