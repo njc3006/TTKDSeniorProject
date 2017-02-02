@@ -41,8 +41,7 @@
 			).then(
 				function success(responses) {
 					$scope.requestFlags.submission.success = true;
-					window.scrollTo(0, 0);
-					$timeout($state.reload, 1000);
+					$state.go('studentDetails', {studentId: $stateParams.studentId});
 				},
 				function failure(error) {
 					$scope.requestFlags.submission.failure = true;

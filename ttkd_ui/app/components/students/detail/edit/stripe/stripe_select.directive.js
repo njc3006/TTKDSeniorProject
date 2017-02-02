@@ -84,7 +84,9 @@
 				templateUrl: 'components/students/detail/edit/stripe/stripe_select.directive.html',
 				controller: ['$scope', '$http', 'apiHost', StripeSelectController],
 				bindToController: {
-					studentStripes: '='
+					studentStripes: '=',
+					addedStripes: '=',
+					deletedStripes: '='
 				},
 				controllerAs: 'ctrl'
 			};
