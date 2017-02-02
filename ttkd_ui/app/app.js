@@ -15,7 +15,7 @@
 		'ttkdApp.registationCtrl',
 		'ttkdApp.studentlistCtrl',
 		'ttkdApp.studentDetailCtrl',
-		'ttkdApp.editStudentCtrl'
+		'ttkdApp.editStudentCtrl',
 		'ttkdApp.importExportCtrl'
     ]
   );
