@@ -44,7 +44,7 @@
 						return $http.put(apiHost + '/api/person-stripes/' + personStripe.id + '/', personStripe);
 					});
 
-					return $q.all(newPersonStripes.concat(updatedPersonStripes));
+					return $q.all(updatedPersonStripes.concat(newPersonStripes));
 				},
 
 				/* post a picture to the api for a student with the given id */

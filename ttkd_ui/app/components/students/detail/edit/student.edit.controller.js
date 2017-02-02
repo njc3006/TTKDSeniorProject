@@ -11,37 +11,29 @@
 		}
 
 		function areDifferent(lhs, rhs, lhsIdFunction, rhsIdFunction) {
-			var lhsDiff = arrayDiff(lhs, rhs, lhsIdFunction, rhsIdFunction),
-				rhsDiff = arrayDiff(rhs, lhs, rhsIdFunction, lhsIdFunction);
+			var lhsDiff = arrayDiff(lhs, rhs, lhsIdFunction, rhsIdFunction);
 
-			return lhsDiff.length > 0 || rhsDiff.length > 0;
+			return lhsDiff.length > 0;
 		}
 
 		function submitStripeChanges() {
-			//compute which stripes were added
-			var newStripes = arrayDiff(
-				$scope.studentInfo.stripes,
-				$scope.studentInfo.oldStripes,
-				function(item) { return item.id; },
-				function(item) { return item.stripe.id; }
-			);
-
-			//compute which stripes where deleted
-			var oldPersonStripes = arrayDiff(
-				$scope.studentInfo.oldStripes,
-				$scope.studentInfo.stripes,
-				function(item) { return item.stripe.id; },
-				function(item) { return item.id; }
-			);
-
 			StudentsService.updateStudentStripes(
 				$stateParams.studentId,
-				oldPersonStripes,
-				newStripes
+				$scope.studentInfo.oldStripes,
+				$scope.studentInfo.stripes
 			).then(
 				function success(responses) {
+					$scope.studentInfo.oldStripes = responses.filter(function(response) {
+						return response.data['current_stripe'];
+					}).map(function(response) {
+							return response.data;
+					});
+
+					window.scrollTo(0, 0);
 					$scope.requestFlags.submission.success = true;
-					$state.go('studentDetails', {studentId: $stateParams.studentId});
+					$timeout(function() {
+						$scope.requestFlags.submission.success = false;
+					}, 1000);
 				},
 				function failure(error) {
 					$scope.requestFlags.submission.failure = true;
@@ -61,7 +53,7 @@
 								value,
 								$scope.studentInfo.oldStripes,
 								function(item) { return item.id; },
-								function(item) { return item.stripe.id; }
+								function(item) { return item.stripe.id || item.stripe; }
 							);
 							break;
 						case 'currentBelt':
@@ -90,7 +82,6 @@
 							hasUnsavedChanges = value.value !== $scope.oldStudent[key];
 							break;
 						case 'belts':
-						case 'stripes':
 						case 'oldStripes':
 						case 'newBelt':
 							break;
@@ -159,15 +150,22 @@
 
 				StudentsService.updateStudentInfo($stateParams.studentId, payload).then(
 					function success(response) {
-						if ($scope.studentInfo.newBelt) {
+						$scope.oldStudent = angular.copy($scope.studentInfo);
+						delete $scope.oldStudent.belts;
+						delete $scope.oldStudent.stripes;
+
+						$scope.oldStudent.state = $scope.oldStudent.state.value;
+						$scope.oldStudent.dob = moment($scope.oldStudent.dob.value).format('YYYY-MM-DD');
+
+						if ($scope.studentInfo.newBelt.id !== $scope.currentBelt.id) {
 							StudentsService.updateStudentBelt(
 								$stateParams.studentId,
 								$scope.oldPersonBelt,
 								$scope.studentInfo.newBelt.id
 							).then(
-								function success(response) {
-									//$scope.currentBelt = $scope.studentInfo.newBelt;
-									//$scope.oldPersonBelt = response[1].data;
+								function success(responses) {
+									$scope.currentBelt = $scope.studentInfo.newBelt;
+									$scope.oldPersonBelt = responses[1].data;
 									submitStripeChanges();
 								},
 								function failure(error) {

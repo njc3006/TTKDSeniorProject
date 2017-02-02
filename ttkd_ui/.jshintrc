@@ -54,8 +54,9 @@
     "node": true,
 
     "globals": {
-				"alert": false,
-				"moment": false,
+    	"alert": false,
+    	"confirm": false,
+    	"moment": false,
         "angular": false,
         "$": false
     }
