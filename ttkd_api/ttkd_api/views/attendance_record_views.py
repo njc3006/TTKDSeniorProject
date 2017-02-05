@@ -1,9 +1,22 @@
 """AttendanceRecordViewSet"""
+import django_filters
+from django_filters import rest_framework as drf_filters
 from rest_framework import viewsets, filters
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.status import *
 from ..serializers.attendance_record_serializer import AttendanceRecordSerializer, \
     AttendanceRecordSerializerUsingPerson, DetailedAttendanceRecordSerializer
 from ..models.attendance_record import AttendanceRecord
 
+class DateRangeFilter(drf_filters.FilterSet):
+    class Meta:
+        model = AttendanceRecord
+        fields = {
+            'person': ['exact'],
+            'program': ['exact'],
+            'date': ['gte', 'lte']
+        }
 
 class AttendanceRecordViewSet(viewsets.ModelViewSet):
     """
@@ -15,7 +28,8 @@ class AttendanceRecordViewSet(viewsets.ModelViewSet):
     queryset = AttendanceRecord.objects.all()
     serializer_class = AttendanceRecordSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('person', 'program', 'date',)
+    filter_class = DateRangeFilter
+    #filter_fields = ('person', 'program', 'date',)
 
 class DetailedAttendanceRecordViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -23,7 +37,8 @@ class DetailedAttendanceRecordViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = AttendanceRecord.objects.all()
     serializer_class = DetailedAttendanceRecordSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('person', 'program',)
+    filter_class = DateRangeFilter
+    #filter_fields = ('person', 'program',)
 
 class AttendanceRecordUsingPersonViewSet(viewsets.ReadOnlyModelViewSet):
     """

@@ -15,11 +15,8 @@
 		'ttkdApp.registationCtrl',
 		'ttkdApp.studentlistCtrl',
 		'ttkdApp.studentDetailCtrl',
-<<<<<<< HEAD
 		'ttkdApp.attendanceCtrl',
-=======
 		'ttkdApp.editStudentCtrl',
->>>>>>> develop
 		'ttkdApp.importExportCtrl'
     ]
   );

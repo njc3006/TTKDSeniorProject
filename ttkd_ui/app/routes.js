@@ -56,6 +56,7 @@
 				url: '/attendance',
 				templateUrl: 'components/attendance/attendance.html',
 				controller: 'AttendanceCtrl'
+			})
 
 			.state('editStudentDetails', {
 				url: '/students/{studentId:int}/edit',

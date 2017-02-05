@@ -69,29 +69,47 @@
 		</div>
 	</div>
 
-	<div class="row" ng-if="filterData.condensed">
-		<div class=" panel panel-default">
-			<div class="panel-body">
-				<div class="col-sm-11">
-					<div class="row">
-						<span class="h4 col-sm-6">Sam Gamgee</span>
-						<span class="h4 col-sm-6">10/14/16 - 10/24/16</span>
+	<div ng-if="filterData.condensed">
+		<div ng-repeat="(stuentId, records) in attendanceRecords">
+			<div class="row" ng-repeat="(programId, program) in records.programs">
+				<div class="panel panel-default col-sm-10 col-sm-offset-1">
+					<div class="panel-body">
+						<div class="col-sm-11">
+							<div class="row">
+								<span class="h4 col-sm-6">{{records.name}}</span>
+								<div class="col-sm-6">
+									<span class="h4 pull-right">{{format(program.minDate)}} - {{format(program.maxDate)}}</span>
+								</div>
+							</div>
+							<div class="row">
+								<span class="h4 col-sm-12">{{program.name}}</span>
+							</div>
+						</div>
+						<div class="well well-sm col-sm-1">
+							<p class="text-center h3 no-margins">{{program.count}}</>
+						</div>
 					</div>
-					<div class="row">
-						<span class="h4 col-sm-12">Class</span>
-					</div>
-				</div>
-				<div class="well well-sm col-sm-1 pull-right">
-					<span class="h3">3</span>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="row" ng-if="!filterData.condensed">
-		<div class=" panel panel-default">
-			<div class="panel-body">
-				This is a panel
+	<div ng-if="!filterData.condensed">
+		<div class="row" ng-repeat="record in attendanceRecords">
+			<div class=" panel panel-default col-sm-10 col-sm-offset-1">
+				<div class="panel-body">
+					<div class="col-sm-12">
+						<div class="row">
+							<span class="h4 col-sm-6">{{record.person.first_name + ' ' + record.person.last_name}}</span>
+							<div class="col-sm-6">
+								<span class="h4 pull-right">{{format(record.date)}}</span>
+							</div>
+						</div>
+						<div class="row">
+							<span class="h4 col-sm-12">{{record.program.name}}</span>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
