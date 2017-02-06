@@ -1,0 +1,312 @@
+<div class="container">
+	<div class="alert alert-danger" ng-show="requestFlags.submission.failure" uib-alert close="closeErrorAlert()">
+		There was an error submitting the information changes
+	</div>
+
+	<div class="alert alert-success" ng-show="requestFlags.submission.success" uib-alert close="closeSuccessAlert()">
+		Information for {{studentInfo.first_name}} {{studentInfo.last_name}} has been successfully updated
+	</div>
+
+	<div class="alert alert-info" role="alert" ng-show="!requestFlags.loading.done">
+		Loading...
+	</div>
+
+	<div class="alert alert-danger" ng-show="requestFlags.loading.failure" role="alert">
+		Student Information could not be loaded!
+	</div>
+
+	<div class="row form-group spacer-20" ng-show="!requestFlags.loading.failure && requestFlags.loading.done">
+		<button class="btn btn-primary" ng-click="backNavigate()">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+			Back
+		</button>
+		<!--<a ui-sref="studentDetails({studentId: studentInfo.id})" class="btn btn-primary">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+			Back
+		</a>-->
+	</div>
+
+	<form name="editForm" ng-submit="submitChanges(editForm.$valid)" novalidate ng-show="!requestFlags.loading.failure">
+		<div class="row">
+			<div
+				class="form-group col-xs-5"
+				ng-class="{'has-error': editForm.firstName.$invalid, 'has-success': editForm.firstName.$valid}">
+				<label class="control-label">First Name</label>
+				<div class="input-group">
+					<input
+						name="firstName"
+						type="text"
+						placeholder="First Name"
+						class="form-control"
+						ng-model="studentInfo.first_name"
+						ng-required="true">
+					<span class="input-group-addon">
+						<i class="glyphicon glyphicon-asterisk"></i>
+					</span>
+				</div>
+				<span
+					class="help-block"
+					ng-show="editForm.firstName.$invalid">
+					First Name is required
+				</span>
+			</div>
+			<div
+				class="form-group col-xs-5"
+				ng-class="{'has-error': editForm.lastName.$invalid, 'has-success': editForm.lastName.$valid}">
+				<label class="control-label">Last Name</label>
+				<div class="input-group">
+					<input
+						name="lastName"
+						type="text"
+						class="form-control"
+						ng-model="studentInfo.last_name"
+						ng-required="true">
+					<span class="input-group-addon">
+						<i class="glyphicon glyphicon-asterisk"></i>
+					</span>
+				</div>
+				<span
+					class="help-block"
+					ng-show="editForm.lastName.$invalid">
+					Last Name is required
+				</span>
+			</div>
+			<div class="form-group col-xs-2">
+				<label class="control-label">Active Status</label>
+				<button
+					type="button"
+					class="form-control btn btn-primary"
+					uib-btn-checkbox
+					ng-model="studentInfo.active"
+					btn-checkbox-true="true"
+					btn-checkbox-false="false">
+					{{studentInfo.active ? 'Active' : 'Inactive'}}
+				</button>
+			</div>
+		</div>
+
+		<div class="row">
+			<div
+				class="form-group col-xs-12"
+				ng-class="{'has-error': editForm.dob.$invalid, 'has-success': editForm.dob.$valid}">
+				<label class="control-label">Date of Birth</label>
+				<div class="input-group">
+					<input
+						name="dob"
+						type="text"
+						class="form-control"
+						uib-datepicker-popup="MM/dd/yyyy"
+						ng-model="studentInfo.dob.value"
+						is-open="studentInfo.dob.open"
+						ng-required="true"
+						close-text="Close" />
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button" ng-click="openDob()">
+							<i class="glyphicon glyphicon-calendar"></i>
+						</button>
+					</span>
+					<span class="input-group-addon">
+						<i class="glyphicon glyphicon-asterisk"></i>
+					</span>
+				</div>
+				<span class="help-block" ng-show="editForm.dob.$invalid">
+					A valid Date of Birth is required
+				</span>
+			</div>
+		</div>
+
+		<div class="row">
+			<div
+				class="form-group col-xs-6"
+				ng-class="{'has-error': editForm.primaryPhone.$invalid, 'has-success': editForm.primaryPhone.$valid}">
+				<label class="control-label">Primary Phone</label>
+				<div class="input-group">
+					<input
+						name="primaryPhone"
+						type="text"
+						class="form-control"
+						ng-model="studentInfo.primary_phone",
+						ng-required="true"
+						mask="(999) 999-9999"
+						clean="true"
+						validate="true">
+					<span class="input-group-addon">
+						<i class="glyphicon glyphicon-asterisk"></i>
+					</span>
+				</div>
+				<span class="help-text" ng-show="editForm.primaryPhone.$invalid">
+					Enter a valid phone number
+				</span>
+			</div>
+			<div
+				class="form-group col-xs-6"
+				ng-class="{'has-error': editForm.secondaryPhone.$invalid, 'has-success': editForm.secondaryPhone.$valid && studentInfo.secondary_phone.length > 0}">
+				<label class="control-label">Secondary Phone</label>
+				<input
+					name="secondaryPhone"
+					type="text"
+					class="form-control"
+					ng-model="studentInfo.secondary_phone"
+					mask="(999) 999-9999"
+					clean="true"
+					validate="true">
+				<span class="help-text" ng-show="editForm.secondaryPhone.$invalid">
+					Enter a valid phone number
+				</span>
+			</div>
+		</div>
+
+		<div class="row">
+			<div
+				class="form-group col-xs-12"
+				ng-class="{'has-error': editForm.street.$invalid, 'has-success': editForm.street.$valid}">
+				<label class="control-label">Address</label>
+				<div class="input-group">
+					<input
+						name="street"
+						type="text"
+						class="form-control"
+						ng-model="studentInfo.street"
+						ng-required="true">
+					<span class="input-group-addon">
+						<i class="glyphicon glyphicon-asterisk"></i>
+					</span>
+				</div>
+				<span class="help-text" ng-show="editForm.street.$invalid">
+					An address is required
+				</span>
+			</div>
+		</div>
+
+		<div class="row spacer-20">
+			<div
+				class="form-group col-xs-4"
+				ng-class="{'has-error': editForm.city.$invalid, 'has-success': editForm.city.$valid}">
+				<label class="control-label">City</label>
+				<div class="input-group">
+					<input
+						name="city"
+						type="text"
+						class="form-control"
+						ng-model="studentInfo.city"
+						ng-required="true">
+					<span class="input-group-addon">
+						<i class="glyphicon glyphicon-asterisk"></i>
+					</span>
+				</div>
+				<span class="help-text" ng-show="editForm.city.$invalid">
+					City is required
+				</span>
+			</div>
+			<div
+				class="form-group col-xs-4"
+				ng-class="{'has-error': editForm.state.$invalid, 'has-success': editForm.state.$valid}">
+				<label class="control-label">State</label>
+				<div class="input-group">
+					<select
+						class="form-control"
+						name="state"
+						ng-model="studentInfo.state"
+						ng-required="true"
+						ng-options="state as state.name for state in states track by state.value">
+						<option value="">Select a State</option>
+					</select>
+					<span class="input-group-addon">
+						<i class="glyphicon glyphicon-asterisk"></i>
+					</span>
+				</div>
+				<span class="help-text" ng-show="editForm.state.$invalid">
+					Must select a state
+				</span>
+			</div>
+			<div
+				class="form-group col-xs-4"
+				ng-class="{'has-error': editForm.zipcode.$invalid, 'has-success': editForm.zipcode.$valid}">
+				<label class="control-label">Zip Code</label>
+				<div class="input-group">
+					<input
+						name="zipcode"
+						type="text"
+						class="form-control"
+						ng-model="studentInfo.zipcode"
+						ng-required="true"
+						ng-pattern="/^[0-9]{5}$/">
+					<span class="input-group-addon">
+						<i class="glyphicon glyphicon-asterisk"></i>
+					</span>
+				</div>
+				<span class="help-text" ng-show="editForm.zipcode.$invalid">
+					Must enter a valid zipcode (e.g. 12345)
+				</span>
+			</div>
+		</div>
+
+		<div class="row spacer-25">
+			<uib-tabset type="pills" class="col-xs-12">
+				<uib-tab heading="Email Addresses">
+					<div class="spacer-10"
+						ng-repeat="email in studentInfo.emails"
+						ng-class="{'has-error': emailForm.email.$invalid && !emailForm.email.$pristine, 'has-success': emailForm.email.$valid}">
+						<ng-form name='emailForm'>
+							<div class="input-group col-sm-12">
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-success" ng-click="addEmail()" ng-if="$last">
+										<i class="glyphicon glyphicon-plus"></i>
+									</button>
+									<button
+										type="button"
+										class="btn btn-danger"
+										ng-click="removeEmail($index)"
+										ng-if="studentInfo.emails.length > 1">
+										<i class="glyphicon glyphicon-minus"></i>
+									</button>
+								</span>
+								<input
+									type="email"
+									name="email"
+									class="form-control"
+									placeholder="Email Address"
+									ng-required="true"
+									ng-model="studentInfo.emails[$index].email">
+								<span class="input-group-addon">
+									<i class="glyphicon glyphicon-asterisk"></i>
+								</span>
+							</div>
+						</ng-form>
+						<span
+							class="help-block"
+							ng-show="editForm.email{{$index}}.$invalid && !editForm.email{{$index}}.$pristine">
+							Must enter a valid email address
+						</span>
+					</div>
+				</uib-tab>
+				<uib-tab heading="Miscellaneous Notes">
+					<textarea class="form-control" rows="8" ng-model="studentInfo.misc_notes"></textarea>
+				</uib-tab>
+				<uib-tab heading="Emergency Contacts">
+					<h2>Primary Emergency Contact</h2>
+					<emergency-contact-input
+						ng-model="studentInfo.emergency_contact_1"
+						required="true">
+					</emergency-contact-input>
+
+					<hr/>
+					<h2>Secondary Emergency Contact</h2>
+					<emergency-contact-input
+						ng-model="studentInfo.emergency_contact_2"
+						required="anySecondaryContactInfoEntered()">
+					</emergency-contact-input>
+				</uib-tab>
+
+				<uib-tab heading="Belt Assignment">
+					<belt-select current-belt="currentBelt" new-belt="studentInfo.newBelt"></belt-select>
+				</uib-tab>
+
+				<uib-tab heading="Stripe Assignment">
+					<stripe-select student-stripes="studentInfo.stripes"></stripe-select>
+				</uib-tab>
+			</uib-tabset>
+		</div>
+		<button type="submit" class="btn btn-primary btn-lg spacer-25" ng-disabled="!editForm.$valid">Update</button>
+	</form>
+</div>

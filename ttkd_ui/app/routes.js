@@ -13,6 +13,13 @@
         }
       })
 
+      .state('importexport', {
+        url: '/importexport',
+        params: { hideCurrentProgram: true },
+        templateUrl: 'components/importexport/importexport.html',
+        controller: 'ImportExportCtrl'
+      })
+
       .state('checkin', {
         url: '/checkin/{programID:int}',
         templateUrl: 'components/checkin/checkin.html',
@@ -41,8 +48,14 @@
 
 			.state('studentDetails', {
 				url: '/students/{studentId:int}',
-				templateUrl: 'components/students/detail/student.detail.html',
+				templateUrl: 'components/students/detail/view/student.detail.html',
 				controller: 'StudentDetailCtrl'
+			})
+
+			.state('editStudentDetails', {
+				url: '/students/{studentId:int}/edit',
+				templateUrl: 'components/students/detail/edit/student.edit.html',
+				controller: 'EditStudentCtrl'
 			});
 
 			// For any unmatched url, send to /

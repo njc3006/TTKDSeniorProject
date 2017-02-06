@@ -11,14 +11,20 @@
 				'zipcode': parseInt(registrationInfo.zipcode),
 				'state': registrationInfo.state.value,
 				'emails': registrationInfo.emails.map(function(email) { return {email: email.email}; }),
-				'emergency_contacts': [{
-						'full_name': registrationInfo.emPrimaryFullName,
-						'phone_number': registrationInfo.emPrimaryPhone,
-						'relation': registrationInfo.emPrimaryRelationship
-				}]
+				'emergency_contact_1': {
+					'full_name': registrationInfo.emPrimaryFullName,
+					'phone_number': registrationInfo.emPrimaryPhone,
+					'relation': registrationInfo.emPrimaryRelationship
+				}
 			},
-			'program': registrationInfo.program.id
+			'program': registrationInfo.program.id,
+			'waiver_signature': registrationInfo.participantSignature
 		};
+
+		// We only need to add the guardian signature if there was one
+		if (registrationInfo.guardianSignature !== undefined) {
+			payload['guardian_signature'] = registrationInfo.guardianSignature;
+		}
 
 		if (registrationInfo.secondaryPhone !== undefined) {
 			payload.person['secondary_phone'] = registrationInfo.secondaryPhone.replace(new RegExp('-', 'g'), '');
@@ -29,11 +35,11 @@
 		// If this is here, then everything else is too.
 		// We only want to have this Information if it's there
 		if (registrationInfo.emSecondaryFullName !== undefined && registrationInfo.emSecondaryFullName.length > 0) {
-			payload.person['emergency_contacts'].push({
+			payload.person['emergency_contact_2'] = {
 				'full_name': registrationInfo.emSecondaryFullName,
 				'phone_number': registrationInfo.emSecondaryPhone.replace(new RegExp('-', 'g'), ''),
 				'relation': registrationInfo.emSecondaryRelationship
-			});
+			};
 		}
 
 		return payload;

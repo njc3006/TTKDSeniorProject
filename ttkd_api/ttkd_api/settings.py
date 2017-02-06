@@ -22,7 +22,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Example: "/var/www/example.com/static/"
 STATIC_ROOT = os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../www/'))
 STATIC_FOLDER = 'static/'
-STATICFILES_DIRS = [os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../' + STATIC_FOLDER))]
+STATICFILES_DIR = os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../' + STATIC_FOLDER))
+STATICFILES_DIRS = [STATICFILES_DIR]
 STATIC_URL = '/ui/'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -133,3 +134,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+# TTKD Directories
+USER_FILES_DIR = os.path.join(os.path.join('C:/Users', os.getlogin()), 'ttkd')
+BACKUP_FILES_DIR = os.path.join(USER_FILES_DIR, 'backups')
+PICTURES_DIR = os.path.join(USER_FILES_DIR, 'pictures')

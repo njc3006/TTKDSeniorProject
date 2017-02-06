@@ -1,6 +1,7 @@
 """AttendanceRecordViewSet"""
 from rest_framework import viewsets, filters
-from ..serializers.attendance_record_serializer import AttendanceRecordSerializer, AttendanceRecordSerializerUsingPerson
+from ..serializers.attendance_record_serializer import AttendanceRecordSerializer, \
+    AttendanceRecordSerializerUsingPerson
 from ..models.attendance_record import AttendanceRecord
 from rest_framework import permissions
 
