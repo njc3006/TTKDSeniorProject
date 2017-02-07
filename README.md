@@ -42,6 +42,16 @@ there are 2 possible additional options when running the script:
 
 `python import_json.py <belt|stripe|belts|stripes> <mask>`
 
+### Running Karma Tests
+
+To run karma tests, you'll first have to install the Karma CLI.
+
+`npm install -g karma-cli`
+
+Then, make sure the UI app is built by running `gulp`.
+
+Lastly, run karma tests in the `ttkd_ui/` directory by running `karma start`.
+
 ### Building a Release
 To build a release for the project, setup a unix-like environment with the following dependencies installed (In addition to the dependencies needed to build the project):
 
