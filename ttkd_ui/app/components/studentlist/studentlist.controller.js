@@ -153,6 +153,8 @@
                     var tempdata = response.data;
                     var temp2 = [];
 
+                    console.log(response.data);
+
                     angular.forEach(tempdata, function(value){
                         var transformed = {
                             id: value.id,
