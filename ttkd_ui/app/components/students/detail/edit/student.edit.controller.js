@@ -31,9 +31,6 @@
 
 					window.scrollTo(0, 0);
 					$scope.requestFlags.submission.success = true;
-					$timeout(function() {
-						$scope.requestFlags.submission.success = false;
-					}, 1000);
 				},
 				function failure(error) {
 					$scope.requestFlags.submission.failure = true;
