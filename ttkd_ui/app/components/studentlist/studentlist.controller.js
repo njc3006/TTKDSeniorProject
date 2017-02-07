@@ -52,6 +52,23 @@
             return $filter('date')(date, 'yyyy-MM-dd');
         };
 
+        $scope.getBeltStyle = function(belt) {
+            var primaryStyle = belt['primary_color'].toLowerCase() === 'ffffff' ?
+                'black 8px double' :
+                '#' + belt['primary_color'] + ' 8px solid';
+
+                var secondaryStyle = belt['secondary_color'].toLowerCase() === 'ffffff' ?
+                    'black 8px double' :
+                    '#' + belt['secondary_color'] + ' 8px solid';
+
+            return {
+                'border-right': secondaryStyle,
+                'border-left': primaryStyle,
+                'border-top': primaryStyle,
+                'border-bottom': secondaryStyle
+            };
+        };
+
         //updates the displayed list of students based on the current filters
         $scope.setDisplayedStudents = function(){
             var filteredList = [];
@@ -95,7 +112,7 @@
             }
 
             //filter based on specific selected belt (if not null)
-            if($scope.filters.currentBelt){
+            if($scope.filters.currentBelt != null){
                 var filteredByBelt = [];
                 var filteredPersonIds = [];
 
@@ -123,11 +140,21 @@
             // This else is needed because of the async response from getStudentsWithBelt above.
             // Future modification of $scope.people below this else will be overridden after the
             // response, so if you need to modify $scope.people do it before the belt filtering
-            } else {
+            } 
+            else {
                 $scope.people = filteredList;
                /* $scope.people = filteredList.slice((($scope.currentPage - 1) * $scope.itemsPerPage), 
                     (($scope.currentPage) * $scope.itemsPerPage));*/
             }
+
+            //get the belt details for every displayed student
+            angular.forEach($scope.people, function(value){
+                StudentListService.getStudentsBelt(value.id).then(
+                    function(response){
+                        value.belt = $filter('filter')($scope.belts, response.data[0].belt)[0];
+                        value.beltStyle = $scope.getBeltStyle(value.belt);
+                    });  
+            });
         };
       
         //retrieves the master list of belts
