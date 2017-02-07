@@ -11,7 +11,8 @@ module.exports = {
 		'./app/lib/angular-bootstrap/ui-bootstrap.min.js',
 		'./app/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
 		'./app/lib/angular-file-upload/dist/angular-file-upload.min.js',
-		'./app/lib/ngMask/dist/ngMask.min.js'
+		'./app/lib/ngMask/dist/ngMask.min.js',
+		'./app/lib/ng-cookies/dist/ng-cookies.min.js'
 	],
 	sourcePaths: ['!./app/**/*_test.js', './app/**/*.js', '!./app/lib/**/*.js', '!./app/*.constants.js'],
 	templatePaths: ['./app/*/**/*.html'],
