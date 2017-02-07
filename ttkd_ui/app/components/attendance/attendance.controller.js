@@ -4,16 +4,19 @@
 			return moment(date).format('MM/DD/YYYY');
 		};
 
-		$scope.numPrograms = function(programs) {
-			return Object.keys(programs).length;
-		}
-
 		$scope.openCalendar = function(calendar) {
 			calendar.open = true;
 		};
 
-		function loadAttendanceRecords() {
+		$scope.loadAttendanceRecords = function() {
+			if (Object.prototype.toString.call($scope.attendanceRecords) === '[object Array]') {
+				$scope.attendanceRecords = [];
+			} else {
+				$scope.attendanceRecords = {};
+			}
+
 			var filterData = angular.copy($scope.filterData);
+			filterData.page = $scope.pagination.currentPage;
 
 			if (filterData.startDate) {
 				filterData.startDate = filterData.startDate.value;
@@ -24,27 +27,39 @@
 			}
 
 			if (filterData.condensed) {
+				/*$scope.isLoading = true;
 				AttendanceService.getGroupedByStudentRecords(filterData).then(
 					function success(groupedRecords) {
-						console.log(groupedRecords);
 						$scope.attendanceRecords = groupedRecords;
+						$scope.isLoading = false;
 					},
 					function error(error) {
-
+						$scope.loadingFailed = true;
+						$scope.isLoading = false;
 					}
-				);
+				);*/
 			} else {
+				$scope.isLoading = true;
 				AttendanceService.getUngroupedRecords(filterData).then(
 					function success(ungroupedRecords) {
-						//console.log(ungroupedRecords);
-						$scope.attendanceRecords = ungroupedRecords;
+						$scope.pagination.totalRecords = ungroupedRecords.count;
+						$scope.attendanceRecords = ungroupedRecords.results;
+						$scope.isLoading = false;
 					},
 					function error(error) {
-
+						$scope.loadingFailed = true;
+						$scope.isLoading = false;
 					}
 				);
 			}
-		}
+		};
+
+		$scope.pagination = {
+			currentPage: 1
+		};
+
+		$scope.isLoading = false;
+		$scope.loadingFailed = false;
 
 		$scope.filterData = {
 			startDate: {
@@ -55,33 +70,13 @@
 			}
 		};
 
-		$scope.$watch('filterData["condensed"]', function(isCondensed) {
-			loadAttendanceRecords();
-		});
-
-		$scope.$watch('filterData["startDate"]["value"]', function(newDate) {
-			loadAttendanceRecords();
-		});
-
-		$scope.$watch('filterData["endDate"]["value"]', function(newDate) {
-			loadAttendanceRecords();
-		});
-
-		$scope.$watch('filterData["program"]', function(newProgram) {
-			loadAttendanceRecords();
-		});
-
-		$scope.$watch('filterData["student"]', function(newStudentName) {
-			loadAttendanceRecords();
-		});
-
 		ProgramService.getPrograms().then(function success(response) {
 			$scope.allPrograms = response.data;
 		}, function failure(error) {
-
+			$scope.loadingFailed = true;
 		});
 
-		loadAttendanceRecords();
+		$scope.loadAttendanceRecords();
 	}
 
 	angular.module('ttkdApp.attendanceCtrl', [

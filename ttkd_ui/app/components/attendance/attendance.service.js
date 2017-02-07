@@ -1,15 +1,38 @@
 (function() {
 	function AttendanceService($http, $q, apiHost, StudentsService) {
+		function isDateInvalid(date) {
+			if (Object.prototype.toString.call(date) === '[object Date]') {
+			  // it is a date
+			  if (isNaN(date.getTime())) {  // d.valueOf() could also work
+			    // date is not valid
+					return true;
+			  }
+			  else {
+			    // date is valid
+					return false;
+			  }
+			}
+
+			return true;
+		}
+
 		return {
 			getUngroupedRecords: function(filterData) {
 				return $q(function(resolve, reject) {
 					var requestConfig = {
 						params: {
 							program: filterData.program,
-							'date__lte': moment(filterData.endDate).format('YYYY-MM-DD'),
-							'date__gte': moment(filterData.startDate).format('YYYY-MM-DD')
+							page: filterData.page
 						}
 					};
+
+					if (filterData.startDate !== undefined && !isDateInvalid(filterData.startDate)) {
+						requestConfig.params['date__gte'] = moment(filterData.startDate).format('YYYY-MM-DD');
+					}
+
+					if (filterData.endDate !== undefined && !isDateInvalid(filterData.endDate))  {
+						requestConfig.params['date__lte'] = moment(filterData.endDate).format('YYYY-MM-DD');
+					}
 
 					var firstName, lastName;
 					if (filterData.student) {
@@ -19,25 +42,23 @@
 					}
 
 					$http.get(apiHost + '/api/check-ins-detailed/', requestConfig).then(function success(response) {
-						var ungroupedRecords = [];
-
-						response.data.forEach(function(attendanceRecord) {
+						response.data.results = response.data.results.filter(function(attendanceRecord) {
 							if (firstName) {
 								if (attendanceRecord.person['first_name'].indexOf(firstName) === -1) {
-									return;
+									return false;
 								}
 							} else if (firstName && lastName) {
 								if (attendanceRecord.person['first_name'].indexOf(firstName) === -1) {
 									if (attendanceRecord.person['last_name'].indexOf(lastName) === -1) {
-										return;
+										return false;
 									}
 								}
 							}
 
-							ungroupedRecords.push(attendanceRecord);
+							return true;
 						});
 
-						resolve(ungroupedRecords);
+						resolve(response.data);
 					}, function failure(error) {
 						reject(error);
 					});
@@ -49,10 +70,17 @@
 					var requestConfig = {
 						params: {
 							program: filterData.program,
-							'date__lte': moment(filterData.endDate).format('YYYY-MM-DD'),
-							'date__gte': moment(filterData.startDate).format('YYYY-MM-DD')
+							page: filterData.page
 						}
 					};
+
+					if (filterData.startDate !== undefined) {
+						requestConfig.params['date__gte'] = moment(filterData.startDate).format('YYYY-MM-DD');
+					}
+
+					if (filterData.endDate !== undefined)  {
+						requestConfig.params['date__lte'] = moment(filterData.endDate).format('YYYY-MM-DD');
+					}
 
 					var firstName, lastName;
 					if (filterData.student) {
@@ -93,7 +121,6 @@
 								var student = groupedRecords[attendanceRecord.person.id];
 
 								if (student.programs[attendanceRecord.program.id] !== undefined) {
-									console.log('UPDATE PROGRAM');
 									var program = student.programs[attendanceRecord.program.id];
 
 									var date = moment(attendanceRecord.date, 'YYYY-MM-DD').toDate();
@@ -106,11 +133,10 @@
 
 									program.count++;
 								} else {
-									console.log('NEW PROGRAM');
 									student.programs[attendanceRecord.program.id] = {
 										name: attendanceRecord.program.name,
-										minDate:  moment(attendanceRecord.date, 'YYYY-MM-DD').toDate(),
-										maxDate:  moment(attendanceRecord.date, 'YYYY-MM-DD').toDate(),
+										minDate: moment(attendanceRecord.date, 'YYYY-MM-DD').toDate(),
+										maxDate: moment(attendanceRecord.date, 'YYYY-MM-DD').toDate(),
 										count: 1
 									};
 								}
