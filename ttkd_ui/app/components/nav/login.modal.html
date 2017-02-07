@@ -2,14 +2,14 @@
 	<h3 class="modal-title" id="modal-title">Login</h3>
 </center>
 <center class="modal-body" id="modal-body">
-	<form>
+	<form ng-submit="login(username, password)">
 		<table>
 			<tr>
 				<td>
 					Username:
 				</td>
 				<td>
-					<input type="text" name="username">
+					<input type="text" name="username" ng-model="username">
 				</td>
 			</tr>
 			<tr>
@@ -17,13 +17,11 @@
 					Password:
 				</td>
 				<td>
-					<input type="password" name="password">
+					<input type="password" name="password" ng-model="password">
 				</td>
 			</tr>
 		</table>
+		<hr>
+		<button class="btn btn-success btn-lg pull-center" type="submit">Login</button>
 	</form>
-	<hr>
 </center>
-<div class="modal-footer">
-  <button class="btn btn-success btn-lg pull-center" type="button" ng-click="login()">Login</button>
-</div>

@@ -1,14 +1,14 @@
 (function() {
 
-  angular.module('ttkdApp.navCtrl', [])
+  angular.module('ttkdApp.navCtrl', ['ngCookies'])
 
     .controller('NavCtrl', ['$scope', '$rootScope', '$state', '$document',
-      '$uibModal', '$http', 'ngCookies',
+      '$uibModal', '$http', 'apiHost', '$cookies',
       function($scope, $rootScope, $state, $document, $uibModal, $http, apiHost, $cookies) {
       $rootScope.showCurrentProgram = true;
       $rootScope.showLogin = true;
-      $rootScope.loggedin = ($cookies.getObject('Authorization').token ?  true:false);
-      $rootScope.currentUser = $cookies.getObject('Authorization').name || '';
+      $rootScope.loggedin = ($cookies.getObject('Authorization') ?  true:false);
+      $rootScope.currentUser = $cookies.getObject('Authorization') ? $cookies.getObject('Authorization').username : 'Anonymous';
       var modalInstance;
 
     	// returns true if the current router url matches the passed in url
@@ -45,18 +45,36 @@
       /*
        * Logs a user out.
        */
-      $scope.login = function() {
-        $http.post(apiHost + '/api/token-auth/', {}).then(
+      $scope.login = function(username, password) {
+        $http({
+          method: 'POST',
+          url: apiHost + '/api/token-auth/',
+          data: {
+          username: username,
+          password: password,
+        }}).then(
           function(response) {
             var authToken = response.data.token;
+            alert(authToken);
 
-            $http.get(apiHost + '/api/users/current').then(
+            $http.get(apiHost + '/api/users/current/', {
+              headers: {
+                'Authorization': 'Token ' + authToken,
+              }
+            }).then(
               function(response) {
-                $cookies.putObject('Authorization', response.data);
-                $rootScope.currentUser = response.data.token;
+                console.log(response.data);
+                var authData = {
+                  token: authToken,
+                  username: response.data.username,
+                  userlevel: response.data['is_staff'],
+                };
+                $cookies.putObject('Authorization', authData);
+                $rootScope.currentUser = response.data.username;
                 $rootScope.loggedin = true;
               }
             );
+            modalInstance.dismiss();
           }
         );
       };

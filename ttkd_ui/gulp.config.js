@@ -5,6 +5,7 @@ module.exports = {
 	bowerPaths: [
 		'./app/lib/moment/min/moment.min.js',
 		'./app/lib/angular/angular.min.js',
+		'./app/lib/angular-cookies/angular-cookies.min.js',
 		'./app/lib/angular-ui-router/release/angular-ui-router.min.js',
 		'./app/lib/api-check/dist/api-check.min.js',
 		'./app/lib/angular-bootstrap/ui-bootstrap.min.js',

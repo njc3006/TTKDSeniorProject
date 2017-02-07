@@ -16,8 +16,11 @@
 		'ttkdApp.studentlistCtrl',
 		'ttkdApp.studentDetailCtrl',
 		'ttkdApp.editStudentCtrl',
-		'ttkdApp.importExportCtrl'
+		'ttkdApp.importExportCtrl',
+		'ttkdApp.APIInterceptor',
     ]
-  );
+  ).config([ '$httpProvider',   function($httpProvider) {
+    	$httpProvider.interceptors.push('APIInterceptor');
+	} ]);
 
 })();
