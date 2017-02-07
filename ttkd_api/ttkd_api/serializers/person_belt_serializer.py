@@ -10,11 +10,17 @@ class PersonBeltSerializer(serializers.ModelSerializer):
     BeltSerializer Outputs PersonBelt Model as JSON
     """
 
+    def create(self, validated_data):
+        person_belt = PersonBelt.objects.create(**validated_data)
+        person = validated_data['person']
+        person.belt = validated_data['belt']
+        person.save()
+        return person_belt
+
     def update(self, instance, validated_data):
         instance.person = validated_data.get('person', instance.person)
         instance.belt = validated_data.get('belt', instance.belt)
         instance.date_achieved = validated_data.get('date_achieved', instance.date_achieved)
-        instance.current_belt = validated_data.get('current_belt', instance.current_belt)
 
         instance.person.belt = instance.belt
 

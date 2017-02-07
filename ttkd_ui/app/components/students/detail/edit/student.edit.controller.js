@@ -83,13 +83,20 @@
 						case 'newBelt':
 							break;
 						default:
-							hasUnsavedChanges = value !== $scope.oldStudent[key];
+						    if(key === "belt"){
+                                console.log("default");
+                                console.log(value);
+                                console.log($scope.oldStudent[key]);
+						    }
+
+							hasUnsavedChanges = angular.equals(value, $scope.oldStudent[key]);
+							console.log(hasUnsavedChanges);
 							break;
 					}
 				}
 			});
 
-			//console.log(hasUnsavedChanges);
+			console.log(hasUnsavedChanges);
 			if (hasUnsavedChanges) {
 				var shouldBackNavigate = confirm('There are unsaved changes, are you sure you wish to leave?');
 
@@ -157,12 +164,11 @@
 						if ($scope.studentInfo.newBelt.id !== $scope.currentBelt.id) {
 							StudentsService.updateStudentBelt(
 								$stateParams.studentId,
-								$scope.oldPersonBelt,
 								$scope.studentInfo.newBelt.id
 							).then(
 								function success(responses) {
 									$scope.currentBelt = $scope.studentInfo.newBelt;
-									$scope.oldPersonBelt = responses[1].data;
+									$scope.oldPersonBelt = $scope.currentBelt;
 									submitStripeChanges();
 								},
 								function failure(error) {
@@ -233,7 +239,7 @@
 				value: $scope.studentInfo.state
 			};
 
-			// Add empty entries to emergency contacts as necesary (up to 2)
+			// Add empty entries to emergency contacts as necessary (up to 2)
 			if (!$scope.studentInfo['emergency_contact_1']) {
 				$scope.studentInfo['emergency_contact_1'] = {};
 			}
@@ -242,24 +248,11 @@
 				$scope.studentInfo['emergency_contact_2'] = {};
 			}
 
-			if ($scope.studentInfo.belts.length > 0) {
-				var currentBelt;
-
-				if ($scope.studentInfo.belts.length === 1) {
-					currentBelt = $scope.studentInfo.belts[0];
-				} else {
-					currentBelt = $scope.studentInfo.belts.reduce(function(prev, curr) {
-						if (curr['current_belt']) {
-							return curr;
-						} else {
-							return prev;
-						}
-					});
-				}
-
-				$scope.currentBelt = currentBelt.belt;
+			if ($scope.studentInfo.belt) {
+				$scope.currentBelt = $scope.studentInfo.belt;
 				$scope.studentInfo.newBelt = angular.copy($scope.currentBelt);
-				$scope.oldPersonBelt = currentBelt;
+				console.log( $scope.studentInfo.belt);
+				$scope.oldPersonBelt = $scope.currentBelt;
 			}
 
 			$scope.requestFlags.loading.done = true;
