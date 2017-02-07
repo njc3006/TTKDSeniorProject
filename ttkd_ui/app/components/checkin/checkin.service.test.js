@@ -1,16 +1,19 @@
 describe('CheckinService Test', function() {
   var CheckinService;
 
-  // Before each test load our api.users module
+  // This loads the angular module that CheckinService is located in before each test
   beforeEach(angular.mock.module('ttkdApp.checkinSvc'));
 
-  // Before each test set our injected service to our local service variable
+  // This loads the service that we want to test (CheckinService) before each test
   beforeEach(inject(function(_CheckinService_) {
       CheckinService = _CheckinService_;
   }));//end beforeEach
 
+  // This is a test checking that 
   it("Students exist in class", function() {
-    console.log(CheckinService);
-    CheckinService.getStudentsFromClass(1);
+    // Get students from program with ID=1
+    CheckinService.getStudentsFromClass(1).then(function(response) {
+      expect(response.data.length > 0).toBe(true);
+    });
   });
 });
