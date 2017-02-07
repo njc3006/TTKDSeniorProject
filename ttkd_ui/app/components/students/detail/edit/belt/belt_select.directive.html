@@ -1,0 +1,18 @@
+<div>
+	<div class="col-sm-6">
+		<span class="h3">
+			Current belt: {{currentBelt.name}}
+		</span>
+	</div>
+	<div class="col-sm-6 form-group">
+		<label class="control-label">
+			<span class="h3">New Belt</span>
+		</label>
+		<select
+			class="form-control"
+			ng-options="belt as belt.name for belt in allBelts track by belt.id"
+			ng-model="newBelt">
+			<option value="">Select a new Belt</option>
+		</select>
+	</div>
+</div>

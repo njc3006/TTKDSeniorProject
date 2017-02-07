@@ -5,6 +5,8 @@ ttkd_api/static/*
 *.zip
 !python-dist.zip
 
+scripts/*.json
+
 www/
 #####################################################################
 # Github Recommended Python .gitignore

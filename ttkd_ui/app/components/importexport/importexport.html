@@ -1,0 +1,20 @@
+<div class="container text-left">
+	<div class="spacer-35"></div>
+	<div class="row spacer-20">
+		<a ui-sref-active="active" class="btn btn-primary" ng-click="backup()">Backup</a> Create a restore point for the system
+	</div>
+	<div class="row spacer-20">
+		<a ui-sref-active="active" class="btn btn-primary" ng-click="openRestoreWarningModal()">Restore</a> Restore system to an existing backup
+	</div>
+	<div class="row spacer-20">
+		<a ui-sref-active="active" class="btn btn-primary" ng-click="exportAttendanceRecords()">Export Attendance</a> Create a CSV for all attendance records
+	</div>
+	<div class="row spacer-20">
+		<a ui-sref-active="active" class="btn btn-primary" ng-click="exportContacts()">Export Contacts</a> Create a CSV for all contacts in the system
+	</div>
+	<div class="row spacer-20">
+		<a ui-sref-active="active" class="btn btn-primary" ng-click="exportExcel()">Export System</a> Create an Excel file with different sheets for each database table
+	</div>
+</div>
+<div id="modal-area">
+</div>
