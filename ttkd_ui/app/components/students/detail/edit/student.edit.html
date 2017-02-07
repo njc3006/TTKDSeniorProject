@@ -20,10 +20,6 @@
 			<span class="glyphicon glyphicon-chevron-left"></span>
 			Back
 		</button>
-		<!--<a ui-sref="studentDetails({studentId: studentInfo.id})" class="btn btn-primary">
-			<span class="glyphicon glyphicon-chevron-left"></span>
-			Back
-		</a>-->
 	</div>
 
 	<form name="editForm" ng-submit="submitChanges(editForm.$valid)" novalidate ng-show="!requestFlags.loading.failure">
@@ -75,9 +71,10 @@
 				<label class="control-label">Active Status</label>
 				<button
 					type="button"
-					class="form-control btn btn-primary"
+					class="form-control btn"
 					uib-btn-checkbox
 					ng-model="studentInfo.active"
+					ng-class="{'btn-success': studentInfo.active, 'btn-danger': !studentInfo.active}"
 					btn-checkbox-true="true"
 					btn-checkbox-false="false">
 					{{studentInfo.active ? 'Active' : 'Inactive'}}
