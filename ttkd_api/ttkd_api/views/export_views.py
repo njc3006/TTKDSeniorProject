@@ -97,14 +97,14 @@ def export_attendance(request):
 
     create_tmp_folder()
 
-    headers = ['Date', 'First Name', 'Last Name', 'Program']
+    headers = ['Date', 'First Name', 'Last Name', 'DOB', 'Program']
 
     # The ** will expand the dictionary into a parameter=value form
     # ex. program=5, person__active=true
     # The order by -date, will order by date descending because of the -
     records = AttendanceRecord.objects.filter(**request.data).order_by('-date')
     records_list = records.values_list('date', 'person__first_name', 'person__last_name',
-                                       'program__name')
+                                       'person__dob', 'program__name')
 
     # create the file and respond
     if create_csv(file, headers, records_list):
@@ -127,8 +127,9 @@ def export_contacts(request):
 
     create_tmp_folder()
 
-    headers = ['First Name', 'Last Name', 'Primary Phone', 'Secondary Phone', 'Address Street',
-               'Address City', 'Address State', 'Address ZIP', 'Active', 'Email 1']
+    headers = ['First Name', 'Last Name', 'DOB', 'Primary Phone', 'Secondary Phone',
+               'Address Street', 'Address City', 'Address State', 'Address ZIP', 'Active',
+               'Email 1']
     num_emails = 1
 
     filters = {}
@@ -158,6 +159,7 @@ def export_contacts(request):
         contact = [
             contacts[i].first_name if contacts[i].first_name is not None else "",
             contacts[i].last_name if contacts[i].last_name is not None else "",
+            contacts[i].dob if contacts[i].dob is not None else "",
             contacts[i].primary_phone if contacts[i].primary_phone is not None else "",
             contacts[i].secondary_phone if contacts[i].secondary_phone is not None else "",
             contacts[i].street if contacts[i].street is not None else "",
