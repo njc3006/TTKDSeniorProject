@@ -149,11 +149,9 @@
 
             //get the belt details for every displayed student
             angular.forEach($scope.people, function(value){
-                StudentListService.getStudentsBelt(value.id).then(
-                    function(response){
-                        value.belt = $filter('filter')($scope.belts, response.data[0].belt)[0];
-                        value.beltStyle = $scope.getBeltStyle(value.belt);
-                    });  
+                if(value.person.belt){
+                    value.beltStyle = $scope.getBeltStyle(value.person.belt);
+                }
             });
         };
       
@@ -179,8 +177,6 @@
                 function(response){
                     var tempdata = response.data;
                     var temp2 = [];
-
-                    console.log(response.data);
 
                     angular.forEach(tempdata, function(value){
                         var transformed = {
