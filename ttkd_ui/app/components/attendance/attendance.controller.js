@@ -1,5 +1,8 @@
 (function() {
-	function AttendanceController($scope, ProgramService, AttendanceService, StudentsService) {
+	function AttendanceController($scope, $rootScope, $stateParams, ProgramService, AttendanceService, StudentsService) {
+
+		$rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
+
 		$scope.format = function(date) {
 			return moment(date).format('MM/DD/YYYY');
 		};
@@ -83,7 +86,6 @@
 
 				StudentsService.getStudentIdsFromName(firstName, lastName).then(
 					function success(studentIds) {
-						console.log(studentIds);
 						$scope.isLoading = true;
 						$scope.filterData.studentIds = studentIds;
 						$scope.onFilterChange();
@@ -128,6 +130,8 @@
 		'ttkdApp.studentsService'
 	]).controller('AttendanceCtrl', [
 		'$scope',
+		'$rootScope',
+		'$stateParams',
 		'ProgramsSvc',
 		'AttendanceSvc',
 		'StudentsSvc',

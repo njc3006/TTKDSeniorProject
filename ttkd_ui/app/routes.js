@@ -54,6 +54,7 @@
 
 			.state('attendance', {
 				url: '/attendance',
+                params: { hideCurrentProgram: true },
 				templateUrl: 'components/attendance/attendance.html',
 				controller: 'AttendanceCtrl'
 			})
