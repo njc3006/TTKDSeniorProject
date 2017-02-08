@@ -3,8 +3,8 @@
   angular.module('ttkdApp.navCtrl', ['ngCookies'])
 
     .controller('NavCtrl', ['$scope', '$rootScope', '$state', '$document',
-      '$uibModal', '$http', 'apiHost', '$cookies',
-      function($scope, $rootScope, $state, $document, $uibModal, $http, apiHost, $cookies) {
+      '$uibModal', '$http', 'apiHost', '$cookies', '$location',
+      function($scope, $rootScope, $state, $document, $uibModal, $http, apiHost, $cookies, $location) {
       $rootScope.showCurrentProgram = true;
       $rootScope.showLogin = true;
       $rootScope.loggedin = ($cookies.getObject('Authorization') ?  true:false);
@@ -13,9 +13,10 @@
       $rootScope.userlevel = $cookies.getObject('Authorization') ? 
         $cookies.getObject('Authorization').userlevel : '-1';
       var modalInstance;
+
       $scope.reload = function() {
-         location.reload(); 
-      }
+        location.reload();
+      };
 
     	// returns true if the current router url matches the passed in url
     	// so views can set 'active' on links easily
@@ -95,7 +96,7 @@
         $rootScope.loggedin = false;
         $rootScope.currentUser = 'Anonymous';
         $rootScope.userlevel = -1;
-        $scope.reload();
+        $location.path("/");
       };
     }]);
 
