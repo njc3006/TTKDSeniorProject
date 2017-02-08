@@ -76,15 +76,14 @@
                 $cookies.putObject('Authorization', authData);
                 $rootScope.currentUser = response.data.username;
                 $rootScope.loggedin = true;
+                $rootScope.currentUser = $cookies.getObject('Authorization').username;
+                $rootScope.userlevel = $cookies.getObject('Authorization').userlevel;
+                $scope.reload();
               }
             );
             modalInstance.dismiss();
-            $rootScope.loggedin = true;
-            $rootScope.currentUser = $cookies.getObject('Authorization').username;
-            $rootScope.userlevel = $cookies.getObject('Authorization').userlevel;
           }
         );
-        //$scope.reload();
       };
 
       /*
