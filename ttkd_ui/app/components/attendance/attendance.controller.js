@@ -1,11 +1,19 @@
 (function() {
-	function AttendanceController($scope, ProgramService, AttendanceService) {
+	function AttendanceController($scope, ProgramService, AttendanceService, StudentsService) {
 		$scope.format = function(date) {
 			return moment(date).format('MM/DD/YYYY');
 		};
 
 		$scope.openCalendar = function(calendar) {
 			calendar.open = true;
+		};
+
+		$scope.dataIsEmpty = function() {
+			if (angular.isArray($scope.attendanceRecords)) {
+				return $scope.attendanceRecords.length === 0;
+			}
+
+			return Object.keys($scope.attendanceRecords).length === 0;
 		};
 
 		$scope.loadAttendanceRecords = function() {
@@ -27,17 +35,19 @@
 			}
 
 			if (filterData.condensed) {
-				/*$scope.isLoading = true;
+				$scope.isLoading = true;
 				AttendanceService.getGroupedByStudentRecords(filterData).then(
 					function success(groupedRecords) {
-						$scope.attendanceRecords = groupedRecords;
+						$scope.pagination.totalRecords = groupedRecords.count;
+						$scope.attendanceRecords = groupedRecords.results;
 						$scope.isLoading = false;
+						$scope.loadingFailed = false;
 					},
 					function error(error) {
 						$scope.loadingFailed = true;
 						$scope.isLoading = false;
 					}
-				);*/
+				);
 			} else {
 				$scope.isLoading = true;
 				AttendanceService.getUngroupedRecords(filterData).then(
@@ -45,6 +55,7 @@
 						$scope.pagination.totalRecords = ungroupedRecords.count;
 						$scope.attendanceRecords = ungroupedRecords.results;
 						$scope.isLoading = false;
+						$scope.loadingFailed = false;
 					},
 					function error(error) {
 						$scope.loadingFailed = true;
@@ -54,7 +65,36 @@
 			}
 		};
 
+		$scope.onFilterChange = function() {
+			$scope.pagination.currentPage = 1;
+			$scope.loadAttendanceRecords();
+		};
+
+		$scope.onStudentNameChange = function() {
+			if ($scope.filterData.student === '') {
+				delete $scope.filterData.studentId;
+				$scope.onFilterChange();
+			} else {
+				var splitName = $scope.filterData.student.split(' '),
+					firstName = splitName[0],
+					lastName = splitName[1];
+
+				StudentsService.getStudentIdFromName(firstName, lastName).then(
+					function success(studentId) {
+						$scope.isLoading = true;
+						$scope.filterData.studentId = studentId;
+						$scope.onFilterChange();
+					},
+					function failure(error) {
+						$scope.loadingFailed = true;
+						$scope.isLoading = false;
+					}
+				);
+			}
+		};
+
 		$scope.pagination = {
+			pageSize: 125,
 			currentPage: 1
 		};
 

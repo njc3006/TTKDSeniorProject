@@ -21,6 +21,7 @@
 				return $q(function(resolve, reject) {
 					var requestConfig = {
 						params: {
+							person: filterData.studentId,
 							program: filterData.program,
 							page: filterData.page
 						}
@@ -34,30 +35,14 @@
 						requestConfig.params['date__lte'] = moment(filterData.endDate).format('YYYY-MM-DD');
 					}
 
-					var firstName, lastName;
+					/*var firstName, lastName;
 					if (filterData.student) {
 						var splitName = filterData.student.split(' ');
 						firstName = splitName[0];
 						lastName = splitName[1];
-					}
+					}*/
 
 					$http.get(apiHost + '/api/check-ins-detailed/', requestConfig).then(function success(response) {
-						response.data.results = response.data.results.filter(function(attendanceRecord) {
-							if (firstName) {
-								if (attendanceRecord.person['first_name'].indexOf(firstName) === -1) {
-									return false;
-								}
-							} else if (firstName && lastName) {
-								if (attendanceRecord.person['first_name'].indexOf(firstName) === -1) {
-									if (attendanceRecord.person['last_name'].indexOf(lastName) === -1) {
-										return false;
-									}
-								}
-							}
-
-							return true;
-						});
-
 						resolve(response.data);
 					}, function failure(error) {
 						reject(error);
@@ -69,6 +54,7 @@
 				return $q(function(resolve, reject) {
 					var requestConfig = {
 						params: {
+							person: filterData.studentId,
 							program: filterData.program,
 							page: filterData.page
 						}
@@ -92,7 +78,23 @@
 					$http.get(apiHost + '/api/check-ins-detailed/', requestConfig).then(function success(response) {
 						var groupedRecords = {};
 
-						response.data.forEach(function(attendanceRecord) {
+						response.data.results = response.data.results.filter(function(attendanceRecord) {
+							if (firstName) {
+								if (attendanceRecord.person['first_name'].indexOf(firstName) === -1) {
+									return false;
+								}
+							} else if (firstName && lastName) {
+								if (attendanceRecord.person['first_name'].indexOf(firstName) === -1) {
+									if (attendanceRecord.person['last_name'].indexOf(lastName) === -1) {
+										return false;
+									}
+								}
+							}
+
+							return true;
+						});
+
+						response.data.results.forEach(function(attendanceRecord) {
 							if (firstName) {
 								if (attendanceRecord.person['first_name'].indexOf(firstName) === -1) {
 									return;
@@ -143,7 +145,9 @@
 							}
 						});
 
-						resolve(groupedRecords);
+						response.data.results = groupedRecords;
+
+						resolve(response.data);
 					}, function failure(error) {
 						reject(error);
 					});

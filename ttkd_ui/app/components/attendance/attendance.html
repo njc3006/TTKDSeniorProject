@@ -7,13 +7,13 @@
 				placeholder="Student"
 				ng-model="filterData.student"
 				ng-model-options="{debounce: 500}"
-				ng-change="loadAttendanceRecords()">
+				ng-change="onStudentNameChange()">
 		</div>
 		<div class="col-xs-2">
 			<select
 				class="form-control"
 				ng-model="filterData.program"
-				ng-change="loadAttendanceRecords()">
+				ng-change="onFilterChange()">
 				<option value="">-----</option>
 				<optgroup label="Active">
 					<option ng-repeat="program in allPrograms | filter: {active:true}" value="{{program.id}}">
@@ -36,7 +36,7 @@
 					uib-datepicker-popup="MM/dd/yyyy"
 					ng-model="filterData.startDate.value"
 					ng-model-options="{debounce: 1000}"
-					ng-change="loadAttendanceRecords()"
+					ng-change="onFilterChange()"
 					is-open="filterData.startDate.open"
 					close-text="Close">
 				<span class="input-group-btn">
@@ -55,7 +55,7 @@
 					uib-datepicker-popup="MM/dd/yyyy"
 					ng-model="filterData.endDate.value"
 					ng-model-options="{debounce: 1000}"
-					ng-change="loadAttendanceRecords()"
+					ng-change="onFilterChange()"
 					is-open="filterData.endDate.open"
 					close-text="Close">
 				<span class="input-group-btn">
@@ -77,14 +77,16 @@
 		</div>
 	</div>
 
-	<div class="row col-sm-8 col-sm-offset-2">
+	<div class="text-center">
 		<ul
 			uib-pagination
 			class="pagination-lg"
 			total-items="pagination.totalRecords"
 			ng-model="pagination.currentPage"
+			ng-model-options="{debounce: 250}"
 			ng-change="loadAttendanceRecords()"
-			items-per-page="125"
+			boundary-links="true"
+			items-per-page="pagination.pageSize"
 			max-size="8"
 			class="pagination-lg">
 		</ul>
@@ -94,11 +96,14 @@
 		<strong>Loading...</strong>
 	</div>
 
+	<div class="row alert alert-info" ng-show="dataIsEmpty() && !isLoading" role="alert">
+		<strong>No matching attendance records could be found</strong>
+	</div>
+
 	<div class="row alert alert-danger" ng-show="loadingFailed" role="alert">
 		<strong>There was an error loading attendance data</strong>
 	</div>
 
-<!--
 	<div ng-if="filterData.condensed">
 		<div ng-repeat="(stuentId, records) in attendanceRecords">
 			<div class="row" ng-repeat="(programId, program) in records.programs">
@@ -123,7 +128,6 @@
 			</div>
 		</div>
 	</div>
--->
 
 	<div ng-if="!filterData.condensed">
 		<div class="row" ng-repeat="record in attendanceRecords">
@@ -145,14 +149,16 @@
 		</div>
 	</div>
 
-	<div class="row col-sm-8 col-sm-offset-2">
+	<div class="text-center">
 		<ul
-			class="pagination-lg"
 			uib-pagination
+			class="pagination-lg"
 			total-items="pagination.totalRecords"
 			ng-model="pagination.currentPage"
+			ng-model-options="{debounce: 250}"
 			ng-change="loadAttendanceRecords()"
 			items-per-page="125"
+			boundary-links="true"
 			max-size="8"
 			class="pagination-lg">
 		</ul>

@@ -6,6 +6,29 @@
 					return $http.get(apiHost + '/api/persons/' + id + '/');
 				},
 
+				getStudentIdFromName: function(firstName, lastName) {
+					var requestConfig = {
+						params: {
+							'first_name': firstName
+						}
+					};
+
+					if (lastName !== undefined) {
+						requestConfig.params['last_name'] = lastName;
+					}
+
+					return $q(function(resolve, reject) {
+						$http.get(apiHost + '/api/persons/', requestConfig).then(
+							function success(response) {
+								resolve(response.data[0].id);
+							},
+							function failure(error) {
+								reject(error);
+							}
+						);
+					});
+				},
+
 				updateStudentInfo: function(id, newInfo) {
 					return $http.put(apiHost + '/api/persons/' + id + '/', newInfo);
 				},
