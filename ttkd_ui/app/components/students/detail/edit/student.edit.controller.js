@@ -44,7 +44,7 @@
 
 			angular.forEach($scope.studentInfo, function(value, key) {
 				if (!hasUnsavedChanges) {
-					switch (key) {
+					switch (key) {	
 						case 'stripes':
 							hasUnsavedChanges = areDifferent(
 								value,
@@ -83,20 +83,12 @@
 						case 'newBelt':
 							break;
 						default:
-						    if(key === "belt"){
-                                console.log("default");
-                                console.log(value);
-                                console.log($scope.oldStudent[key]);
-						    }
-
-							hasUnsavedChanges = angular.equals(value, $scope.oldStudent[key]);
-							console.log(hasUnsavedChanges);
+							hasUnsavedChanges = !angular.equals(value, $scope.oldStudent[key]);
 							break;
 					}
 				}
 			});
 
-			console.log(hasUnsavedChanges);
 			if (hasUnsavedChanges) {
 				var shouldBackNavigate = confirm('There are unsaved changes, are you sure you wish to leave?');
 
@@ -251,7 +243,6 @@
 			if ($scope.studentInfo.belt) {
 				$scope.currentBelt = $scope.studentInfo.belt;
 				$scope.studentInfo.newBelt = angular.copy($scope.currentBelt);
-				console.log( $scope.studentInfo.belt);
 				$scope.oldPersonBelt = $scope.currentBelt;
 			}
 

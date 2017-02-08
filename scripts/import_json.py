@@ -137,7 +137,7 @@ for student in students_import:
                 "person": person_pk,
                 "belt": random_belt,
                 "date_achieved": str(int(random.randint(2012, 2016))) + "-" + str(int(random.randint(1, 12))) + "-" + str(int(random.randint(1, 28))),
-                "current_belt": True
+                # "current_belt": True
             }
         })
 
