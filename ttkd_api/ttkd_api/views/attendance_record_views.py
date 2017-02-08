@@ -39,7 +39,7 @@ class DetailedAttendanceRecordViewSet(viewsets.ReadOnlyModelViewSet):
     This is endpoint is paginated, with  between 125 and 500 elements per page
     Filters: person, program, date__gte, date__lte
     """
-    queryset = AttendanceRecord.objects.all()
+    queryset = AttendanceRecord.objects.all().order_by('-date', 'person__last_name', 'person__first_name')
     serializer_class = DetailedAttendanceRecordSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = DateRangeFilter

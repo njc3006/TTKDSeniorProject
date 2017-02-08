@@ -14,7 +14,7 @@
 				class="form-control"
 				ng-model="filterData.program"
 				ng-change="onFilterChange()">
-				<option value="">-----</option>
+				<option value="">All Programs</option>
 				<optgroup label="Active">
 					<option ng-repeat="program in allPrograms | filter: {active:true}" value="{{program.id}}">
 						{{program.name}}
