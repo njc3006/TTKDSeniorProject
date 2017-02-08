@@ -109,6 +109,8 @@ class MinimalPersonSerializer(serializers.ModelSerializer):
     """
     MinimumPersonSerializer Outputs Person Model as JSON with very limited fields
     """
+    belt = BeltSerializer(read_only=True)
+
     class Meta:
         model = Person
-        fields = ('id', 'first_name', 'last_name', 'picture_url', 'active')
+        fields = ('id', 'first_name', 'last_name', 'belt', 'picture_url', 'active')

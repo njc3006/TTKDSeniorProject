@@ -47,20 +47,23 @@
 		};
 
 		$scope.getBeltStyle = function(belt) {
-            var primaryStyle = belt['primary_color'].toLowerCase() === 'ffffff' ?
-                'black 8px double' :
-                '#' + belt['primary_color'] + ' 8px solid';
+
+			if (belt) {
+                var primaryStyle = belt['primary_color'].toLowerCase() === 'ffffff' ?
+                    'black 8px double' :
+                    '#' + belt['primary_color'] + ' 8px solid';
 
                 var secondaryStyle = belt['secondary_color'].toLowerCase() === 'ffffff' ?
                     'black 8px double' :
                     '#' + belt['secondary_color'] + ' 8px solid';
 
-            return {
-                'border-right': secondaryStyle,
-                'border-left': primaryStyle,
-                'border-top': primaryStyle,
-                'border-bottom': secondaryStyle
-            };
+                return {
+                    'border-right': secondaryStyle,
+                    'border-left': primaryStyle,
+                    'border-top': primaryStyle,
+                    'border-bottom': secondaryStyle
+                };
+            }
         };
 
 		//transforms the data to include a temp picture property
