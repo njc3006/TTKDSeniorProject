@@ -13,6 +13,9 @@
       $rootScope.userlevel = $cookies.getObject('Authorization') ? 
         $cookies.getObject('Authorization').userlevel : '-1';
       var modalInstance;
+      $scope.reload = function() {
+         location.reload(); 
+      }
 
     	// returns true if the current router url matches the passed in url
     	// so views can set 'active' on links easily
@@ -58,8 +61,6 @@
         }}).then(
           function(response) {
             var authToken = response.data.token;
-            alert(authToken);
-
             $http.get(apiHost + '/api/users/current/', {
               headers: {
                 'Authorization': 'Token ' + authToken,
@@ -78,8 +79,12 @@
               }
             );
             modalInstance.dismiss();
+            $rootScope.loggedin = true;
+            $rootScope.currentUser = $cookies.getObject('Authorization').username;
+            $rootScope.userlevel = $cookies.getObject('Authorization').userlevel;
           }
         );
+        //$scope.reload();
       };
 
       /*
@@ -88,10 +93,11 @@
       $scope.logout = function() {
         $cookies.remove('Authorization');
         $rootScope.currentUser = '';
-        $rootScope.loggedin = false;     
+        $rootScope.loggedin = false;
+        $rootScope.currentUser = 'Anonymous';
+        $rootScope.userlevel = -1;
+        $scope.reload();
       };
-
-
     }]);
 
 })();
