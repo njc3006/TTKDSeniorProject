@@ -112,42 +112,22 @@
             }
 
             //filter based on specific selected belt (if not null)
-            if($scope.filters.currentBelt != null){
+            if($scope.filters.currentBelt !== null){
                 var filteredByBelt = [];
-                var filteredPersonIds = [];
 
-                StudentListService.getStudentsWithBelt($scope.filters.currentBelt.id).then(
-                        function(response){
-                            // Strip the response down to a list of person ids
-                            angular.forEach(response.data, function(value){
-                                filteredPersonIds.push(value.person);
-                            });
+                angular.forEach(filteredList, function(value){
+                    if(value.person.belt.id === $scope.filters.currentBelt.id){
+                        filteredByBelt.push(value);
+                    }
+                });
 
-                            // For the current filtered list, if the person has the selected belt
-                            // (indicated by being in the list of person ids)
-                            // add them to the filteredByBelt list
-                            for(var i = 0; i < filteredList.length; i++){
-                                var index = filteredPersonIds.indexOf(filteredList[i].person.id);
-                                if (index !== -1){
-                                    filteredByBelt.push(filteredList[i]);
-                                }
-                            }
-
-                            filteredList = filteredByBelt;
-                            $scope.people = filteredList;
-                        });
-
-            // This else is needed because of the async response from getStudentsWithBelt above.
-            // Future modification of $scope.people below this else will be overridden after the
-            // response, so if you need to modify $scope.people do it before the belt filtering
+                filteredList = filteredByBelt;
             } 
-            else {
-                $scope.people = filteredList;
-               /* $scope.people = filteredList.slice((($scope.currentPage - 1) * $scope.itemsPerPage), 
-                    (($scope.currentPage) * $scope.itemsPerPage));*/
-            }
 
-            //get the belt details for every displayed student
+            //update the displayed list of people
+            $scope.people = filteredList;
+
+            //set the colored belt border for every displayed student
             angular.forEach($scope.people, function(value){
                 if(value.person.belt){
                     value.beltStyle = $scope.getBeltStyle(value.person.belt);

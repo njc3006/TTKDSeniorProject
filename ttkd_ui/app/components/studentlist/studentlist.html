@@ -58,12 +58,8 @@
 		</div>
 	</div>
 
-<!-- 	<ul uib-pagination boundary-links="true" total-items="people.length" items-per-page="itemsPerPage" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul> -->
-   
-
 	<div class="row">
         <div class="col-xs-10 col-xs-offset-1" ng-repeat="p in people | filter: displayedFilter | orderBy: 'person.first_name':!sortAZ">
-		<!-- <div class="col-xs-10 col-xs-offset-1" ng-repeat="p in people.slice(((currentPage - 1) * itemsPerPage), ((currentPage) * itemsPerPage)) | filter: displayedFilter | orderBy: 'person.first_name':!sortAZ"> -->
 			<div class="col-xs-2 text-center entry-picture">
 				<a ui-sref="studentDetails({studentId: p.person.id})">
 					<img ng-if="p.person.picture_url" class="img-responsive" ng-src="{{apiHost}}/{{p.person.picture_url}}" ng-style="p.beltStyle">
