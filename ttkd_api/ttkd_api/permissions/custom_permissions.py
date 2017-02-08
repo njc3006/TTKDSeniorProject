@@ -53,7 +53,7 @@ class IsAdminOrAuthReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         # Read permissions are allowed to any request,
         # so we'll always allow GET, HEAD or OPTIONS requests.
-        if request.user.is_anonymous:
+        if request.user.is_anonymous and request.method != "OPTIONS":
             return False
 
         if request.method in permissions.SAFE_METHODS:
@@ -111,3 +111,18 @@ class ReadOnly(permissions.BasePermission):
 
         # Is an admin.
         return False
+    
+
+
+class IsAuthenticatedOrOptions(permissions.BasePermission):
+    """
+    Object-level permission to only allow admins to edit it but anyone to read it.
+    """
+
+    def has_permission(self, request, view):
+        # Read permissions are allowed to any request,
+        # so we'll always allow GET, HEAD or OPTIONS requests.
+        if request.user.is_anonymous and request.method != "OPTIONS":
+            return False
+
+        return True

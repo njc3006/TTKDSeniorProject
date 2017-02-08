@@ -8,7 +8,8 @@
       $rootScope.showCurrentProgram = true;
       $rootScope.showLogin = true;
       $rootScope.loggedin = ($cookies.getObject('Authorization') ?  true:false);
-      $rootScope.currentUser = $cookies.getObject('Authorization') ? $cookies.getObject('Authorization').username : 'Anonymous';
+      $rootScope.currentUser = $cookies.getObject('Authorization') ? 
+        $cookies.getObject('Authorization').username : 'Anonymous';
       var modalInstance;
 
     	// returns true if the current router url matches the passed in url
