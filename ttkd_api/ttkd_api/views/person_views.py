@@ -11,7 +11,7 @@ from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 
 
 class PersonViewSet(viewsets.ModelViewSet):
-    permission_classes = (custom_permissions.IsAdminOrReadOnly,)
+    permission_classes = (custom_permissions.IsAdminOrAuthReadOnly,)
     """
     Returns all Person objects to the Route.
     GET: Returns all PersonStripe Objects To The Route, Or An Instance If Given A PK.
