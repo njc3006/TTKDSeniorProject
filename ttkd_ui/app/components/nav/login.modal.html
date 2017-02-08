@@ -1,0 +1,27 @@
+<center class="modal-header">
+	<h3 class="modal-title" id="modal-title">Login</h3>
+</center>
+<center class="modal-body" id="modal-body">
+	<form ng-submit="login(username, password)">
+		<table>
+			<tr>
+				<td>
+					Username:
+				</td>
+				<td>
+					<input type="text" name="username" ng-model="username">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Password:
+				</td>
+				<td>
+					<input type="password" name="password" ng-model="password">
+				</td>
+			</tr>
+		</table>
+		<hr>
+		<button class="btn btn-success btn-lg pull-center" type="submit">Login</button>
+	</form>
+</center>
