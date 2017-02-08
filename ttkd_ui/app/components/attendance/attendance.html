@@ -105,13 +105,15 @@
 	</div>
 
 	<div ng-if="filterData.condensed">
-		<div ng-repeat="(stuentId, records) in attendanceRecords">
+		<div ng-repeat="(studentId, records) in attendanceRecords">
 			<div class="row" ng-repeat="(programId, program) in records.programs">
 				<div class="panel panel-default col-sm-10 col-sm-offset-1">
 					<div class="panel-body">
 						<div class="col-sm-11">
 							<div class="row">
-								<span class="h4 col-sm-6">{{records.name}}</span>
+								<span class="h4 col-sm-6">
+									<a ui-sref="studentDetails({studentId: studentId})">{{records.name}}</a>
+								</span>
 								<div class="col-sm-6">
 									<span class="h4 pull-right">{{format(program.minDate)}} - {{format(program.maxDate)}}</span>
 								</div>
@@ -135,7 +137,11 @@
 				<div class="panel-body">
 					<div class="col-sm-12">
 						<div class="row">
-							<span class="h4 col-sm-6">{{record.person.first_name + ' ' + record.person.last_name}}</span>
+							<span class="h4 col-sm-6">
+								<a ui-sref="studentDetails({studentId: record.person.id})">
+									{{record.person.first_name + ' ' + record.person.last_name}}
+								</a>
+							</span>
 							<div class="col-sm-6">
 								<span class="h4 pull-right">{{format(record.date)}}</span>
 							</div>

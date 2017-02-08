@@ -16,7 +16,7 @@ class DateRangeFilter(drf_filters.FilterSet):
     class Meta:
         model = AttendanceRecord
         fields = {
-            'person': ['exact'],
+            'person': ['exact', 'in'],
             'program': ['exact'],
             'date': ['gte', 'lte']
         }

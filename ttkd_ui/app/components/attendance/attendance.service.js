@@ -21,7 +21,7 @@
 				return $q(function(resolve, reject) {
 					var requestConfig = {
 						params: {
-							person: filterData.studentId,
+							'person__in': filterData.studentIds,
 							program: filterData.program,
 							page: filterData.page
 						}
@@ -35,13 +35,6 @@
 						requestConfig.params['date__lte'] = moment(filterData.endDate).format('YYYY-MM-DD');
 					}
 
-					/*var firstName, lastName;
-					if (filterData.student) {
-						var splitName = filterData.student.split(' ');
-						firstName = splitName[0];
-						lastName = splitName[1];
-					}*/
-
 					$http.get(apiHost + '/api/check-ins-detailed/', requestConfig).then(function success(response) {
 						resolve(response.data);
 					}, function failure(error) {
@@ -54,7 +47,7 @@
 				return $q(function(resolve, reject) {
 					var requestConfig = {
 						params: {
-							person: filterData.studentId,
+							'person__in': filterData.studentIds,
 							program: filterData.program,
 							page: filterData.page
 						}

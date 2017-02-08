@@ -6,21 +6,23 @@
 					return $http.get(apiHost + '/api/persons/' + id + '/');
 				},
 
-				getStudentIdFromName: function(firstName, lastName) {
+				getStudentIdsFromName: function(firstName, lastName) {
 					var requestConfig = {
 						params: {
-							'first_name': firstName
+							'first_name__contains': firstName
 						}
 					};
 
 					if (lastName !== undefined) {
-						requestConfig.params['last_name'] = lastName;
+						requestConfig.params['last_name__contains'] = lastName;
 					}
 
 					return $q(function(resolve, reject) {
 						$http.get(apiHost + '/api/persons/', requestConfig).then(
 							function success(response) {
-								resolve(response.data[0].id);
+								resolve(response.data.map(function(person) {
+									return person.id;
+								}));
 							},
 							function failure(error) {
 								reject(error);

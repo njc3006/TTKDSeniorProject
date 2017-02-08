@@ -79,10 +79,11 @@
 					firstName = splitName[0],
 					lastName = splitName[1];
 
-				StudentsService.getStudentIdFromName(firstName, lastName).then(
-					function success(studentId) {
+				StudentsService.getStudentIdsFromName(firstName, lastName).then(
+					function success(studentIds) {
+						console.log(studentIds);
 						$scope.isLoading = true;
-						$scope.filterData.studentId = studentId;
+						$scope.filterData.studentIds = studentIds;
 						$scope.onFilterChange();
 					},
 					function failure(error) {
