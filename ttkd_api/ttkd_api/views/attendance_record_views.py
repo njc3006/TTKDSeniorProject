@@ -7,6 +7,10 @@ from ..serializers.attendance_record_serializer import AttendanceRecordSerialize
     AttendanceRecordSerializerUsingPerson, DetailedAttendanceRecordSerializer
 from ..models.attendance_record import AttendanceRecord
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.status import *
+
 class AttendanceRecordPagination(PageNumberPagination):
     page_size = 125
     page_size_query_param = 'page_size'
@@ -54,3 +58,51 @@ class AttendanceRecordUsingPersonViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = AttendanceRecordSerializerUsingPerson
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('person', 'program', 'date',)
+
+@api_view(['GET', ])
+def get_grouped_attendance_records(request):
+    """
+    Query Params:
+    person__in
+    date__gte
+    date__lte
+    program
+    """
+    filtered_records = DateRangeFilter(
+        request.GET,
+        AttendanceRecord.objects.all().order_by('-date', 'person__last_name', 'person__first_name')
+    )
+
+    grouped_records = {}
+    for record in filtered_records:
+        if not (record.person.id in grouped_records):
+            grouped_records[record.person.id] = {
+                'name': record.person.first_name + ' ' + record.person.last_name,
+                'programs': {},
+            }
+
+            grouped_records[record.person.id]['programs'][record.program.id] = {
+                'name': record.program.name,
+                'min_date': record.date,
+                'max_date': record.date,
+                'count': 1
+            }
+        else:
+            student = grouped_records[record.person.id]
+            if record.program.id in student['programs']:
+                program = student['programs'][record.program.id]
+                program['count'] += 1
+
+                if record.date > program['max_date']:
+                    program['max_date'] = record.date
+                elif record.date < program['min_date']:
+                    program['min_date'] = record.date
+            else:
+                student['programs'][record.program.id] = {
+                    'name': record.program.name,
+                    'min_date': record.date,
+                    'max_date': record.date,
+                    'count': 1
+                }
+
+    return Response(grouped_records)

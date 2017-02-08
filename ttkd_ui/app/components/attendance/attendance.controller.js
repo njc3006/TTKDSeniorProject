@@ -11,6 +11,8 @@
 		$scope.dataIsEmpty = function() {
 			if (angular.isArray($scope.attendanceRecords)) {
 				return $scope.attendanceRecords.length === 0;
+			} else if (!$scope.attendanceRecords) {
+				return true;
 			}
 
 			return Object.keys($scope.attendanceRecords).length === 0;
@@ -38,8 +40,8 @@
 				$scope.isLoading = true;
 				AttendanceService.getGroupedByStudentRecords(filterData).then(
 					function success(groupedRecords) {
-						$scope.pagination.totalRecords = groupedRecords.count;
-						$scope.attendanceRecords = groupedRecords.results;
+						$scope.pagination.totalRecords = Object.keys(groupedRecords).length;
+						$scope.attendanceRecords = groupedRecords;
 						$scope.isLoading = false;
 						$scope.loadingFailed = false;
 					},
@@ -72,7 +74,7 @@
 
 		$scope.onStudentNameChange = function() {
 			if ($scope.filterData.student === '') {
-				delete $scope.filterData.studentId;
+				delete $scope.filterData.studentIds;
 				$scope.onFilterChange();
 			} else {
 				var splitName = $scope.filterData.student.split(' '),
