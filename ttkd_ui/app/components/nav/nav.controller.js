@@ -10,6 +10,8 @@
       $rootScope.loggedin = ($cookies.getObject('Authorization') ?  true:false);
       $rootScope.currentUser = $cookies.getObject('Authorization') ? 
         $cookies.getObject('Authorization').username : 'Anonymous';
+      $rootScope.userlevel = $cookies.getObject('Authorization') ? 
+        $cookies.getObject('Authorization').userlevel : '-1';
       var modalInstance;
 
     	// returns true if the current router url matches the passed in url
