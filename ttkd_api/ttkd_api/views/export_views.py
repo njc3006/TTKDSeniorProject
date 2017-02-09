@@ -11,12 +11,11 @@ from django.http import HttpResponse
 
 from ..settings import BACKUP_FILES_DIR, STATIC_URL, STATICFILES_DIR
 from ..models import AttendanceRecord, Person, Registration, PersonBelt, Belt, Stripe
-import sys
-import os
-import datetime
-import json
+from django.contrib.auth.decorators import login_required
 
+import datetime, json, os, sys
 
+@login_required
 def create_tmp_folder():
     """
     A helper function to create a temp folder if it does not exist.
@@ -24,7 +23,7 @@ def create_tmp_folder():
     if not os.path.exists(os.path.join(STATICFILES_DIR, 'tmp')):
         os.makedirs(os.path.join(STATICFILES_DIR, 'tmp'))
 
-
+@login_required
 def create_csv(file, headers, data):
     """
     This function accepts a full file path, headers, and data, and
@@ -59,6 +58,7 @@ def create_csv(file, headers, data):
 
 
 # noinspection PyUnusedLocal
+@login_required
 @api_view(['POST', ])
 def export_data(request):
     """
@@ -84,6 +84,7 @@ def export_data(request):
 
 
 # noinspection PyUnusedLocal
+@login_required
 @api_view(['POST', ])
 def export_attendance(request):
     """
@@ -114,6 +115,7 @@ def export_attendance(request):
 
 
 # noinspection PyUnusedLocal
+@login_required
 @api_view(['POST', ])
 def export_contacts(request):
     """
@@ -183,6 +185,7 @@ def export_contacts(request):
 
 
 # noinspection PyUnusedLocal
+@login_required
 @api_view(['GET', ])
 def export_to_excel(request):
     """

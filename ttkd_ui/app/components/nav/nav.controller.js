@@ -32,6 +32,7 @@
        * Open a prompt to confirm login for a person.
        */
       $scope.openLogin = function() {
+        $scope.loginError = '';
         var modalElement = angular.element($document[0].querySelector('#login-modal'));
 
         modalInstance = $uibModal.open({
@@ -62,6 +63,12 @@
         }}).then(
           function(response) {
             var authToken = response.data.token;
+            if(!authToken) {
+              $scope.loginError = 'Invalid credentials';
+              return;
+            }
+            $scope.loginError = '';
+
             $http.get(apiHost + '/api/users/current/', {
               headers: {
                 'Authorization': 'Token ' + authToken,
