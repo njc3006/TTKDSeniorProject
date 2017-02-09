@@ -15,7 +15,6 @@ from django.contrib.auth.decorators import login_required
 
 import datetime, json, os, sys
 
-@login_required
 def create_tmp_folder():
     """
     A helper function to create a temp folder if it does not exist.
@@ -23,7 +22,6 @@ def create_tmp_folder():
     if not os.path.exists(os.path.join(STATICFILES_DIR, 'tmp')):
         os.makedirs(os.path.join(STATICFILES_DIR, 'tmp'))
 
-@login_required
 def create_csv(file, headers, data):
     """
     This function accepts a full file path, headers, and data, and
@@ -58,9 +56,14 @@ def create_csv(file, headers, data):
 
 
 # noinspection PyUnusedLocal
-@login_required
 @api_view(['POST', ])
 def export_data(request):
+    if request.method == "OPTIONS":
+        return HttpResponse(status=200)
+    elif request.user.is_staff < 1:
+        return HttpResponse(status=401)
+
+
     """
     An Url that is used to create a JSON export of the DB
     Only accepts POST with {} (you must put {} in the browsable api)
@@ -84,9 +87,12 @@ def export_data(request):
 
 
 # noinspection PyUnusedLocal
-@login_required
 @api_view(['POST', ])
 def export_attendance(request):
+    if request.method == "OPTIONS":
+        return HttpResponse(status=200)
+    elif request.user.is_staff < 1:
+        return HttpResponse(status=401)
     """
     Create a temp CSV file in the static files directory containing
     the attendance records in the system.
@@ -115,9 +121,12 @@ def export_attendance(request):
 
 
 # noinspection PyUnusedLocal
-@login_required
 @api_view(['POST', ])
 def export_contacts(request):
+    if request.method == "OPTIONS":
+        return HttpResponse(status=200)
+    elif request.user.is_staff < 1:
+        return HttpResponse(status=401)
     """
     Create a temp CSV file in the static files directory containing
     the contact records in the system.
@@ -185,9 +194,12 @@ def export_contacts(request):
 
 
 # noinspection PyUnusedLocal
-@login_required
 @api_view(['GET', ])
 def export_to_excel(request):
+    if request.method == "OPTIONS":
+        return HttpResponse(status=200)
+    elif request.user.is_staff < 1:
+        return HttpResponse(status=401)
     """
     Create an excel spreadsheet that represents the system
     """

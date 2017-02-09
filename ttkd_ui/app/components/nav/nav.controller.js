@@ -103,7 +103,7 @@
         $rootScope.loggedin = false;
         $rootScope.currentUser = 'Anonymous';
         $rootScope.userlevel = -1;
-        $location.path("/");
+        $location.path('/');
       };
     }]);
 
