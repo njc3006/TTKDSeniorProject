@@ -70,7 +70,7 @@ def get_grouped_attendance_records(request):
     """
     filtered_records = DateRangeFilter(
         request.GET,
-        AttendanceRecord.objects.all().order_by('-date', 'person__last_name', 'person__first_name')
+        AttendanceRecord.objects.all()
     )
 
     grouped_records = {}
