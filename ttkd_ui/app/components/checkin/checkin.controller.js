@@ -47,7 +47,6 @@
 		};
 
 		$scope.getBeltStyle = function(belt) {
-
 			if (belt) {
                 var primaryStyle = belt['primary_color'].toLowerCase() === 'ffffff' ?
                     'black 8px double' :

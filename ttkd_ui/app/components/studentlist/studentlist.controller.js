@@ -16,8 +16,6 @@
         $scope.belts = [];
         $scope.sortAZ = true;
         $scope.sortDisplayString = 'A-Z';
-        $scope.currentPage = 1;
-        $scope.itemsPerPage = 5;
 
         $scope.filters = {
             showActive: true,
