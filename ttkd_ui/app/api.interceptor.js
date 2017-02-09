@@ -9,7 +9,6 @@
           return config;
         },
         responseError: function (res) {
-          //console.log(res);
           $location.path('/');
           return res;
         },
