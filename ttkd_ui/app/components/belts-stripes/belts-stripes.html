@@ -1,23 +1,41 @@
 <div class="container">
-	<div>
-		{{$scope.pageTitle}}
+	<div class="row text-capitalize">
+		<h3>{{pageTitle}}</h3>
 	</div>
-	<div>
+	<div class="row spacer-25">
+		<label>
+			<input type="radio" ng-model="type" value="belt">Belt
+		</label>
+		<label>
+  			<input type="radio" ng-model="type" value="stripe">Stripe
+		</label>
+	</div>
+	<div class="row spacer-25">
+		<label>
+			<input type="radio" ng-model="status" value="new">New
+		</label>
+		<label>
+	  		<input type="radio" ng-model="status" value="edit">Edit
+		</label>
+	</div>
+	<div class="row spacer-25">
 		<span>Name</span>
 		<input type="text">
 	</div>
-	<div>
+	<div class="row spacer-25">
 		<span>Primary Color</span>
 		<input type="color">
 	</div>
-	<div>
+	<div class="row spacer-25" ng-if="type === 'belt'">
 		<span>Secondary Color</span>
 		<input type="color">
 	</div>
-	<div>
-		<input type="checkbox">{{$scope.checkboxTitle}}
+	<div class="row spacer-25" ng-if="status === 'edit'">
+		<label>
+			<input type="checkbox" ng-model="active">Active
+		</label>
 	</div>
-	<div>
-		<button>{{$scope.buttonTitle}}</button>
+	<div class="row">
+		<button ng-click="save()">Save</button>
 	</div>
 </div>
