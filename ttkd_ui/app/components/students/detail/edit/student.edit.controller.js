@@ -11,9 +11,10 @@
 		}
 
 		function areDifferent(lhs, rhs, lhsIdFunction, rhsIdFunction) {
-			var lhsDiff = arrayDiff(lhs, rhs, lhsIdFunction, rhsIdFunction);
+			var lhsDiff = arrayDiff(lhs, rhs, lhsIdFunction, rhsIdFunction),
+				rhsDiff = arrayDiff(rhs, lhs, rhsIdFunction, lhsIdFunction);
 
-			return lhsDiff.length > 0;
+			return lhsDiff.length > 0 || rhsDiff.length > 0;
 		}
 
 		function submitStripeChanges() {
@@ -53,6 +54,7 @@
 								function(item) { return item.stripe.id || item.stripe; }
 							);
 							break;
+						case 'newBelt':
 						case 'currentBelt':
 							hasUnsavedChanges = value.id !== $scope.studentInfo.newBelt.id;
 							break;
@@ -80,7 +82,6 @@
 							break;
 						case 'belts':
 						case 'oldStripes':
-						case 'newBelt':
 							break;
 						default:
 							hasUnsavedChanges = value !== $scope.oldStudent[key];
@@ -89,7 +90,6 @@
 				}
 			});
 
-			//console.log(hasUnsavedChanges);
 			if (hasUnsavedChanges) {
 				var shouldBackNavigate = confirm('There are unsaved changes, are you sure you wish to leave?');
 
