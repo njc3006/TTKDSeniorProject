@@ -21,11 +21,18 @@
 				return $q(function(resolve, reject) {
 					var requestConfig = {
 						params: {
-							'person__in': filterData.studentIds,
 							program: filterData.program,
 							page: filterData.page
 						}
 					};
+
+					if (filterData.studentIds) {
+						if (filterData.studentIds.length > 0) {
+							requestConfig.params['person__in'] = filterData.studentIds;
+						} else {
+							requestConfig.params['person__in'] = '[]';
+						}
+					}
 
 					if (filterData.startDate !== undefined && !isDateInvalid(filterData.startDate)) {
 						requestConfig.params['date__gte'] = moment(filterData.startDate).format('YYYY-MM-DD');
