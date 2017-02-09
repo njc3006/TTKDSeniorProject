@@ -52,6 +52,13 @@
 				controller: 'StudentDetailCtrl'
 			})
 
+			.state('attendance', {
+				url: '/attendance',
+                params: { hideCurrentProgram: true },
+				templateUrl: 'components/attendance/attendance.html',
+				controller: 'AttendanceCtrl'
+			})
+
 			.state('editStudentDetails', {
 				url: '/students/{studentId:int}/edit',
 				templateUrl: 'components/students/detail/edit/student.edit.html',

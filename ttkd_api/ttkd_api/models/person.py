@@ -97,7 +97,7 @@ class Person(models.Model):
     picture = models.ImageField(
         _('picture'),
         blank=True,
-        null=True, 
+        null=True,
         upload_to=upload_to
     )
     picture_url = models.CharField(

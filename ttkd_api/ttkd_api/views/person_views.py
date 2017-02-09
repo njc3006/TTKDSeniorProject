@@ -3,11 +3,22 @@ from rest_framework import viewsets, filters
 from ..serializers.person_serializer import PersonSerializer, PersonPictureSerializer
 from ..models.person import Person
 
+from django_filters import rest_framework as drf_filters
+
 from rest_framework.decorators import detail_route, parser_classes
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 
+
+class PersonFilter(drf_filters.FilterSet):
+    class Meta:
+        model = Person
+        fields = {
+            'first_name': ['exact', 'contains'],
+            'last_name': ['exact', 'contains'],
+            'active': ['exact']
+        }
 
 class PersonViewSet(viewsets.ModelViewSet):
     """
@@ -21,7 +32,8 @@ class PersonViewSet(viewsets.ModelViewSet):
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('first_name', 'last_name', 'active',)
+    filter_class = PersonFilter
+    #filter_fields = ('first_name', 'last_name', 'active',)
 
 
 class PersonPictureViewSet(viewsets.GenericViewSet):

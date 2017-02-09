@@ -11,3 +11,8 @@ class ProgramSerializer(serializers.ModelSerializer):
     class Meta:
         model = Program
         # No Fields declaration to use all the fields of the model
+
+class MinimalProgramSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Program
+        fields = ('id', 'name')

@@ -15,6 +15,7 @@
 		'ttkdApp.registationCtrl',
 		'ttkdApp.studentlistCtrl',
 		'ttkdApp.studentDetailCtrl',
+		'ttkdApp.attendanceCtrl',
 		'ttkdApp.editStudentCtrl',
 		'ttkdApp.importExportCtrl'
     ]
