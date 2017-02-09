@@ -29,6 +29,7 @@
 			}
 
 			var filterData = angular.copy($scope.filterData);
+			filterData.condensed = filterData.condensed === 'Condensed';
 			filterData.page = $scope.pagination.currentPage;
 
 			if (filterData.startDate) {
@@ -107,6 +108,7 @@
 		$scope.loadingFailed = false;
 
 		$scope.filterData = {
+			condensed: 'Uncondensed',
 			startDate: {
 				open: false
 			},
