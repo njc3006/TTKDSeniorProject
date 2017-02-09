@@ -18,7 +18,3 @@ class PersonBelt(models.Model):
     belt = models.ForeignKey(Belt, on_delete=models.CASCADE)
 
     date_achieved = models.DateField()
-
-    current_belt = models.BooleanField(
-        default=True,
-    )

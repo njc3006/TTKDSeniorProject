@@ -35,19 +35,14 @@
 					return $http.put(apiHost + '/api/persons/' + id + '/', newInfo);
 				},
 
-				updateStudentBelt: function(id, oldPersonBelt, newBeltId) {
-					oldPersonBelt['current_belt'] = false;
-					oldPersonBelt.belt = oldPersonBelt.belt.id || oldPersonBelt.belt;
-
+				updateStudentBelt: function(id, newBeltId) {
 					var newBeltPayload = {
-						'current_belt': true,
 						belt: newBeltId,
 						person: id,
 						'date_achieved': moment().format('YYYY-MM-DD')
 					};
 
 					return $q.all([
-						$http.put(apiHost + '/api/person-belts/' + oldPersonBelt.id + '/', oldPersonBelt),
 						$http.post(apiHost + '/api/person-belts/', newBeltPayload)
 					]);
 				},
