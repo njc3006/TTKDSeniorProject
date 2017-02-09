@@ -6,23 +6,43 @@
 					return $http.get(apiHost + '/api/persons/' + id + '/');
 				},
 
+				getStudentIdsFromName: function(firstName, lastName) {
+					var requestConfig = {
+						params: {
+							'first_name__contains': firstName
+						}
+					};
+
+					if (lastName !== undefined) {
+						requestConfig.params['last_name__contains'] = lastName;
+					}
+
+					return $q(function(resolve, reject) {
+						$http.get(apiHost + '/api/persons/', requestConfig).then(
+							function success(response) {
+								resolve(response.data.map(function(person) {
+									return person.id;
+								}));
+							},
+							function failure(error) {
+								reject(error);
+							}
+						);
+					});
+				},
+
 				updateStudentInfo: function(id, newInfo) {
 					return $http.put(apiHost + '/api/persons/' + id + '/', newInfo);
 				},
 
-				updateStudentBelt: function(id, oldPersonBelt, newBeltId) {
-					oldPersonBelt['current_belt'] = false;
-					oldPersonBelt.belt = oldPersonBelt.belt.id || oldPersonBelt.belt;
-
+				updateStudentBelt: function(id, newBeltId) {
 					var newBeltPayload = {
-						'current_belt': true,
 						belt: newBeltId,
 						person: id,
 						'date_achieved': moment().format('YYYY-MM-DD')
 					};
 
 					return $q.all([
-						$http.put(apiHost + '/api/person-belts/' + oldPersonBelt.id + '/', oldPersonBelt),
 						$http.post(apiHost + '/api/person-belts/', newBeltPayload)
 					]);
 				},

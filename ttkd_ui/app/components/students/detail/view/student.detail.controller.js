@@ -31,22 +31,8 @@
 	          $scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContact1);
 	          $scope.secondaryEmergencyContact = reformatObject($scope.studentInfo.emergencyContact2);
 
-	          if ($scope.studentInfo.belts.length > 0) {
-	              var currentBelt;
-
-	              if ($scope.studentInfo.belts.length === 1) {
-	                  currentBelt = $scope.studentInfo.belts[0].belt;
-	              } else {
-	                  currentBelt = $scope.studentInfo.belts.reduce(function(prev, curr) {
-	                      if (curr['current_belt']) {
-	                          return curr.belt;
-	                      } else {
-	                          return prev;
-	                      }
-	                  }, $scope.studentInfo.belts[0].belt);
-	              }
-
-	              $scope.beltStyle = getBeltStyle(currentBelt);
+	          if ($scope.studentInfo.belt) {
+	              $scope.beltStyle = getBeltStyle($scope.studentInfo.belt);
 
 	              $scope.earnedStripes = $scope.studentInfo.stripes.filter(function(personStripe) {
 	                  return personStripe['current_stripe'];

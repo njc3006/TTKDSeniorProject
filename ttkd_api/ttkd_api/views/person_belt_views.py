@@ -9,10 +9,10 @@ class PersonBeltViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     """
     GET: Returns all PersonBelt Objects To The Route, Or An Instance If Given A PK.
-    Filters: person, current_belt, belt
+    Filters: person, belt
     POST: Create a person Belt record
     """
     queryset = PersonBelt.objects.all()
     serializer_class = PersonBeltSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('person', 'current_belt', 'belt')
+    filter_fields = ('person', 'belt')

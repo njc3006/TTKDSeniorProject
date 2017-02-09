@@ -3,21 +3,22 @@
 
   angular.module('ttkdApp',
     [
-  		'ui.router',
-  		'ui.bootstrap',
-  		'ttkdApp.constants',
-  		'ttkdApp.routes',
-  		'ttkdApp.mainCtrl',
-  		'ttkdApp.navCtrl',
-  		'ttkdApp.checkinCtrl',
-  		'ttkdApp.partials',
-  		'ttkdApp.homeCtrl',
-  		'ttkdApp.registationCtrl',
-  		'ttkdApp.studentlistCtrl',
-  		'ttkdApp.studentDetailCtrl',
-  		'ttkdApp.editStudentCtrl',
-      'ttkdApp.importExportCtrl',
-      'ttkdApp.AuthInterceptor'
+		'ui.router',
+		'ui.bootstrap',
+		'ttkdApp.constants',
+		'ttkdApp.routes',
+		'ttkdApp.mainCtrl',
+		'ttkdApp.navCtrl',
+		'ttkdApp.checkinCtrl',
+		'ttkdApp.partials',
+		'ttkdApp.homeCtrl',
+		'ttkdApp.registationCtrl',
+		'ttkdApp.studentlistCtrl',
+		'ttkdApp.studentDetailCtrl',
+		'ttkdApp.attendanceCtrl',
+		'ttkdApp.editStudentCtrl',
+		'ttkdApp.importExportCtrl',
+		'ttkdApp.AuthInterceptor'
     ]
   ).config(['$httpProvider', function($httpProvider) {
     	$httpProvider.interceptors.push('AuthInterceptor');
