@@ -1,41 +1,76 @@
 <div class="container">
-	<div class="row text-capitalize">
-		<h3>{{pageTitle}}</h3>
+	<div ng-hide="showEdit">
+		<div class="row text-capitalize">
+			<div class="col-xs-5 text-center">
+				<h2 class="spacer-25">Belts</h2>
+				<div ng-repeat="belt in belts">
+					<div class="col-xs-12 spacer-20 btn btn-lg btn-default" ng-click="edit('belt', belt)">
+						{{belt.name}}
+					</div>
+				</div>
+				<div class="btn btn-default" ng-click="addNew('belt')">
+					<span>Add new belt</span>
+				</div>
+			</div>
+			<div class="col-xs-5 col-xs-offset-1 text-center">
+				<h2 class="spacer-25">Stripes</h2>
+				<div ng-repeat="stripe in stripes">
+					<div class="col-xs-12 spacer-20 btn btn-lg btn-default" ng-click="edit('stripe', stripe)">
+						{{stripe.name}}
+					</div>
+				</div>
+				<div class="btn btn-default" ng-click="addNew('stripe')">
+					<span>Add new stripe</span>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div class="row spacer-25">
-		<label>
-			<input type="radio" ng-model="type" value="belt">Belt
-		</label>
-		<label>
-  			<input type="radio" ng-model="type" value="stripe">Stripe
-		</label>
-	</div>
-	<div class="row spacer-25">
-		<label>
-			<input type="radio" ng-model="status" value="new">New
-		</label>
-		<label>
-	  		<input type="radio" ng-model="status" value="edit">Edit
-		</label>
-	</div>
-	<div class="row spacer-25">
-		<span>Name</span>
-		<input type="text">
-	</div>
-	<div class="row spacer-25">
-		<span>Primary Color</span>
-		<input type="color">
-	</div>
-	<div class="row spacer-25" ng-if="type === 'belt'">
-		<span>Secondary Color</span>
-		<input type="color">
-	</div>
-	<div class="row spacer-25" ng-if="status === 'edit'">
-		<label>
-			<input type="checkbox" ng-model="active">Active
-		</label>
-	</div>
-	<div class="row">
-		<button ng-click="save()">Save</button>
-	</div>
+
+
+	<div ng-hide="!showEdit">
+		<button class="btn btn-primary" ng-click="backNavigate()">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+			Back
+		</button>
+		<form class="form-horizontal text-capitalize">
+				<div class="row">
+					<h3>{{status}} {{type}}</h3>
+				</div>
+				<div class="form-group">
+					<label>
+						<input type="radio" ng-model="type" value="belt">Belt
+					</label>
+					<label>
+			  			<input type="radio" ng-model="type" value="stripe">Stripe
+					</label>
+				</div>
+				<div class="form-group">
+					<label>
+						<input type="radio" ng-model="status" value="new">New
+					</label>
+					<label>
+				  		<input type="radio" ng-model="status" value="edit">Edit
+					</label>
+				</div>
+				<div class="form-group">
+					<input type="text" placeholder="Name" class="form-control input-md" ng-model="currentObj.name">
+				</div>
+				<div class="form-group">
+					<span>Primary Color</span>
+					<input type="color">
+				</div>
+				<div class="form-group" ng-if="type === 'belt'">
+					<span>Secondary Color</span>
+					<input type="color">
+				</div>
+				<div class="form-group" ng-if="status === 'edit'">
+					<label>
+						<input type="checkbox" ng-model="active">Active
+					</label>
+				</div>
+				<div class="row">
+					<button ng-click="save()">Save</button>
+				</div>
+		</form>
+	<div>
 </div>
