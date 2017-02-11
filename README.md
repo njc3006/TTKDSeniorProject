@@ -46,7 +46,9 @@ there are 2 possible additional options when running the script:
 ### Testing
 
 - Update node to v6.9.5
+- Re-initialize your environment: `npm rebuild node-sass`
 - First, install Protractor: `npm install -g protractor`
+- Update the webdriver Protractor uses: `./node_modules/protractor/bin/webdriver-manager Update`
 - Start the selenium server: `webdriver-manager start`
 - Run protractor tests from the `ttkd_ui/` directory: `protractor conf.js`
 
