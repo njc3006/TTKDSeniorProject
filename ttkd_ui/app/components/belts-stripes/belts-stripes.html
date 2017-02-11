@@ -3,23 +3,37 @@
 		<div class="row text-capitalize">
 			<div class="col-xs-5 text-center">
 				<h2 class="spacer-25">Belts</h2>
-				<div ng-repeat="belt in belts">
+				<h3 class="spacer-25">Active</h3>
+				<div ng-repeat="belt in belts | filter: { active: true }">
 					<div class="col-xs-12 spacer-20 btn btn-lg btn-default" ng-click="edit('belt', belt)">
 						{{belt.name}}
 					</div>
 				</div>
-				<div class="btn btn-default" ng-click="addNew('belt')">
+				<h3 class="spacer-25" ng-if="hasInactive.belt === true">Inactive</h3>
+				<div ng-repeat="belt in belts | filter: { active: false }">
+					<div class="col-xs-12 spacer-20 btn btn-lg btn-default" ng-click="edit('belt', belt)">
+						{{belt.name}}
+					</div>
+				</div>
+				<div class="btn btn-default spacer-top-20 spacer-25" ng-click="addNew('belt')">
 					<span>Add new belt</span>
 				</div>
 			</div>
 			<div class="col-xs-5 col-xs-offset-1 text-center">
 				<h2 class="spacer-25">Stripes</h2>
-				<div ng-repeat="stripe in stripes">
+				<h3 class="spacer-25">Active</h3>
+				<div ng-repeat="stripe in stripes | filter: { active: true}">
 					<div class="col-xs-12 spacer-20 btn btn-lg btn-default" ng-click="edit('stripe', stripe)">
 						{{stripe.name}}
 					</div>
 				</div>
-				<div class="btn btn-default" ng-click="addNew('stripe')">
+				<h3 class="spacer-25" ng-if="hasInactive.stripe === true">Inactive</h3>
+				<div ng-repeat="stripe in stripes | filter: { active: false }">
+					<div class="col-xs-12 spacer-20 btn btn-lg btn-default" ng-click="edit('stripe', stripe)">
+						{{stripe.name}}
+					</div>
+				</div>
+				<div class="btn btn-default spacer-top-20 spacer-25" ng-click="addNew('stripe')">
 					<span>Add new stripe</span>
 				</div>
 			</div>
@@ -50,7 +64,7 @@
 				</div>
 				<div class="form-group" ng-if="status === 'edit'">
 					<label>
-						<input type="checkbox" ng-model="active">Active
+						<input type="checkbox" ng-model="currentObj.active">Active
 					</label>
 				</div>
 				<div class="row">
