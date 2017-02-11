@@ -23,9 +23,9 @@
 
 		$scope.loadAttendanceRecords = function() {
 			if (Object.prototype.toString.call($scope.attendanceRecords) === '[object Array]') {
-				$scope.attendanceRecords = [];
-			} else {
 				$scope.attendanceRecords = {};
+			} else {
+				$scope.attendanceRecords = [];
 			}
 
 			var filterData = angular.copy($scope.filterData);

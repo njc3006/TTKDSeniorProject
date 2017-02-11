@@ -67,14 +67,14 @@
 		</div>
 		<div class="btn-group">
 			<label
-				class="btn btn-primary"
+				class="btn btn-default"
 				ng-model="filterData.condensed"
 				ng-change="loadAttendanceRecords()"
 				uib-btn-radio="'Uncondensed'">
 				Uncondensed
 			</label>
 			<label
-				class="btn btn-primary"
+				class="btn btn-default"
 				ng-model="filterData.condensed"
 				ng-change="loadAttendanceRecords()"
 				uib-btn-radio="'Condensed'">
@@ -83,7 +83,7 @@
 		</div>
 	</div>
 
-	<div class="text-center" ng-if="filterData.condensed === 'Uncondensed'">
+	<div class="text-center" ng-if="filterData.condensed === 'Uncondensed' && !isLoading">
 		<ul
 			uib-pagination
 			class="pagination-lg"
@@ -161,7 +161,7 @@
 		</div>
 	</div>
 
-	<div class="text-center" ng-if="filterData.condensed === 'Uncondensed'">
+	<div class="text-center" ng-if="filterData.condensed === 'Uncondensed' && !isLoading">
 		<ul
 			uib-pagination
 			class="pagination-lg"
