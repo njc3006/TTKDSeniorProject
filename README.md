@@ -43,6 +43,13 @@ there are 2 possible additional options when running the script:
 
 `python import_json.py <belt|stripe|belts|stripes> <mask>`
 
+### Testing
+
+- Update node to v6.9.5
+- First, install Protractor: `npm install -g protractor`
+- Start the selenium server: `webdriver-manager start`
+- Run protractor tests from the `ttkd_ui/` directory: `protractor conf.js`
+
 ### Building a Release
 To build a release for the project, setup a unix-like environment with the following dependencies installed (In addition to the dependencies needed to build the project):
 
