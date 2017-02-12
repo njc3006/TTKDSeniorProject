@@ -13,7 +13,7 @@
 	<div ng-if="userlevel >= 1" class="row spacer-20">
 		<a ui-sref="attendance" ui-sref-active="active" class="btn btn-primary">Class Attendance</a>
 	</div>
-	<div class="row spacer-20">
+	<div ng-if="userlevel >= 1" class="row spacer-20">
 		<a ui-sref-active="active" class="btn btn-primary" ng-click="openAddProgram()">Add Program</a>
 	</div>
 	<div ng-if="userlevel < 0" class="row spacer-20">
