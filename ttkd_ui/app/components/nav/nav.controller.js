@@ -79,7 +79,7 @@
                 var authData = {
                   token: authToken,
                   username: response.data.username,
-                  userlevel: response.data['is_staff'],
+                  userlevel: response.data['is_staff'] ? 1:0,
                 };
                 $cookies.putObject('Authorization', authData);
                 $rootScope.currentUser = response.data.username;
