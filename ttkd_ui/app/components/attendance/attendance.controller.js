@@ -1,6 +1,12 @@
 (function() {
-	function AttendanceController($scope, $rootScope, $stateParams, ProgramService, AttendanceService, StudentsService) {
-
+	function AttendanceController(
+		$scope,
+		$rootScope,
+		$stateParams,
+		ProgramService,
+		AttendanceService,
+		StudentsService
+	) {
 		$rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
 
 		$scope.format = function(date) {
