@@ -25,8 +25,8 @@
 		</div>
 	</div>
 	<div class="row thumbnail-area">
-			<a href="" class="thumbnail" 
-					ng-click="instructor ? instructClickCheckin(person) : openCheckinPrompt(person)"
+			<a href="" class="thumbnail unchecked" 
+					ng-click="checkin(person)"
 					ng-repeat="person in people | orderBy: 'first_name' ">
 				<img ng-if="person.picture_url" class="img-responsive {{studentBeltClass}}" ng-src="{{apiHost}}/{{person.picture_url}}" ng-style="person.beltStyle">
 				<img ng-if="!person.picture_url" class="img-responsive {{studentBeltClass}}" ng-src="./img/components/students/placeholder.png" ng-style="person.beltStyle">
@@ -34,9 +34,9 @@
 					<span class="person-name">{{person.first_name}} {{person.last_name}}</span>
 				</div>
 			</a>
-			<a href="" class="thumbnail" 
+			<a href="" class="thumbnail checked" 
 					ng-class="instructor ? 'checked-in-student-instruct' : 'checked-in-student'"
-					ng-click="instructor ? instructClickDeleteCheckin(person) : ''"
+					ng-click="checkout(person)"
 					ng-repeat="person in checkedInPeople | orderBy: 'first_name'">
 				<img ng-show="person.picture_url" class="img-responsive {{studentBeltClass}}" ng-src="{{apiHost}}/{{person.picture_url}}" ng-style="person.beltStyle">
 				<img ng-hide="person.picture_url" class="img-responsive {{studentBeltClass}}" ng-src="./img/components/students/placeholder.png" ng-style="person.beltStyle">

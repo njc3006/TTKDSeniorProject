@@ -49,8 +49,11 @@ there are 2 possible additional options when running the script:
 - Re-initialize your environment: `npm rebuild node-sass`
 - First, install Protractor: `npm install -g protractor`
 - Update the webdriver Protractor uses: `./node_modules/protractor/bin/webdriver-manager Update`
-- Start the selenium server: `webdriver-manager start`
-- Run protractor tests from the `ttkd_ui/` directory: `protractor conf.js`
+- Run protractor tests with `gulp test`
+
+#### Creating Tests
+
+To create a new test, just create the file in the same folder as the functionality you will be testing, and make the extension `.test.js1`. Gulp will automatically run the test.
 
 ### Building a Release
 To build a release for the project, setup a unix-like environment with the following dependencies installed (In addition to the dependencies needed to build the project):
