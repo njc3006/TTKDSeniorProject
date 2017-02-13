@@ -11,19 +11,19 @@
 				'zipcode': parseInt(registrationInfo.zipcode),
 				'state': registrationInfo.state.value,
 				'emails': registrationInfo.emails.map(function(email) { return {email: email.email}; }),
+				'waivers': [{'waiver_signature': registrationInfo.participantSignature}],
 				'emergency_contact_1': {
 					'full_name': registrationInfo.emPrimaryFullName,
 					'phone_number': registrationInfo.emPrimaryPhone,
 					'relation': registrationInfo.emPrimaryRelationship
 				}
 			},
-			'program': registrationInfo.program.id,
-			'waiver_signature': registrationInfo.participantSignature
+			'program': registrationInfo.program.id
 		};
 
 		// We only need to add the guardian signature if there was one
 		if (registrationInfo.guardianSignature !== undefined) {
-			payload['guardian_signature'] = registrationInfo.guardianSignature;
+			payload.person.waivers[0]['guardian_signature'] = registrationInfo.guardianSignature;
 		}
 
 		if (registrationInfo.secondaryPhone !== undefined) {
@@ -41,7 +41,6 @@
 				'relation': registrationInfo.emSecondaryRelationship
 			};
 		}
-
 		return payload;
 	}
 

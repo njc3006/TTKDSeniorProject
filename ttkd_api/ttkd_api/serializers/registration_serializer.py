@@ -1,7 +1,6 @@
 """RegistrationSerializer"""
 from string import capwords
 import datetime
-from django.utils import timezone
 from rest_framework import serializers
 
 from .person_serializer import PersonSerializer, MinimalPersonSerializer
@@ -12,6 +11,7 @@ from ..models.email import Email
 from ..models.emergency_contact import EmergencyContact
 from ..models.belt import Belt
 from ..models.person_belt import PersonBelt
+from ..models.waiver import Waiver
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -31,6 +31,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         """
         person_data = validated_data.pop('person')
         email_data = person_data.pop('emails')
+        waiver_data = person_data.pop('waivers')
 
         emergency_contact_1_data = None
         emergency_contact_2_data = None
@@ -78,15 +79,21 @@ class RegistrationSerializer(serializers.ModelSerializer):
         if belt is not None:
             PersonBelt.objects.create(person=person, belt=belt, date_achieved=datetime.date.today())
 
-        if 'guardian_signature' in validated_data:
-            guardian_sig = validated_data['guardian_signature']
-        else:
-            guardian_sig = None
+        # Because a person can have multiple waivers we have to iterate, however the list from the
+        # UI will always be of size 1
+        for waiver_dict in waiver_data:
+
+            if 'guardian_signature' in waiver_dict:
+                guardian_sig = waiver_dict['guardian_signature']
+            else:
+                guardian_sig = None
+
+            Waiver.objects.create(person=person,
+                                  waiver_signature=waiver_dict['waiver_signature'],
+                                  guardian_signature=guardian_sig)
 
         registration = \
-            Registration.objects.create(person=person, program=validated_data['program'],
-                                        waiver_signature=validated_data['waiver_signature'],
-                                        guardian_signature=guardian_sig)
+            Registration.objects.create(person=person, program=validated_data['program'])
         return registration
 
     def update(self, instance, validated_data):

@@ -11,3 +11,4 @@ from .registration import Registration
 from .person_stripe import PersonStripe
 from .person_belt import PersonBelt
 from .stripe import Stripe
+from .waiver import Waiver
