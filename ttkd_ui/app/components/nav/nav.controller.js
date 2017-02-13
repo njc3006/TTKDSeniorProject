@@ -54,6 +54,7 @@
        * Logs a user out.
        */
       $scope.login = function(username, password) {
+        $scope.loginError = '';
         $http({
           method: 'POST',
           url: apiHost + '/api/token-auth/',
