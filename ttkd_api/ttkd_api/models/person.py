@@ -18,7 +18,15 @@ class Person(models.Model):
     programs
     """
 
+    # noinspection PyMethodParameters
     def upload_to(instance, filename):
+        """
+        Upload a picture for the person
+        Args:
+            filename: The filename for the picture
+
+        Returns: The complete url to the picture
+        """
         extension = "." + filename.split('.')[-1]
         # make a timestamped filename
         filename = time.strftime("%Y-%m-%d_%H-%M-%S") + extension
@@ -28,9 +36,9 @@ class Person(models.Model):
             folder = instance.first_name + "." + instance.last_name + "/"
         partial_url = 'pictures/{}{}'.format(folder, filename)
 
-        #now construct the url it will be served from
+        # now construct the url it will be served from
         url = 'ui/' + partial_url
-        #save the url in the instance
+        # save the url in the instance
         instance.picture_url = url
         instance.save()
 
@@ -38,13 +46,9 @@ class Person(models.Model):
 
     first_name = models.CharField(
         max_length=30,
-        blank=True,
-        null=True,
     )
     last_name = models.CharField(
         max_length=30,
-        blank=True,
-        null=True,
     )
     dob = models.DateField(
         blank=True,
@@ -89,7 +93,7 @@ class Person(models.Model):
         default=True,
     )
     belt = models.ForeignKey(Belt, on_delete=models.CASCADE, blank=True,
-                                            null=True, related_name='belt')
+                             null=True, related_name='belt')
 
     emergency_contact_1 = models.ForeignKey(EmergencyContact, on_delete=models.CASCADE, blank=True,
                                             null=True, related_name='emergency_contact_1')

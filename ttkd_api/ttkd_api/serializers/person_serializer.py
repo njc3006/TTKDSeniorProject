@@ -16,7 +16,7 @@ class PersonSerializer(serializers.ModelSerializer):
     """
     PersonSerializer Outputs Person Model as JSON
     """
-    emails = EmailSerializer(many=True)
+    emails = EmailSerializer(many=True, required=False)
     belts = DetailedPersonBeltSerializer(many=True, read_only=True)
     stripes = DetailedPersonStripeSerializer(many=True, read_only=True)
     emergency_contact_1 = EmergencyContactSerializer(required=False)
@@ -48,10 +48,10 @@ class PersonSerializer(serializers.ModelSerializer):
         instance.picture_url = validated_data.get('picture_url', instance.picture_url)
         instance.active = validated_data.get('active', instance.active)
 
-        # Remove all of the persons existing emails, so we can set them to the ones received in the update
-        # Have to do this because emails could be deleted from the list, and new ones could be added
-        # This is less expensive that trying to query the database to determine if any of the emails were removed or
-        # modified
+        # Remove all of the persons existing emails, so we can set them to the ones received in the
+        # update. Have to do this because emails could be deleted from the list, and new ones could
+        # be added . This is less expensive that trying to query the database to determine if any
+        # of the emails were removed or modified
         instance.emails.all().delete()
 
         email_data = validated_data.pop('emails')
@@ -63,7 +63,8 @@ class PersonSerializer(serializers.ModelSerializer):
             emergency_contact_1_data = validated_data.pop('emergency_contact_1')
 
             if instance.emergency_contact_1 is not None:
-                instance.emergency_contact_1.relation = capwords(emergency_contact_1_data['relation'])
+                instance.emergency_contact_1.relation = \
+                    capwords(emergency_contact_1_data['relation'])
                 # No capwords here in case someone is using this update to fix a name
                 instance.emergency_contact_1.full_name = emergency_contact_1_data['full_name']
                 instance.emergency_contact_1.phone_number = emergency_contact_1_data['phone_number']
@@ -79,7 +80,8 @@ class PersonSerializer(serializers.ModelSerializer):
             emergency_contact_2_data = validated_data.pop('emergency_contact_2')
 
             if instance.emergency_contact_2 is not None:
-                instance.emergency_contact_2.relation = capwords(emergency_contact_2_data['relation'])
+                instance.emergency_contact_2.relation = \
+                    capwords(emergency_contact_2_data['relation'])
                 # No capwords here in case someone is using this update to fix a name
                 instance.emergency_contact_2.full_name = emergency_contact_2_data['full_name']
                 instance.emergency_contact_2.phone_number = emergency_contact_2_data['phone_number']

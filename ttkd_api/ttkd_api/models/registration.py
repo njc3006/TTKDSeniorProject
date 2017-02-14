@@ -17,6 +17,10 @@ class Registration(models.Model):
 
     program = models.ForeignKey(Program)
 
+    partial = models.BooleanField(
+        default=False
+    )
+
     waiver_signature = models.CharField(
         max_length=60,
         blank=True,
