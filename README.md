@@ -47,8 +47,8 @@ there are 2 possible additional options when running the script:
 
 - Update node to v6.9.5
 - Re-initialize your environment: `npm rebuild node-sass`
-- First, install Protractor: `npm install -g protractor`
-- Update the webdriver Protractor uses: `./node_modules/protractor/bin/webdriver-manager Update`
+- Install dependencies: `npm install`
+- Update webdrivers: `./node_modules/protractor/bin/webdriver-manager update && ./node_modules/gulp-protractor/node_modules/protractor/bin/webdriver-manager update`
 - Run protractor tests with `gulp test`
 
 #### Creating Tests
