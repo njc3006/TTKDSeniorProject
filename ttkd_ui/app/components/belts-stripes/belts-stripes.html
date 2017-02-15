@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
 	<div ng-hide="showEdit">
 		<div class="row text-capitalize">
 			<div class="col-xs-5 text-center">
@@ -99,4 +99,52 @@
 				</div>
 		</form>
 	<div>
+</div> -->
+
+<div class="container">
+	<uib-tabset type="pills">
+		<uib-tab heading="Belts">
+			<div class="tab-content">
+				<div class="row">
+				<div class="col-xs-6">
+ 					<select class="form-control spacer-25" ng-model="currentObj">
+ 						<option ng-model="currentObj">an option</option>
+			      		<option ng-model="currentObj" ng-repeat="belt in belts">{{belt.name}}</option>
+ 					</select>
+				</div>
+				</div>
+				<div class="row form-horizontal text-capitalize">
+					<div class="col-xs-4">
+						<input type="text" placeholder="Name" class="form-control input-md" ng-model="currentObj.name" ng-required="true">
+					</div>
+					<div class="col-xs-4">
+						<input type="text" placeholder="Color" class="form-control" ng-model="currentObj.primary_color" ng-init="color = currentObj.primary_color">
+					</div>
+					<div class="checkbox col-xs-4" ng-if="currentObj.id !== ''">
+						<label><input type="checkbox" ng-model="currentObj.active">{{currentObj.id}}</label>
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<!-- <color-picker ng-model="currentObj.primary_color"></color-picker> -->
+				</div>
+
+
+				<!-- <div class="form-group" ng-if="type === 'belt'">
+					<label>
+						<input type="color" ng-model="currentObj.secondary_color" ng-required="true">
+						Secondary Color
+					</label>
+				</div> -->
+				<div class="row">
+					<button class="form-control btn btn-default" ng-click="save()">Save</button>
+				</div>
+			</div>
+		</uib-tab>
+		<uib-tab heading="Stripes">
+			<div class="tab-content">
+			stripe
+			</div>
+		</uib-tab>
+	</uib-tabset>
 </div>

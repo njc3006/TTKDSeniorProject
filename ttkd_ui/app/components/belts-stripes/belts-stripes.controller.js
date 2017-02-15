@@ -8,10 +8,8 @@
 
         $scope.belts = [];
         $scope.stripes = [];
-        $scope.showEdit = false;
         $scope.active = false;
         $scope.status = '';
-        $scope.type = '';
         $scope.pageTitle = '';
         $scope.currentObj = {};
         $scope.hasInactive = {
@@ -51,6 +49,8 @@
                     angular.forEach(response.data, function(value){
                         value.primary_color = '#' + value.primary_color;
                         value.secondary_color = '#' + value.secondary_color;
+
+                        console.log(value);
                     });
 
                     $scope.belts = response.data;
@@ -76,8 +76,8 @@
                 });
         };
 
-        $scope.save = function(){
-    		if($scope.type === 'belt'){
+        $scope.save = function(type){
+    		if(type === 'belt'){
                 //API doesn't take the # with the colors, strip it out
                 $scope.currentObj['primary_color'] = $scope.currentObj['primary_color'].slice(1);
 
@@ -100,7 +100,6 @@
 
                             $scope.belts.push($scope.currentObj);
                             $scope.initCurrent('belt');
-                            $scope.backNavigate();
 
                         }, function(error){
                             console.log('failed to post belt successfully');
@@ -113,7 +112,6 @@
                             $scope.currentObj['secondary_color'] = '#' + $scope.currentObj['secondary_color'];
 
                             $scope.initCurrent('belt');
-                            $scope.backNavigate();
                         }, function(error){
                             console.log('failed to update belt successfully');
                         });
@@ -132,7 +130,6 @@
 
                             $scope.stripes.push($scope.currentObj);
                             $scope.initCurrent('stripe');
-                            $scope.backNavigate();
 
                         }, function(error){
                             console.log('failed to post stripe successfully');
@@ -145,7 +142,6 @@
                             $scope.currentObj.color = '#' + $scope.currentObj.color;
 
                             $scope.initCurrent('stripe');
-                            $scope.backNavigate();
 
                         }, function(error){
                             console.log('failed to update stripe successfully');
@@ -154,32 +150,26 @@
     		}
         };
 
-        $scope.addNew = function(type){
-            $scope.type = type;
-            $scope.status = 'new';
-            $scope.currentObj = $scope.initCurrent(type);
+        // $scope.addNew = function(type){
+        //     $scope.type = type;
+        //     $scope.status = 'new';
+        //     $scope.currentObj = $scope.initCurrent(type);
 
-            $scope.showEdit = true;
-        };
+        //     $scope.showEdit = true;
+        // };
 
-        $scope.edit = function(type, obj){
-            $scope.type = type;
-            $scope.status = 'edit';
+        // $scope.edit = function(type, obj){
+        //     $scope.type = type;
+        //     $scope.status = 'edit';
 
-            $scope.showEdit = true;
-            $scope.currentObj = obj;
-            $scope.name = $scope.currentObj.name;
-        };
+        //     $scope.showEdit = true;
+        //     $scope.currentObj = obj;
+        //     $scope.name = $scope.currentObj.name;
+        // };
 
-        $scope.backNavigate = function() {
-            $scope.showEdit = false;
-            $scope.active = false;
-            $scope.status = '';
-            $scope.type = '';
-            $scope.pageTitle = '';
+        $scope.objSelect = function(type){
+            console.log(type);
 
-            $scope.getBeltList();
-            $scope.getStripeList();
         };
 
         $scope.getBeltList();
