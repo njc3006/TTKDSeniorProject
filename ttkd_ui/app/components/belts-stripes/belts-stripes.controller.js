@@ -1,6 +1,6 @@
 (function() {
 
-  angular.module('ttkdApp.beltsStripesCtrl', ['ttkdApp.constants'])
+  angular.module('ttkdApp.beltsStripesCtrl', ['ttkdApp.constants', 'mp.colorPicker'])
 
     .controller('BeltsStripesCtrl', ['$scope', '$rootScope', '$stateParams', 'BeltsStripesService', 
         function($scope, $rootScope, $stateParams, BeltsStripesService) {
@@ -18,7 +18,6 @@
             'belt' : false,
             'stripe' : false
         };
-
 
         //returns a blank object of the specific type with uninitialized properties
         $scope.initCurrent = function(type){
@@ -48,6 +47,12 @@
                         else { return false };
                     });
 
+                    //the db stores colors as '001122', the front end needs them as '#001122'
+                    angular.forEach(response.data, function(value){
+                        value.primary_color = '#' + value.primary_color;
+                        value.secondary_color = '#' + value.secondary_color;
+                    });
+
                     $scope.belts = response.data;
                 });
         };
@@ -60,6 +65,11 @@
                             return true;
                         }
                         else { return false };
+                    });
+
+                    //the db stores colors as '001122', the front end needs them as '#001122'
+                    angular.forEach(response.data, function(value){
+                        value.color = '#' + value.color;
                     });
 
                     $scope.stripes = response.data;

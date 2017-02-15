@@ -40,6 +40,7 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 @import "./components/nav/nav";
 @import "./components/checkin/checkin";
 @import "./components/students/detail/student.detail";
+@import "./lib/angular-color-picker/angular-color-picker";
 
 // Push containers below navbar
 #appContainer {
@@ -91,6 +92,12 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 
 .no-padding {
 	padding: 0px;
+}
+
+//Custom styles for the belts-stripes page
+.color-box {
+	height: 100px;
+	width: 200px;
 }
 
 //Custom styles for the class list page

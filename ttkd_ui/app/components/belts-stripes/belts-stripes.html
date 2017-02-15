@@ -55,12 +55,39 @@
 				</div>
 				<div class="form-group">
 					<span>Primary Color</span>
-					<input type="color" ng-if="type === 'belt'" ng-model="currentObj.primary_color" ng-required="true">
-					<input type="color" ng-if="type === 'stripe'" ng-model="currentObj.color" ng-required="true">
+					<div ng-if="type === 'belt'" ng-model="currentObj.primary_color" ng-required="true">
+						<div class="color-box" ng-style="{ 'background-color': currentObj.primary_color }"></div>
+
+						<div ng-if="editColor1 === true">
+							<color-picker ng-model="currentObj.primary_color">
+							</color-picker>
+
+							<input type="text" ng-model="currentObj.primary_color" ng-init="color = currentObj.primary_color">
+						</div>
+					</div>
+					<div ng-if="type === 'stripe'" ng-model="correntObj.color" ng-requried="true">
+						<div class="color-box" ng-style="{ 'background-color': currentObj.color }"></div>	
+
+						<div ng-if="editColor1 === true">
+							<color-picker ng-model="currentObj.color">
+							</color-picker>
+
+							<input type="text" ng-model="currentObj.color" ng-init="color = currentObj.color">
+						</div>
+					</div>
 				</div>
 				<div class="form-group" ng-if="type === 'belt'">
 					<span>Secondary Color</span>
-					<input type="color" ng-model="currentObj.secondary_color" ng-required="true">
+					<div ng-if="type === 'belt'" ng-model="currentObj.secondary_color" ng-required="true">
+						<div class="color-box" ng-style="{ 'background-color': currentObj.secondary_color }"></div>
+
+						<div ng-if="editColor2 === true">
+							<color-picker ng-model="currentObj.secondary_color">
+							</color-picker>
+
+							<input type="text" ng-model="currentObj.secondary_color" ng-init="color = currentObj.secondary_color">
+						</div>
+					</div>
 				</div>
 				<div class="form-group" ng-if="status === 'edit'">
 					<label>
