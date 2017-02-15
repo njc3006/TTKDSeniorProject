@@ -17,11 +17,6 @@
 				return $http.get(apiHost + '/api/check-ins/?program=' + programId + '&date=' + date);
 			},
 
-			getStudentsWithBelt: function(beltId) {
-				//current_belt = 2 is the student's current belt
-				return $http.get(apiHost + '/api/person-belts/?belt=' + beltId + '&current_belt=2');
-			},
-
 			getBeltList: function(){
 				return $http.get(apiHost + '/api/belts/');
 			}

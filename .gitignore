@@ -5,6 +5,8 @@ ttkd_api/static/*
 *.zip
 !python-dist.zip
 
+scripts/*.json
+
 www/
 #####################################################################
 # Github Recommended Python .gitignore
@@ -99,3 +101,26 @@ ENV/
 
 # Rope project settings
 .ropeproject
+scripts/accesscontrolentries.json
+scripts/accesscontrollists.json
+scripts/achievements.json
+scripts/attendances.json
+scripts/classes.json
+scripts/datadump.json
+scripts/dump.json
+scripts/filesystemitems.json
+scripts/fs.chunks.json
+scripts/fs.files.json
+scripts/groups.json
+scripts/import.json
+scripts/mocks.json
+scripts/programs.json
+scripts/ranks.json
+scripts/routes.json
+scripts/students.json
+scripts/users.json
+.idea/TTKDSeniorProject.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml

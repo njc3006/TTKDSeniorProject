@@ -44,6 +44,25 @@
 			return $filter('date')(date, 'yyyy-MM-dd');
 		};
 
+		$scope.getBeltStyle = function(belt) {
+			if (belt) {
+                var primaryStyle = belt['primary_color'].toLowerCase() === 'ffffff' ?
+                    'black 8px double' :
+                    '#' + belt['primary_color'] + ' 8px solid';
+
+                var secondaryStyle = belt['secondary_color'].toLowerCase() === 'ffffff' ?
+                    'black 8px double' :
+                    '#' + belt['secondary_color'] + ' 8px solid';
+
+                return {
+                    'border-right': secondaryStyle,
+                    'border-left': primaryStyle,
+                    'border-top': primaryStyle,
+                    'border-bottom': secondaryStyle
+                };
+            }
+        };
+
 		//transforms the data to include a temp picture property
         $scope.transformData = function(data){
             var tempdata = data;
@@ -79,7 +98,7 @@
 		$scope.getStudents = function(){
 		CheckinService.getStudentsFromClass($stateParams.programID).then(
 			function(response){
-				 var tempdata = response.data;
+				var tempdata = response.data;
 
 				//we need a uniform structure for both the students and persons
 				//to do so we take the information in the "person" property of the student
@@ -90,9 +109,13 @@
 						value[k2] = v2;
 						delete value['person'];
 					});
+
+					value.beltStyle = $scope.getBeltStyle(value.belt);
 				});
 
+				//add a placeholder image to each person
 				var tempPeople = $scope.transformData(tempdata);
+
 				//Move the people that are already checked in into a separate list
 				angular.forEach(tempPeople, function(value){
 					var personID = value['id'];

@@ -19,12 +19,13 @@ This project is set up with PyLint. To run the linter, cd to `ttkd_api/` and run
 To install and run the AngularJS app, do the following:
 
 1. Install Node
-2. run `npm install -g gulp` to install Gulp (our build system)
-3. run `npm install -g bower` to install Bower (our ui dependency manager)
-4. `cd` into the `ttkd_ui` folder.
-5. run `npm install`
-6. run `bower install`
-7. run `gulp` to build the project and run the server.
+2. Install Git
+3. run `npm install -g gulp` to install Gulp (our build system)
+4. run `npm install -g bower` to install Bower (our ui dependency manager)
+5. `cd` into the `ttkd_ui` folder.
+6. run `npm install`
+7. run `bower install`
+8. run `gulp` to build the project and run the server.
 
 ### Using the import script
 You must either be in the scripts folder or the ttkd_api folder when you run the script
@@ -40,4 +41,20 @@ there are 2 possible additional options when running the script:
 1. nobelts - Does not add default belts into the import.
 2. mask - Removes any sensitive personal data when loading in the old files. This flag will also generate fake relationships of belts and stripes to persons in the import unless one of the variations of the nobelts flag is used.
 
-`python import_json.py <nobelt|nostripe|nobelts|nostripes> <mask>`
+`python import_json.py <belt|stripe|belts|stripes> <mask>`
+
+### Building a Release
+To build a release for the project, setup a unix-like environment with the following dependencies installed (In addition to the dependencies needed to build the project):
+
+- unzip
+- zip
+
+Then, issue the following commands:
+
+```
+cd scripts
+./build-release.sh
+```
+
+- If you would like to start with a specific data set, export your data using `python manage.py dumpdata > data.json`, then put `data.json` in the root project directory.
+- If you change the requirements.txt of this project, you will need to extract `scripts/python-dist.zip`, copy and paste your python libraries you added into `python-dist/python-X.X.X-embed-amd64/Lib/site-packages`, and re-zip `python-X.X.X-embed-amd64`.

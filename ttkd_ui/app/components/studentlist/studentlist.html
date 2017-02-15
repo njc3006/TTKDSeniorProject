@@ -59,11 +59,11 @@
 	</div>
 
 	<div class="row">
-			<div class="col-xs-10 col-xs-offset-1" ng-repeat="p in people | filter: displayedFilter | orderBy: 'person.first_name':!sortAZ">
+        <div class="col-xs-10 col-xs-offset-1" ng-repeat="p in people | filter: displayedFilter | orderBy: 'person.first_name':!sortAZ">
 			<div class="col-xs-2 text-center entry-picture">
 				<a ui-sref="studentDetails({studentId: p.person.id})">
-					<img ng-if="p.person.picture_url" class="img-responsive" ng-src="{{apiHost}}/{{p.person.picture_url}}" ng-style="beltStyle">
-					<img ng-if="!p.person.picture_url" class="img-responsive" ng-src="./img/components/students/placeholder.png" ng-style="beltStyle">
+					<img ng-if="p.person.picture_url" class="img-responsive" ng-src="{{apiHost}}/{{p.person.picture_url}}" ng-style="p.beltStyle">
+					<img ng-if="!p.person.picture_url" class="img-responsive" ng-src="./img/components/students/placeholder.png" ng-style="p.beltStyle">
 				</a>
 			</div>
 			<div class="col-xs-8 entry">

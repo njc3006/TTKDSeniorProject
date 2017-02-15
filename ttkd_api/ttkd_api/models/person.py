@@ -7,6 +7,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from ..settings import STATIC_FOLDER
 from .emergency_contact import EmergencyContact
+from .belt import Belt
 
 
 class Person(models.Model):
@@ -87,6 +88,8 @@ class Person(models.Model):
     active = models.BooleanField(
         default=True,
     )
+    belt = models.ForeignKey(Belt, on_delete=models.CASCADE, blank=True,
+                                            null=True, related_name='belt')
 
     emergency_contact_1 = models.ForeignKey(EmergencyContact, on_delete=models.CASCADE, blank=True,
                                             null=True, related_name='emergency_contact_1')
@@ -97,7 +100,7 @@ class Person(models.Model):
     picture = models.ImageField(
         _('picture'),
         blank=True,
-        null=True, 
+        null=True,
         upload_to=upload_to
     )
     picture_url = models.CharField(

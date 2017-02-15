@@ -9,6 +9,7 @@ from ..serializers.person_belt_serializer import DetailedPersonBeltSerializer
 from ..models.person import Person
 from ..models.email import Email
 from ..models.emergency_contact import EmergencyContact
+from ..serializers.belt_serializer import BeltSerializer
 
 
 class PersonSerializer(serializers.ModelSerializer):
@@ -20,11 +21,12 @@ class PersonSerializer(serializers.ModelSerializer):
     stripes = DetailedPersonStripeSerializer(many=True, read_only=True)
     emergency_contact_1 = EmergencyContactSerializer(required=False)
     emergency_contact_2 = EmergencyContactSerializer(required=False)
+    belt = BeltSerializer(read_only=True)
 
     class Meta:
         model = Person
         fields = ('id', 'first_name', 'last_name', 'dob', 'primary_phone', 'secondary_phone',
-                  'street', 'city', 'zipcode', 'state', 'belts', 'stripes', 'emails',
+                  'street', 'city', 'zipcode', 'state', 'belt', 'belts', 'stripes', 'emails',
                   'emergency_contact_1', 'emergency_contact_2', 'misc_notes', 'picture_url',
                   'active')
 
@@ -107,6 +109,8 @@ class MinimalPersonSerializer(serializers.ModelSerializer):
     """
     MinimumPersonSerializer Outputs Person Model as JSON with very limited fields
     """
+    belt = BeltSerializer(read_only=True)
+
     class Meta:
         model = Person
-        fields = ('id', 'first_name', 'last_name', 'picture_url', 'active')
+        fields = ('id', 'first_name', 'last_name', 'belt', 'picture_url', 'active')

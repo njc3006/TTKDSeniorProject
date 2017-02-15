@@ -2,7 +2,8 @@
 import datetime
 from rest_framework import serializers
 from ..models.attendance_record import AttendanceRecord
-from .person_serializer import PersonSerializer
+from .person_serializer import PersonSerializer, MinimalPersonSerializer
+from .program_serializer import MinimalProgramSerializer
 
 
 class AttendanceRecordSerializer(serializers.ModelSerializer):
@@ -14,6 +15,15 @@ class AttendanceRecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = AttendanceRecord
 
+class DetailedAttendanceRecordSerializer(serializers.ModelSerializer):
+    """
+    AttendanceRecordSerializer Outputs Attendance Model as JSON with person and program as JSON objects
+    """
+    person = MinimalPersonSerializer()
+    program = MinimalProgramSerializer()
+
+    class Meta:
+        model = AttendanceRecord
 
 class AttendanceRecordSerializerUsingPerson(serializers.ModelSerializer):
     """

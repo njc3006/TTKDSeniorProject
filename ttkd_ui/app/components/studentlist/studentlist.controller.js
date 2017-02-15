@@ -50,6 +50,23 @@
             return $filter('date')(date, 'yyyy-MM-dd');
         };
 
+        $scope.getBeltStyle = function(belt) {
+            var primaryStyle = belt['primary_color'].toLowerCase() === 'ffffff' ?
+                'black 8px double' :
+                '#' + belt['primary_color'] + ' 8px solid';
+
+                var secondaryStyle = belt['secondary_color'].toLowerCase() === 'ffffff' ?
+                    'black 8px double' :
+                    '#' + belt['secondary_color'] + ' 8px solid';
+
+            return {
+                'border-right': secondaryStyle,
+                'border-left': primaryStyle,
+                'border-top': primaryStyle,
+                'border-bottom': secondaryStyle
+            };
+        };
+
         //updates the displayed list of students based on the current filters
         $scope.setDisplayedStudents = function(){
             var filteredList = [];
@@ -93,37 +110,27 @@
             }
 
             //filter based on specific selected belt (if not null)
-            if($scope.filters.currentBelt){
+            if($scope.filters.currentBelt !== null){
                 var filteredByBelt = [];
-                var filteredPersonIds = [];
 
-                StudentListService.getStudentsWithBelt($scope.filters.currentBelt.id).then(
-                        function(response){
-                            // Strip the response down to a list of person ids
-                            angular.forEach(response.data, function(value){
-                                filteredPersonIds.push(value.person);
-                            });
+                angular.forEach(filteredList, function(value){
+                    if(value.person.belt.id === $scope.filters.currentBelt.id){
+                        filteredByBelt.push(value);
+                    }
+                });
 
-                            // For the current filtered list, if the person has the selected belt
-                            // (indicated by being in the list of person ids)
-                            // add them to the filteredByBelt list
-                            for(var i = 0; i < filteredList.length; i++){
-                                var index = filteredPersonIds.indexOf(filteredList[i].person.id);
-                                if (index !== -1){
-                                    filteredByBelt.push(filteredList[i]);
-                                }
-                            }
+                filteredList = filteredByBelt;
+            } 
 
-                            filteredList = filteredByBelt;
-                            $scope.people = filteredList;
-                        });
+            //update the displayed list of people
+            $scope.people = filteredList;
 
-            // This else is needed because of the async response from getStudentsWithBelt above.
-            // Future modification of $scope.people below this else will be overridden after the
-            // response, so if you need to modify $scope.people do it before the belt filtering
-            } else {
-                $scope.people = filteredList;
-            }
+            //set the colored belt border for every displayed student
+            angular.forEach($scope.people, function(value){
+                if(value.person.belt){
+                    value.beltStyle = $scope.getBeltStyle(value.person.belt);
+                }
+            });
         };
       
         //retrieves the master list of belts

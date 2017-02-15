@@ -79,6 +79,12 @@ emergency_pk = 1
 email_pk = 1
 stripe_pk = 1
 for student in students_import:
+
+    random_belt = None
+
+    if mask:
+        random_belt = int(random.randint(1,10))
+
     students[student['_id']['$oid']] = {
         "model": "ttkd_api.person",
         "pk": person_pk,
@@ -91,11 +97,12 @@ for student in students_import:
             "street": student['address']['street'] if not mask else "123 TTKD Lane",
             "city": student['address']['city'] if not mask else "No Where",
             "zipcode": student['address']['zip'] if not mask else "12345",
-            "state": student['address']['state'] if not mask else "KA",
+            "state": student['address']['state'] if not mask else "KS",
             "misc_notes": "",
             "active": True,
             "emergency_contact_1": emergency_pk,
-            "emergency_contact_2": emergency_pk + 1
+            "emergency_contact_2": emergency_pk + 1,
+            "belt" : random_belt
         }
     }
 
@@ -122,15 +129,14 @@ for student in students_import:
         })
         emergency_pk += 1
 
-    if (mask & belts):
+    if (mask):
         belts_and_stripes.append({
             "model": "ttkd_api.personbelt",
             "pk": person_pk,
             "fields": {
                 "person": person_pk,
-                "belt": int(random.randint(1,10)),
+                "belt": random_belt,
                 "date_achieved": str(int(random.randint(2012, 2016))) + "-" + str(int(random.randint(1, 12))) + "-" + str(int(random.randint(1, 28))),
-                "current_belt": True
             }
         })
 
