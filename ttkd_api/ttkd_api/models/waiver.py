@@ -7,7 +7,7 @@ from .person import Person
 from django.utils.translation import ugettext_lazy as _
 from ..settings import STATIC_FOLDER
 import time
-
+import os
 
 class Waiver(models.Model):
     """
@@ -38,7 +38,7 @@ class Waiver(models.Model):
         instance.waiver_url = url
         instance.save()
 
-        return STATIC_FOLDER + partial_url
+        return os.path.join(STATIC_FOLDER, partial_url)
 
     person = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='waivers')
 
