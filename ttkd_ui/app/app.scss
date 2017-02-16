@@ -47,6 +47,10 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 	padding-top: 70px;
 }
 
+.spacer-top-5 {
+	margin-top: 5px;
+}
+
 .spacer-10 {
 	margin-bottom: 10px;
 }
@@ -95,9 +99,10 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 }
 
 //Custom styles for the belts-stripes page
-.color-box {
-	height: 100px;
-	width: 200px;
+.belt-preview {
+	height: 30px;
+	width: 100%;
+	border: gray 1px solid;
 }
 
 //Custom styles for the class list page
