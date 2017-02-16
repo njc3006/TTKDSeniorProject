@@ -1,6 +1,14 @@
 (function() {
 	function RegistrationService($http, apiHost) {
 		return {
+			getPartialRegistration: function(registrationId) {
+
+			},
+
+			getPartialRegistrations: function() {
+				
+			},
+
 			registerStudent: function(formData) {
 				return $http.post(apiHost + '/api/register/', formData);
 			}

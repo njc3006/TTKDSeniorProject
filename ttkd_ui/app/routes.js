@@ -34,10 +34,51 @@
 
       .state('registration', {
         url: '/registration',
-        params: { hideCurrentProgram: true },
+        params: {
+          hideCurrentProgram: true
+        },
+        data: {
+          pageTitle: 'Registration',
+          partial: false
+        },
         templateUrl: 'components/registration/registration.html',
 				controller: 'RegistrationCtrl'
       })
+
+      .state('partialRegistrations', {
+        url: '/partial-registrations',
+        params: {
+          hideCurrentProgram: true
+        },
+				data: {
+					pageTitle: 'Partial Registrations'
+				},
+				templateUrl: 'components/registration/partials_home/partials_home.html',
+				controller: 'PartialsHomeCtrl'
+      })
+
+			.state('newPartialRegistration', {
+        url: '/partial-registrations/new',
+        params: {
+          hideCurrentProgram: true
+        },
+        data: {
+          pageTitle: 'New Partial Registration',
+          partial: true
+        },
+        templateUrl: 'components/registration/registration.html',
+				controller: 'RegistrationCtrl'
+      })
+
+			.state('finishPartialRegistration', {
+				url:'/partial-registrations/{registrationId:int}',
+				data: {
+          pageTitle: 'Finish Partial Registration',
+          partial: true
+        },
+        templateUrl: 'components/registration/registration.html',
+				controller: 'RegistrationCtrl'
+			})
 
       .state('studentlist', {
         url: '/studentlist',
@@ -54,7 +95,7 @@
 
 			.state('attendance', {
 				url: '/attendance',
-                params: { hideCurrentProgram: true },
+        params: { hideCurrentProgram: true },
 				templateUrl: 'components/attendance/attendance.html',
 				controller: 'AttendanceCtrl'
 			})
