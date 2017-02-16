@@ -91,12 +91,12 @@ class RegistrationSerializer(serializers.ModelSerializer):
         if 'guardian_signature' in validated_data:
             guardian_sig = validated_data['guardian_signature']
 
-        if 'partial' not in validated_data:
-            validated_data['partial'] = False
+        if 'is_partial' not in validated_data:
+            validated_data['is_partial'] = False
 
         registration = \
             Registration.objects.create(person=person, program=validated_data['program'],
-                                        partial=validated_data['partial'],
+                                        partial=validated_data['is_partial'],
                                         waiver_signature=waiver_sig,
                                         guardian_signature=guardian_sig)
         return registration
@@ -206,7 +206,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
         # If we are updating it, and it is not in the posted data,
         # we will assume this is no longer a partial registration
-        instance.partial = validated_data.get('partial', False)
+        instance.partial = validated_data.get('is_partial', False)
 
         instance.person.save()
         instance.save()

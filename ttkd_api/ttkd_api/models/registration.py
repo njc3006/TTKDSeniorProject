@@ -17,7 +17,7 @@ class Registration(models.Model):
 
     program = models.ForeignKey(Program)
 
-    partial = models.BooleanField(
+    is_partial = models.BooleanField(
         default=False
     )
 

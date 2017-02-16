@@ -35,7 +35,7 @@ router.register(r'checked-in/persons', AttendanceRecordUsingPersonViewSet, 'chec
 router.register(r'registrations-minimal', MinimalRegistrationViewSet, 'registrations-minimal')
 router.register(r'register', RegistrationViewSet, 'register')
 router.register(r'registrations', SimpleRegistrationViewSet)
-router.register(r'registrations-partial', PartialRegistrationViewSet)
+router.register(r'registrations-partial', PartialRegistrationViewSet, 'registrations-partial')
 router.register(r'students', StudentList, 'student-list')
 router.register(r'emails', EmailViewSet)
 router.register(r'stripes', StripeViewSet)

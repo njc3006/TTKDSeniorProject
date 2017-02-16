@@ -19,7 +19,7 @@ class RegistrationViewSet(viewsets.ModelViewSet):
     include them in a JSON object, if you include them but have them set to null this view will
     break
     """
-    queryset = Registration.objects.filter(partial=False)
+    queryset = Registration.objects.filter(is_partial=False)
     serializer_class = RegistrationSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('program', 'person',)
@@ -30,7 +30,7 @@ class PartialRegistrationViewSet(viewsets.ReadOnlyModelViewSet):
     GET: Returns all Partial Registration Objects To The Route, Or An Instance If Given A PK
     Filters: program, person
     """
-    queryset = Registration.objects.filter(partial=True)
+    queryset = Registration.objects.filter(is_partial=True)
     serializer_class = RegistrationSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('program', 'person',)
@@ -42,7 +42,7 @@ class MinimalRegistrationViewSet(viewsets.ReadOnlyModelViewSet):
     Or An Instance If Given A PK
     Filters: program, person, person__active
     """
-    queryset = Registration.objects.filter(partial=False)
+    queryset = Registration.objects.filter(is_partial=False)
     serializer_class = MinimalRegistrationSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('program', 'person', 'person__active')
@@ -55,7 +55,7 @@ class SimpleRegistrationViewSet(viewsets.ModelViewSet):
     Filters: program, person
     POST: Create A Registration with an existing person by passing a PK of a person and program
     """
-    queryset = Registration.objects.filter(partial=False)
+    queryset = Registration.objects.filter(is_partial=False)
     serializer_class = SimpleRegistrationSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('program', 'person',)
@@ -67,7 +67,7 @@ class RegistrationWithPeopleViewSet(viewsets.ReadOnlyModelViewSet):
     Or An Instance If Given A PK
     Filters: program, person
     """
-    queryset = Registration.objects.filter(partial=False)
+    queryset = Registration.objects.filter(is_partial=False)
     serializer_class = RegistrationWithPeopleSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('program', 'person',)
