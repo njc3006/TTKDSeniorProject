@@ -2,6 +2,7 @@
 from string import capwords
 from rest_framework import serializers
 
+from ..serializers.waiver_serializer import WaiverSerializer
 from ..serializers.person_stripe_serializer import DetailedPersonStripeSerializer
 from ..serializers.email_serializer import EmailSerializer
 from ..serializers.emergency_contact_serializer import EmergencyContactSerializer
@@ -22,13 +23,14 @@ class PersonSerializer(serializers.ModelSerializer):
     emergency_contact_1 = EmergencyContactSerializer(required=False)
     emergency_contact_2 = EmergencyContactSerializer(required=False)
     belt = BeltSerializer(read_only=True)
+    waivers = WaiverSerializer(many=True)
 
     class Meta:
         model = Person
         fields = ('id', 'first_name', 'last_name', 'dob', 'primary_phone', 'secondary_phone',
                   'street', 'city', 'zipcode', 'state', 'belt', 'belts', 'stripes', 'emails',
-                  'emergency_contact_1', 'emergency_contact_2', 'misc_notes', 'picture_url',
-                  'active')
+                  'emergency_contact_1', 'emergency_contact_2', 'waivers', 'misc_notes',
+                  'picture_url', 'active')
 
     def update(self, instance, validated_data):
         """
