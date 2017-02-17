@@ -1,0 +1,22 @@
+<div class="col-md-6 col-xs-12 col-md-offset-2 col-xs-offset-0">
+	<div class="form-group">
+		<input type="text" placeholder="Name" class="form-control" ng-model="newStripe.name" ng-required="true">
+	</div>
+	<div class="form-group">
+		<input type="text" placeholder="Color" class="form-control" ng-model="newStripe.color" ng-init="color = newStripe.color" ng-required="true">
+	</div>
+	<div class="form-group">
+		<div class="belt-preview" ng-style="{'background-color': newStripe.color }"></div>
+	</div>
+</div>	
+
+<div class="col-xs-4">
+	<div class="form-group">
+		<color-picker ng-model="newStripe.color"></color-picker>
+	</div>
+</div>
+
+<div class="col-md-6 col-xs-12 col-md-offset-2 col-xs-offset-0 spacer-25">
+	<button class="btn btn-success" ng-click="createStripe()">Save</button>
+</div>
+

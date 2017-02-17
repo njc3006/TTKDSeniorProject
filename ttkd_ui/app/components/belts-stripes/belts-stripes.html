@@ -1,193 +1,33 @@
-<!-- <div class="container">
-	<div ng-hide="showEdit">
-		<div class="row text-capitalize">
-			<div class="col-xs-5 text-center">
-				<h2 class="spacer-25">Belts</h2>
-				<h3 class="spacer-25">Active</h3>
-				<div ng-repeat="belt in belts | filter: { active: true }">
-					<div class="col-xs-12 spacer-20 btn btn-lg btn-default" ng-click="edit('belt', belt)">
-						{{belt.name}}
-					</div>
-				</div>
-				<h3 class="spacer-25" ng-if="hasInactive.belt === true">Inactive</h3>
-				<div ng-repeat="belt in belts | filter: { active: false }">
-					<div class="col-xs-12 spacer-20 btn btn-lg btn-default" ng-click="edit('belt', belt)">
-						{{belt.name}}
-					</div>
-				</div>
-				<div class="btn btn-default spacer-top-20 spacer-25" ng-click="addNew('belt')">
-					<span>Add new belt</span>
-				</div>
-			</div>
-			<div class="col-xs-5 col-xs-offset-1 text-center">
-				<h2 class="spacer-25">Stripes</h2>
-				<h3 class="spacer-25">Active</h3>
-				<div ng-repeat="stripe in stripes | filter: { active: true}">
-					<div class="col-xs-12 spacer-20 btn btn-lg btn-default" ng-click="edit('stripe', stripe)">
-						{{stripe.name}}
-					</div>
-				</div>
-				<h3 class="spacer-25" ng-if="hasInactive.stripe === true">Inactive</h3>
-				<div ng-repeat="stripe in stripes | filter: { active: false }">
-					<div class="col-xs-12 spacer-20 btn btn-lg btn-default" ng-click="edit('stripe', stripe)">
-						{{stripe.name}}
-					</div>
-				</div>
-				<div class="btn btn-default spacer-top-20 spacer-25" ng-click="addNew('stripe')">
-					<span>Add new stripe</span>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-	<div ng-hide="!showEdit">
-		<button class="btn btn-primary" ng-click="backNavigate()">
-			<span class="glyphicon glyphicon-chevron-left"></span>
-			Back
-		</button>
-		<form class="form-horizontal text-capitalize">
-				<div class="row">
-					<h3>{{status}} {{type}}</h3>
-				</div>
-				<div class="form-group">
-					<input type="text" placeholder="Name" class="form-control input-md" ng-model="currentObj.name" ng-required="true">
-				</div>
-				<div class="form-group">
-					<span>Primary Color</span>
-					<div ng-if="type === 'belt'" ng-model="currentObj.primary_color" ng-required="true">
-						<div class="color-box" ng-style="{ 'background-color': currentObj.primary_color }"></div>
-
-						<div ng-if="editColor1 === true">
-							<color-picker ng-model="currentObj.primary_color">
-							</color-picker>
-
-							<input type="text" ng-model="currentObj.primary_color" ng-init="color = currentObj.primary_color">
-						</div>
-					</div>
-					<div ng-if="type === 'stripe'" ng-model="correntObj.color" ng-requried="true">
-						<div class="color-box" ng-style="{ 'background-color': currentObj.color }"></div>	
-
-						<div ng-if="editColor1 === true">
-							<color-picker ng-model="currentObj.color">
-							</color-picker>
-
-							<input type="text" ng-model="currentObj.color" ng-init="color = currentObj.color">
-						</div>
-					</div>
-				</div>
-				<div class="form-group" ng-if="type === 'belt'">
-					<span>Secondary Color</span>
-					<div ng-if="type === 'belt'" ng-model="currentObj.secondary_color" ng-required="true">
-						<div class="color-box" ng-style="{ 'background-color': currentObj.secondary_color }"></div>
-
-						<div ng-if="editColor2 === true">
-							<color-picker ng-model="currentObj.secondary_color">
-							</color-picker>
-
-							<input type="text" ng-model="currentObj.secondary_color" ng-init="color = currentObj.secondary_color">
-						</div>
-					</div>
-				</div>
-				<div class="form-group" ng-if="status === 'edit'">
-					<label>
-						<input type="checkbox" ng-model="currentObj.active">Active
-					</label>
-				</div>
-				<div class="row">
-					<button ng-click="save()">Save</button>
-				</div>
-		</form>
-	<div>
-</div> -->
-
 <div class="container">
 	<uib-tabset type="pills">
 		<uib-tab heading="Belts">
 			<div class="tab-content">
 				<form>
-					<div class="col-md-6 col-xs-12 col-md-offset-2 col-xs-offset-0">
-						<div class="form-group row">
-							<div class="col-xs-10">
-								<select class="form-control" ng-model="currentBelt" ng-options="belt.name for belt in belts"></select>
-							</div>
-							<div class="col-xs-2 spacer-top-5">
-								<div class="checkbox-inline">
-									<label class="">
-										<input type="checkbox" class="" ng-model="currentBelt.active">Active
-									</label>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<input type="text" placeholder="Name" class="form-control" ng-model="currentBelt.name" ng-required="true">
-						</div>
-						<div class="form-group">
-							<input type="text" placeholder="Primary Color" class="form-control" ng-model="currentBelt.primary_color" ng-init="color = currentBelt.primary_color" ng-click="updateFocus('primary')">
-						</div>
-						<div class="form-group">
-							<div class="belt-preview" ng-style="{'background-color': currentBelt.primary_color }"></div>
-						</div>
-						<div class="form-group">
-							<input type="text" placeholder="Secondary Color" class="form-control" ng-model="currentBelt.secondary_color" ng-init="color = currentBelt.secondary_color" ng-click="updateFocus('secondary')">
-						</div>
-						<div class="form-group">
-							<div class="belt-preview" ng-style="{'background-color': currentBelt.secondary_color }"></div>
-						</div>
-					</div>	
-
-					<div class="col-xs-4">
-						<div class="form-group" ng-if="primaryFocused">
-							<color-picker ng-model="currentBelt.primary_color"></color-picker>
-						</div>
-						<div class="form-group" ng-if="secondaryFocused">
-							<color-picker ng-model="currentBelt.secondary_color"></color-picker>
-						</div>
-					</div>
-
-					<div class="col-md-6 col-xs-12 col-md-offset-2 col-xs-offset-0 spacer-25">
-						<button class="btn btn-success" ng-click="save()">Save</button>
-					</div>
+					<ng-include src="'components/belts-stripes/belt-form.html'"></ng-include>
 				</form>
 			</div>
 		</uib-tab>
 
 		<uib-tab heading="Stripes">
 			<div class="tab-content">
-				<form>
-					<div class="col-md-6 col-xs-12 col-md-offset-2 col-xs-offset-0">
-						<div class="form-group row">
-							<div class="col-xs-10">
-								<select class="form-control" ng-model="currentStripe" ng-options="stripe.name for stripe in stripes"></select>
-							</div>
-							<div class="col-xs-2 spacer-top-5">
-								<div class="checkbox-inline">
-									<label class="">
-										<input type="checkbox" class="" ng-model="currentStripe.active">Active
-									</label>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<input type="text" placeholder="Name" class="form-control" ng-model="currentStripe.name" ng-required="true">
-						</div>
-						<div class="form-group">
-							<input type="text" placeholder="Color" class="form-control" ng-model="currentStripe.color" ng-init="color = currentStripe.color">
-						</div>
-						<div class="form-group">
-							<div class="belt-preview" ng-style="{'background-color': currentStripe.color }"></div>
-						</div>
-					</div>	
+				<form ng-if="child">
+					<ng-include src="'components/belts-stripes/stripe-form.html'"></ng-include>
+				</form>
+			</div>
+		</uib-tab>
 
-					<div class="col-xs-4">
-						<div class="form-group">
-							<color-picker ng-model="currentStripe.color"></color-picker>
-						</div>
-					</div>
+		<uib-tab heading="New Belt">
+			<div class="tab-content">
+				<form ng-if="child">
+					<ng-include src="'components/belts-stripes/new-belt.html'"></ng-include>
+				</form>
+			</div>
+		</uib-tab>
 
-					<div class="col-md-6 col-xs-12 col-md-offset-2 col-xs-offset-0 spacer-25">
-						<button class="btn btn-success" ng-click="save()">Save</button>
-					</div>
+		<uib-tab heading="New Stripe">
+			<div class="tab-content">
+				<form ng-if="child">
+					<ng-include src="'components/belts-stripes/new-stripe.html'"></ng-include>
 				</form>
 			</div>
 		</uib-tab>

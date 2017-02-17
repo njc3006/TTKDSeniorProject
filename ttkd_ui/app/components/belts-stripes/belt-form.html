@@ -1,0 +1,42 @@
+<div class="col-md-6 col-xs-12 col-md-offset-2 col-xs-offset-0">
+	<div class="form-group row">
+		<div class="col-xs-10">
+			<select class="form-control" ng-model="currentBelt" ng-options="belt as belt.name for belt in belts"></select>
+		</div>
+		<div class="col-xs-2 spacer-top-5">
+			<div class="checkbox-inline">
+				<label>
+					<input type="checkbox" ng-model="currentBelt.active">Active
+				</label>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<input type="text" placeholder="Name" class="form-control" ng-model="currentBelt.name" ng-required="true">
+	</div>
+	<div class="form-group">
+		<input type="text" placeholder="Primary Color" class="form-control" ng-model="currentBelt.primary_color" ng-init="color = currentBelt.primary_color" ng-click="updateFocus('primary')" ng-required="true">
+	</div>
+	<div class="form-group">
+		<div class="belt-preview" ng-click="updateFocus('primary')" ng-style="{'background-color': currentBelt.primary_color }"></div>
+	</div>
+	<div class="form-group">
+		<input type="text" placeholder="Secondary Color" class="form-control" ng-model="currentBelt.secondary_color" ng-init="color = currentBelt.secondary_color" ng-click="updateFocus('secondary')">
+	</div>
+	<div class="form-group">
+		<div class="belt-preview" ng-click="updateFocus('secondary')" ng-style="{'background-color': currentBelt.secondary_color }"></div>
+	</div>
+</div>	
+
+<div class="col-xs-4">
+	<div class="form-group" ng-if="primaryFocused">
+		<color-picker ng-model="currentBelt.primary_color"></color-picker>
+	</div>
+	<div class="form-group" ng-if="secondaryFocused">
+		<color-picker ng-model="currentBelt.secondary_color"></color-picker>
+	</div>
+</div>
+
+<div class="col-md-6 col-xs-12 col-md-offset-2 col-xs-offset-0 spacer-25">
+	<button class="btn btn-success" ng-click="updateBelt(currentBelt)">Save</button>
+</div>
