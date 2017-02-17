@@ -87,6 +87,8 @@
             //API doesn't take the # with the colors, strip it out
             newStripe.color = newStripe.color.slice(1);
 
+            newStripe.active = true;
+
             BeltsStripesService.addNewStripe(newStripe).then(
             function(response){
                 //re-append the # back to the colors for the colorpicker
