@@ -9,6 +9,7 @@ from ..settings import STATIC_FOLDER
 import time
 import os
 
+
 class Waiver(models.Model):
     """
     A Django model

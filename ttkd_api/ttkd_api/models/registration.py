@@ -16,3 +16,7 @@ class Registration(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='classes')
 
     program = models.ForeignKey(Program)
+
+    is_partial = models.BooleanField(
+        default=False
+    )
