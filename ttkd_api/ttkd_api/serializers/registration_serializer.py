@@ -228,7 +228,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
         # If we are updating it, and it is not in the posted data,
         # we will assume this is no longer a partial registration
-        instance.partial = validated_data.get('is_partial', False)
+        instance.is_partial = validated_data.get('is_partial', False)
 
         instance.person.save()
         instance.save()
