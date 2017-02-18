@@ -20,19 +20,3 @@ class Registration(models.Model):
     is_partial = models.BooleanField(
         default=False
     )
-
-    waiver_signature = models.CharField(
-        max_length=60,
-        blank=True,
-        null=True,
-    )
-
-    guardian_signature = models.CharField(
-        max_length=60,
-        blank=True,
-        null=True,
-    )
-
-    signature_timestamp = models.DateTimeField(
-        auto_now=True
-    )

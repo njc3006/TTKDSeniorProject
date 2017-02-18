@@ -11,6 +11,7 @@ from ..models.email import Email
 from ..models.emergency_contact import EmergencyContact
 from ..models.belt import Belt
 from ..models.person_belt import PersonBelt
+from ..models.waiver import Waiver
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -29,11 +30,14 @@ class RegistrationSerializer(serializers.ModelSerializer):
         and then register them for a program
         """
         person_data = validated_data.pop('person')
-
         email_data = {}
 
         if 'emails' in person_data:
             email_data = person_data.pop('emails')
+
+        waiver_data = {}
+        if 'waivers' in person_data:
+            waiver_data = person_data.pop('waivers')
 
         emergency_contact_1_data = None
         emergency_contact_2_data = None
@@ -81,24 +85,25 @@ class RegistrationSerializer(serializers.ModelSerializer):
         if belt is not None:
             PersonBelt.objects.create(person=person, belt=belt, date_achieved=datetime.date.today())
 
-        waiver_sig = None
+        # Because a person can have multiple waivers we have to iterate, however the list from the
+        # UI will always be of size 1
+        for waiver_dict in waiver_data:
 
-        if 'waiver_signature' in validated_data:
-            waiver_sig = validated_data['waiver_signature']
+            if 'guardian_signature' in waiver_dict:
+                guardian_sig = waiver_dict['guardian_signature']
+            else:
+                guardian_sig = None
 
-        guardian_sig = None
-
-        if 'guardian_signature' in validated_data:
-            guardian_sig = validated_data['guardian_signature']
+            Waiver.objects.create(person=person,
+                                  waiver_signature=waiver_dict['waiver_signature'],
+                                  guardian_signature=guardian_sig)
 
         if 'is_partial' not in validated_data:
             validated_data['is_partial'] = False
 
         registration = \
             Registration.objects.create(person=person, program=validated_data['program'],
-                                        partial=validated_data['is_partial'],
-                                        waiver_signature=waiver_sig,
-                                        guardian_signature=guardian_sig)
+                                        is_partial=validated_data['is_partial'])
         return registration
 
     def update(self, instance, validated_data):
@@ -110,6 +115,10 @@ class RegistrationSerializer(serializers.ModelSerializer):
         """
         person_data = validated_data.pop('person')
         email_data = person_data.pop('emails')
+
+        waiver_data = {}
+        if 'waivers' in person_data:
+            waiver_data = person_data.pop('waivers')
 
         emergency_contact_1_data = None
         emergency_contact_2_data = None
@@ -198,11 +207,24 @@ class RegistrationSerializer(serializers.ModelSerializer):
         for an_email_dict in email_data:
             Email.objects.create(person=instance.person, email=an_email_dict['email'])
 
+        # It's not likely that the person would have any waivers before this point, but delete
+        # just in case and we will add what is in the put
+        instance.person.waivers.all().delete()
+
+        # Because a person can have multiple waivers we have to iterate, however the list from the
+        # UI will always be of size 1
+        for waiver_dict in waiver_data:
+
+            if 'guardian_signature' in waiver_dict:
+                guardian_sig = waiver_dict['guardian_signature']
+            else:
+                guardian_sig = None
+
+            Waiver.objects.create(person=instance.person,
+                                  waiver_signature=waiver_dict['waiver_signature'],
+                                  guardian_signature=guardian_sig)
+
         instance.program = validated_data.get('program', instance.program)
-        instance.waiver_signature = validated_data.get('waiver_signature',
-                                                       instance.waiver_signature)
-        instance.guardian_signature = validated_data.get('guardian_signature',
-                                                         instance.guardian_signature)
 
         # If we are updating it, and it is not in the posted data,
         # we will assume this is no longer a partial registration
