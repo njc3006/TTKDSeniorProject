@@ -1,4 +1,12 @@
 <div class="col-md-6 col-xs-12 col-md-offset-2 col-xs-offset-0">
+	<div class="alert alert-success" ng-show="statusAlert.success" uib-alert close="closeSuccessAlert()">
+		Information for new stripe was successfully added.
+	</div>
+
+	<div class="alert alert-danger" ng-show="statusAlert.failure" uib-alert close="closeErrorAlert()">
+		There was an error submitting the information changes.
+	</div>
+	
 	<div class="form-group">
 		<input type="text" placeholder="Name" class="form-control" ng-model="newStripe.name" ng-required="true">
 	</div>

@@ -1,6 +1,6 @@
 <div class="container">
 	<uib-tabset type="pills">
-		<uib-tab heading="Belts">
+		<uib-tab heading="Belts" select="closeAlerts()">
 			<div class="tab-content">
 				<form>
 					<ng-include src="'components/belts-stripes/belt-form.html'"></ng-include>
@@ -8,7 +8,7 @@
 			</div>
 		</uib-tab>
 
-		<uib-tab heading="Stripes">
+		<uib-tab heading="Stripes" select="closeAlerts()">
 			<div class="tab-content">
 				<form ng-if="child">
 					<ng-include src="'components/belts-stripes/stripe-form.html'"></ng-include>
@@ -16,7 +16,7 @@
 			</div>
 		</uib-tab>
 
-		<uib-tab heading="New Belt">
+		<uib-tab heading="New Belt" select="closeAlerts()">
 			<div class="tab-content">
 				<form ng-if="child">
 					<ng-include src="'components/belts-stripes/new-belt.html'"></ng-include>
@@ -24,7 +24,7 @@
 			</div>
 		</uib-tab>
 
-		<uib-tab heading="New Stripe">
+		<uib-tab heading="New Stripe" select="closeAlerts()">
 			<div class="tab-content">
 				<form ng-if="child">
 					<ng-include src="'components/belts-stripes/new-stripe.html'"></ng-include>

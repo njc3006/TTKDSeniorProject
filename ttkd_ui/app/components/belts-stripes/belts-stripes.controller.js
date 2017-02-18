@@ -16,6 +16,11 @@
         $scope.currentStripe = {};
         $scope.newBelt = {};
         $scope.newStripe = {};
+
+        $scope.statusAlert = {
+            success: false,
+            failure: false
+        };
      
         //reset the new objects to have uninitialized properties
         $scope.initStripe = function(){
@@ -35,6 +40,19 @@
             };
         };
 
+        $scope.closeSuccessAlert = function() {
+            $scope.statusAlert.success = false;
+        };
+
+        $scope.closeErrorAlert = function() {
+            $scope.statusAlert.failure = false;
+        };
+
+        $scope.closeAlerts = function(){
+            $scope.closeSuccessAlert();
+            $scope.closeErrorAlert();
+        }
+
         //boolean logic for displaying the primary or secondary color picker for belts
         $scope.updateFocus = function(type){
             if(type === 'primary'){
@@ -53,6 +71,7 @@
                     angular.forEach(response.data, function(value){
                         value['primary_color'] = '#' + value['primary_color'];
                         value['secondary_color'] = '#' + value['secondary_color'];
+                        value['display_name'] = value['name'];
                     });
 
                     $scope.belts = response.data;
@@ -69,6 +88,7 @@
                     //the db stores colors as '001122', the front end needs them as '#001122'
                     angular.forEach(response.data, function(value){
                         value.color = '#' + value.color;
+                        value['display_name'] = value['name'];
                     });
 
                     $scope.stripes = response.data;
@@ -87,20 +107,26 @@
             //API doesn't take the # with the colors, strip it out
             newStripe.color = newStripe.color.slice(1);
 
+            //Display name is only for UI purposes, remove it before posting
+            delete newStripe['display_name'];
+
             newStripe.active = true;
+
+            $scope.closeAlerts();
 
             BeltsStripesService.addNewStripe(newStripe).then(
             function(response){
                 //re-append the # back to the colors for the colorpicker
                 newStripe.color = '#' + newStripe.color;
 
-                $scope.stripes.push(newStripe);
-                
-                $scope.initStripe();
+                $scope.statusAlert.success = true;
 
+                $scope.stripes.push(newStripe);
+                $scope.initStripe();
                 $scope.getStripeList();
 
             }, function(error){
+                $scope.statusAlert.failure = true;
                 console.log('failed to post stripe successfully');
             });
         };
@@ -113,14 +139,22 @@
             //API doesn't take the # with the colors, strip it out
             currentStripe.color = currentStripe.color.slice(1);
 
+            //Display name is only for UI purposes, remove it before posting
+            delete currentStripe['display_name'];
+
+            $scope.closeAlerts();
+
             BeltsStripesService.updateStripe(currentStripe).then(
                 function(response){
                     //re-append the # back to the colors for the colorpicker
                     currentStripe.color = '#' + currentStripe.color;
-                   
-                    $scope.currentStripe = angular.copy(currentStripe);
+
+                    $scope.currentStripe['display_name'] = currentStripe['name'];
+
+                    $scope.statusAlert.success = true;
 
                 }, function(error){
+                    $scope.statusAlert.failure = true;
                     console.log('failed to update stripe successfully');
                 });
         };
@@ -140,7 +174,12 @@
                 newBelt['secondary_color'] = newBelt['primary_color'];
             }
 
+            //Display name is only for UI purposes, remove it before posting
+            delete newBelt['display_name'];
+
             newBelt.active = true;
+
+            $scope.closeAlerts();
 
             BeltsStripesService.addNewBelt(newBelt).then(
                 function(response){
@@ -148,13 +187,14 @@
                     newBelt['primary_color'] = '#' + newBelt['primary_color'];
                     newBelt['secondary_color'] = '#' + newBelt['secondary_color'];
 
-                    $scope.belts.push($scope.newBelt);
-                   
-                    $scope.initBelt();
+                    $scope.statusAlert.success = true;
 
+                    $scope.belts.push($scope.newBelt);
+                    $scope.initBelt();
                     $scope.getBeltList();
 
                 }, function(error){
+                    $scope.statusAlert.failure = true;
                     console.log('failed to post belt successfully');
                 });
         };
@@ -174,15 +214,23 @@
                 currentBelt['secondary_color'] = currentBelt['primary_color'];
             }
 
+            //Display name is only for UI purposes, remove it before posting
+            delete currentBelt['display_name'];
+
+            $scope.closeAlerts();
+
             BeltsStripesService.updateBelt(currentBelt).then(
                 function(response){
                     //re-append the # back to the colors for the colorpicker
                     currentBelt['primary_color'] = '#' + currentBelt['primary_color'];
                     currentBelt['secondary_color'] = '#' + currentBelt['secondary_color'];
 
-                    $scope.currentBelt = currentBelt;
+                    $scope.currentBelt['display_name'] = currentBelt['name'];
+
+                    $scope.statusAlert.success = true;
 
                 }, function(error){
+                    $scope.statusAlert.failure = true;
                     console.log('failed to update belt successfully');
                 });
         };
