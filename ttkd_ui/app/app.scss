@@ -36,11 +36,14 @@ $border-radius-small: 0px;
 $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 @import "./lib/bootstrap-sass/assets/stylesheets/bootstrap";
 
+// Import color picker
+@import "./lib/angular-color-picker/angular-color-picker";
+
 /* Import Component SCSS */
 @import "./components/nav/nav";
 @import "./components/checkin/checkin";
 @import "./components/students/detail/student.detail";
-@import "./lib/angular-color-picker/angular-color-picker";
+@import "./components/belts-stripes/belts-stripes";
 
 // Push containers below navbar
 #appContainer {
@@ -92,18 +95,6 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 
 .no-padding {
 	padding: 0px;
-}
-
-//Custom styles for the belts-stripes page
-.belt-preview {
-	height: 30px;
-	width: 100%;
-	border: gray 1px solid;
-}
-
-.picker-cursor>._hues>._cursor{
-	left: -6px;
-	width: 40px;
 }
 
 //Custom styles for the class list page
