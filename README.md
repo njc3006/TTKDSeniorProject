@@ -53,7 +53,7 @@ there are 2 possible additional options when running the script:
 
 #### Creating Tests
 
-To create a new test, just create the file in the same folder as the functionality you will be testing, and make the extension `.test.js1`. Gulp will automatically run the test.
+To create a new test, just create the file in the same folder as the functionality you will be testing, and make the extension `.test.js`. Gulp will automatically run the test.
 
 ### Building a Release
 To build a release for the project, setup a unix-like environment with the following dependencies installed (In addition to the dependencies needed to build the project):
