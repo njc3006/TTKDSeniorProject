@@ -307,7 +307,7 @@
 					  <ul class="list-group">
 					    <li class="list-group-item" ng-repeat="program in registeredPrograms">
 					      {{program.name}}
-					      <button class="btn btn-danger list-group-btn-addon" ng-click="unregister(program.registrationId)">
+					      <button type="button" class="btn btn-danger list-group-btn-addon" ng-click="unregister(program.registrationId)">
 					      	Delete
 					      </button>
 					    </li>
