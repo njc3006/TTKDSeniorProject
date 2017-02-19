@@ -21,7 +21,7 @@
 					// double loop is necessary to remove registered programs
 					angular.forEach($scope.registeredPrograms, function(registeredProgram) {
 						angular.forEach(programsToShow, function(program) {
-							if(registeredProgram.id == program.id) {
+							if(registeredProgram.programId == program.id) {
 								programsToShow.splice(programsToShow.indexOf(program), 1);
 							}
 						})
@@ -46,8 +46,18 @@
 			}
 		};
 
-		$scope.unregister = function(programId) {
-			//TODO
+		/* remove a student from the selected class */
+		$scope.unregister = function(registrationId) {
+			StudentsService.deleteRegistration(registrationId).then(
+				function(response) {
+					initPrograms();
+				},
+				// on error
+				function (response) {
+					$scope.requestFlags.submission.failure = true;
+					window.scrollTo(0, 0);
+				}
+			);
 		};
 
 

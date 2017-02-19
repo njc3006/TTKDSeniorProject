@@ -85,6 +85,11 @@
 					return $http.post(apiHost + '/api/registrations/', data);
 				},
 
+				/* delete a student's registration for a class */
+				deleteRegistration: function(registrationId) {
+					return $http.delete(apiHost + '/api/registrations/'+registrationId+'/');
+				},
+
 				/* 
 				 * Get student registrations and transform them to have program names and ids
 				 * response data will be formatted as: [{id: 0, name:""}] */
@@ -104,8 +109,9 @@
 			          	/* map each registration object to an id and a readable program name */
 			            response.data = response.data.map(function(registration){
 			              return {
-			              	id: registration.program,
-			              	name: programs[registration.program]
+			              	programId: registration.program,
+			              	name: programs[registration.program],
+			              	registrationId: registration.id
 			              }
 			            });
 			            return response;
