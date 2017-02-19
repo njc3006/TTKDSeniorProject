@@ -10,7 +10,6 @@
         $scope.stripes = [];
         $scope.primaryFocused = true;
         $scope.secondaryFocused = false;
-        $scope.child = true;
      
         $scope.currentBelt = {};
         $scope.currentStripe = {};
@@ -200,6 +199,7 @@
         };
 
         $scope.updateBelt = function(belt){
+            console.log("hit");
             //the front end reflects the changes made to $scope.currentBelt in this function
             //to hide this, make a copy of the belt and post that to the API
             var currentBelt = angular.copy(belt);
