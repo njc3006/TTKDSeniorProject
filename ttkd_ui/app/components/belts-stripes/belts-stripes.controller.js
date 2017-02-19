@@ -20,6 +20,13 @@
             success: false,
             failure: false
         };
+
+        $scope.showTab = {
+            updateBelt: true,
+            updateStripe: false,
+            createBelt: false,
+            createStripe: false
+        };
      
         //reset the new objects to have uninitialized properties
         $scope.initStripe = function(){
@@ -50,6 +57,19 @@
         $scope.closeAlerts = function(){
             $scope.closeSuccessAlert();
             $scope.closeErrorAlert();
+        }
+
+        //update the displayed form based on which tab is being shown
+        $scope.setShownForm = function(tabName){
+            angular.forEach($scope.showTab, function(value, key){
+                if(tabName === key){
+                    $scope.showTab[key] = true;
+                } else{
+                    $scope.showTab[key] = false;
+                }
+            });
+
+            $scope.closeAlerts();
         };
 
         //boolean logic for displaying the primary or secondary color picker for belts
