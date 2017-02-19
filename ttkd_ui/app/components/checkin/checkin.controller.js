@@ -10,11 +10,16 @@
 
 		$scope.apiHost = apiHost;
 		$scope.programID = $stateParams.programID;
-		$scope.instructor = $stateParams.instructor;
+		$scope.is_instructor = $stateParams.instructor;
 		$scope.date = new Date();
+
 		$scope.people = [];
 		$scope.checkedInPeopleIds = [];
 		$scope.checkedInPeopleCheckinIds = [];
+
+		$scope.instructors = [];
+		$scope.checkedInInstructorsIds = [];
+		$scope.checkedInInstructorsCheckinIds = [];
 
 		$scope.selectedDate = {
             open: false,
@@ -36,8 +41,13 @@
 			$scope.people = [];
 			$scope.checkedInPeopleIds = [];
 			$scope.checkedInPeopleCheckinIds = [];
+			$scope.instructors = [];
+			$scope.checkedInInstructorsIds = [];
+			$scope.checkedInInstructorsCheckinIds = [];
 			$scope.getCheckinsForClass();
         	$scope.getStudents();
+        	$scope.getInstructorCheckinsForClass();
+        	$scope.getInstructors();
         };
 
         $scope.formatDate = function(date){
@@ -81,10 +91,6 @@
 			function(response){
 				 var tempdata = response.data;
 
-				//we need a uniform structure for both the students and persons
-				//to do so we take the information in the "person" property of the student
-				// object and put it directly into the student object to match the structure
-				// of the person object
 				angular.forEach(tempdata, function(value, key){
 					$scope.checkedInPeopleIds.push(value['person']);
 					$scope.checkedInPeopleCheckinIds.push(value['id']);
@@ -93,8 +99,7 @@
 			});
         };
 
-        // Get all of the students from the class and then move the ones that are already
-		// checked in into a separate list
+        // Get all of the students from the class and determine ones already checked in
 		$scope.getStudents = function(){
 		CheckinService.getStudentsFromClass($stateParams.programID).then(
 			function(response){
@@ -116,7 +121,7 @@
 				//add a placeholder image to each person
 				var tempPeople = $scope.transformData(tempdata);
 
-				//Move the people that are already checked in into a separate list
+				//Set checkedIn to true for those already checked in
 				angular.forEach(tempPeople, function(value){
 					var personID = value['id'];
 					var index = $scope.checkedInPeopleIds.indexOf(personID);
@@ -129,9 +134,60 @@
 			});
         };
 
+		// Get instructors who are currently checked into the class
+        $scope.getInstructorCheckinsForClass = function(){
+		CheckinService.getInstructorCheckinsForClass($scope.programID, $scope.formatDate($scope.date)).then(
+			function(response){
+				 var tempdata = response.data;
+
+				angular.forEach(tempdata, function(value, key){
+					$scope.checkedInInstructorsIds.push(value['person']);
+					$scope.checkedInInstructorsCheckinIds.push(value['id']);
+				});
+
+			});
+        };
+
+        // Get all of the instructors from the class and determine ones already checked in
+		$scope.getInstructors = function(){
+		CheckinService.getInstructorsForClass($stateParams.programID).then(
+			function(response){
+				var tempdata = response.data;
+
+				//we need a uniform structure for both the students and persons
+				//to do so we take the information in the "person" property of the student
+				// object and put it directly into the student object to match the structure
+				// of the person object
+				angular.forEach(tempdata, function(value, key){
+					angular.forEach(value['person'], function(v2, k2){
+						value[k2] = v2;
+						delete value['person'];
+					});
+
+					value.beltStyle = $scope.getBeltStyle(value.belt);
+				});
+
+				//add a placeholder image to each person
+				var tempInstructor = $scope.transformData(tempdata);
+
+				//Set checkedIn to true for those already checked in
+				angular.forEach(tempInstructor, function(value){
+					var instructorID = value['id'];
+					var index = $scope.checkedInInstructorsIds.indexOf(instructorID);
+					if (index !== -1){
+						value.checkinID = $scope.checkedInInstructorsCheckinIds[index];
+						value.checkedIn = true;
+					}
+					$scope.instructors.push(value);
+				});
+			});
+        };
+
         // Load the data for the page, must be called in this order
 		$scope.getCheckinsForClass();
         $scope.getStudents();
+        $scope.getInstructorCheckinsForClass();
+        $scope.getInstructors();
 
         /*
          * Open a prompt to confirm checkin for a person.
@@ -188,6 +244,29 @@
 			CheckinService.deleteCheckin(person.checkinID);
 			person.checkinID = null;
 			person.checkedIn = false;
+		};
+
+		$scope.clickCheckinInstructor = function(instructor) {
+			// create instructor checkin using api using the selected date
+			CheckinService.createInstructorCheckin(
+				{
+					'person': instructor.id,
+					'program': $scope.programID,
+					'date': $scope.formatDate($scope.date)
+				}).then(
+				function(response){
+					instructor.checkinID = response.data.id;
+				});
+
+			instructor.checkedIn = true;
+		};
+
+		$scope.clickDeleteInstructorCheckin = function(instructor) {
+			// delete instructor checkin using api
+
+			CheckinService.deleteInstructorCheckin(instructor.checkinID);
+			instructor.checkinID = null;
+			instructor.checkedIn = false;
 		};
 
 		$scope.no = function() {
