@@ -75,6 +75,16 @@
 					return $http.post(apiHost + '/api/person/' + id + '/picture/', data);
 				},
 
+				/* registers a student for a single class */
+				registerStudent: function(studentId, programId) {
+					var data = {
+						is_partial: false,
+						person: studentId,
+						program: programId
+					};
+					return $http.post(apiHost + '/api/registrations/', data);
+				},
+
 				/* 
 				 * Get student registrations and transform them to have program names and ids
 				 * response data will be formatted as: [{id: 0, name:""}] */

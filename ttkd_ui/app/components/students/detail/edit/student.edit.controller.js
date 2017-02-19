@@ -1,5 +1,56 @@
 (function() {
-	function EditStudentController($scope, $state, $stateParams, $timeout, StudentsService, StateService) {
+	function EditStudentController($scope, $state, $stateParams, $timeout, StudentsService, StateService, ProgramsService) {
+		var allPrograms = [];
+		$scope.registeredPrograms = [];
+		$scope.programsToAdd = [];
+
+		ProgramsService.getPrograms().then(
+			function(response) {
+				allPrograms = response.data;
+				initPrograms();
+			}
+		);
+
+		function initPrograms() {
+			// initialize registered programs
+			StudentsService.getStudentRegistrations($stateParams.studentId).then(
+				function (response) {
+					$scope.registeredPrograms = response.data;
+					// get all active programs and remove already registered ones
+					var programsToShow = allPrograms;
+					// double loop is necessary to remove registered programs
+					angular.forEach($scope.registeredPrograms, function(registeredProgram) {
+						angular.forEach(programsToShow, function(program) {
+							if(registeredProgram.id == program.id) {
+								programsToShow.splice(programsToShow.indexOf(program), 1);
+							}
+						})
+					});
+					$scope.programsToAdd = programsToShow;
+				}
+			);
+		}
+
+		$scope.registerForProgram = function(program){
+			if(program) {
+				StudentsService.registerStudent($stateParams.studentId, program.id).then(
+					function(response) {
+						initPrograms();
+					},
+					// on errors
+					function(response) {
+						$scope.requestFlags.submission.failure = true;
+						window.scrollTo(0, 0);
+					}
+				);
+			}
+		};
+
+		$scope.unregister = function(programId) {
+			//TODO
+		};
+
+
 
 		function submitStripeChanges() {
 			StudentsService.updateStudentStripes(
@@ -214,6 +265,7 @@
 		'$timeout',
 		'StudentsSvc',
 		'StateSvc',
+		'ProgramsSvc',
 		EditStudentController
 	]);
 })();
