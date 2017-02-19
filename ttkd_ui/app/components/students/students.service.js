@@ -1,6 +1,6 @@
 (function() {
 	angular.module('ttkdApp.studentsService', ['ttkdApp.constants'])
-		.factory('StudentsSvc', ['$http', '$q', 'apiHost', function($http, $q, apiHost) {
+		.factory('StudentsSvc', ['$http', '$q', 'apiHost', 'ProgramsSvc', function($http, $q, apiHost, ProgramsSvc) {
 			return {
 				getStudent: function(id) {
 					return $http.get(apiHost + '/api/persons/' + id + '/');
@@ -75,8 +75,37 @@
 					return $http.post(apiHost + '/api/person/' + id + '/picture/', data);
 				},
 
+				/* 
+				 * Get student registrations and transform them to have program names and ids
+				 * response data will be formatted as: [{id: 0, name:""}] */
 				getStudentRegistrations: function(id) {
-					return $http.get(apiHost + '/api/registrations/?person='+id);
+					/* first get a list of all programs */
+					var programs = {};
+			    return ProgramsSvc.getPrograms().then(
+			      function (response) {
+			        // create a dictionary mapping each program id to it's name
+			        angular.forEach(response.data, function(program) {
+			          programs[program.id] = program.name;
+			        });
+
+			        // start the call to get student registrations from in here so our program list is populated
+			        return $http.get(apiHost + '/api/registrations/?person='+id).then(
+			          function(response) {
+			          	/* map each registration object to an id and a readable program name */
+			            response.data = response.data.map(function(registration){
+			              return {
+			              	id: registration.program,
+			              	name: programs[registration.program]
+			              }
+			            });
+			            return response;
+			          }, 
+			          function(response) {// on error
+			          	return response;
+			          }
+			        );
+
+			      });
 				}
 
 			};
