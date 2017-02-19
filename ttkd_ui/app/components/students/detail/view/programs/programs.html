@@ -3,5 +3,8 @@
     <li class="list-group-item" ng-repeat="program in programs">
       {{program.name}}
     </li>
+    <li class="list-group-item" ng-if="programs.length===0">
+      This person is not registered for any classes.
+    </li>
   </ul>
 </div>
