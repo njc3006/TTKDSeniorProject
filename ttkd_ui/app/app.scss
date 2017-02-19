@@ -55,12 +55,8 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 	margin-bottom: 10px;
 }
 
-.spacer-20 {
+	.spacer-20 {
 	margin-bottom: 20px;
-}
-
-.spacer-top-20 {
-	margin-top: 20px;
 }
 
 .spacer-25 {
@@ -103,6 +99,11 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 	height: 30px;
 	width: 100%;
 	border: gray 1px solid;
+}
+
+.picker-cursor>._hues>._cursor{
+	left: -6px;
+	width: 40px;
 }
 
 //Custom styles for the class list page

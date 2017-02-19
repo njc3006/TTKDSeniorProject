@@ -50,7 +50,7 @@
         $scope.closeAlerts = function(){
             $scope.closeSuccessAlert();
             $scope.closeErrorAlert();
-        }
+        };
 
         //boolean logic for displaying the primary or secondary color picker for belts
         $scope.updateFocus = function(type){
@@ -126,7 +126,6 @@
 
             }, function(error){
                 $scope.statusAlert.failure = true;
-                console.log('failed to post stripe successfully');
             });
         };
 
@@ -154,7 +153,6 @@
 
                 }, function(error){
                     $scope.statusAlert.failure = true;
-                    console.log('failed to update stripe successfully');
                 });
         };
 
@@ -194,12 +192,10 @@
 
                 }, function(error){
                     $scope.statusAlert.failure = true;
-                    console.log('failed to post belt successfully');
                 });
         };
 
         $scope.updateBelt = function(belt){
-            console.log("hit");
             //the front end reflects the changes made to $scope.currentBelt in this function
             //to hide this, make a copy of the belt and post that to the API
             var currentBelt = angular.copy(belt);
@@ -231,7 +227,6 @@
 
                 }, function(error){
                     $scope.statusAlert.failure = true;
-                    console.log('failed to update belt successfully');
                 });
         };
 
