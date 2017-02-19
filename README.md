@@ -45,11 +45,20 @@ there are 2 possible additional options when running the script:
 
 ### Testing
 
+## Setup
 - Update node to v6.9.5
 - Re-initialize your environment: `npm rebuild node-sass`
 - Install dependencies: `npm install`
+- Install protractor: `npm install -g protractor`
 - Update webdrivers: `./node_modules/gulp-protractor/node_modules/protractor/bin/webdriver-manager update`
-- Run protractor tests with `gulp test`
+
+## Using Protractor Globally (Recommended)
+- Run your API and UI projects normally
+- Run protractor tests from the `ttkd_ui` directory by running `protractor protractor.config.js`
+
+## Using Gulp-Protractor (Proceed at your own risk)
+- Start your API
+- Run protractor tests from the `ttkd_ui` directory by running `gulp test`
 
 #### Creating Tests
 
