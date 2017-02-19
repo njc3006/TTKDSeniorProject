@@ -73,7 +73,12 @@
 						upload: picture
 					};
 					return $http.post(apiHost + '/api/person/' + id + '/picture/', data);
+				},
+
+				getStudentRegistrations: function(id) {
+					return $http.get(apiHost + '/api/registrations/?person='+id);
 				}
+
 			};
 		}]);
 })();
