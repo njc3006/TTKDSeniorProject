@@ -4,8 +4,8 @@
 			<li
 				ng-repeat="section in formSections"
 				role="presentation"
-				ng-class="{active: $index === currentSelectionIndex, disabled: !visitedSections[$index]}"
-				ng-click="visitedSections[$index] && selectFormSection($index)">
+				ng-class="{active: $index === currentSelectionIndex, disabled: !canVisit($index)}"
+				ng-click="canVisit($index) && selectFormSection($index)">
 				<a ui-sref=".">{{section.name}}</a>
 			</li>
 		</ul>
@@ -20,7 +20,7 @@
 		<form
 			name="registrationForm"
 			class="form-horizontal spacer-25"
-			ng-submit="onSubmit(registrationForm.$valid, $event)"
+			ng-submit="onSubmit(registrationForm.$valid)"
 			novalidate>
 				<ng-include src="currentFormTpl"></ng-include>
 				<button

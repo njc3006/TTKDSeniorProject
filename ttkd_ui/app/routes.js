@@ -35,11 +35,11 @@
       .state('registration', {
         url: '/registration',
         params: {
-          hideCurrentProgram: true
+          hideCurrentProgram: true,
+					partial: false
         },
         data: {
-          pageTitle: 'Registration',
-          partial: false
+          pageTitle: 'Registration'
         },
         templateUrl: 'components/registration/registration.html',
 				controller: 'RegistrationCtrl'
@@ -60,11 +60,11 @@
 			.state('newPartialRegistration', {
         url: '/partial-registrations/new',
         params: {
-          hideCurrentProgram: true
+          hideCurrentProgram: true,
+					partial: true
         },
         data: {
           pageTitle: 'New Partial Registration',
-          partial: true
         },
         templateUrl: 'components/registration/registration.html',
 				controller: 'RegistrationCtrl'
