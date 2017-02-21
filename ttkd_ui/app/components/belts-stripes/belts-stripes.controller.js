@@ -18,7 +18,8 @@
 
         $scope.statusAlert = {
             success: false,
-            failure: false
+            failure: false,
+            color: false
         };
 
         $scope.showTab = {
@@ -54,9 +55,26 @@
             $scope.statusAlert.failure = false;
         };
 
+        $scope.closeColorAlert = function() {
+            $scope.statusAlert.color = false;
+        };
+
         $scope.closeAlerts = function(){
             $scope.closeSuccessAlert();
             $scope.closeErrorAlert();
+            $scope.closeColorAlert();
+        };
+
+        $scope.validateColor = function(color){
+            var hexColor = new RegExp("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$");
+           
+            var result = hexColor.test(color);
+            if(result === false){
+                $scope.closeAlerts();
+                $scope.statusAlert.color = true;
+            }
+           
+            return result;
         };
 
         //update the displayed form based on which tab is being shown
@@ -123,6 +141,11 @@
             //to hide this, make a copy of the stripe and post that to the API
             var newStripe = angular.copy($scope.newStripe);
 
+            //validate stripe color
+            if(!$scope.validateColor(newStripe.color)){
+                return;
+            }
+
             //API doesn't take the # with the colors, strip it out
             newStripe.color = newStripe.color.slice(1);
 
@@ -154,6 +177,11 @@
             //to hide this, make a copy of the stripe and post that to the API
             var currentStripe = angular.copy(stripe);
 
+            //validate stripe color
+            if(!$scope.validateColor(currentStripe.color)){
+                return;
+            }
+
             //API doesn't take the # with the colors, strip it out
             currentStripe.color = currentStripe.color.slice(1);
 
@@ -181,10 +209,19 @@
             //to hide this, make a copy of the belt and post that to the API
             var newBelt = angular.copy($scope.newBelt);
 
+            //validate belt color
+            if(!$scope.validateColor(newBelt.color)){
+                return;
+            }
+
             //API doesn't take the # with the colors, strip it out
             newBelt['primary_color'] = newBelt['primary_color'].slice(1);
 
             if(newBelt['secondary_color'] !== ''){
+                if(!$scope.validateColor(newBelt['secondary_color'])){
+                    return;
+                }
+
                 newBelt['secondary_color'] = newBelt['secondary_color'].slice(1);    
             } else {
                 //default to using the primary color if no secondary color is provided
@@ -220,10 +257,19 @@
             //to hide this, make a copy of the belt and post that to the API
             var currentBelt = angular.copy(belt);
 
+            //validate belt color
+            if(!$scope.validateColor(currentBelt['primary_color'])){
+                return;
+            }
+
             //API doesn't take the # with the colors, strip it out
             currentBelt['primary_color'] = currentBelt['primary_color'].slice(1);
 
             if(currentBelt['secondary_color'] !== ''){
+                if(!$scope.validateColor(currentBelt['secondary_color'])){
+                    return;
+                }
+
                 currentBelt['secondary_color'] = currentBelt['secondary_color'].slice(1);                    
             } else {
                 //default to using the primary color if no secondary color is provided
