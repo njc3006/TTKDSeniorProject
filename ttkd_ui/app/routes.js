@@ -2,7 +2,7 @@
 
   angular.module('ttkdApp.routes', ['ui.router'])
 
-  .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+  .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
     $stateProvider
       .state('home', {
         url: '/',
@@ -67,5 +67,7 @@
 
 			// For any unmatched url, send to /
 	    $urlRouterProvider.otherwise('/');
+
+      $locationProvider.html5Mode(true);
   }]);
 })();
