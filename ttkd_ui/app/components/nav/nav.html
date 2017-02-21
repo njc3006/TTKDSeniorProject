@@ -25,12 +25,6 @@
         <li ng-repeat="page in pages" ng-class="{active: isUrl(page.url)}" ng-include="'nav-item.html'">
         </li>
       </ul>
-      <ul class="nav navbar-nav navbar-right" ng-show="showLogin">
-        <li>
-          <a href="" ng-if="!loggedin" ng-click="openLogin()" id="login">Login</a>
-          <a href="" ng-if="loggedin" ng-click="logout()" id="logout">{{currentUser}} Logout</a>
-        </li>
-      </ul>
       <ul class="nav navbar-nav navbar-right" ng-show="showCurrentProgram">
         <li><h2 class="current-class">{{currentProgram.name}}</h2></li>
       </ul>
