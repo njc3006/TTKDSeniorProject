@@ -57,7 +57,7 @@
         $scope.closeAlerts = function(){
             $scope.closeSuccessAlert();
             $scope.closeErrorAlert();
-        }
+        };
 
         //update the displayed form based on which tab is being shown
         $scope.setShownForm = function(tabName){
