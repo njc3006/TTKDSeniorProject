@@ -66,7 +66,7 @@
         };
 
         $scope.validateColor = function(color){
-            var hexColor = new RegExp("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$");
+            var hexColor = new RegExp('^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$');
            
             var result = hexColor.test(color);
             if(result === false){
