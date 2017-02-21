@@ -1,7 +1,8 @@
 """PersonViewSet"""
-from rest_framework import viewsets, filters
+from rest_framework import viewsets, filters, permissions
 from ..serializers.person_serializer import PersonSerializer, PersonPictureSerializer
 from ..models.person import Person
+from ..permissions import custom_permissions
 
 from django_filters import rest_framework as drf_filters
 
@@ -21,6 +22,7 @@ class PersonFilter(drf_filters.FilterSet):
         }
 
 class PersonViewSet(viewsets.ModelViewSet):
+    permission_classes = (custom_permissions.IsAdminOrAuthReadOnly,)
     """
     Returns all Person objects to the Route.
     GET: Returns all PersonStripe Objects To The Route, Or An Instance If Given A PK.
@@ -37,6 +39,7 @@ class PersonViewSet(viewsets.ModelViewSet):
 
 
 class PersonPictureViewSet(viewsets.GenericViewSet):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = Person.objects.all()
     serializer_class = PersonPictureSerializer
 

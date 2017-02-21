@@ -18,8 +18,11 @@
 		'ttkdApp.attendanceCtrl',
 		'ttkdApp.editStudentCtrl',
 		'ttkdApp.importExportCtrl',
+		'ttkdApp.AuthInterceptor',
 		'ttkdApp.beltsStripesCtrl'
     ]
-  );
+  ).config(['$httpProvider', function($httpProvider) {
+    	$httpProvider.interceptors.push('AuthInterceptor');
+	} ]);
 
 })();
