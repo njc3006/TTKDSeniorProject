@@ -10,7 +10,7 @@
 
 		$scope.apiHost = apiHost;
 		$scope.programID = $stateParams.programID;
-		$scope.is_instructor = $stateParams.instructor;
+		$scope.isInstructor = $stateParams.instructor;
 		$scope.date = new Date();
 
 		$scope.people = [];
