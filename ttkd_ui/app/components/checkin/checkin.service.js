@@ -16,6 +16,23 @@
 
 			deleteCheckin: function(checkinId) {
 				return $http.delete(apiHost + '/api/check-ins/' + checkinId + '/');
+			},
+
+			getInstructorsForClass: function(programId) {
+				return $http.get(apiHost + '/api/instructors-minimal/?program=' + programId);
+			},
+
+			getInstructorCheckinsForClass: function(programId, checkinDate) {
+				return $http.get(apiHost + '/api/instructor-check-ins/?program=' + programId +
+					'&date=' + checkinDate);
+			},
+
+			createInstructorCheckin: function(data) {
+				return $http.post(apiHost + '/api/instructor-check-ins/', data);
+			},
+
+			deleteInstructorCheckin: function(checkinId) {
+				return $http.delete(apiHost + '/api/instructor-check-ins/' + checkinId + '/');
 			}
 		};
 	}
