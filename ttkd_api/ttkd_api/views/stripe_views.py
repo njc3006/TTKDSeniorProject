@@ -2,13 +2,11 @@
 from rest_framework import viewsets, filters
 from ..serializers.stripe_serializer import StripeSerializer
 from ..models.stripe import Stripe
-from ..permissions import custom_permissions
 
 
 class StripeViewSet(viewsets.ModelViewSet):
-    permission_classes = (custom_permissions.IsAdminOrReadOnly,)
     """
-    GET: Returns all Stripe Objects To The Route, Or An Instance If Given A PK. Filters: active
+    GET: Returns all Stripe Objects To The Route, Or An Instance If Given A PK. Filters: belt
     POST: Create A Stripe
     """
     queryset = Stripe.objects.all()

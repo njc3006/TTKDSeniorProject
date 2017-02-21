@@ -6,7 +6,6 @@ from rest_framework.pagination import PageNumberPagination
 from ..serializers.attendance_record_serializer import AttendanceRecordSerializer, \
     AttendanceRecordSerializerUsingPerson, DetailedAttendanceRecordSerializer
 from ..models.attendance_record import AttendanceRecord
-from ..permissions import custom_permissions
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -51,7 +50,6 @@ class DetailedAttendanceRecordViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = AttendanceRecordPagination
 
 class AttendanceRecordUsingPersonViewSet(viewsets.ReadOnlyModelViewSet):
-    permission_classes = (custom_permissions.IsAuthenticatedOrOptions,)
     """
     GET: Returns All AttendanceRecord Objects To The Route AKA Check-ins with person as an object.
     Filters: person, program, time
