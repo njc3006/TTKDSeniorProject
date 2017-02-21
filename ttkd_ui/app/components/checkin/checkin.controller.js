@@ -1,6 +1,6 @@
 (function() {
 
-  angular.module('ttkdApp.checkinCtrl', ['ttkdApp.constants'])
+  angular.module('ttkdApp.checkinCtrl', ['ttkdApp.constants', 'ttkdApp.checkinSvc'])
 
     .controller('CheckinCtrl', ['$scope', '$rootScope', '$stateParams', '$document', 
     	'$filter', '$uibModal', 'CheckinService', 'apiHost',

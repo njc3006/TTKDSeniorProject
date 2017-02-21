@@ -12,7 +12,7 @@ module.exports = {
 		'./app/lib/angular-file-upload/dist/angular-file-upload.min.js',
 		'./app/lib/ngMask/dist/ngMask.min.js'
 	],
-	sourcePaths: ['!./app/**/*_test.js', './app/**/*.js', '!./app/lib/**/*.js', '!./app/*.constants.js'],
+	sourcePaths: ['!./app/**/*.test.js', './app/**/*.js', '!./app/lib/**/*.js', '!./app/*.constants.js'],
 	templatePaths: ['./app/*/**/*.html'],
 	fontFiles: [
 		'./app/lib/**/*.woff',
