@@ -1,7 +1,7 @@
 {
   "name": "ttkd-ui",
   "dependencies": {
-    "angular": "^1.6.2",
+    "angular": "~1.5.0",
     "angular-route": "~1.5.0",
     "angular-loader": "~1.5.0",
     "angular-mocks": "~1.5.0",
@@ -12,9 +12,5 @@
     "angular-file-upload": "^2.3.4",
     "ngMask": "angular-mask#^3.1.1",
     "angular-color-picker": "^1.0.10"
-    "angular-cookies": "^1.6.2"
-  },
-  "resolutions": {
-    "angular": "^1.6.2"
   }
 }
