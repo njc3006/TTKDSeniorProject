@@ -72,9 +72,12 @@
 
 			.state('finishPartialRegistration', {
 				url:'/partial-registrations/{registrationId:int}',
+				params: {
+          hideCurrentProgram: true,
+					partial: true
+        },
 				data: {
-          pageTitle: 'Finish Partial Registration',
-          partial: true
+          pageTitle: 'Finish Partial Registration'
         },
         templateUrl: 'components/registration/registration.html',
 				controller: 'RegistrationCtrl'

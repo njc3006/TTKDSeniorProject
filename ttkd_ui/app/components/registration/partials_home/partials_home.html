@@ -1,19 +1,17 @@
 <div class="container-fluid">
-	<table class="table" ng-if="existingPartialRegistrations && existingPartialRegistrations.length > 0">
-		<tbody>
-			<tr
-				ng-repeat="registration in existingPartialRegistrations"
-				ng-click="openPartialRegistration(registration.id)">
-				<td>
-					<a ui-sref="finishPartialRegistration({registrationId: registration.id})">
-						{{registration.person.first_name + ' ' + registration.person.last_name}}
-					</a>
-				</td>
-				<td>12/12/2015</td>
-			</tr>
-		</tbody>
-	</table>
-	<div class="alert alert-info">
+	<h1 class="text-center spacer-25">Complete Partial Registrations</h1>
+	<div ng-if="existingPartialRegistrations && existingPartialRegistrations.length > 0">
+		<div class="panel panel-default col-xs-6 col-xs-offset-3"
+			ng-repeat="registration in existingPartialRegistrations"
+			ng-click="openPartialRegistration(registration.id)">
+			<div class="panel-body">
+				<a class="h2 text-center" ui-sref="finishPartialRegistration({registrationId: registration.id})">
+					{{registration.person.first_name + ' ' + registration.person.last_name}}
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="alert alert-info" ng-if="!existingPartialRegistrations || existingPartialRegistrations.length == 0">
 		<strong>There are no partial registrations</strong>
 	</div>
 </div>

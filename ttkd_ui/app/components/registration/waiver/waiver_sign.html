@@ -10,7 +10,7 @@
 			placeholder="Participant Signature"
 			form-focus="currentFocusIndex === 0"
 			ng-focus="setFocus(0)"
-			ng-model="registrationInfo.participantSignature"
+			ng-model="registrationInfo.person.waivers[0].waiver_signature"
 			ng-required="isFieldRequired('participantSignature')">
 		<span class="input-group-addon">
 			<i class="glyphicon glyphicon-asterisk"></i>
@@ -33,7 +33,7 @@
 			placeholder="Guardian Signature"
 			form-focus="currentFocusIndex === 1"
 			ng-focus="setFocus(1)"
-			ng-model="registrationInfo.guardianSignature"
+			ng-model="registrationInfo.person.waivers[0].guardian_signature"
 			ng-required="isFieldRequired('guardianSignature')">
 		<span class="input-group-addon">
 			<i class="glyphicon glyphicon-asterisk"></i>

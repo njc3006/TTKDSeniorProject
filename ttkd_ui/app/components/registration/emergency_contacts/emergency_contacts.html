@@ -15,7 +15,7 @@
 			placeholder="Full Name"
 			form-focus="currentFocusIndex === 0"
 			ng-focus="setFocus(0)"
-			ng-model="registrationInfo.emPrimaryFullName">
+			ng-model="registrationInfo.person.emergency_contact_1.full_name">
 		<span class="input-group-addon">
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
@@ -39,7 +39,7 @@
 				placeholder="Phone Number"
 				form-focus="currentFocusIndex === 1"
 				ng-focus="setFocus(1)"
-				ng-model="registrationInfo.emPrimaryPhone"
+				ng-model="registrationInfo.person.emergency_contact_1.phone_number"
 				mask="(999) 999-9999"
 				clean="true"
 				validate="true">
@@ -65,7 +65,7 @@
 				placeholder="Relationship"
 				form-focus="currentFocusIndex === 2"
 				ng-focus="setFocus(2)"
-				ng-model="registrationInfo.emPrimaryRelationship">
+				ng-model="registrationInfo.person.emergency_contact_1.relation">
 			<span class="input-group-addon">
 				<i class="glyphicon glyphicon-asterisk"></i>
 			</span>
@@ -96,7 +96,7 @@
 			form-focus="currentFocusIndex === 3"
 			ng-required="isFieldRequired('emSecondaryFullName')"
 			ng-focus="setFocus(3)"
-			ng-model="registrationInfo.emSecondaryFullName">
+			ng-model="registrationInfo.person.emergency_contact_2.full_name">
 		<span class="input-group-addon">
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
@@ -119,7 +119,7 @@
 				form-focus="currentFocusIndex === 4"
 				ng-required="isFieldRequired('emSecondaryPhone')"
 				ng-focus="setFocus(4)"
-				ng-model="registrationInfo.emSecondaryPhone"
+				ng-model="registrationInfo.person.emergency_contact_2.phone_number"
 				mask="(999) 999-9999"
 				clean="true"
 				validate="true">
@@ -135,7 +135,7 @@
 	</div>
 	<div
 		class="col-xs-6"
-		ng-class="{'has-error': registrationForm.emSecondaryRelationship.$invalid && !registrationForm.emSecondaryRelationship.$pristine, 'has-success': fieldHasSuccess('emSecondaryPhone) && registrationForm.emSecondaryRelationship.$valid}">
+		ng-class="{'has-error': registrationForm.emSecondaryRelationship.$invalid && !registrationForm.emSecondaryRelationship.$pristine, 'has-success': fieldHasSuccess('emSecondaryRelationship') && registrationForm.emSecondaryRelationship.$valid}">
 		<div class="input-group col-sm-12">
 			<input
 				type="text"
@@ -145,7 +145,7 @@
 				form-focus="currentFocusIndex === 5"
 				ng-required="isFieldRequired('emSecondaryRelationship')"
 				ng-focus="setFocus(5)"
-				ng-model="registrationInfo.emSecondaryRelationship">
+				ng-model="registrationInfo.person.emergency_contact_2.relation">
 			<span class="input-group-addon">
 				<i class="glyphicon glyphicon-asterisk"></i>
 			</span>
