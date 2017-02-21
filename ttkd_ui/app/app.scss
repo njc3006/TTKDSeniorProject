@@ -36,21 +36,29 @@ $border-radius-small: 0px;
 $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 @import "./lib/bootstrap-sass/assets/stylesheets/bootstrap";
 
+// Import color picker
+@import "./lib/angular-color-picker/angular-color-picker";
+
 /* Import Component SCSS */
 @import "./components/nav/nav";
 @import "./components/checkin/checkin";
 @import "./components/students/detail/student.detail";
+@import "./components/belts-stripes/belts-stripes";
 
 // Push containers below navbar
 #appContainer {
 	padding-top: 70px;
 }
 
+.spacer-top-5 {
+	margin-top: 5px;
+}
+
 .spacer-10 {
 	margin-bottom: 10px;
 }
 
-.spacer-20 {
+	.spacer-20 {
 	margin-bottom: 20px;
 }
 

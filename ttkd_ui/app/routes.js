@@ -107,7 +107,13 @@
 				url: '/students/{studentId:int}/edit',
 				templateUrl: 'components/students/detail/edit/student.edit.html',
 				controller: 'EditStudentCtrl'
-			});
+			})
+
+      .state('beltsStripes', {
+        url: '/belts-stripes',
+        templateUrl: 'components/belts-stripes/belts-stripes.html',
+        controller: 'BeltsStripesCtrl'
+      });
 
 			// For any unmatched url, send to /
 	    $urlRouterProvider.otherwise('/');

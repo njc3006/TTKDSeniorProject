@@ -7,6 +7,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 # Import ViewSets
+from .views.instructor_views import MinimalInstructorViewSet, InstructorViewSet, \
+    InstructorAttendanceViewSet, DetailedInstructorAttendanceViewSet
 from .views.waiver_views import WaiverViewSet, WaiverImageViewSet
 from .views.import_views import import_data
 from .views.export_views import export_data, export_attendance, export_contacts, export_to_excel
@@ -47,6 +49,12 @@ router.register(r'person-belts', PersonBeltViewSet)
 router.register(r'people', PeopleViewSet, 'people')
 router.register(r'class-people', RegistrationWithPeopleViewSet, 'class-people')
 router.register(r'waivers', WaiverViewSet)
+router.register(r'instructors-minimal', MinimalInstructorViewSet, 'instructors-minimal')
+router.register(r'instructors', InstructorViewSet)
+router.register(r'instructor-check-ins', InstructorAttendanceViewSet, 'instructor-check-ins')
+router.register(r'instructor-check-ins-detailed', DetailedInstructorAttendanceViewSet,
+                'instructor-check-ins-detailed')
+
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),
