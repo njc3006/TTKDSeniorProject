@@ -5,12 +5,8 @@
 
 		var waiversEndpoint = '';
 
-		$scope.setEndpoint = function(){
-			waiversEndpoint = apiHost + '/api/waivers/?person=' + $stateParams.studentId;
-		};
-
 		$scope.getWaivers = function(){
-			$scope.setEndpoint();
+			waiversEndpoint = apiHost + '/api/waivers/?person=' + $stateParams.studentId;
 
 			$http.get(waiversEndpoint).then(
 				function(response){
@@ -22,6 +18,18 @@
 						$scope.waivers[i].formattedDate = moment($scope.waivers[i]['signature_timestamp']).format('MM/DD/YYYY');
 					}
 
+				});
+		};
+
+		$scope.addWaiver = function(waiver){
+			waiversEndpoint = apiHost + '/api/waivers/';
+
+			$http.post(waiversEndpoint, waiver).then(
+				function(response){
+					console.log("successfully added waiver");
+
+				}, function(error){
+					console.log("failed to post");
 				});
 		};
 

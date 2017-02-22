@@ -97,6 +97,10 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 	padding: 0px;
 }
 
+.no-display {
+	display: none !important;
+}
+
 //Custom styles for the class list page
 .entry span {
 	padding-right: 20px;
