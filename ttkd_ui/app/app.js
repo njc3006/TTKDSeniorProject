@@ -17,7 +17,8 @@
 		'ttkdApp.studentDetailCtrl',
 		'ttkdApp.attendanceCtrl',
 		'ttkdApp.editStudentCtrl',
-		'ttkdApp.importExportCtrl'
+		'ttkdApp.importExportCtrl',
+		'ttkdApp.beltsStripesCtrl'
     ]
   );
 

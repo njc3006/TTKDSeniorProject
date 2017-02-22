@@ -2,7 +2,7 @@
 describe('Student Checkin', function() {
 
   beforeEach(() => {
-    browser.get('http://localhost:3000/#!/checkin/1');
+    browser.get(browser.params.appUrl);
   });
 
   it('There is at least one unchecked in student', function() {

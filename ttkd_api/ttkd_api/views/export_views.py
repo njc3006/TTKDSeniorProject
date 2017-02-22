@@ -9,6 +9,7 @@ from rest_framework.status import *
 from django.core.management import call_command
 from django.http import HttpResponse
 
+from ..models.instructor_attendance_record import InstructorAttendanceRecord
 from ..settings import BACKUP_FILES_DIR, STATIC_URL, STATICFILES_DIR
 from ..models import AttendanceRecord, Person, Registration, PersonBelt, Belt, Stripe
 import sys
@@ -363,9 +364,41 @@ def export_to_excel(request):
     records_list = records.values_list('date', 'person__first_name', 'person__last_name',
                                        'program__name')
 
-    for person_belt in records_list:
+    for attendance_record in records_list:
         column = 0
-        for item in person_belt:
+        for item in attendance_record:
+            if column == 0:
+                worksheet.write(row, column, item, date_format)
+            else:
+                worksheet.write(row, column, item)
+            column += 1
+        row += 1
+
+    ######################################################
+    # Student Instruction Worksheet                      #
+    ######################################################
+
+    header_column = 0
+    row = 1
+    column = 0
+
+    worksheet = workbook.add_worksheet('Student Instruction')
+    worksheet.set_column(0, 2, name_column_width)
+    worksheet.set_column(3, 3, 30)
+
+    instructor_attendance_headers = ['Date', 'First Name', 'Last Name', 'Program']
+
+    for header in instructor_attendance_headers:
+        worksheet.write(header_row, header_column, header, bold)
+        header_column += 1
+
+    records = InstructorAttendanceRecord.objects.all().order_by('-date')
+    records_list = records.values_list('date', 'person__first_name', 'person__last_name',
+                                       'program__name')
+
+    for instructor_attendance_record in records_list:
+        column = 0
+        for item in instructor_attendance_record:
             if column == 0:
                 worksheet.write(row, column, item, date_format)
             else:
@@ -394,13 +427,17 @@ def export_to_excel(request):
     person_belt_records = PersonBelt.objects.all().order_by('person__last_name')
     person_belt_list = person_belt_records.values_list('person__first_name', 'person__last_name',
                                                        'belt__name', 'date_achieved',
-                                                       'current_belt')
+                                                       'person__belt__name')
 
     for person_belt in person_belt_list:
         column = 0
         for item in person_belt:
             if column == 3:
                 worksheet.write(row, column, item, date_format)
+            # Now that current_belt is no longer part of PersonBelt, we have to determine it
+            elif column == 4:
+                current_belt = (person_belt[2] == person_belt[4])
+                worksheet.write(row, column, current_belt)
             else:
                 worksheet.write(row, column, item)
             column += 1

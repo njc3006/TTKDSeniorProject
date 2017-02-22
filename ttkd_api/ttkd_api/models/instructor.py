@@ -12,6 +12,6 @@ class Instructor(models.Model):
     A Django model
     Persons can instruct programs, this model stores those relations
     """
-    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    person = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='instructs')
 
     program = models.ForeignKey(Program)
