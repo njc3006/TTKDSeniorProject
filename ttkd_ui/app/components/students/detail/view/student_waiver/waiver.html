@@ -1,0 +1,27 @@
+<div class="container">
+	<div class="row">
+		<button class="btn btn-default pull-right spacer-25">Upload Waiver</button>
+	</div>
+	<div class="row" ng-if="!hasWaivers">
+		<div class="list-group">
+			<div href="#" class="list-group-item flex-column align-items-start">
+				<span>No waivers found</span>
+		  	</div>
+		 </div>
+	</div>
+	<div class="list-group row" ng-if="hasWaivers">
+		<div ng-repeat="waiver in waivers" class="spacer-10">
+			<div href="#" class="list-group-item flex-column align-items-start ">
+			    <div class="d-flex w-100 justify-content-between spacer-10">
+			    	<span>Waiver Signature: {{waiver.waiver_signature}}</span>
+			    	<span class="pull-right">Date Signed: {{waiver.formattedDate}} </span>
+			    </div>
+			    <div class="d-flex w-100 justify-content-between spacer-20">
+			    	<span ng-if="waiver.guardian_signature" class="">Guardian Signature: {{waiver.guardian_signature}}</span>
+			    </div>
+			    <button class="btn btn-default">View</button>
+		  	</div>
+		</div>
+	</div>
+</div>
+
