@@ -29,7 +29,7 @@
 					<li ng-if="!registrationInfo.person.first_name">Missing First Name</li>
 					<li ng-if="!registrationInfo.person.last_name">Missing Last Name</li>
 					<li ng-if="!registrationInfo.person.primary_phone">Missing Phone Number</li>
-					<li ng-if="registrationInfo.person.emails[0].length === 0">Missing at Least One Email</li>
+					<li ng-if="missingAnEmailAddress()">At least one email address is blank</li>
 				</ul>
 			</strong>
 		</div>

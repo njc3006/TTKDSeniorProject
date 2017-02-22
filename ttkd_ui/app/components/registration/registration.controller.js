@@ -143,6 +143,18 @@
 			}
 		}
 
+		$scope.missingAnEmailAddress = function() {
+			var missingEmail = false;
+
+			$scope.registrationInfo.emails.forEach(function(email) {
+				if (!missingEmail) {
+					missingEmail = email.email.length === 0;
+				}
+			});
+
+			return missingEmail;
+		};
+
 		$scope.isLegalAdult = function() {
 			var today = moment();
 			var birthday = moment($scope.registrationInfo.person.dob.value);
