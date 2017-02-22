@@ -8,9 +8,9 @@
 			ng-model="registrationInfo.program"
 			form-focus="currentFocusIndex === 0"
 			ng-focus="setFocus(0)"
-			ng-required="isFieldRequired('program')"
-			ng-options="program as program.name for program in programs track by program.id">
+			ng-required="isFieldRequired('program')">
 			<option value="">Select a Program</option>
+			<option ng-repeat="program in programs" value="{{program.id}}">{{program.name}}</option>
 		</select>
 		<span class="input-group-addon">
 			<i class="glyphicon glyphicon-asterisk"></i>

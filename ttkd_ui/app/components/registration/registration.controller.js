@@ -1,120 +1,35 @@
 (function() {
-	function createPartialRegistrationPayload(registrationInfo) {
-		var payload = {
-			person: {
-				'first_name': registrationInfo.firstName,
-				'last_name': registrationInfo.lastName,
-				'primary_phone': registrationInfo.primaryPhone,
-				'secondary_phone': registrationInfo.secondaryPhone,
-				'street': registrationInfo.street,
-				'city': registrationInfo.city,
-				'emails': registrationInfo.emails.map(function(email) { return {email: email.email}; })
-			},
-			'is_partial': true
-		};
+	function createRegistrationPayload(registrationInfo, isPartialRegistration) {
+		var payload = angular.copy(registrationInfo);
 
-		if (registrationInfo.dob) {
-			payload.person.dob = moment(registrationInfo.dob.value).format('YYYY-MM-DD');
+		payload.program = parseInt(payload.program);
+		payload['is_partial'] = isPartialRegistration;
+
+		if (payload.person.dob) {
+			payload.person.dob = moment(payload.person.dob).format('YYYY-MM-DD');
 		}
 
-		if (registrationInfo.zipcode) {
-			payload.person.zipcode = parseInt(registrationInfo.zipcode);
+		if (payload.person.state) {
+			payload.person.state = payload.person.state.value;
 		}
 
-		if (registrationInfo.state) {
-			payload.person.state = registrationInfo.state.value;
-		}
-
-		if (registrationInfo.program) {
-			payload.program = registrationInfo.program.id;
-		} else {
-			payload.program = null;
-		}
-
-		if (registrationInfo.participantSignature) {
-			payload.person.waivers = [{
-				'waiver_signature': registrationInfo.participantSignature
-			}];
-
-			if (registrationInfo.guardianSignature !== undefined) {
-				payload.person.waivers[0]['guardian_signature'] = registrationInfo.guardianSignature;
-			}
-		} else {
-			payload.person.waivers = [];
-		}
-
-		if (
-			registrationInfo.emPrimaryFullName ||
-			registrationInfo.emPrimaryPhone ||
-			registrationInfo.emPrimaryRelationship
-		) {
-			payload.person['emergency_contact_1'] = {
-				'full_name': registrationInfo.emPrimaryFullName,
-				'phone_number': registrationInfo.emPrimaryPhone,
-				'relation': registrationInfo.emPrimaryRelationship
-			};
-		}
-
-		if (
-			registrationInfo.emSecondaryFullName ||
-			registrationInfo.emSecondaryPhone ||
-			registrationInfo.emSecondaryRelationship
-		) {
-			payload.person['emergency_contact_2'] = {
-				'full_name': registrationInfo.emSecondaryFullName,
-				'phone_number': registrationInfo.emSecondaryPhone,
-				'relation': registrationInfo.emSecondaryRelationship
-			};
-		}
-
-		return payload;
-	}
-
-	function createFullRegistrationPayload(registrationInfo) {
-		var payload = {
-			person: {
-				'first_name': registrationInfo.firstName,
-				'last_name': registrationInfo.lastName,
-				'dob': moment(registrationInfo.dob.value).format('YYYY-MM-DD'),
-				'primary_phone': registrationInfo.primaryPhone,
-				'street': registrationInfo.street,
-				'city': registrationInfo.city,
-				'zipcode': parseInt(registrationInfo.zipcode),
-				'state': registrationInfo.state.value,
-				'emails': registrationInfo.emails.map(function(email) { return {email: email.email}; }),
-				'waivers': [{'waiver_signature': registrationInfo.participantSignature}],
-				'emergency_contact_1': {
-					'full_name': registrationInfo.emPrimaryFullName,
-					'phone_number': registrationInfo.emPrimaryPhone,
-					'relation': registrationInfo.emPrimaryRelationship
-				}
-			},
-			'program': registrationInfo.program.id,
-			'is_partial': false
-		};
-
-		// We only need to add the guardian signature if there was one
-		if (registrationInfo.guardianSignature !== undefined) {
-			payload.person.waivers[0]['guardian_signature'] = registrationInfo.guardianSignature;
-		}
-
-		if (registrationInfo.secondaryPhone !== undefined) {
-			payload.person['secondary_phone'] = registrationInfo.secondaryPhone;
-		} else {
+		if (payload.person['secondary_phone'] === undefined) {
 			payload.person['secondary_phone'] = '';
 		}
 
-		// If this is here, then everything else is too.
-		// We only want to have this Information if it's there
-		if (registrationInfo.emSecondaryFullName !== undefined && registrationInfo.emSecondaryFullName.length > 0) {
-			payload.person['emergency_contact_2'] = {
-				'full_name': registrationInfo.emSecondaryFullName,
-				'phone_number': registrationInfo.emSecondaryPhone.replace(new RegExp('-', 'g'), ''),
-				'relation': registrationInfo.emSecondaryRelationship
-			};
+		if (angular.equals(payload.person['emergency_contact_1'], {})) {
+			delete payload.person['emergency_contact_1'];
 		}
 
-		return payload;
+		if (angular.equals(payload.person['emergency_contact_2'], {})) {
+			delete payload.person['emergency_contact_2'];
+		}
+
+		if (angular.equals(payload.person.waivers[0], {})) {
+			payload.person.waivers = [];
+		}
+
+		return payload
 	}
 
 	function RegistrationController(
@@ -130,10 +45,26 @@
 		$rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
 		var isPartialRegistration = $stateParams.partial;
 
+		function defaultIsFieldRequired(fieldName) {
+			if (fieldName.indexOf('emSecondary') !== -1) {
+				return $scope.anySecondaryContactInfoEntered();
+			}
+
+			if (fieldName === 'secondaryPhone') {
+				return false;
+			}
+
+			return true;
+		}
+
 		if (isPartialRegistration) {
 			$scope.canVisit = function(sectionIndex) { return true; };
 
 			$scope.isFieldRequired = function(fieldName) {
+				if ($stateParams.registrationId) {
+					return defaultIsFieldRequired(fieldName);
+				}
+
 				return fieldName === 'firstName' ||
 					fieldName === 'lastName' ||
 					fieldName === 'program' ||
@@ -142,6 +73,10 @@
 			};
 
 			$scope.fieldHasSuccess = function(fieldName) {
+				if (!$scope.registrationInfo) {
+					return true;
+				}
+
 				if (angular.isString($scope.registrationInfo.person[fieldName])) {
 					return $scope.registrationInfo.person[fieldName].length > 0;
 				} else if (fieldName === 'dob') {
@@ -156,6 +91,17 @@
 				RegistrationService.getPartialRegistration($stateParams.registrationId).then(
 					function success(response) {
 						$scope.registrationInfo = response.data;
+
+						$scope.registrationInfo.program = '' + $scope.registrationInfo.program;
+
+						if (!$scope.registrationInfo.person.emails || $scope.registrationInfo.person.emails.length === 0) {
+							$scope.registrationInfo.person.emails = [{email: ''}];
+						}
+
+						if ($scope.registrationInfo.person['emergency_contact_2'] === null) {
+							$scope.registrationInfo.person['emergency_contact_2'] = {};
+						}
+
 						$scope.registrationInfo.person.dob = {
 							value: moment($scope.registrationInfo.person.dob, 'YYYY-MM-DD').toDate(),
 							open: false
@@ -184,17 +130,7 @@
 				return $scope.visitedSections[sectionIndex];
 			};
 
-			$scope.isFieldRequired = function(fieldName) {
-				if (fieldName.indexOf('emSecondary') !== -1) {
-					return $scope.anySecondaryContactInfoEntered();
-				}
-
-				if (fieldName === 'secondaryPhone') {
-					return false;
-				}
-
-				return true;
-			};
+			$scope.isFieldRequired = defaultIsFieldRequired;
 
 			$scope.fieldHasSuccess = function(fieldName) { return true; };
 
@@ -261,6 +197,10 @@
 		};
 
 		$scope.anySecondaryContactInfoEntered = function() {
+			if (!$scope.registrationInfo) {
+				return false;
+			}
+
 			var secondaryContact = $scope.registrationInfo.person['emergency_contact_2'];
 
 			var fullNameEntered = secondaryContact['full_name'] && secondaryContact['full_name'].length > 0;
@@ -271,38 +211,46 @@
 		};
 
 		$scope.onSubmit = function(formIsValid) {
-			$scope.registrationInfo.person.emails.forEach(function(email) {
-				email.isNew = false;
-			});
+			var registrationPayload;// = createRegistrationPayload($scope.registrationInfo, isPartialRegistration);
 
-			var registrationPayload;
-
-			if (!isPartialRegistration) {
+			if (!isPartialRegistration || $stateParams.registrationId !== undefined) {
 				if (formIsValid) {
 					if ($scope.currentSelectionIndex < $scope.formSections.length - 1) {
 							$scope.selectFormSection($scope.currentSelectionIndex + 1);
 					} else {
-						registrationPayload = createFullRegistrationPayload($scope.registrationInfo);
+						registrationPayload = createRegistrationPayload($scope.registrationInfo, false);
 
-						RegistrationService.registerStudent(registrationPayload).then(function(response) {
-							$scope.registrationSuccess = true;
-							window.scrollTo(0, 0);
-							$timeout($state.reload, 1000); // Give people time to read the success message
-						}, function(error) {
-							$scope.registrationFailure = true;
-							window.scrollTo(0, 0);
-							console.error(error);
-						});
+						if ($stateParams.registrationId) {
+							RegistrationService.completePartialRegistration(registrationPayload.id, registrationPayload).then(
+								function success(response) {
+									$scope.registrationSuccess = true;
+									window.scrollTo(0, 0);
+									$timeout(function(){ $state.go('home'); }, 1000); // Give people time to read the success message
+								},
+								function failure(error) {
+									$scope.registrationFailure = true;
+									window.scrollTo(0, 0);
+								}
+							);
+						} else {
+							RegistrationService.registerStudent(registrationPayload).then(function(response) {
+								$scope.registrationSuccess = true;
+								window.scrollTo(0, 0);
+								$timeout($state.reload, 1000); // Give people time to read the success message
+							}, function(error) {
+								$scope.registrationFailure = true;
+								window.scrollTo(0, 0);
+							});
+						}
 					}
 				}
 			} else {
 				if (formIsValid) {
-					registrationPayload = createPartialRegistrationPayload($scope.registrationInfo);
-
+					registrationPayload = createRegistrationPayload($scope.registrationInfo, isPartialRegistration);
 					RegistrationService.registerStudent(registrationPayload).then(function(response) {
 						$scope.registrationSuccess = true;
 						window.scrollTo(0, 0);
-						$timeout($state.reload, 1000); // Give people time to read the success message
+						$timeout(function(){ $state.go('home'); }, 1000); // Give people time to read the success message
 					}, function(error) {
 						$scope.registrationFailure = true;
 						window.scrollTo(0, 0);
@@ -323,7 +271,7 @@
 		};
 
 		function submitText(index) {
-			if (!isPartialRegistration) {
+			if (!isPartialRegistration || $stateParams.registrationId) {
 				if (index === $scope.formSections.length - 1) {
 					return 'Submit';
 				} else {
@@ -367,8 +315,8 @@
 			return $scope.registrationInfo.person.emails.map(function(email) { return email.email; }).join(', ');
 		};
 
-		$scope.openCalendar = function($event) {
-			$scope.registrationInfo.dob.open = true;
+		$scope.openCalendar = function() {
+			$scope.registrationInfo.person.dob.open = true;
 		};
 
 		$scope.registrationSuccess = false;

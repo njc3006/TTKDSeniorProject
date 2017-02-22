@@ -97,7 +97,7 @@
 			ng-required="isFieldRequired('emSecondaryFullName')"
 			ng-focus="setFocus(3)"
 			ng-model="registrationInfo.person.emergency_contact_2.full_name">
-		<span class="input-group-addon">
+		<span ng-if="isFieldRequired('emSecondaryFullName')" class="input-group-addon">
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
 	</div>
@@ -123,7 +123,7 @@
 				mask="(999) 999-9999"
 				clean="true"
 				validate="true">
-			<span class="input-group-addon">
+			<span ng-if="isFieldRequired('emSecondaryPhone')" class="input-group-addon">
 				<i class="glyphicon glyphicon-asterisk"></i>
 			</span>
 		</div>
@@ -146,7 +146,7 @@
 				ng-required="isFieldRequired('emSecondaryRelationship')"
 				ng-focus="setFocus(5)"
 				ng-model="registrationInfo.person.emergency_contact_2.relation">
-			<span class="input-group-addon">
+			<span ng-if="isFieldRequired('emSecondaryRelationship')" class="input-group-addon">
 				<i class="glyphicon glyphicon-asterisk"></i>
 			</span>
 		</div>
