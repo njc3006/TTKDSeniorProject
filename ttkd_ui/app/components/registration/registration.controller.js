@@ -45,26 +45,10 @@
 		$rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
 		var isPartialRegistration = $stateParams.partial;
 
-		function defaultIsFieldRequired(fieldName) {
-			if (fieldName.indexOf('emSecondary') !== -1) {
-				return $scope.anySecondaryContactInfoEntered();
-			}
-
-			if (fieldName === 'secondaryPhone') {
-				return false;
-			}
-
-			return true;
-		}
-
 		if (isPartialRegistration) {
 			$scope.canVisit = function(sectionIndex) { return true; };
 
 			$scope.isFieldRequired = function(fieldName) {
-				if ($stateParams.registrationId) {
-					return defaultIsFieldRequired(fieldName);
-				}
-
 				return fieldName === 'firstName' ||
 					fieldName === 'lastName' ||
 					fieldName === 'program' ||
@@ -73,7 +57,7 @@
 			};
 
 			$scope.fieldHasSuccess = function(fieldName) {
-				if (!$scope.registrationInfo) {
+				if (!$scope.registrationInfo || $stateParams.registrationId) {
 					return true;
 				}
 
@@ -85,6 +69,37 @@
 
 				return $scope.registrationInfo.person[fieldName];
 			};
+
+			//Initialize registration info
+			$scope.registrationInfo = {
+				person: {
+					emails: [{email: ''}],
+					dob: {
+						open: false,
+					},
+					'emergency_contact_1': {},
+					'emergency_contact_2': {},
+					waivers: [{}]
+				}
+			};
+		} else {
+			$scope.canVisit = function(sectionIndex) {
+				return $scope.visitedSections[sectionIndex];
+			};
+
+			$scope.isFieldRequired = function(fieldName) {
+				if (fieldName.indexOf('emSecondary') !== -1) {
+					return $scope.anySecondaryContactInfoEntered();
+				}
+
+				if (fieldName === 'secondaryPhone') {
+					return false;
+				}
+
+				return true;
+			};
+
+			$scope.fieldHasSuccess = function(fieldName) { return true; };
 
 			//Load partial registration data if id is provided
 			if ($stateParams.registrationId) {
@@ -108,14 +123,15 @@
 						}
 					},
 					function failure(error) {
-
+						$scope.partialNotLoaded = true;
+						$scope.partialNotLoadedStatus = error.status;
 					}
 				);
 			} else {
 				//Initialize registration info
 				$scope.registrationInfo = {
 					person: {
-						emails: [{email: '', isNew: true}],
+						emails: [{email: ''}],
 						dob: {
 							open: false,
 						},
@@ -125,27 +141,6 @@
 					}
 				};
 			}
-		} else {
-			$scope.canVisit = function(sectionIndex) {
-				return $scope.visitedSections[sectionIndex];
-			};
-
-			$scope.isFieldRequired = defaultIsFieldRequired;
-
-			$scope.fieldHasSuccess = function(fieldName) { return true; };
-
-			//Initialize registration info
-			$scope.registrationInfo = {
-				person: {
-					emails: [{email: '', isNew: true}],
-					dob: {
-						open: false,
-					},
-					'emergency_contact_1': {},
-					'emergency_contact_2': {},
-					waivers: [{}]
-				}
-			};
 		}
 
 		$scope.isLegalAdult = function() {
@@ -211,14 +206,14 @@
 		};
 
 		$scope.onSubmit = function(formIsValid) {
-			var registrationPayload;// = createRegistrationPayload($scope.registrationInfo, isPartialRegistration);
+			var registrationPayload;
 
-			if (!isPartialRegistration || $stateParams.registrationId !== undefined) {
+			if (!isPartialRegistration) {
 				if (formIsValid) {
 					if ($scope.currentSelectionIndex < $scope.formSections.length - 1) {
 							$scope.selectFormSection($scope.currentSelectionIndex + 1);
 					} else {
-						registrationPayload = createRegistrationPayload($scope.registrationInfo, false);
+						registrationPayload = createRegistrationPayload($scope.registrationInfo, isPartialRegistration);
 
 						if ($stateParams.registrationId) {
 							RegistrationService.completePartialRegistration(registrationPayload.id, registrationPayload).then(
@@ -261,7 +256,7 @@
 		};
 
 		$scope.addEmail = function() {
-			$scope.registrationInfo.emails.push({email: '', isNew: true});
+			$scope.registrationInfo.person.emails.push({email: ''});
 			$scope.numElements++;
 		};
 
@@ -271,7 +266,7 @@
 		};
 
 		function submitText(index) {
-			if (!isPartialRegistration || $stateParams.registrationId) {
+			if (!isPartialRegistration) {
 				if (index === $scope.formSections.length - 1) {
 					return 'Submit';
 				} else {

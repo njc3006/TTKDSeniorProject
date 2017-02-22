@@ -74,7 +74,7 @@
 				url:'/partial-registrations/{registrationId:int}',
 				params: {
           hideCurrentProgram: true,
-					partial: true
+					partial: false
         },
 				data: {
           pageTitle: 'Finish Partial Registration'

@@ -14,8 +14,24 @@
 		<div class="alert alert-success" role="alert" ng-show="registrationSuccess">
 			<strong>Succesfully registered</strong>
 		</div>
+		<div class="alert alert-danger" role="alert" ng-show="partialNotLoaded">
+			<strong>Partial registration could not be loaded</strong><br/>
+			<strong>
+				<span ng-if="partialNotLoadedStatus === 404">Partial registration doesn't exist</span>
+				<span ng-if="partialNotLoadedStatus === 500">Internal server Error</span>
+			</strong>
+		</div>
 		<div class="alert alert-danger" role="alert" ng-show="registrationFailure">
 			<strong>Registration failed</strong>
+			<strong>
+				<ul>
+					<li ng-if="!registrationInfo.program">Missing Program</li>
+					<li ng-if="!registrationInfo.person.first_name">Missing First Name</li>
+					<li ng-if="!registrationInfo.person.last_name">Missing Last Name</li>
+					<li ng-if="!registrationInfo.person.primary_phone">Missing Phone Number</li>
+					<li ng-if="registrationInfo.person.emails[0].length === 0">Missing at Least One Email</li>
+				</ul>
+			</strong>
 		</div>
 		<form
 			name="registrationForm"
