@@ -1,8 +1,12 @@
 <div class="container">
 	<div class="row">
-		<label class="btn btn-default btn-file pull-right spacer-25">
+		<!-- <label class="btn btn-default btn-file pull-right spacer-25">
 		    Upload Waiver <input type="file" accept="image/*" class="no-display">
-		</label>
+		</label> -->
+		<div class="file-upload">
+			<input class="btn btn-default pull-right spacer-20" type="button" value="Upload Waiver" onclick="document.getElementById('file-upload').click();">
+			<input id="file-upload" class="btn btn-default hidden-input" type="file" nv-file-select uploader="uploader"/><br/>
+		</div>
 	</div>
 	<div class="row" ng-if="!hasWaivers">
 		<div class="list-group">

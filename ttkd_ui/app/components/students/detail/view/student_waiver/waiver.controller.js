@@ -1,7 +1,12 @@
 (function() {
-	function StudentWaiverController($scope, $http, $stateParams, apiHost) {
+	function StudentWaiverController($scope, $http, $stateParams, apiHost, FileUploader) {
 		$scope.waivers = [];
 		$scope.hasWaivers = false;
+
+		$scope.uploader = new FileUploader({
+			url: apiHost + '/api/person/' + $stateParams.studentId + '/picture',
+			autoUpload: true,
+		});
 
 		var waiversEndpoint = '';
 
@@ -36,12 +41,13 @@
 		$scope.getWaivers();
 	}
 
-	angular.module('ttkdApp.studentDetailCtrl')
+	angular.module('ttkdApp.studentWaiverCtrl', ['angularFileUpload'])
 		.controller('StudentWaiverCtrl', [
 			'$scope',
 			'$http',
 			'$stateParams',
 			'apiHost',
+			'FileUploader',
 			StudentWaiverController
 		]);
 })();
