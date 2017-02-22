@@ -1,5 +1,5 @@
 (function() {
-	function StudentWaiverController($scope, $http, $q, $stateParams, apiHost, SharedDataService) {
+	function StudentWaiverController($scope, $http, $stateParams, apiHost) {
 		$scope.waivers = [];
 		$scope.hasWaivers = false;
 
@@ -40,10 +40,8 @@
 		.controller('StudentWaiverCtrl', [
 			'$scope',
 			'$http',
-			'$q',
 			'$stateParams',
 			'apiHost',
-			'SharedDataSvc',
 			StudentWaiverController
 		]);
 })();
