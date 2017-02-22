@@ -2,9 +2,11 @@
 from rest_framework import viewsets, filters
 from ..serializers.people_serializer import PeopleSerializer
 from ..models.person import Person
+from ..permissions import custom_permissions
 
 
 class PeopleViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = (custom_permissions.IsAuthenticatedOrOptions,)
     """
     Returns all People (limited persons) objects to the Route.
     Filters: first_name, last_name, belt, active
