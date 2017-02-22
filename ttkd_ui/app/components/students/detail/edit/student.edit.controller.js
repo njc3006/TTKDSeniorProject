@@ -162,6 +162,7 @@
 		$scope.submitChanges  = function(formIsValid) {
 			if (formIsValid) {
 				updateRegistrations();
+				programsTouched = false;
 				var payload = angular.copy($scope.studentInfo);
 				payload = angular.extend(payload, {
 					dob: moment($scope.studentInfo.dob.value).format('YYYY-MM-DD'),
