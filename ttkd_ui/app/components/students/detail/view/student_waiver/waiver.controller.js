@@ -1,5 +1,5 @@
 (function() {
-	function StudentWaiverController($scope, $http, $stateParams, apiHost, FileUploader) {
+	function StudentWaiverController($scope, $http, $stateParams, apiHost, FileUploader, SharedDataService) {
 		$scope.waivers = [];
 		$scope.hasWaivers = false;
 
@@ -36,6 +36,7 @@
 						$scope.waivers[i].waiverUploader.onSuccessItem = function () {
 							$scope.getWaivers();
                         };
+                        $scope.waivers[i].age = moment($scope.waivers[i]['signature_timestamp']).diff(moment(SharedDataService.getStudentDob()), 'years');
 					}
 
 				});
@@ -51,6 +52,7 @@
 			'$stateParams',
 			'apiHost',
 			'FileUploader',
+			'SharedDataSvc',
 			StudentWaiverController
 		]);
 })();

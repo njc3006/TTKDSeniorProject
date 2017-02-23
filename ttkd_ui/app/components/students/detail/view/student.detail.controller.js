@@ -26,6 +26,7 @@
 	      function(response) {
 						$scope.studentInfo = reformatObject(response.data);
 
+			  SharedDataSvc.setStudentDob($scope.studentInfo.dob);
 	          $scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
 
 	          $scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContact1);
