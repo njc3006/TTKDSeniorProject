@@ -43,7 +43,7 @@
 			}
 		};
 
-		$scope.verificationInput = ''
+		$scope.verificationInput = '';
 	}
 
 	angular.module('ttkdApp.registationCtrl')

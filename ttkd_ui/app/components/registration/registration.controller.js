@@ -52,7 +52,9 @@
 
 			$scope.isFieldRequired = function(fieldName) {
 				if (fieldName === 'primaryPhone') {
-					return $scope.missingAnEmailAddress();
+					//return $scope.missingAnEmailAddress();
+					return $scope.registrationInfo.person.emails.length === 1 &&
+						$scope.registrationInfo.person.emails[0].email === '';
 				} else if (fieldName === 'email') {
 					return $scope.registrationInfo.person['primary_phone'] &&
 						$scope.registrationInfo.person['primary_phone'].length > 0;
@@ -211,12 +213,14 @@
 		};
 
 		$scope.waiverSigned = function() {
-			var participantSignaturePresent = $scope.registrationInfo.participantSignature !== undefined &&
-				$scope.registrationInfo.participantSignature !== '';
+			var participantSignaturePresent =
+				$scope.registrationInfo.person.waivers[0].waiver_signature !== undefined &&
+				$scope.registrationInfo.person.waivers[0].waiver_signature !== '';
 
 			if (!$scope.isLegalAdult()) {
-				var guardianSignaturePresent = $scope.registrationInfo.guardianSignature !== undefined &&
-					$scope.registrationInfo.guardianSignature !== '';
+				var guardianSignaturePresent =
+					$scope.registrationInfo.person.waivers[0].guardian_signature !== undefined &&
+					$scope.registrationInfo.person.waivers[0].guardian_signature !== '';
 
 				return participantSignaturePresent && guardianSignaturePresent;
 			} else {
@@ -277,23 +281,34 @@
 			} else {
 				registrationPayload = createRegistrationPayload($scope.registrationInfo, $scope.isPartialRegistration);
 
-				if ($scope.missingAnEmailAddress()) {
-					delete registrationPayload.person.emails;
-				}
+				//if neither phone number nor emails were entered,
+				var phoneEntered = registrationPayload.person['primary_phone'] &&
+					registrationPayload.person['primary_phone'] !== '';
+				var noEmailsEntered = registrationPayload.person.emails.length === 1 &&
+					(registrationPayload.person.emails[0].email === undefined ||
+					registrationPayload.person.emails[0].email.length === 0);
 
-				RegistrationService.registerStudent(registrationPayload).then(
-					function success(response) {
-						$scope.registrationSuccess = true;
-						$scope.registrationFailure = false;
-						window.scrollTo(0, 0);
-						$timeout(function(){ $state.go('home'); }, 1000); // Give people time to read the success message
-					},
-					function error(error) {
-						$scope.registrationFailure = true;
-						window.scrollTo(0, 0);
-						console.error(error);
+				if (phoneEntered || !noEmailsEntered) {
+					if (noEmailsEntered) {
+						delete registrationPayload.person.emails;
 					}
-				);
+
+					RegistrationService.registerStudent(registrationPayload).then(
+						function success(response) {
+							$scope.registrationSuccess = true;
+							$scope.registrationFailure = false;
+							window.scrollTo(0, 0);
+							$timeout(function(){ $state.go('home'); }, 1000); // Give people time to read the success message
+						},
+						function error(error) {
+							$scope.registrationFailure = true;
+							window.scrollTo(0, 0);
+							console.error(error);
+						}
+					);
+				} else {
+					$scope.registrationFailure = true;
+				}
 			}
 		};
 
