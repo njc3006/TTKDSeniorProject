@@ -78,10 +78,11 @@
 				/* registers a student for a single class */
 				registerStudent: function(studentId, programId) {
 					var data = {
-						is_partial: false,
-						person: studentId,
-						program: programId
+						'is_partial': false,
+						'person': studentId,
+						'program': programId
 					};
+
 					return $http.post(apiHost + '/api/registrations/', data);
 				},
 
@@ -112,7 +113,7 @@
 			              	programId: registration.program,
 			              	name: programs[registration.program],
 			              	registrationId: registration.id
-			              }
+			              };
 			            });
 			            return response;
 			          }, 
