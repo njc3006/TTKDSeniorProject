@@ -2,10 +2,9 @@
 	<h1 class="text-center spacer-25">Complete Partial Registrations</h1>
 	<div ng-if="existingPartialRegistrations && existingPartialRegistrations.length > 0">
 		<div class="panel panel-default col-xs-6 col-xs-offset-3"
-			ng-repeat="registration in existingPartialRegistrations"
-			ng-click="openPartialRegistration(registration.id)">
+			ng-repeat="registration in existingPartialRegistrations">
 			<div class="panel-body">
-				<a class="h2 text-center" ui-sref="finishPartialRegistration({registrationId: registration.id})">
+				<a class="h2 text-center" ui-sref="." ng-click="openPartialRegistration(registration.id, registration)">
 					{{registration.person.first_name + ' ' + registration.person.last_name}}
 				</a>
 			</div>
