@@ -20,7 +20,10 @@
 		'ttkdApp.importExportCtrl',
 		'ttkdApp.beltsStripesCtrl',
 		'ttkdApp.studentWaiverCtrl',
+		'ttkdApp.AuthInterceptor'
     ]
-  );
+  ).config(['$httpProvider', function($httpProvider) {
+    	$httpProvider.interceptors.push('AuthInterceptor');
+	} ]);
 
 })();

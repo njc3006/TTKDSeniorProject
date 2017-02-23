@@ -302,6 +302,30 @@
 				<uib-tab heading="Stripe Assignment">
 					<stripe-select student-stripes="studentInfo.stripes"></stripe-select>
 				</uib-tab>
+				<uib-tab heading="Programs">
+					<div class="panel panel-primary tab-content">
+					  <ul class="list-group">
+					    <li class="list-group-item" ng-repeat="program in registeredPrograms">
+					      {{program.name}}
+					      <button type="button" class="btn btn-danger list-group-btn-addon" ng-click="unregister(program)">
+					      	Delete
+					      </button>
+					    </li>
+					    <li class="list-group-item" ng-if="registeredPrograms.length===0">
+					      This person is not registered for any classes.
+					    </li>
+					  </ul>
+					</div>
+				  <div class="spacer-20"></div>
+			    <div class="input-group">
+			      <select class="form-control" ng-model="addProgramSelected" ng-options="program.name for program in programsToAdd">
+			      	<option value="">Select a Program</option>
+			      </select>
+			      <span class="input-group-btn">
+			        <button class="btn btn-success" type="button" ng-click="registerForProgram(addProgramSelected)">Add</button>
+			      </span>
+			    </div><!-- /input-group -->
+				</uib-tab>
 			</uib-tabset>
 		</div>
 		<button type="submit" class="btn btn-primary btn-lg spacer-25" ng-disabled="!editForm.$valid">Update</button>

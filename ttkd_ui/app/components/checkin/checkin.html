@@ -24,10 +24,11 @@
 			<h2 ng-if="isInstructor">Click A Student Picture to Check Them In</h2>
 		</div>
 	</div>
+
 	<div class="row thumbnail-area">
 			<a href="" class="thumbnail" 
 					ng-click="isInstructor ? (person.checkedIn ? instructClickDeleteCheckin(person) : instructClickCheckin(person))  : openCheckinPrompt(person)"
-			   		ng-class="{'checked-in-student-instruct': (isInstructor && person.checkedIn ), 'checked-in-student' : (!isInstructor && person.checkedIn )}"
+			   	ng-class="{'checked checked-in-student-instruct': (isInstructor && person.checkedIn ), 'checked checked-in-student' : (!isInstructor && person.checkedIn ), 'unchecked' : !person.checkedIn}"
 					ng-repeat="person in people | orderBy: 'first_name' ">
 				<img ng-if="person.picture_url" class="img-responsive {{studentBeltClass}}" ng-src="{{apiHost}}/{{person.picture_url}}" ng-style="person.beltStyle">
 				<img ng-if="!person.picture_url" class="img-responsive {{studentBeltClass}}" ng-src="./img/components/students/placeholder.png" ng-style="person.beltStyle">

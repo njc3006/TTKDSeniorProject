@@ -43,6 +43,27 @@ there are 2 possible additional options when running the script:
 
 `python import_json.py <belt|stripe|belts|stripes> <mask>`
 
+### Testing
+
+## Setup
+- Update node to v6.9.5
+- Re-initialize your environment: `npm rebuild node-sass`
+- Install dependencies: `npm install`
+- Install protractor: `npm install -g protractor`
+- Update webdrivers: `./node_modules/gulp-protractor/node_modules/protractor/bin/webdriver-manager update`
+
+## Using Protractor Globally (Recommended)
+- Run your API and UI projects normally
+- Run protractor tests from the `ttkd_ui` directory by running `protractor protractor.config.js`
+
+## Using Gulp-Protractor (Proceed at your own risk)
+- Start your API
+- Run protractor tests from the `ttkd_ui` directory by running `gulp test`
+
+#### Creating Tests
+
+To create a new test, just create the file in the same folder as the functionality you will be testing, and make the extension `.test.js`. Gulp will automatically run the test.
+
 ### Building a Release
 To build a release for the project, setup a unix-like environment with the following dependencies installed (In addition to the dependencies needed to build the project):
 
