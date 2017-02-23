@@ -15,7 +15,7 @@ module.exports = {
 		'./app/lib/ng-cookies/dist/ng-cookies.min.js',
 		'./app/lib/angular-color-picker/angular-color-picker.js'
 	],
-	sourcePaths: ['!./app/**/*_test.js', './app/**/*.js', '!./app/lib/**/*.js', '!./app/*.constants.js'],
+	sourcePaths: ['!./app/**/*.test.js', './app/**/*.js', '!./app/lib/**/*.js', '!./app/*.constants.js'],
 	templatePaths: ['./app/*/**/*.html'],
 	fontFiles: [
 		'./app/lib/**/*.woff',
