@@ -22,10 +22,11 @@ from .views.program_views import ProgramViewSet, StudentList
 from .views.registration_views import MinimalRegistrationViewSet, RegistrationViewSet, \
     RegistrationWithPeopleViewSet, SimpleRegistrationViewSet, PartialRegistrationViewSet
 from .views.email_views import EmailViewSet
-from .views import UserViewSet
+from .views.user_views import UserViewSet
 from .views.stripe_views import StripeViewSet
 from .views.person_stripe_views import PersonStripeViewSet
 from .views.people_views import PeopleViewSet
+from rest_framework.authtoken import views
 
 router = routers.DefaultRouter()
 
@@ -65,5 +66,7 @@ urlpatterns = [
     url(r'^api/export/', export_data),
     url(r'^api/csv/attendance', export_attendance),
     url(r'^api/csv/contacts', export_contacts),
-    url(r'^api/excel/system', export_to_excel)
-    ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    url(r'^api/excel/system', export_to_excel),
+    url(r'^api/token-auth/', views.obtain_auth_token),
+    #url(r'^api/api-auth/', include('rest_framework.urls', namespace='rest_framework')), # Adds a login button to the api browser though cant get it to stay logged in.
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
