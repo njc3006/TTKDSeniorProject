@@ -51,11 +51,16 @@
 			$scope.canVisit = function(sectionIndex) { return true; };
 
 			$scope.isFieldRequired = function(fieldName) {
+				if (fieldName === 'primaryPhone') {
+					return $scope.missingAnEmailAddress();
+				} else if (fieldName === 'email') {
+					return $scope.registrationInfo.person['primary_phone'] &&
+						$scope.registrationInfo.person['primary_phone'].length > 0;
+				}
+
 				return fieldName === 'firstName' ||
 					fieldName === 'lastName' ||
-					fieldName === 'program' ||
-					fieldName === 'email' ||
-					fieldName === 'primaryPhone';
+					fieldName === 'program';
 			};
 
 			$scope.fieldHasSuccess = function(fieldName) {
@@ -177,7 +182,7 @@
 		};
 
 		$scope.isTooYoung = function() {
-			if (! $scope.registrationInfo || !$scope.registrationInfo.person.dob.value) {
+			if (!$scope.registrationInfo || !$scope.registrationInfo.person.dob.value) {
 				return false;
 			}
 
@@ -190,7 +195,11 @@
 		};
 
 		$scope.formattedDob = function() {
-			return moment($scope.registrationInfo.person.dob.value).format('MM/DD/YYYY');
+			if ($scope.registrationInfo.person.dob.value) {
+				return moment($scope.registrationInfo.person.dob.value).format('MM/DD/YYYY');
+			}
+
+			return '';
 		};
 
 		$scope.formattedPhoneNumber = function(phone) {
@@ -268,11 +277,15 @@
 			} else {
 				registrationPayload = createRegistrationPayload($scope.registrationInfo, $scope.isPartialRegistration);
 
+				if ($scope.missingAnEmailAddress()) {
+					delete registrationPayload.person.emails;
+				}
+
 				RegistrationService.registerStudent(registrationPayload).then(
 					function success(response) {
 						$scope.registrationSuccess = true;
+						$scope.registrationFailure = false;
 						window.scrollTo(0, 0);
-						console.log('SUCCESS', response);
 						$timeout(function(){ $state.go('home'); }, 1000); // Give people time to read the success message
 					},
 					function error(error) {

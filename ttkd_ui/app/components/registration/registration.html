@@ -28,8 +28,12 @@
 					<li ng-if="!registrationInfo.program">Missing Program</li>
 					<li ng-if="!registrationInfo.person.first_name">Missing First Name</li>
 					<li ng-if="!registrationInfo.person.last_name">Missing Last Name</li>
-					<li ng-if="!registrationInfo.person.primary_phone">Missing Phone Number</li>
-					<li ng-if="missingAnEmailAddress()">Missing at least one valid email address</li>
+					<li ng-if="isFieldRequired('primaryPhone')">
+						Missing Phone Number
+					</li>
+					<li ng-if="isFieldRequired('email')">
+						Missing at least one valid email address
+					</li>
 				</ul>
 			</strong>
 		</div>
