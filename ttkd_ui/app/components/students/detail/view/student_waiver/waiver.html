@@ -1,0 +1,30 @@
+<div class="container">
+	<div class="row">
+	</div>
+	<div class="row" ng-if="!hasWaivers">
+		<div class="list-group">
+			<div href="#" class="list-group-item flex-column align-items-start">
+				<span>No waivers found</span>
+		  	</div>
+		 </div>
+	</div>
+	<div class="list-group row" ng-if="hasWaivers">
+		<div ng-repeat="waiver in waivers" class="spacer-10">
+			<div href="#" class="list-group-item flex-column align-items-start ">
+			    <div class="d-flex w-100 justify-content-between spacer-10">
+			    	<span>Waiver Signature: {{waiver.waiver_signature}}</span>
+			    	<span class="pull-right">Date Signed: {{waiver.formattedDate}} </span>
+			    </div>
+			    <div class="d-flex w-100 justify-content-between spacer-20">
+			    	<span ng-if="waiver.guardian_signature" class="">Guardian Signature: {{waiver.guardian_signature}}</span>
+			    </div>
+			    <a ng-class="{'disabled': waiver.waiver_url === null}" class="btn btn-default" ng-href="{{waiver.waiver_url}}" target="_blank">View</a>
+				<span class="file-upload">
+					<input class="btn btn-default" type="button" value="Upload Waiver" ng-click="uploadWaiver(waiver.id);">
+					<input id="waiver-upload{{waiver.id}}" class="btn btn-default hidden-input" type="file" nv-file-select uploader="waiver.waiverUploader"/><br/>
+				</span>
+		  	</div>
+		</div>
+	</div>
+</div>
+

@@ -21,7 +21,7 @@ class WaiverViewSet(viewsets.ModelViewSet):
 
 class WaiverImageViewSet(viewsets.GenericViewSet):
     """
-    POST: Upload a Waiver. Needs {'waiver_image' : ''}
+    POST: Upload a Waiver. Needs {'waiver_image' : ''} (for browsable api to work) or {'file' : ''}
 
     URL that uses this view set: api/waiver/(?P<pk>[0-9]+)/image
     """
@@ -35,6 +35,14 @@ class WaiverImageViewSet(viewsets.GenericViewSet):
             waiver = self.get_object()
 
             upload = request.data['waiver_image']
+
+            waiver.waiver_image.save(upload.name, upload)
+
+            return Response(status=HTTP_201_CREATED, headers={'Location': waiver.waiver_image.url})
+        elif 'file' in request.data:
+            waiver = self.get_object()
+
+            upload = request.data['file']
 
             waiver.waiver_image.save(upload.name, upload)
 
