@@ -1,5 +1,90 @@
 (function() {
-	function EditStudentController($scope, $state, $stateParams, $timeout, StudentsService, StateService) {
+	function EditStudentController($scope, $state, $stateParams, $timeout, $q, StudentsService, StateService, ProgramsService) {
+		var programsTouched = false;
+		var allPrograms = [];
+		$scope.registeredPrograms = [];
+		$scope.programsToAdd = [];
+
+		ProgramsService.getPrograms().then(
+			function(response) {
+				allPrograms = response.data;
+				initPrograms();
+			}
+		);
+
+		function initPrograms() {
+			// initialize registered programs
+			StudentsService.getStudentRegistrations($stateParams.studentId).then(
+				function (response) {
+					$scope.registeredPrograms = response.data;
+					// get all active programs and remove already registered ones
+					var programsToShow = allPrograms;
+					// double loop is necessary to remove registered programs
+					angular.forEach($scope.registeredPrograms, function(registeredProgram) {
+						angular.forEach(programsToShow, function(program) {
+							if(registeredProgram.programId == program.id) {
+								programsToShow.splice(programsToShow.indexOf(program), 1);
+							}
+						})
+					});
+					$scope.programsToAdd = programsToShow;
+				}
+			);
+		}
+
+		$scope.registerForProgram = function(program){
+			if(program) {
+				programsTouched = true;
+				$scope.programsToAdd.splice($scope.programsToAdd.indexOf(program), 1);
+				$scope.registeredPrograms.push(program);
+			}
+		};
+
+		/* remove a student from the selected class */
+		$scope.unregister = function(program) {
+			programsTouched = true;
+			$scope.registeredPrograms.splice($scope.registeredPrograms.indexOf(program), 1);
+			$scope.programsToAdd.push(program);
+		};
+
+		function updateRegistrations() {
+			var promises = [];
+			/* iterate through all the programs in our "registered" list, and if they aren't actually registered yet,
+				create a registration */
+			angular.forEach($scope.registeredPrograms, function (program){
+				if(!program.registrationId) {
+					promises.push(StudentsService.registerStudent($stateParams.studentId, program.id).then(
+						function(response) {
+							// no news is good news :)
+						},
+						// on errors
+						function(response) {
+							$scope.requestFlags.submission.failure = true;
+							window.scrollTo(0, 0);
+						}
+					));
+				}
+			});
+			/* iterate through each program that is unregistered, check if it is actually registered, and delete
+			the registration if so */
+			angular.forEach($scope.programsToAdd, function(program) {
+				if(program.registrationId) {
+					promises.push(StudentsService.deleteRegistration(program.registrationId).then(
+						function(response) {
+							// no news is good news
+						},
+						// on error
+						function (response) {
+							$scope.requestFlags.submission.failure = true;
+							window.scrollTo(0, 0);
+						}
+					));
+				}
+				$q.all(promises).then(function(){
+					initPrograms();
+				});
+			});
+		}
 
 		function submitStripeChanges() {
 			StudentsService.updateStudentStripes(
@@ -27,7 +112,7 @@
 		}
 
 		$scope.backNavigate = function() {
-			if(!angular.equals($scope.oldStudent, $scope.studentInfo)){
+			if(!angular.equals($scope.oldStudent, $scope.studentInfo) || programsTouched){
 				var shouldBackNavigate = confirm('There are unsaved changes, are you sure you wish to leave?');
 
 				if (shouldBackNavigate) {
@@ -76,6 +161,8 @@
 
 		$scope.submitChanges  = function(formIsValid) {
 			if (formIsValid) {
+				updateRegistrations();
+				programsTouched = false;
 				var payload = angular.copy($scope.studentInfo);
 				payload = angular.extend(payload, {
 					dob: moment($scope.studentInfo.dob.value).format('YYYY-MM-DD'),
@@ -212,8 +299,10 @@
 		'$state',
 		'$stateParams',
 		'$timeout',
+		'$q',
 		'StudentsSvc',
 		'StateSvc',
+		'ProgramsSvc',
 		EditStudentController
 	]);
 })();
