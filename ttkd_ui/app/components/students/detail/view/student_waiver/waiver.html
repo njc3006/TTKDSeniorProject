@@ -1,12 +1,5 @@
 <div class="container">
 	<div class="row">
-		<!-- <label class="btn btn-default btn-file pull-right spacer-25">
-		    Upload Waiver <input type="file" accept="image/*" class="no-display">
-		</label> -->
-		<div class="file-upload">
-			<input class="btn btn-default pull-right spacer-20" type="button" value="Upload Waiver" onclick="document.getElementById('file-upload').click();">
-			<input id="file-upload" class="btn btn-default hidden-input" type="file" nv-file-select uploader="uploader"/><br/>
-		</div>
 	</div>
 	<div class="row" ng-if="!hasWaivers">
 		<div class="list-group">
@@ -25,7 +18,11 @@
 			    <div class="d-flex w-100 justify-content-between spacer-20">
 			    	<span ng-if="waiver.guardian_signature" class="">Guardian Signature: {{waiver.guardian_signature}}</span>
 			    </div>
-			    <button class="btn btn-default">View</button>
+			    <a ng-class="{'disabled': waiver.waiver_url === null}" class="btn btn-default" ng-href="{{waiver.waiver_url}}" target="_blank">View</a>
+				<span class="file-upload">
+					<input class="btn btn-default" type="button" value="Upload Waiver" ng-click="uploadWaiver(waiver.id);">
+					<input id="waiver-upload{{waiver.id}}" class="btn btn-default hidden-input" type="file" nv-file-select uploader="waiver.waiverUploader"/><br/>
+				</span>
 		  	</div>
 		</div>
 	</div>
