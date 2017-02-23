@@ -15,8 +15,17 @@ var connect = require('gulp-connect');
 var install = require("gulp-install");
 var run = require('gulp-run');
 var ngConstant = require('gulp-ng-constant');
+var protractor = require("gulp-protractor").protractor;
 
 const config = require('./gulp.config');
+
+gulp.task('test', ['server'], function(done) {
+  gulp.src(["./app/**/*.test.js"])
+    .pipe(protractor({
+        configFile: "protractor.config.js"
+      }))
+    .on('error', function(e) { throw e })
+});
 
 gulp.task('clean', function (cb) {
     del([
