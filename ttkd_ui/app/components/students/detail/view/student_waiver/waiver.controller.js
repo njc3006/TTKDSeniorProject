@@ -20,11 +20,11 @@
 
 					for(var i = 0; i < $scope.waivers.length; i++){
 
-						var waiver_url = $scope.waivers[i].waiver_url;
+						var waiver_url = $scope.waivers[i]['waiver_url'];
 
 						// If the waiver_url is not null lets fix the url by adding the api host
 						if (waiver_url != undefined){
-							$scope.waivers[i].waiver_url = apiHost + '/' + $scope.waivers[i].waiver_url;
+							$scope.waivers[i]['waiver_url'] = apiHost + '/' + $scope.waivers[i]['waiver_url'];
 						}
 						$scope.waivers[i].formattedDate = moment($scope.waivers[i]['signature_timestamp']).format('MM/DD/YYYY');
 
@@ -39,18 +39,6 @@
 
 				});
 		};
-
-		// $scope.addWaiver = function(waiver){
-		// 	waiversEndpoint = apiHost + '/api/waivers/';
-        //
-		// 	$http.post(waiversEndpoint, waiver).then(
-		// 		function(response){
-		// 			console.log("successfully added waiver");
-        //
-		// 		}, function(error){
-		// 			console.log("failed to post");
-		// 		});
-		// };
 
 		$scope.getWaivers();
 	}
