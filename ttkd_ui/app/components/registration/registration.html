@@ -16,20 +16,20 @@
 		</div>
 		<div class="alert alert-danger" role="alert" ng-show="partialNotLoaded">
 			<strong>Partial registration could not be loaded</strong><br/>
-			<strong>
+			<strong ng-if="partialNotLoadedStatus">
 				<span ng-if="partialNotLoadedStatus === 404">Partial registration doesn't exist</span>
 				<span ng-if="partialNotLoadedStatus === 500">Internal server Error</span>
 			</strong>
 		</div>
 		<div class="alert alert-danger" role="alert" ng-show="registrationFailure">
 			<strong>Registration failed</strong>
-			<strong>
+			<strong ng-if="isPartialRegistration">
 				<ul>
 					<li ng-if="!registrationInfo.program">Missing Program</li>
 					<li ng-if="!registrationInfo.person.first_name">Missing First Name</li>
 					<li ng-if="!registrationInfo.person.last_name">Missing Last Name</li>
 					<li ng-if="!registrationInfo.person.primary_phone">Missing Phone Number</li>
-					<li ng-if="missingAnEmailAddress()">At least one email address is blank</li>
+					<li ng-if="missingAnEmailAddress()">Missing at least one valid email address</li>
 				</ul>
 			</strong>
 		</div>
@@ -42,9 +42,17 @@
 				<button
 					type="submit"
 					class="btn btn-primary"
+					ng-if="!isPartialRegistration"
 					ng-disabled="registrationForm.$invalid || isTooYoung()"
 					class="btn btn-lg btn-primary">
 					{{submitText}}
+				</button>
+				<button
+					type="submit"
+					class="btn btn-primary"
+					ng-if="isPartialRegistration"
+					class="btn btn-lg btn-primary">
+					Submit
 				</button>
 		</form>
 	</div>

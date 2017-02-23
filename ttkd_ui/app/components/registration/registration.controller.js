@@ -5,8 +5,10 @@
 		payload.program = parseInt(payload.program);
 		payload['is_partial'] = isPartialRegistration;
 
-		if (payload.person.dob) {
-			payload.person.dob = moment(payload.person.dob).format('YYYY-MM-DD');
+		if (payload.person.dob.value) {
+			payload.person.dob = moment(payload.person.dob.value).format('YYYY-MM-DD');
+		} else {
+			delete payload.person.dob;
 		}
 
 		if (payload.person.state) {
@@ -43,9 +45,9 @@
 		StateService
 	) {
 		$rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
-		var isPartialRegistration = $stateParams.partial;
+		$scope.isPartialRegistration = $stateParams.partial;
 
-		if (isPartialRegistration) {
+		if ($scope.isPartialRegistration) {
 			$scope.canVisit = function(sectionIndex) { return true; };
 
 			$scope.isFieldRequired = function(fieldName) {
@@ -117,9 +119,15 @@
 							$scope.registrationInfo.person['emergency_contact_2'] = {};
 						}
 
-						$scope.registrationInfo.person.dob = {
-							value: moment($scope.registrationInfo.person.dob, 'YYYY-MM-DD').toDate(),
-							open: false
+						if ($scope.registrationInfo.person.dob !== null) {
+							$scope.registrationInfo.person.dob = {
+								value: moment($scope.registrationInfo.person.dob, 'YYYY-MM-DD').toDate(),
+								open: false
+							}
+						} else {
+							$scope.registrationInfo.person.dob = {
+								open: false
+							}
 						}
 					},
 					function failure(error) {
@@ -144,11 +152,15 @@
 		}
 
 		$scope.missingAnEmailAddress = function() {
+			if (!$scope.registrationInfo) {
+				return false;
+			}
+
 			var missingEmail = false;
 
-			$scope.registrationInfo.emails.forEach(function(email) {
+			$scope.registrationInfo.person.emails.forEach(function(email) {
 				if (!missingEmail) {
-					missingEmail = email.email.length === 0;
+					missingEmail = email.email === undefined || email.email.length === 0;
 				}
 			});
 
@@ -220,12 +232,12 @@
 		$scope.onSubmit = function(formIsValid) {
 			var registrationPayload;
 
-			if (!isPartialRegistration) {
+			if (!$scope.isPartialRegistration) {
 				if (formIsValid) {
 					if ($scope.currentSelectionIndex < $scope.formSections.length - 1) {
 							$scope.selectFormSection($scope.currentSelectionIndex + 1);
 					} else {
-						registrationPayload = createRegistrationPayload($scope.registrationInfo, isPartialRegistration);
+						registrationPayload = createRegistrationPayload($scope.registrationInfo, $scope.isPartialRegistration);
 
 						if ($stateParams.registrationId) {
 							RegistrationService.completePartialRegistration(registrationPayload.id, registrationPayload).then(
@@ -237,6 +249,7 @@
 								function failure(error) {
 									$scope.registrationFailure = true;
 									window.scrollTo(0, 0);
+									console.error(error);
 								}
 							);
 						} else {
@@ -247,23 +260,27 @@
 							}, function(error) {
 								$scope.registrationFailure = true;
 								window.scrollTo(0, 0);
+								console.error(error);
 							});
 						}
 					}
 				}
 			} else {
-				if (formIsValid) {
-					registrationPayload = createRegistrationPayload($scope.registrationInfo, isPartialRegistration);
-					RegistrationService.registerStudent(registrationPayload).then(function(response) {
+				registrationPayload = createRegistrationPayload($scope.registrationInfo, $scope.isPartialRegistration);
+
+				RegistrationService.registerStudent(registrationPayload).then(
+					function success(response) {
 						$scope.registrationSuccess = true;
 						window.scrollTo(0, 0);
+						console.log('SUCCESS', response);
 						$timeout(function(){ $state.go('home'); }, 1000); // Give people time to read the success message
-					}, function(error) {
+					},
+					function error(error) {
 						$scope.registrationFailure = true;
 						window.scrollTo(0, 0);
 						console.error(error);
-					});
-				}
+					}
+				);
 			}
 		};
 
@@ -277,20 +294,12 @@
 			$scope.numElements--;
 		};
 
-		function submitText(index) {
-			if (!isPartialRegistration) {
-				if (index === $scope.formSections.length - 1) {
-					return 'Submit';
-				} else {
-					return 'Continue';
-				}
-			}
-
-			return 'Submit';
-		}
-
 		$scope.selectFormSection = function(index) {
-			$scope.submitText = submitText(index);
+			if (index === $scope.formSections.length - 1) {
+				$scope.submitText = 'Submit';
+			} else {
+				$scope.submitText = 'Continue';
+			}
 
 			$scope.currentFocusIndex = 0;
 			$scope.currentSelectionIndex = index;

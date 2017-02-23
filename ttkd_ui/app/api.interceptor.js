@@ -1,6 +1,6 @@
 (function() {
   angular.module('ttkdApp.AuthInterceptor', ['ngCookies'])
-    .factory('AuthInterceptor',['$cookies', '$location', function ($cookies, $location) {
+    .factory('AuthInterceptor',['$cookies', '$location', '$q', function ($cookies, $location, $q) {
       return {
         request: function (config) {
           if($cookies.getObject('Authorization')){
@@ -9,8 +9,11 @@
           return config;
         },
         responseError: function (res) {
-          $location.path('/');
-          return res;
+          if (res.status === 403) {
+            $location.path('/');
+          }
+
+          return $q.reject(res);
         },
       };
     }]);
