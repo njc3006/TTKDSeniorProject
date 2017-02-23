@@ -1,5 +1,6 @@
 (function() {
-	function EditStudentController($scope, $state, $stateParams, $timeout, $q, StudentsService, StateService, ProgramsService) {
+	function EditStudentController($scope, $state, $stateParams, $timeout, 
+										$q, StudentsService, StateService, ProgramsService) {
 		var programsTouched = false;
 		var allPrograms = [];
 		$scope.registeredPrograms = [];
@@ -22,10 +23,10 @@
 					// double loop is necessary to remove registered programs
 					angular.forEach($scope.registeredPrograms, function(registeredProgram) {
 						angular.forEach(programsToShow, function(program) {
-							if(registeredProgram.programId == program.id) {
+							if(registeredProgram.programId === program.id) {
 								programsToShow.splice(programsToShow.indexOf(program), 1);
 							}
-						})
+						});
 					});
 					$scope.programsToAdd = programsToShow;
 				}

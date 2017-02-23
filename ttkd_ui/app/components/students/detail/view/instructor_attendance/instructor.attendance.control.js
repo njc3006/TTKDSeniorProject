@@ -12,9 +12,9 @@
 		    $http.get(requestEndpoint).then(
 				function(instructionResponse) {
 				       instructionResponse.data.forEach(function(instruction) {
-				           $scope.instructedPrograms.push(instruction.program.name)
-                       })
-                })
+				           $scope.instructedPrograms.push(instruction.program.name);
+                       });
+                });
         };
 
 		$scope.loadCheckIns = function(programId) {
