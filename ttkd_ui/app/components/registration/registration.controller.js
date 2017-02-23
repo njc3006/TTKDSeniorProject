@@ -158,22 +158,6 @@
 			}
 		}
 
-		$scope.missingAnEmailAddress = function() {
-			if (!$scope.registrationInfo) {
-				return false;
-			}
-
-			var missingEmail = false;
-
-			$scope.registrationInfo.person.emails.forEach(function(email) {
-				if (!missingEmail) {
-					missingEmail = email.email === undefined || email.email.length === 0;
-				}
-			});
-
-			return missingEmail;
-		};
-
 		$scope.isLegalAdult = function() {
 			var today = moment();
 			var birthday = moment($scope.registrationInfo.person.dob.value);

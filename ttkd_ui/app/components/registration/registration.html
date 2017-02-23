@@ -31,7 +31,7 @@
 					<li ng-if="isFieldRequired('primaryPhone')">
 						Missing Phone Number
 					</li>
-					<li ng-if="isFieldRequired('email')">
+					<li ng-if="!registrationInfo.person.primary_phone && isFieldRequired('email')">
 						Missing at least one valid email address
 					</li>
 				</ul>
