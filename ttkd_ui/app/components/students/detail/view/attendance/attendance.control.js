@@ -10,18 +10,21 @@
 		$scope.loadCheckIns = function() {
 			AttendanceService.getUngroupedRecords({
 				student: studentId,
+				page: $scope.filterData.page,
 				program: $scope.filterData.selectedProgram,
 				startDate: $scope.filterData.startDate.value,
 				endDate: $scope.filterData.endDate.value
 			}).then(
 				function onSuccess(ungroupedRecords) {
+					$scope.pagination.totalRecords = ungroupedRecords.count;
+
 					$scope.checkIns = ungroupedRecords.results.map(function(checkIn) {
 						checkIn.date = moment(checkIn.date, 'YYYY-MM-DD').format('MM/DD/YYYY');
 						return checkIn;
 					});
 				},
 				function onFailure(error) {
-					//TODO: error handling
+					$scope.checkInsLoadFailed = true;
 				}
 			);
 		};
@@ -35,6 +38,10 @@
 		};
 
 		$scope.enrolledPrograms = [];
+
+		$scope.pagination = {
+			pageSize: 125
+		};
 
 		$scope.filterData = {
 			page: 1,
@@ -58,7 +65,7 @@
 				$scope.loadCheckIns();
 			},
 			function onError(error) {
-
+				$scope.programLoadFailed = true;
 			}
 		);
 	}
