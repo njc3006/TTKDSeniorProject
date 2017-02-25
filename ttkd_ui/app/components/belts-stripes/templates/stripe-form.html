@@ -1,14 +1,14 @@
 <form ng-if="showTab.updateStripe" ng-submit="updateStripe(currentStripe)">
 	<div class="col-md-6 col-xs-12 col-md-offset-2 col-xs-offset-0">
-		<div class="alert alert-success" ng-show="statusAlert.success" uib-alert close="closeSuccessAlert()">
+		<div class="alert alert-success" ng-show="statusAlert.success" uib-alert close="closeAlert('success')">
 			Stripe information was successfully updated.
 		</div>
 
-		<div class="alert alert-danger" ng-show="statusAlert.failure" uib-alert close="closeErrorAlert()">
+		<div class="alert alert-danger" ng-show="statusAlert.failure" uib-alert close="closeAlert('error')">
 			There was an error submitting the information changes.
 		</div>
 
-		<div class="alert alert-danger" ng-show="statusAlert.color" uib-alert close="closeColorAlert()">
+		<div class="alert alert-danger" ng-show="statusAlert.color" uib-alert close="closeAlert('color')">
 			Colors must be given in Hex format, such as #000000.
 		</div>
 
@@ -48,15 +48,15 @@
 
 <form ng-if="showTab.createStripe" ng-submit="createStripe()">
 	<div class="col-md-6 col-xs-12 col-md-offset-2 col-xs-offset-0">
-		<div class="alert alert-success" ng-show="statusAlert.success" uib-alert close="closeSuccessAlert()">
+		<div class="alert alert-success" ng-show="statusAlert.success" uib-alert close="closeAlert('success')">
 			Information for new stripe was successfully added.
 		</div>
 
-		<div class="alert alert-danger" ng-show="statusAlert.failure" uib-alert close="closeErrorAlert()">
+		<div class="alert alert-danger" ng-show="statusAlert.failure" uib-alert close="closeAlert('error')">
 			There was an error submitting the information changes.
 		</div>
 
-		<div class="alert alert-danger" ng-show="statusAlert.color" uib-alert close="closeColorAlert()">
+		<div class="alert alert-danger" ng-show="statusAlert.color" uib-alert close="closeAlert('color')">
 			Colors must be given in Hex format, such as #000000.
 		</div>
 		
