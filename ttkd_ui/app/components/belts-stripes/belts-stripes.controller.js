@@ -214,7 +214,7 @@
             var newBelt = angular.copy($scope.newBelt);
 
             //validate belt color
-            if(!$scope.validateColor(newBelt.primary_color)){
+            if(!$scope.validateColor(newBelt['primary_color'])){
                 return;
             }
 
