@@ -13,7 +13,6 @@
      
         $scope.currentBelt = {};
         $scope.currentStripe = {};
-        $scope.currentId = ''; //used to maintain current selection when refreshing the list
         $scope.newBelt = {};
         $scope.newStripe = {};
 
@@ -114,7 +113,7 @@
 
                     $scope.belts = response.data;
 
-                     if($scope.belts.length > 0 && $scope.currentId === ''){
+                    if($scope.belts.length > 0){
                         $scope.currentBelt = $scope.belts[0];
                     }
                 });
@@ -131,7 +130,7 @@
 
                     $scope.stripes = response.data;
 
-                    if($scope.stripes.length > 0 && $scope.currentId === ''){
+                    if($scope.stripes.length > 0){
                         $scope.currentStripe = $scope.stripes[0];
                     }
                 });
@@ -200,7 +199,6 @@
 
                     $scope.statusAlert.success = true;
 
-                    $scope.currentId = currentStripe.id;
                     $scope.getStripeList();
 
                 }, function(error){
@@ -295,7 +293,6 @@
 
                     $scope.statusAlert.success = true;
 
-                    $scope.currentId = currentBelt.id;
                     $scope.getBeltList();
 
                 }, function(error){

@@ -14,7 +14,7 @@
 
 		<div class="form-group row">
 			<div class="col-xs-10">
-				<select class="form-control" ng-model="currentBelt" ng-options="belt as belt.display_name for belt in belts"></select>
+				<select class="form-control" ng-model="currentBelt" ng-options="belt as belt.display_name for belt in belts track by belt.id"></select>
 			</div>
 			<div class="col-xs-2 spacer-top-5">
 				<div class="checkbox-inline">
