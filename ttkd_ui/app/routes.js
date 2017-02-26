@@ -26,9 +26,6 @@
         controller: 'CheckinCtrl',
         data: {
           pageTitle: 'Checkin'
-        },
-        params: {
-            instructor: false
         }
       })
 
