@@ -6,14 +6,21 @@ class TTKDConfig(AppConfig):
     name = __package__
 
     def ready(self):
+        from django.contrib.auth.models import User
         name = 'TTKD'
         verbose_name = "TTKD Student Management"
-        from django.contrib.auth.models import User
-        print("System Ready")
-        print(User.objects.all().exists())
+        default_password = 'admin'
 
-        if(not User.objects.all().exists()):
-            print("No users creating new")
-            user = User.objects.create_user('admin', '', 'admin')
-            user.is_staff = True
-            user.save()
+        try:
+            adminuser = None
+            try:
+                adminuser = User.objects.get(username='admin')
+                adminuser.set_password(default_password)
+            except User.DoesNotExist:
+                adminuser = User.objects.create_user('admin', '', default_password)
+
+            adminuser.is_staff = True
+            adminuser.save()
+
+        except: # Can't actually print anything here
+            pass # or it ends up in the dump.json and you cant import
