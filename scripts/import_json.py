@@ -12,8 +12,10 @@ nobelts = "nobelt" in args or "nostripe" in args or "nobelts" in args or "nostri
 
 try:
     os.remove("../ttkd_api/db.sqlite3")
+    print("Removed old database")
 except:
-    pass
+    print("Failed to remove old database")
+
 os.system("python ../ttkd_api/manage.py migrate")
 os.system("python ../ttkd_api/manage.py dumpdata > dump.json")
 
