@@ -10,6 +10,10 @@ args = sys.argv
 mask = "mask" in args
 nobelts = "nobelt" in args or "nostripe" in args or "nobelts" in args or "nostripes" in args
 
+try:
+    os.remove("../ttkd_api/db.sqlite3")
+except:
+    pass
 os.system("python ../ttkd_api/manage.py migrate")
 os.system("python ../ttkd_api/manage.py dumpdata > dump.json")
 
@@ -230,4 +234,4 @@ if not nobelts:
 open("dump.json",'w').write(json.dumps(dump_import))
 
 os.system("python ../ttkd_api/manage.py loaddata dump.json")
-#os.remove("dump.json")
+os.remove("dump.json")
