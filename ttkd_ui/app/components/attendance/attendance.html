@@ -65,19 +65,25 @@
 				</span>
 			</div>
 		</div>
-		<div class="col-xs-2">
-			<button
-				type="button"
-				class="btn btn-primary"
+		<div class="btn-group">
+			<label
+				class="btn btn-default"
 				ng-model="filterData.condensed"
 				ng-change="loadAttendanceRecords()"
-				uib-btn-checkbox>
-	        {{filterData.condensed ? 'Condensed' : 'Uncondensed'}}
-	    </button>
+				uib-btn-radio="'Uncondensed'">
+				Uncondensed
+			</label>
+			<label
+				class="btn btn-default"
+				ng-model="filterData.condensed"
+				ng-change="loadAttendanceRecords()"
+				uib-btn-radio="'Condensed'">
+				Condensed
+			</label>
 		</div>
 	</div>
 
-	<div class="text-center" ng-if="!filterData.condensed">
+	<div class="text-center" ng-if="filterData.condensed === 'Uncondensed' && !isLoading">
 		<ul
 			uib-pagination
 			class="pagination-lg"
@@ -104,7 +110,7 @@
 		<strong>There was an error loading attendance data</strong>
 	</div>
 
-	<div ng-if="filterData.condensed">
+	<div ng-if="filterData.condensed === 'Condensed'">
 		<div ng-repeat="(studentId, records) in attendanceRecords">
 			<div class="row" ng-repeat="(programId, program) in records.programs">
 				<div class="panel panel-default col-sm-10 col-sm-offset-1">
@@ -115,7 +121,7 @@
 									<a ui-sref="studentDetails({studentId: studentId})">{{records.name}}</a>
 								</span>
 								<div class="col-sm-6">
-									<span class="h4 pull-right">{{format(program.minDate)}} - {{format(program.maxDate)}}</span>
+									<span class="h4 pull-right">{{format(program.min_date)}} - {{format(program.max_date)}}</span>
 								</div>
 							</div>
 							<div class="row">
@@ -131,7 +137,7 @@
 		</div>
 	</div>
 
-	<div ng-if="!filterData.condensed">
+	<div ng-if="filterData.condensed === 'Uncondensed'">
 		<div class="row" ng-repeat="record in attendanceRecords">
 			<div class=" panel panel-default col-sm-10 col-sm-offset-1">
 				<div class="panel-body">
@@ -155,7 +161,7 @@
 		</div>
 	</div>
 
-	<div class="text-center" ng-if="!filterData.condensed">
+	<div class="text-center" ng-if="filterData.condensed === 'Uncondensed' && !isLoading">
 		<ul
 			uib-pagination
 			class="pagination-lg"

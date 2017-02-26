@@ -11,6 +11,7 @@ from .registration import Registration
 from .person_stripe import PersonStripe
 from .person_belt import PersonBelt
 from .stripe import Stripe
+from .waiver import Waiver
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver

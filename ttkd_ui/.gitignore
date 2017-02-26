@@ -3,4 +3,4 @@ app/lib/*
 dist
 !.gitkeep
 app/constants.js
-
+~/*
