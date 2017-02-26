@@ -17,7 +17,7 @@
 		return reformatted;
 	}
 
-	function StudentDetailController($scope, $stateParams, StudentsService, apiHost, FileUploader, SharedDataSvc) {
+	function StudentDetailController($scope, $stateParams, StudentsService, apiHost, FileUploader, SharedDataSvc, $cookies) {
 		$scope.apiHost = apiHost;
 
 		/* function to update this student object */
@@ -60,7 +60,10 @@
 		$scope.uploader = new FileUploader({
 			url: apiHost + '/api/person/' + $stateParams.studentId + '/picture',
 			autoUpload: true,
-			onCompleteAll: updateStudent
+			onCompleteAll: updateStudent,
+			headers: {
+				Authorization: 'Token ' + $cookies.getObject('Authorization').token
+			}
 		});
 
 		function getBeltStyle(belt) {
@@ -124,7 +127,7 @@
 	}
 
 	angular.module('ttkdApp.studentDetailCtrl', ['ttkdApp.studentsService', 'ttkdApp.telLinkDir',
-		'ttkdApp.constants', 'angularFileUpload'])
+		'ttkdApp.constants', 'angularFileUpload', 'ngCookies'])
 		.controller('StudentDetailCtrl', [
 			'$scope',
 			'$stateParams',
@@ -132,6 +135,7 @@
 			'apiHost',
 			'FileUploader',
 			'SharedDataSvc',
+			'$cookies',
 			StudentDetailController
 		]);
 })();
