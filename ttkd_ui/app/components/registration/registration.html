@@ -26,18 +26,7 @@
 			<strong ng-if="isPartialRegistration">
 				<ul>
 					<li ng-if="missingEmailAndPhone">Missing phone number or email address</li>
-					<li ng-repeat="error in registrationErrors">{{error}}</li>
-					<!--
-					<li ng-if="!registrationInfo.program">Missing Program</li>
-					<li ng-if="!registrationInfo.person.first_name">Missing First Name</li>
-					<li ng-if="!registrationInfo.person.last_name">Missing Last Name</li>
-					<li ng-if="isFieldRequired('primaryPhone')">
-						Missing Phone Number
-					</li>
-					<li ng-if="!registrationInfo.person.primary_phone && isFieldRequired('email')">
-						Missing at least one valid email address
-					</li>
-				-->
+					<li ng-repeat="error in registrationErrors track by $index">{{error}}</li>
 				</ul>
 			</strong>
 		</div>
