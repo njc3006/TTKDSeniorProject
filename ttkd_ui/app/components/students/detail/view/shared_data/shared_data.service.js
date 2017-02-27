@@ -4,6 +4,7 @@
 	 */
 	function SharedDataService() {
 		var studentId = 0;
+		var studentDob = null;
 
 		return {
 			setStudentId: function(id) {
@@ -11,6 +12,12 @@
 			},
 			getStudentId: function() {
 				return studentId;
+			},
+			setStudentDob: function(dob) {
+				studentDob = dob;
+			},
+			getStudentDob: function() {
+				return studentDob;
 			}
 		};
 	}

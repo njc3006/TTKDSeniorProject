@@ -1,5 +1,5 @@
 (function() {
-	function StudentWaiverController($scope, $http, $stateParams, apiHost, FileUploader, $cookies) {
+	function StudentWaiverController($scope, $http, $stateParams, apiHost, FileUploader, SharedDataService, $cookies) {
 		$scope.waivers = [];
 		$scope.hasWaivers = false;
 
@@ -21,7 +21,7 @@
 						var waiverUrl = $scope.waivers[i]['waiver_url'];
 
 						// If the waiver_url is not null lets fix the url by adding the api host
-						if (waiverUrl !== undefined){
+						if (waiverUrl !== undefined && waiverUrl !== null){
 							$scope.waivers[i]['waiver_url'] = apiHost + '/' + $scope.waivers[i]['waiver_url'];
 						}
 
@@ -39,6 +39,7 @@
 						$scope.waivers[i].waiverUploader.onSuccessItem = function () {
 							$scope.getWaivers();
                         };
+                        $scope.waivers[i].age = moment($scope.waivers[i]['signature_timestamp']).diff(moment(SharedDataService.getStudentDob()), 'years');
 					}
 
 				});
@@ -54,6 +55,7 @@
 			'$stateParams',
 			'apiHost',
 			'FileUploader',
+			'SharedDataSvc',
 			'$cookies',
 			StudentWaiverController
 		]);
