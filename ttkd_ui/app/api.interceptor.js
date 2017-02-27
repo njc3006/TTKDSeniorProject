@@ -1,7 +1,7 @@
 (function() {
   angular.module('ttkdApp.AuthInterceptor', ['ngCookies'])
-    .factory('AuthInterceptor',['$cookies', '$location', '$rootScope'
-      , function ($cookies, $location, $rootScope) {
+    .factory('AuthInterceptor',['$cookies', '$location', '$rootScope', '$q'
+      , function ($cookies, $location, $rootScope, $q) {
       return {
         request: function (config) {
           if($cookies.getObject('Authorization')){
@@ -21,7 +21,7 @@
             }
           }
 
-          return res;
+          return $q.reject(res);
         },
       };
     }]);
