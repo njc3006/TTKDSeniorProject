@@ -6,12 +6,13 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 from ..serializers.waiver_serializer import WaiverSerializer, WaiverImageSerializer
 from ..models.waiver import Waiver
+from ..permissions import custom_permissions
 
 
 class WaiverViewSet(viewsets.ModelViewSet):
     """
     GET: Returns all Waiver Objects To The Route, Or An Instance If Given A PK. Filters: person
-    POST: Create A Waiver
+    POST: Create A Waiver (a no auth user should be able to make this during registration so no permission lock)
     """
     queryset = Waiver.objects.all()
     serializer_class = WaiverSerializer
@@ -25,6 +26,7 @@ class WaiverImageViewSet(viewsets.GenericViewSet):
 
     URL that uses this view set: api/waiver/(?P<pk>[0-9]+)/image
     """
+    permission_classes = (custom_permissions.IsAdminOrReadOnly,)
     queryset = Waiver.objects.all()
     serializer_class = WaiverImageSerializer
 

@@ -44,6 +44,7 @@ class DetailedAttendanceRecordViewSet(viewsets.ReadOnlyModelViewSet):
     This is endpoint is paginated, with  between 125 and 500 elements per page
     Filters: person, program, date__gte, date__lte
     """
+    permission_classes = (custom_permissions.IsAuthenticatedOrOptions,)
     queryset = AttendanceRecord.objects.all().order_by('-date', 'person__last_name', 'person__first_name')
     serializer_class = DetailedAttendanceRecordSerializer
     filter_backends = (filters.DjangoFilterBackend,)
@@ -51,11 +52,11 @@ class DetailedAttendanceRecordViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = AttendanceRecordPagination
 
 class AttendanceRecordUsingPersonViewSet(viewsets.ReadOnlyModelViewSet):
-    permission_classes = (custom_permissions.IsAuthenticatedOrOptions,)
     """
     GET: Returns All AttendanceRecord Objects To The Route AKA Check-ins with person as an object.
     Filters: person, program, time
     """
+    permission_classes = (custom_permissions.IsAuthenticatedOrOptions,)
     queryset = AttendanceRecord.objects.all()
     serializer_class = AttendanceRecordSerializerUsingPerson
     filter_backends = (filters.DjangoFilterBackend,)

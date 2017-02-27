@@ -4,6 +4,7 @@ from rest_framework.status import *
 from django.core.management import call_command
 from django.apps import apps
 import json
+from ..permissions import custom_permissions
 
 
 @api_view(['POST', ])
@@ -14,6 +15,7 @@ def import_data(request):
     NOTE THIS TAKES A FEW SECONDS
     """
     # 'file' in request.data:
+    permission_classes = (custom_permissions.IsAdminOrReadOnly,)
     file = request.data
 
     temp_file_name = "tempImport.json"

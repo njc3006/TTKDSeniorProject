@@ -4,6 +4,7 @@ from ..serializers.registration_serializer import RegistrationSerializer, \
     SimpleRegistrationSerializer, RegistrationWithPeopleSerializer, MinimalRegistrationSerializer
 from ..models.registration import Registration
 from rest_framework import permissions
+from ..permissions import custom_permissions
 
 
 class RegistrationViewSet(viewsets.ModelViewSet):
@@ -31,6 +32,7 @@ class PartialRegistrationViewSet(viewsets.ReadOnlyModelViewSet):
     GET: Returns all Partial Registration Objects To The Route, Or An Instance If Given A PK
     Filters: program, person
     """
+    permission_classes = (custom_permissions.ReadOnly,)
     queryset = Registration.objects.filter(is_partial=True)
     serializer_class = RegistrationSerializer
     filter_backends = (filters.DjangoFilterBackend,)
@@ -43,6 +45,7 @@ class MinimalRegistrationViewSet(viewsets.ReadOnlyModelViewSet):
     Or An Instance If Given A PK
     Filters: program, person, person__active
     """
+    permission_classes = (custom_permissions.ReadOnly,)
     queryset = Registration.objects.filter(is_partial=False)
     serializer_class = MinimalRegistrationSerializer
     filter_backends = (filters.DjangoFilterBackend,)
@@ -68,6 +71,7 @@ class RegistrationWithPeopleViewSet(viewsets.ReadOnlyModelViewSet):
     Or An Instance If Given A PK
     Filters: program, person
     """
+    permission_classes = (custom_permissions.ReadOnly,)
     queryset = Registration.objects.filter(is_partial=False)
     serializer_class = RegistrationWithPeopleSerializer
     filter_backends = (filters.DjangoFilterBackend,)
