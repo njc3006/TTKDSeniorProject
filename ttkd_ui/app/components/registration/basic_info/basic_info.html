@@ -12,7 +12,7 @@
 			<option value="">Select a Program</option>
 			<option ng-repeat="program in programs" value="{{program.id}}">{{program.name}}</option>
 		</select>
-		<span class="input-group-addon">
+		<span class="input-group-addon" ng-if="isFieldRequired('program')">
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
 	</div>
@@ -33,7 +33,7 @@
 			ng-focus="setFocus(1)"
 			ng-required="isFieldRequired('firstName')"
 			ng-model="registrationInfo.person.first_name">
-		<span class="input-group-addon">
+		<span class="input-group-addon" ng-if="isFieldRequired('firstName')">
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
 	</div>
@@ -54,7 +54,7 @@
 			ng-focus="setFocus(2)"
 			ng-required="isFieldRequired('lastName')"
 			ng-model="registrationInfo.person.last_name">
-		<span class="input-group-addon">
+		<span class="input-group-addon" ng-if="isFieldRequired('lastName')">
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
 	</div>
@@ -83,7 +83,7 @@
 				<i class="glyphicon glyphicon-calendar"></i>
 			</button>
 		</span>
-		<span class="input-group-addon">
+		<span class="input-group-addon" ng-if="isFieldRequired('dob')">
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
 	</div>
@@ -108,7 +108,7 @@
 			ng-focus="setFocus(4)"
 			ng-required="isFieldRequired('street')"
 			ng-model="registrationInfo.person.street">
-		<span class="input-group-addon">
+		<span class="input-group-addon" ng-if="isFieldRequired('street')">
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
 	</div>
@@ -131,7 +131,7 @@
 				form-focus="currentFocusIndex === 5"
 				ng-focus="setFocus(5)"
 				ng-model="registrationInfo.person.city">
-			<span class="input-group-addon">
+			<span class="input-group-addon" ng-if="isFieldRequired('city')">
 				<i class="glyphicon glyphicon-asterisk"></i>
 			</span>
 		</div>
@@ -154,7 +154,7 @@
 				ng-options="state as state.name for state in states track by state.value">
 				<option value="">State</option>
 			</select>
-			<span class="input-group-addon">
+			<span class="input-group-addon" ng-if="isFieldRequired('state')">
 				<i class="glyphicon glyphicon-asterisk"></i>
 			</span>
 		</div>
@@ -176,7 +176,7 @@
 				ng-focus="setFocus(7)"
 				ng-model="registrationInfo.person.zipcode"
 				ng-pattern="/^[0-9]{5}$/">
-			<span class="input-group-addon">
+			<span class="input-group-addon" ng-if="isFieldRequired('zipcode')">
 				<i class="glyphicon glyphicon-asterisk"></i>
 			</span>
 		</div>
@@ -201,7 +201,7 @@
 			mask="(999) 999-9999"
 			clean="true"
 			validate="true">
-		<span class="input-group-addon">
+		<span class="input-group-addon" ng-if="isFieldRequired('primaryPhone')">
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
 	</div>
@@ -255,7 +255,7 @@
 				ng-focus="setFocus(10 + $index)"
 				ng-required="isFieldRequired('email')"
 				ng-model="email.email">
-			<span class="input-group-addon">
+			<span class="input-group-addon" ng-if="isFieldRequired('email')">
 				<i class="glyphicon glyphicon-asterisk"></i>
 			</span>
 		</div>

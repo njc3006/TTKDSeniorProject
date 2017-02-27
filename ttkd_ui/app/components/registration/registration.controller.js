@@ -383,27 +383,47 @@
 		$scope.registrationFailure = false;
 
 		$scope.visitedSections = {};
-		$scope.formSections = [
-			{
-				name: 'Basic Information',
-				templateUrl: 'components/registration/basic_info/basic_info.html',
-				baseFieldCount: 11
-			},
-			{
-				name: 'Emergency Contacts',
-				templateUrl: 'components/registration/emergency_contacts/emergency_contacts.html',
-				baseFieldCount: 6
-			},
-			{
-				name: 'Waiver Signature',
-				templateUrl: 'components/registration/waiver/waiver_sign.html',
-			},
-			{
-				name: 'Review Registration',
-				templateUrl: 'components/registration/review/reviewRegistration.html',
-				baseFieldCount: 1
-			}
-		];
+		if ($scope.isPartialRegistration) {
+			$scope.formSections = [
+				{
+					name: 'Basic Information',
+					templateUrl: 'components/registration/basic_info/basic_info.html',
+					baseFieldCount: 11
+				},
+				{
+					name: 'Emergency Contacts',
+					templateUrl: 'components/registration/emergency_contacts/emergency_contacts.html',
+					baseFieldCount: 6
+				},
+				{
+					name: 'Review Registration',
+					templateUrl: 'components/registration/review/reviewRegistration.html',
+					baseFieldCount: 1
+				}
+			];
+		} else {
+			$scope.formSections = [
+				{
+					name: 'Basic Information',
+					templateUrl: 'components/registration/basic_info/basic_info.html',
+					baseFieldCount: 11
+				},
+				{
+					name: 'Emergency Contacts',
+					templateUrl: 'components/registration/emergency_contacts/emergency_contacts.html',
+					baseFieldCount: 6
+				},
+				{
+					name: 'Waiver Signature',
+					templateUrl: 'components/registration/waiver/waiver_sign.html',
+				},
+				{
+					name: 'Review Registration',
+					templateUrl: 'components/registration/review/reviewRegistration.html',
+					baseFieldCount: 1
+				}
+			];
+		}
 
 		$scope.currentFocusIndex = 0;
 		$scope.currentSelectionIndex = 0;

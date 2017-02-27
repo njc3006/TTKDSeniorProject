@@ -16,7 +16,7 @@
 			form-focus="currentFocusIndex === 0"
 			ng-focus="setFocus(0)"
 			ng-model="registrationInfo.person.emergency_contact_1.full_name">
-		<span class="input-group-addon">
+		<span class="input-group-addon" ng-if="isFieldRequired('emPrimaryFullName')">
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
 	</div>
@@ -43,7 +43,7 @@
 				mask="(999) 999-9999"
 				clean="true"
 				validate="true">
-			<span class="input-group-addon">
+			<span class="input-group-addon" ng-if="isFieldRequired('emPrimaryPhone')">
 				<i class="glyphicon glyphicon-asterisk"></i>
 			</span>
 		</div>
@@ -66,7 +66,7 @@
 				form-focus="currentFocusIndex === 2"
 				ng-focus="setFocus(2)"
 				ng-model="registrationInfo.person.emergency_contact_1.relation">
-			<span class="input-group-addon">
+			<span class="input-group-addon" ng-if="isFieldRequired('emPrimaryRelationship')">
 				<i class="glyphicon glyphicon-asterisk"></i>
 			</span>
 		</div>
