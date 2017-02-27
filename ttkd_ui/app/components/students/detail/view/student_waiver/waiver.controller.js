@@ -21,7 +21,7 @@
 						var waiverUrl = $scope.waivers[i]['waiver_url'];
 
 						// If the waiver_url is not null lets fix the url by adding the api host
-						if (waiverUrl !== undefined){
+						if (waiverUrl !== undefined && waiverUrl !== null){
 							$scope.waivers[i]['waiver_url'] = apiHost + '/' + $scope.waivers[i]['waiver_url'];
 						}
 
