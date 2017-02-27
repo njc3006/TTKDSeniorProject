@@ -8,9 +8,9 @@
       $rootScope.showCurrentProgram = true;
       $rootScope.showLogin = true;
       $rootScope.loggedin = ($cookies.getObject('Authorization') ?  true:false);
-      $rootScope.currentUser = $cookies.getObject('Authorization') ? 
+      $rootScope.currentUser = $cookies.getObject('Authorization') ?
         $cookies.getObject('Authorization').username : 'Anonymous';
-      $rootScope.userlevel = $cookies.getObject('Authorization') ? 
+      $rootScope.userlevel = $cookies.getObject('Authorization') ?
         $cookies.getObject('Authorization').userlevel : '-1';
       var modalInstance;
 
@@ -64,10 +64,7 @@
         }}).then(
           function(response) {
             var authToken = response.data.token;
-            if(!authToken) {
-              $scope.loginError = 'Invalid credentials';
-              return;
-            }
+
             $scope.loginError = '';
 
             $http.get(apiHost + '/api/users/current/', {
@@ -91,7 +88,10 @@
               }
             );
             modalInstance.dismiss();
-          }
+          },
+					function(error) {
+            $scope.loginError = 'Invalid credentials';
+					}
         );
       };
 
