@@ -10,10 +10,29 @@
 				<td>Last Name</td>
 				<td>{{registrationInfo.person.last_name}}</td>
 			</tr>
+
 			<tr>
-				<td>Address</td>
+				<td>Street</td>
 				<td>
-					{{registrationInfo.person.street}}, {{registrationInfo.person.city}}, {{registrationInfo.person.state.value}} {{registrationInfo.person.zipcode}}
+					{{registrationInfo.person.street}}
+				</td>
+			</tr>
+			<tr>
+				<td>City</td>
+				<td>
+					{{registrationInfo.person.city}}
+				</td>
+			</tr>
+			<tr>
+				<td>State</td>
+				<td>
+					{{registrationInfo.person.state.value}}
+				</td>
+			</tr>
+			<tr>
+				<td>Zipcode</td>
+				<td>
+					{{registrationInfo.person.zipcode}}
 				</td>
 			</tr>
 			<tr>

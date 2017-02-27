@@ -34,6 +34,27 @@
 		return payload
 	}
 
+	function parseErrorResponse(errors) {
+		var errorMessages = [];
+
+		angular.forEach(errors, function(value, key) {
+			if (angular.isArray(value) && !angular.isObject(value[0])) {
+				errorMessages = errorMessages.concat(value.map(function(error) {
+					return key + ': ' + error;
+				}));
+			} else if (angular.isArray(value) && angular.isObject(value[0])) {
+				var parsedErrors = value.map(parseErrorResponse);
+				parsedErrors.forEach(function(errorArray) {
+					errorMessages = errorMessages.concat(errorArray);
+				});
+			} else if (angular.isObject(value)) {
+				errorMessages = errorMessages.concat(parseErrorResponse(value));
+			}
+		});
+
+		return errorMessages;
+	}
+
 	function RegistrationController(
 		$scope,
 		$rootScope,
@@ -52,7 +73,6 @@
 
 			$scope.isFieldRequired = function(fieldName) {
 				if (fieldName === 'primaryPhone') {
-					//return $scope.missingAnEmailAddress();
 					return $scope.registrationInfo.person.emails.length === 1 &&
 						$scope.registrationInfo.person.emails[0].email === '';
 				} else if (fieldName === 'email') {
@@ -135,6 +155,15 @@
 							$scope.registrationInfo.person.dob = {
 								open: false
 							}
+						}
+
+						if ($scope.registrationInfo.person.state !== null) {
+							$scope.registrationInfo.person.state = {
+								name: $scope.registrationInfo.person.state,
+								value: $scope.registrationInfo.person.state
+							}
+						} else {
+							delete $scope.registrationInfo.person.state;
 						}
 					},
 					function failure(error) {
@@ -246,7 +275,7 @@
 								function failure(error) {
 									$scope.registrationFailure = true;
 									window.scrollTo(0, 0);
-									console.error(error);
+									$scope.registrationErrors = parseErrorResponse(error.data);
 								}
 							);
 						} else {
@@ -257,7 +286,7 @@
 							}, function(error) {
 								$scope.registrationFailure = true;
 								window.scrollTo(0, 0);
-								console.error(error);
+								$scope.registrationErrors = parseErrorResponse(error.data);
 							});
 						}
 					}
@@ -277,6 +306,8 @@
 						delete registrationPayload.person.emails;
 					}
 
+					$scope.missingEmailAndPhone = false;
+
 					RegistrationService.registerStudent(registrationPayload).then(
 						function success(response) {
 							$scope.registrationSuccess = true;
@@ -287,11 +318,12 @@
 						function error(error) {
 							$scope.registrationFailure = true;
 							window.scrollTo(0, 0);
-							console.error(error);
+							$scope.registrationErrors = parseErrorResponse(error.data);
 						}
 					);
 				} else {
 					$scope.registrationFailure = true;
+					$scope.missingEmailAndPhone = true;
 				}
 			}
 		};
