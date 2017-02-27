@@ -1,32 +1,99 @@
-<div class="container text-center">
-	<div class="spacer-35"></div>
+<div class="container">
+	<div class="row">
+		<div ng-if="userlevel < 0" class="card col-sm-4">
+			<a ui-sref="checkin({programID: currentProgram.id})">
+				<img class="card-img-top" src="" alt="Card image cap">
+			</a>
+			<div class="card-block">
+				<h2 class="card-title">
+					<a ui-sref="checkin({programID: currentProgram.id})">Begin Check-in</a>
+				</h2>
+			</div>
+		</div>
 
-	<div ng-if="userlevel < 0" class="row spacer-20">
-	 	<a ui-sref="checkin({programID: currentProgram.id})" ui-sref-active="active" class="btn btn-primary">Begin Check-in</a>
-	</div>
-	<div ng-if="userlevel >= 0" class="row spacer-20">
-	 	<a ui-sref="checkin({programID: currentProgram.id, instructor: true})" ui-sref-active="active" class="btn btn-primary">Instructor Check-in</a>
-	</div>
-	<div class="row spacer-20">
-		<a ui-sref-active="active" class="btn btn-primary" ng-click="openChangeProgram()">Change Program</a>
-	</div>
-	<div ng-if="userlevel >= 0" class="row spacer-20">
-		<a ui-sref="attendance" ui-sref-active="active" class="btn btn-primary">Class Attendance</a>
-	</div>
-	<div ng-if="userlevel >= 1" class="row spacer-20">
-		<a ui-sref-active="active" class="btn btn-primary" ng-click="openAddProgram()">Add Program</a>
-	</div>
-	<div ng-if="userlevel < 0" class="row spacer-20">
-		<a ui-sref="registration" ui-sref-active="active" class="btn btn-primary">Register</a>
-	</div>
-	<div ng-if="userlevel >= 0" class="row spacer-20">
-		<a ui-sref="studentlist" ui-sref-active="active" class="btn btn-primary">Student List</a>
-	</div>
-	<div ng-if="userlevel >= 1" class="row spacer-20">
-		<a ui-sref="beltsStripes" ui-sref-active="active" class="btn btn-primary">Manage Belts and Stripes</a>
-	</div>
-	<div ng-if="userlevel >= 1" class="row spacer-20">
-		<a ui-sref="importexport" ui-sref-active="active" class="btn btn-primary">Import/Export</a>
+		<div ng-if="userlevel >= 0" class="card col-sm-4">
+			<a ui-sref="checkin({programID: currentProgram.id})">
+				<img class="card-img-top" src="" alt="Card image cap">
+			</a>
+			<div class="card-block">
+				<h2 class="card-title">
+					<a ui-sref="checkin({programID: currentProgram.id, instructor: true})">Instructor Check-in</a>
+				</h2>
+			</div>
+		</div>
+
+		<div class="card col-sm-4">
+			<img ng-click="openChangeProgram()" class="card-img-top" src="" alt="Card image cap">
+			<div class="card-block">
+				<h2 class="card-title">
+					<a ui-sref="." ng-click="openChangeProgram()">Change Program</a>
+				</h2>
+			</div>
+		</div>
+
+		<div ng-if="userlevel >= 0" class="card col-sm-4">
+			<a ui-sref="attendance">
+				<img class="card-img-top" src="" alt="Card image cap">
+			</a>
+			<div class="card-block">
+				<h2 class="card-title">
+					<a ui-sref="attendance">Class Attendance</a>
+				</h2>
+			</div>
+		</div>
+
+		<div ng-if="userlevel >= 1" class="card col-sm-4">
+			<img ng-click="openAddProgram()" class="card-img-top" src="" alt="Card image cap">
+			<div class="card-block">
+				<h2 class="card-title">
+					<a ui-sref="." ng-click="openAddProgram()">Add Program</a>
+				</h2>
+			</div>
+		</div>
+
+		<div ng-if="userlevel < 0" class="card col-sm-4">
+			<a ui-sref="registration">
+				<img class="card-img-top" src="" alt="Card image cap">
+			</a>
+			<div class="card-block">
+				<h2 class="card-title">
+					<a ui-sref="registration">Register</a>
+				</h2>
+			</div>
+		</div>
+
+		<div ng-if="userlevel >= 0" class="card col-sm-4">
+			<a ui-sref="studentlist">
+				<img class="card-img-top" src="" alt="Card image cap">
+			</a>
+			<div class="card-block">
+				<h2 class="card-title">
+					<a ui-sref="studentlist">Student List</a>
+				</h2>
+			</div>
+		</div>
+
+		<div ng-if="userlevel >= 1" class="card col-sm-4">
+			<a ui-sref="beltsStripes">
+				<img class="card-img-top" src="" alt="Card image cap">
+			</a>
+			<div class="card-block">
+				<h3 class="card-title">
+					<a ui-sref="beltsStripes">Manage Belts and Stripes</a>
+				</h3>
+			</div>
+		</div>
+
+		<div ng-if="userlevel >= 1" class="card col-sm-4">
+			<a ui-sref="importexport">
+				<img class="card-img-top" src="" alt="Card image cap">
+			</a>
+			<div class="card-block">
+				<h3 class="card-title">
+					<a ui-sref="importexport">Import/Export</a>
+				</h3>
+			</div>
+		</div>
 	</div>
 </div>
 
