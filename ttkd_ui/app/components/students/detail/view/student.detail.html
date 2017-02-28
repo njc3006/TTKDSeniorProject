@@ -50,7 +50,7 @@
 					<span class="h2 col-xs-3 no-padding no-margins">
 						{{studentInfo.firstName}} {{studentInfo.lastName}}
 					</span>
-					<div class="btn-group pull-right">
+					<div ng-if="userlevel >= 1" class="btn-group pull-right">
 						<a class="btn btn-warning" ui-sref="editStudentDetails({studentId: studentInfo.id})">Edit</a>
 					</div>
 				</div>
