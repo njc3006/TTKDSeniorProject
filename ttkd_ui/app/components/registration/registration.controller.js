@@ -64,6 +64,7 @@
 		$timeout,
 		$state,
 		$stateParams,
+		$window,
 		RegistrationService,
 		ProgramsService,
 		StateService
@@ -269,23 +270,23 @@
 						RegistrationService.completePartialRegistration(registrationPayload.id, registrationPayload).then(
 							function success(response) {
 								$scope.registrationSuccess = true;
-								window.scrollTo(0, 0);
+								$window.scrollTo(0, 0);
 								$timeout(function(){ $state.go('home'); }, 1000); // Give people time to read the success message
 							},
 							function failure(error) {
 								$scope.registrationFailure = true;
-								window.scrollTo(0, 0);
+								$window.scrollTo(0, 0);
 								$scope.registrationErrors = parseErrorResponse(error.data);
 							}
 						);
 					} else {
 						RegistrationService.registerStudent(registrationPayload).then(function(response) {
 							$scope.registrationSuccess = true;
-							window.scrollTo(0, 0);
+							$window.scrollTo(0, 0);
 							$timeout($state.reload, 1000); // Give people time to read the success message
 						}, function(error) {
 							$scope.registrationFailure = true;
-							window.scrollTo(0, 0);
+							$window.scrollTo(0, 0);
 							$scope.registrationErrors = parseErrorResponse(error.data);
 						});
 					}
@@ -311,19 +312,19 @@
 						function success(response) {
 							$scope.registrationSuccess = true;
 							$scope.registrationFailure = false;
-							window.scrollTo(0, 0);
+							$window.scrollTo(0, 0);
 							$timeout(function(){ $state.go('home'); }, 1000); // Give people time to read the success message
 						},
 						function error(error) {
 							$scope.registrationFailure = true;
-							window.scrollTo(0, 0);
+							$window.scrollTo(0, 0);
 							$scope.registrationErrors = parseErrorResponse(error.data);
 						}
 					);
 				} else {
 					$scope.registrationFailure = true;
 					$scope.missingEmailAndPhone = true;
-					window.scrollTo(0, 0);
+					$window.scrollTo(0, 0);
 				}
 			}
 		};
@@ -443,6 +444,7 @@
 		'$timeout',
 		'$state',
 		'$stateParams',
+		'$window',
 		'RegistrationSvc',
 		'ProgramsSvc',
 		'StateSvc',
