@@ -34,9 +34,9 @@ $border-radius-small: 0px;
 
 // Import Bootstrap and Bootswatch Theme
 $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
-//@import "./lib/bootswatch/cosmo/_variables";
+@import "./lib/bootswatch/flatly/_variables";
 @import "./lib/bootstrap-sass/assets/stylesheets/bootstrap";
-//@import "./lib/bootswatch/cosmo/_bootswatch";
+@import "./lib/bootswatch/flatly/_bootswatch";
 
 // Import Card CSS
 @import "./lib/bootstrap-3-card/sass/_card";
