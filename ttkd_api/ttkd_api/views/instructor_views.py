@@ -13,7 +13,7 @@ class MinimalInstructorViewSet(viewsets.ReadOnlyModelViewSet):
     Returns all Instructors (with limited persons) objects to the Route.
     Filters: program
     """
-    permission_classes = (custom_permissions.ReadOnly,)
+    permission_classes = (custom_permissions.IsAuthenticatedOrOptions,)
     queryset = Instructor.objects.all()
     serializer_class = MinimalInstructorSerializer
     filter_backends = (filters.DjangoFilterBackend,)
@@ -49,7 +49,7 @@ class DetailedInstructorAttendanceViewSet(viewsets.ModelViewSet):
     Returns all Instructors objects to the Route.
     Filters: program
     """
-    permission_classes = (custom_permissions.ReadOnly,)
+    permission_classes = (custom_permissions.IsAuthenticatedOrOptions,)
     queryset = InstructorAttendanceRecord.objects.all()
     serializer_class = DetailedInstructorAttendanceRecordSerializer
     filter_backends = (filters.DjangoFilterBackend,)
