@@ -5,7 +5,7 @@
 			'$location',
 			'$rootScope',
 			'$q',
-			 function ($cookies, $location, $rootScope, $q) {
+			function ($cookies, $location, $rootScope, $q) {
 	      return {
 	        request: function (config) {
 	          if($cookies.getObject('Authorization')){
