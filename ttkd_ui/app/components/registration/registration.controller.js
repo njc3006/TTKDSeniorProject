@@ -2,7 +2,10 @@
 	function createRegistrationPayload(registrationInfo, isPartialRegistration) {
 		var payload = angular.copy(registrationInfo);
 
-		payload.program = parseInt(payload.program);
+		if (payload.program) {
+			payload.program = parseInt(payload.program);
+		}
+
 		payload['is_partial'] = isPartialRegistration;
 
 		if (payload.person.dob.value) {
