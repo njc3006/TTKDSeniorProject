@@ -1,0 +1,29 @@
+<div class="modal-header h3">
+	Authenticate for this Partial Registration
+</div>
+<div class="modal-body">
+	<div class="container-fluid">
+		<div class="alert alert-danger" role="alert" ng-if="incorrectPhoneNumber">
+			<strong>Phone number not in registration</strong>
+		</div>
+		<div class="alert alert-danger" role="alert" ng-if="incorrectEmail">
+			<strong>Email address not in registration</strong>
+		</div>
+		<form class="form-horizontal col-sm-12" ng-submit="authenticateInput()" novalidate>
+			<div ng-class="{'has-error': incorrectPhoneNumber || incorrectEmail}">
+				<div class="form-group">
+					<label class="control-label">Email or Phone Number</label>
+					<input
+						type="text"
+						class="form-control"
+						ng-model="verificationInput"
+						placeholder="Email or Phone Number">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="modal-footer">
+	<button type="submit" class="btn btn-danger" ng-click="cancel()">Cancel</button>
+	<button type="submit" class="btn btn-success" ng-click="authenticateInput()">Authenticate</button>
+</div>
