@@ -13,6 +13,7 @@
      
         $scope.currentBelt = {};
         $scope.currentStripe = {};
+        $scope.currentId = ''; //used to maintain current selection when refreshing the list
         $scope.newBelt = {};
         $scope.newStripe = {};
 
@@ -113,7 +114,7 @@
 
                     $scope.belts = response.data;
 
-                    if($scope.belts.length > 0){
+                     if($scope.belts.length > 0 && $scope.currentId === ''){
                         $scope.currentBelt = $scope.belts[0];
                     }
                 });
@@ -130,7 +131,7 @@
 
                     $scope.stripes = response.data;
 
-                    if($scope.stripes.length > 0){
+                    if($scope.stripes.length > 0 && $scope.currentId === ''){
                         $scope.currentStripe = $scope.stripes[0];
                     }
                 });
@@ -199,6 +200,9 @@
 
                     $scope.statusAlert.success = true;
 
+                    $scope.currentId = currentStripe.id;
+                    $scope.getStripeList();
+
                 }, function(error){
                     $scope.statusAlert.failure = true;
                 });
@@ -210,7 +214,7 @@
             var newBelt = angular.copy($scope.newBelt);
 
             //validate belt color
-            if(!$scope.validateColor(newBelt.color)){
+            if(!$scope.validateColor(newBelt.primary_color)){
                 return;
             }
 
@@ -291,6 +295,9 @@
 
                     $scope.statusAlert.success = true;
 
+                    $scope.currentId = currentBelt.id;
+                    $scope.getBeltList();
+
                 }, function(error){
                     $scope.statusAlert.failure = true;
                 });
@@ -301,6 +308,7 @@
 
         $scope.initBelt();
         $scope.initStripe();
+
     }]);
 
 })();
