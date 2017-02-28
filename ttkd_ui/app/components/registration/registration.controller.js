@@ -260,35 +260,31 @@
 
 			if (!$scope.isPartialRegistration) {
 				if (formIsValid) {
-					if ($scope.currentSelectionIndex < $scope.formSections.length - 1) {
-							$scope.selectFormSection($scope.currentSelectionIndex + 1);
-					} else {
-						registrationPayload = createRegistrationPayload($scope.registrationInfo, $scope.isPartialRegistration);
+					registrationPayload = createRegistrationPayload($scope.registrationInfo, $scope.isPartialRegistration);
 
-						if ($stateParams.registrationId) {
-							RegistrationService.completePartialRegistration(registrationPayload.id, registrationPayload).then(
-								function success(response) {
-									$scope.registrationSuccess = true;
-									window.scrollTo(0, 0);
-									$timeout(function(){ $state.go('home'); }, 1000); // Give people time to read the success message
-								},
-								function failure(error) {
-									$scope.registrationFailure = true;
-									window.scrollTo(0, 0);
-									$scope.registrationErrors = parseErrorResponse(error.data);
-								}
-							);
-						} else {
-							RegistrationService.registerStudent(registrationPayload).then(function(response) {
+					if ($stateParams.registrationId) {
+						RegistrationService.completePartialRegistration(registrationPayload.id, registrationPayload).then(
+							function success(response) {
 								$scope.registrationSuccess = true;
 								window.scrollTo(0, 0);
-								$timeout($state.reload, 1000); // Give people time to read the success message
-							}, function(error) {
+								$timeout(function(){ $state.go('home'); }, 1000); // Give people time to read the success message
+							},
+							function failure(error) {
 								$scope.registrationFailure = true;
-								window.scrollTo(0, 0);
 								$scope.registrationErrors = parseErrorResponse(error.data);
-							});
-						}
+								window.scrollTo(0, 0);
+							}
+						);
+					} else {
+						RegistrationService.registerStudent(registrationPayload).then(function(response) {
+							$scope.registrationSuccess = true;
+							window.scrollTo(0, 0);
+							$timeout($state.reload, 1000); // Give people time to read the success message
+						}, function(error) {
+							$scope.registrationFailure = true;
+							$scope.registrationErrors = parseErrorResponse(error.data);
+							window.scrollTo(0, 0);
+						});
 					}
 				}
 			} else {
@@ -317,8 +313,8 @@
 						},
 						function error(error) {
 							$scope.registrationFailure = true;
-							window.scrollTo(0, 0);
 							$scope.registrationErrors = parseErrorResponse(error.data);
+							window.scrollTo(0, 0);
 						}
 					);
 				} else {
@@ -339,12 +335,6 @@
 		};
 
 		$scope.selectFormSection = function(index) {
-			if (index === $scope.formSections.length - 1) {
-				$scope.submitText = 'Submit';
-			} else {
-				$scope.submitText = 'Continue';
-			}
-
 			$scope.currentFocusIndex = 0;
 			$scope.currentSelectionIndex = index;
 			$scope.currentFormTpl = $scope.formSections[index].templateUrl;

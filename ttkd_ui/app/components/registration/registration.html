@@ -36,21 +36,40 @@
 			ng-submit="onSubmit(registrationForm.$valid)"
 			novalidate>
 				<ng-include src="currentFormTpl"></ng-include>
-				<button
-					type="submit"
-					class="btn btn-primary"
-					ng-if="!isPartialRegistration"
-					ng-disabled="registrationForm.$invalid || isTooYoung()"
-					class="btn btn-lg btn-primary">
-					{{submitText}}
-				</button>
-				<button
-					type="submit"
-					class="btn btn-primary"
-					ng-if="isPartialRegistration"
-					class="btn btn-lg btn-primary">
-					Submit
-				</button>
+				<div class="row">
+					<div class="col-sm-6">
+						<button
+							ng-if="!isPartialRegistration"
+							class="btn btn-primary btn-lg btn-block"
+							type="button"
+							ng-disabled="registrationForm.$invalid"
+							ng-click="selectFormSection(currentSelectionIndex + 1)">
+							Continue
+						</button>
+						<button
+							ng-if="isPartialRegistration"
+							class="btn btn-primary btn-lg btn-block"
+							type="button"
+							ng-click="selectFormSection(currentSelectionIndex + 1)">
+							Continue
+						</button>
+					</div>
+					<div class="col-sm-6">
+						<button
+							type="submit"
+							ng-if="!isPartialRegistration"
+							ng-disabled="(currentSelectionIndex !== (formSections.length - 1)) || registrationForm.$invalid || isTooYoung()"
+							class="btn btn-primary btn-lg btn-block">
+							Submit
+						</button>
+						<button
+							type="submit"
+							ng-if="isPartialRegistration"
+							class="btn btn-primary btn-lg btn-block">
+							Submit
+						</button>
+					</div>
+				</div>
 		</form>
 	</div>
 	<div class="col-md-3 col-sm-3 form-scroll-buttons">
