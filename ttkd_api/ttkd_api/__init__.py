@@ -1,0 +1,1 @@
+default_app_config = 'ttkd_api.config.TTKDConfig'
