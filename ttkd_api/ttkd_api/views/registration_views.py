@@ -26,7 +26,7 @@ class RegistrationViewSet(viewsets.ModelViewSet):
     filter_fields = ('program', 'person',)
 
 
-class PartialRegistrationViewSet(viewsets.ReadOnlyModelViewSet):
+class PartialRegistrationViewSet(viewsets.ModelViewSet):
     """
     GET: Returns all Partial Registration Objects To The Route, Or An Instance If Given A PK
     Filters: program, person

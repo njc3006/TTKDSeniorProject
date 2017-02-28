@@ -26,18 +26,59 @@
         controller: 'CheckinCtrl',
         data: {
           pageTitle: 'Checkin'
-        },
-        params: {
-            instructor: false
         }
       })
 
       .state('registration', {
         url: '/registration',
-        params: { hideCurrentProgram: true },
+        params: {
+          hideCurrentProgram: true,
+					partial: false
+        },
+        data: {
+          pageTitle: 'Registration'
+        },
         templateUrl: 'components/registration/registration.html',
 				controller: 'RegistrationCtrl'
       })
+
+      .state('partialRegistrations', {
+        url: '/partial-registrations',
+        params: {
+          hideCurrentProgram: true
+        },
+				data: {
+					pageTitle: 'Partial Registrations'
+				},
+				templateUrl: 'components/registration/partials_home/partials_home.html',
+				controller: 'PartialsHomeCtrl'
+      })
+
+			.state('newPartialRegistration', {
+        url: '/partial-registrations/new',
+        params: {
+          hideCurrentProgram: true,
+					partial: true
+        },
+        data: {
+          pageTitle: 'New Partial Registration',
+        },
+        templateUrl: 'components/registration/registration.html',
+				controller: 'RegistrationCtrl'
+      })
+
+			.state('finishPartialRegistration', {
+				url:'/partial-registrations/{registrationId:int}',
+				params: {
+          hideCurrentProgram: true,
+					partial: false
+        },
+				data: {
+          pageTitle: 'Finish Partial Registration'
+        },
+        templateUrl: 'components/registration/registration.html',
+				controller: 'RegistrationCtrl'
+			})
 
       .state('studentlist', {
         url: '/studentlist',

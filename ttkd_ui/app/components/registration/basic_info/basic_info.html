@@ -8,11 +8,11 @@
 			ng-model="registrationInfo.program"
 			form-focus="currentFocusIndex === 0"
 			ng-focus="setFocus(0)"
-			ng-required="true"
-			ng-options="program as program.name for program in programs track by program.id">
+			ng-required="isFieldRequired('program')">
 			<option value="">Select a Program</option>
+			<option ng-repeat="program in programs" value="{{program.id}}">{{program.name}}</option>
 		</select>
-		<span class="input-group-addon">
+		<span class="input-group-addon" ng-if="isFieldRequired('program')">
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
 	</div>
@@ -31,9 +31,9 @@
 			placeholder="First Name"
 			form-focus="currentFocusIndex === 1"
 			ng-focus="setFocus(1)"
-			ng-required="true"
-			ng-model="registrationInfo.firstName">
-		<span class="input-group-addon">
+			ng-required="isFieldRequired('firstName')"
+			ng-model="registrationInfo.person.first_name">
+		<span class="input-group-addon" ng-if="isFieldRequired('firstName')">
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
 	</div>
@@ -52,9 +52,9 @@
 			placeholder="Last Name"
 			form-focus="currentFocusIndex === 2"
 			ng-focus="setFocus(2)"
-			ng-required="true"
-			ng-model="registrationInfo.lastName">
-		<span class="input-group-addon">
+			ng-required="isFieldRequired('lastName')"
+			ng-model="registrationInfo.person.last_name">
+		<span class="input-group-addon" ng-if="isFieldRequired('lastName')">
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
 	</div>
@@ -64,7 +64,7 @@
 </div>
 
 <div class="spacer-25"
-	ng-class="{'has-error': (registrationForm.dob.$invalid && !registrationForm.dob.$pristine) || isTooYoung(), 'has-success': registrationForm.dob.$valid}">
+	ng-class="{'has-error': (registrationForm.dob.$invalid && !registrationForm.dob.$pristine) || isTooYoung(), 'has-success': fieldHasSuccess('dob') && registrationForm.dob.$valid}">
 	<label class="control-label">Date of Birth (format: MM/DD/YYYY)</label>
 	<div class="input-group">
 		<input
@@ -73,17 +73,17 @@
 			name="dob"
 			form-focus="currentFocusIndex === 3"
 			ng-focus="setFocus(3)"
-			ng-required="true"
+			ng-required="isFieldRequired('dob')"
 			uib-datepicker-popup="MM/dd/yyyy"
-			ng-model="registrationInfo.dob.value"
-			is-open="registrationInfo.dob.open"
+			ng-model="registrationInfo.person.dob.value"
+			is-open="registrationInfo.person.dob.open"
 			close-text="Close">
 		<span class="input-group-btn">
 			<button class="btn btn-default" type="button" ng-click="openCalendar($event)">
 				<i class="glyphicon glyphicon-calendar"></i>
 			</button>
 		</span>
-		<span class="input-group-addon">
+		<span class="input-group-addon" ng-if="isFieldRequired('dob')">
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
 	</div>
@@ -97,7 +97,7 @@
 
 <div
 	class="spacer-25"
-	ng-class="{'has-error': registrationForm.street.$invalid && !registrationForm.street.$pristine, 'has-success': registrationForm.street.$valid}">
+	ng-class="{'has-error': registrationForm.street.$invalid && !registrationForm.street.$pristine, 'has-success': fieldHasSuccess('street') && registrationForm.street.$valid}">
 	<div class="input-group col-sm-12">
 		<input
 			type="text"
@@ -106,9 +106,9 @@
 			placeholder="Address"
 			form-focus="currentFocusIndex === 4"
 			ng-focus="setFocus(4)"
-			ng-required="true"
-			ng-model="registrationInfo.street">
-		<span class="input-group-addon">
+			ng-required="isFieldRequired('street')"
+			ng-model="registrationInfo.person.street">
+		<span class="input-group-addon" ng-if="isFieldRequired('street')">
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
 	</div>
@@ -120,18 +120,18 @@
 <div class="row spacer-25">
 	<div
 		class="col-xs-4"
-		ng-class="{'has-error': registrationForm.city.$invalid && !registrationForm.city.$pristine, 'has-success': registrationForm.city.$valid}">
+		ng-class="{'has-error': registrationForm.city.$invalid && !registrationForm.city.$pristine, 'has-success': fieldHasSuccess('city') && registrationForm.city.$valid}">
 		<div class="input-group col-sm-12">
 			<input
 				type="text"
 				name="city"
 				class="form-control"
-				ng-required="true"
+				ng-required="isFieldRequired('city')"
 				placeholder="City"
 				form-focus="currentFocusIndex === 5"
 				ng-focus="setFocus(5)"
-				ng-model="registrationInfo.city">
-			<span class="input-group-addon">
+				ng-model="registrationInfo.person.city">
+			<span class="input-group-addon" ng-if="isFieldRequired('city')">
 				<i class="glyphicon glyphicon-asterisk"></i>
 			</span>
 		</div>
@@ -141,7 +141,7 @@
 	</div>
 	<div
 		class="col-xs-4"
-		ng-class="{'has-error': registrationForm.state.$invalid && !registrationForm.state.$pristine, 'has-success': registrationForm.state.$valid}">
+		ng-class="{'has-error': registrationForm.state.$invalid && !registrationForm.state.$pristine, 'has-success': fieldHasSuccess('state') && registrationForm.state.$valid}">
 		<div class="input-group col-sm-12">
 			<select
 				class="form-control"
@@ -149,12 +149,12 @@
 				placeholder="Select a State"
 				form-focus="currentFocusIndex === 6"
 				ng-focus="setFocus(6)"
-				ng-model="registrationInfo.state"
-				ng-required="true"
+				ng-model="registrationInfo.person.state"
+				ng-required="isFieldRequired('state')"
 				ng-options="state as state.name for state in states track by state.value">
 				<option value="">State</option>
 			</select>
-			<span class="input-group-addon">
+			<span class="input-group-addon" ng-if="isFieldRequired('state')">
 				<i class="glyphicon glyphicon-asterisk"></i>
 			</span>
 		</div>
@@ -164,19 +164,19 @@
 	</div>
 	<div
 		class="col-xs-4"
-		ng-class="{'has-error': registrationForm.zipcode.$invalid && !registrationForm.zipcode.$pristine, 'has-success': registrationForm.zipcode.$valid}">
+		ng-class="{'has-error': registrationForm.zipcode.$invalid && !registrationForm.zipcode.$pristine, 'has-success': fieldHasSuccess('zipcode') && registrationForm.zipcode.$valid}">
 		<div class="input-group col-sm-12">
 			<input
 				type="text"
 				name="zipcode"
-				ng-required="true"
+				ng-required="isFieldRequired('zipcode')"
 				class="form-control input-group"
 				placeholder="ZIP Code"
 				form-focus="currentFocusIndex === 7"
 				ng-focus="setFocus(7)"
-				ng-model="registrationInfo.zipcode"
+				ng-model="registrationInfo.person.zipcode"
 				ng-pattern="/^[0-9]{5}$/">
-			<span class="input-group-addon">
+			<span class="input-group-addon" ng-if="isFieldRequired('zipcode')">
 				<i class="glyphicon glyphicon-asterisk"></i>
 			</span>
 		</div>
@@ -196,12 +196,12 @@
 			placeholder="Primary Phone Number"
 			form-focus="currentFocusIndex === 8"
 			ng-focus="setFocus(8)"
-			ng-required="true"
-			ng-model="registrationInfo.primaryPhone"
+			ng-required="isFieldRequired('primaryPhone')"
+			ng-model="registrationInfo.person.primary_phone"
 			mask="(999) 999-9999"
 			clean="true"
 			validate="true">
-		<span class="input-group-addon">
+		<span class="input-group-addon" ng-if="isFieldRequired('primaryPhone')">
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
 	</div>
@@ -219,7 +219,8 @@
 		placeholder="Secondary Phone Number"
 		form-focus="currentFocusIndex === 9"
 		ng-focus="setFocus(9)"
-		ng-model="registrationInfo.secondaryPhone"
+		ng-required="isFieldRequired('secondaryPhone')"
+		ng-model="registrationInfo.person.secondary_phone"
 		mask="(999) 999-9999"
 		clean="true"
 		validate="true">
@@ -228,7 +229,7 @@
 	</span>
 </div>
 
-<div class="spacer-25" ng-repeat="email in registrationInfo.emails">
+<div class="spacer-25" ng-repeat="email in registrationInfo.person.emails">
 	<ng-form name="emailForm">
 		<div
 			class="input-group col-sm-12"
@@ -252,13 +253,13 @@
 				placeholder="Email Address"
 				form-focus="currentFocusIndex === (10 + $index)"
 				ng-focus="setFocus(10 + $index)"
-				ng-required="true"
+				ng-required="isFieldRequired('email')"
 				ng-model="email.email">
-			<span class="input-group-addon">
+			<span class="input-group-addon" ng-if="isFieldRequired('email')">
 				<i class="glyphicon glyphicon-asterisk"></i>
 			</span>
 		</div>
-		<span class="help-block" ng-show="registrationForm.email{{$index}}.$invalid && !registrationForm.email{{$index}}.$pristine">
+		<span class="help-block" ng-show="emailForm.email.$invalid && !emailForm.email.$pristine">
 			Must enter a valid email address
 		</span>
 	</ng-form>
