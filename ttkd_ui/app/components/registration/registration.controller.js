@@ -274,8 +274,8 @@
 							},
 							function failure(error) {
 								$scope.registrationFailure = true;
-								$scope.registrationErrors = parseErrorResponse(error.data);
 								window.scrollTo(0, 0);
+								$scope.registrationErrors = parseErrorResponse(error.data);
 							}
 						);
 					} else {
@@ -285,8 +285,8 @@
 							$timeout($state.reload, 1000); // Give people time to read the success message
 						}, function(error) {
 							$scope.registrationFailure = true;
-							$scope.registrationErrors = parseErrorResponse(error.data);
 							window.scrollTo(0, 0);
+							$scope.registrationErrors = parseErrorResponse(error.data);
 						});
 					}
 				}
@@ -316,13 +316,14 @@
 						},
 						function error(error) {
 							$scope.registrationFailure = true;
-							$scope.registrationErrors = parseErrorResponse(error.data);
 							window.scrollTo(0, 0);
+							$scope.registrationErrors = parseErrorResponse(error.data);
 						}
 					);
 				} else {
 					$scope.registrationFailure = true;
 					$scope.missingEmailAndPhone = true;
+					window.scrollTo(0, 0);
 				}
 			}
 		};
