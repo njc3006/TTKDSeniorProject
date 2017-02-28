@@ -36,8 +36,27 @@
 			ng-submit="onSubmit(registrationForm.$valid)"
 			novalidate>
 				<ng-include src="currentFormTpl"></ng-include>
-				<div class="row">
-					<div class="col-sm-6">
+				<div class="row" ng-if="isPartialRegistration">
+					<div class="col-sm-6" ng-show="currentSelectionIndex !== (formSections.length - 1)">
+						<button
+							class="btn btn-primary btn-lg btn-block"
+							type="button"
+							ng-click="selectFormSection(currentSelectionIndex + 1)">
+							Continue
+						</button>
+					</div>
+					<div
+						class="col-sm-6"
+						ng-class="{'col-sm-offset-6': currentSelectionIndex === (formSections.length - 1)}">
+						<button
+							type="submit"
+							class="btn btn-primary btn-lg btn-block">
+							Submit
+						</button>
+					</div>
+				</div>
+				<div class="row" ng-if="!isPartialRegistration">
+					<div class="col-sm-6" ng-show="currentSelectionIndex !== (formSections.length - 1)">
 						<button
 							ng-if="!isPartialRegistration"
 							class="btn btn-primary btn-lg btn-block"
@@ -54,11 +73,13 @@
 							Continue
 						</button>
 					</div>
-					<div class="col-sm-6">
+					<div
+						class="col-sm-6 col-sm-offset-6"
+						ng-show="currentSelectionIndex === (formSections.length - 1)">
 						<button
 							type="submit"
 							ng-if="!isPartialRegistration"
-							ng-disabled="(currentSelectionIndex !== (formSections.length - 1)) || registrationForm.$invalid || isTooYoung()"
+							ng-disabled="registrationForm.$invalid || isTooYoung()"
 							class="btn btn-primary btn-lg btn-block">
 							Submit
 						</button>
