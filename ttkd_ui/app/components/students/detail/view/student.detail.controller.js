@@ -129,6 +129,7 @@
 
 	angular.module('ttkdApp.studentDetailCtrl', [
 		'ttkdApp.studentsService',
+		'ttkdApp.attendanceService',
 		'ttkdApp.telLinkDir',
 		'ttkdApp.constants',
 		'angularFileUpload',
