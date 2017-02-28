@@ -127,9 +127,14 @@
     SharedDataSvc.setStudentId($stateParams.studentId);
 	}
 
-	angular.module('ttkdApp.studentDetailCtrl', ['ttkdApp.studentsService', 'ttkdApp.telLinkDir',
-		'ttkdApp.constants', 'angularFileUpload', 'ngCookies'])
-		.controller('StudentDetailCtrl', [
+	angular.module('ttkdApp.studentDetailCtrl', [
+		'ttkdApp.studentsService',
+		'ttkdApp.attendanceService',
+		'ttkdApp.telLinkDir',
+		'ttkdApp.constants',
+		'angularFileUpload',
+		'ngCookies'
+	]).controller('StudentDetailCtrl', [
 			'$scope',
 			'$stateParams',
 			'StudentsSvc',
