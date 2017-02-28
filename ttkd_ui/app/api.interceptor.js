@@ -9,8 +9,15 @@
           return config;
         },
         responseError: function (res) {
-          if (res.status === 403) {
+          if(res.status === 401) {
             $location.path('/');
+            if($cookies.getObject('Authorization') || $rootScope.loggedin) {
+              $cookies.remove('Authorization');
+              $rootScope.currentUser = '';
+              $rootScope.loggedin = false;
+              $rootScope.currentUser = 'Anonymous';
+              $rootScope.userlevel = -1;
+            }
           }
 
           return $q.reject(res);
