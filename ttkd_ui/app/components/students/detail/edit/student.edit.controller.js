@@ -195,6 +195,7 @@
 						}
 					}, function failure(error) {
 						$scope.requestFlags.submission.failure = true;
+						console.log(error);
 						window.scrollTo(0, 0);
 					}
 				);

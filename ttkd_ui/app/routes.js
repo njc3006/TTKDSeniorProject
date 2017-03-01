@@ -106,6 +106,12 @@
 				controller: 'EditStudentCtrl'
 			})
 
+      .state('editStudentDetailsInstruct', {
+        url: '/students/{studentId:int}/instructor/edit',
+        templateUrl: 'components/students/detail/edit/student.instructor.edit.html',
+        controller: 'EditStudentCtrl'
+      })
+
       .state('beltsStripes', {
         url: '/belts-stripes',
         templateUrl: 'components/belts-stripes/belts-stripes.html',

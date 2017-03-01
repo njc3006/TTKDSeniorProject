@@ -32,7 +32,7 @@ class TTKDConfig(AppConfig):
                 except User.DoesNotExist:
                     instructor_user = User.objects.create_user('instruct', '', default_password)
 
-                instructor_user.is_staff = True
+                instructor_user.is_staff = False
                 instructor_user.save()
                 
         except: # Can't actually print anything here

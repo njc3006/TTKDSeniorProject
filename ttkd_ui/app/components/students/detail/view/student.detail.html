@@ -53,6 +53,9 @@
 					<div ng-if="userlevel >= 1" class="btn-group pull-right">
 						<a class="btn btn-warning" ui-sref="editStudentDetails({studentId: studentInfo.id})">Edit</a>
 					</div>
+					<div ng-if="userlevel === 0" class="btn-group pull-right">
+						<a class="btn btn-warning" ui-sref="editStudentDetailsInstruct({studentId: studentInfo.id})">Edit</a>
+					</div>
 				</div>
 				<div class="row h4 spacer-10 normal-text">
 					Status: <span ng-class="{'text-success': studentInfo.active, 'text-danger': !studentInfo.active}">
