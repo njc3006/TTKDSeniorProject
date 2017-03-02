@@ -69,7 +69,6 @@
 				Authorization: 'Token ' + $cookies.getObject('Authorization').token
 			}
 		});
-		console.log($scope.uploader);
 
 		function getBeltStyle(belt) {
 			var primaryStyle = belt['primary_color'].toLowerCase() === 'ffffff' ?
@@ -166,7 +165,7 @@
 
 		  // write the ArrayBuffer to a blob, and you're done
 		  var blob = new Blob([ab], {type: mimeString});
-			  
+
 			image = new File([blob], 'upload.png');
 			$scope.uploader.addToQueue(image);
 			$scope.imagePreview = false;

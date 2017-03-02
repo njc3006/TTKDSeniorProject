@@ -51,7 +51,6 @@ class PersonPictureViewSet(viewsets.GenericViewSet):
 
             person.picture.delete()
 
-            print(request.data);
             upload = request.data['file']
             person.picture.save(upload.name, upload)
 
