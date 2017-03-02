@@ -17,7 +17,7 @@
 		return reformatted;
 	}
 
-	function StudentDetailController($scope, $stateParams, StudentsService, apiHost, FileUploader, SharedDataSvc, $cookies, $uibModal, $http, $httpParamSerializerJQLike) {
+	function StudentDetailController($scope, $stateParams, StudentsService, apiHost, FileUploader, SharedDataSvc, $cookies, $uibModal, WebcamService) {
 		$scope.apiHost = apiHost;
 		var modalInstance;
 		$scope.video = null;
@@ -121,53 +121,33 @@
 
       modalInstance = $uibModal.open({
           animation: true,
-          windowClass: 'checkin-modal',
-          ariaLabelledBy: 'modal-title',
+          windowClass: 'webcam-modal',
           ariaDescribedBy: 'modal-body',
-          templateUrl: 'components/webcam/student-picture.modal.html',
+          templateUrl: 'components/webcam/webcam.modal.html',
           scope: $scope
       });
 		};
 
 		$scope.cancelPicture = function() {
+			$scope.imagePreview = false;
 			modalInstance.close();
 		};
 
+		/*
+		 * Take a picture from the video and draw it on the canvas.
+		 * Set the imagePreview flag to true to hide the webcame view and
+		 * show the preview. */
 		$scope.takePicture = function(){
 			if($scope.myChannel.video) {
 				var canvas = document.querySelector('canvas');
-				canvas.width = 800;
-				canvas.height = 600;
-				var context = canvas.getContext('2d');
-				context.fillRect(0, 0, canvas.width, canvas.height);
-				// Grab the image from the video
-				context.drawImage($scope.myChannel.video, 0, 0, canvas.width, canvas.height);
+				WebcamService.takeSnapshot($scope.myChannel, canvas, 800, 600);
 				$scope.imagePreview = true;
 			}
 		};
 
 		$scope.uploadCameraPicture = function() {
 			var canvas = document.querySelector('canvas');
-			var dataURL = canvas.toDataURL();
-
-
-		  var byteString = atob(dataURL.split(',')[1]);
-
-		  // separate out the mime component
-		  var mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0]
-
-		  // write the bytes of the string to an ArrayBuffer
-		  var ab = new ArrayBuffer(byteString.length);
-		  var ia = new Uint8Array(ab);
-		  for (var i = 0; i < byteString.length; i++) {
-		      ia[i] = byteString.charCodeAt(i);
-		  }
-
-		  // write the ArrayBuffer to a blob, and you're done
-		  var blob = new Blob([ab], {type: mimeString});
-
-			image = new File([blob], 'upload.png');
-			$scope.uploader.addToQueue(image);
+			WebcamService.uploadPicture($scope.uploader, canvas);
 			$scope.imagePreview = false;
 			modalInstance.close();
 		};
@@ -205,8 +185,7 @@
 			'SharedDataSvc',
 			'$cookies',
 			'$uibModal',
-			'$http',
-			'$httpParamSerializerJQLike',
+			'WebcamService',
 			StudentDetailController
 		]);
 })();
