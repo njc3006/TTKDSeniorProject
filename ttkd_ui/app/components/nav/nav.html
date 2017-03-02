@@ -9,17 +9,6 @@
       </button>
       <a class="navbar-brand" href="#/">{{title}}</a>
     </div>
-    <script type="text/ng-template" id="nav-item.html">
-      <span ng-if="page.name && !page.url">{{page.name}}</span>
-      <a ng-if="page.name && page.url && !(page.subPages && page.subPages.length)" href="{{page.url}}">{{page.name}}</a>
-      <a ng-if="page.name && page.url && page.subPages && page.subPages.length" href="{{page.url}}" data-toggle="dropdown" role="button" aria-expanded="false"
-      class="dropdown-toggle">{{page.name}} <span class="caret"></span>
-      </a>
-      <ul ng-if="page.subPages && page.subPages.length" class="dropdown-menu" role="menu">
-        <li ng-class="{'divider': !page.name && !page.url, 'dropdown-header': page.name && !page.url, active: isUrl(page.url)}" ng-repeat="page in page.subPages" ng-include="'nav-item.html'">
-        </li>
-      </ul>
-    </script>
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
         <li ng-repeat="page in pages" ng-class="{active: isUrl(page.url)}" ng-include="'nav-item.html'">
