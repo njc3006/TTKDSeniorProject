@@ -1,0 +1,19 @@
+<div class="modal-header">
+  <h3 class="modal-title" id="modal-title">Create New Waiver Record</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <div>
+        <form name="waiverForm" ng-submit="waiverForm.$valid && create(newWaiverSig, newWaiverGuardSig)">
+            <input type="text" class="form-control" ng-model="newWaiverSig" maxlength="50" placeholder="Signature" required>
+            <br>
+            <input type="text" class="form-control" ng-model="newWaiverGuardSig" maxlength="50" placeholder="Guardian Signature (Optional)">
+            <br>
+            <button class="btn btn-danger btn-lg pull-left" type="button" ng-click="cancel()">Cancel</button>
+            <input type="submit" class="btn btn-success btn-lg pull-right">
+            <!--This was the only css I could figure out to get the modal big enough to contain the buttons-->
+            <br>
+            <br>
+            <br>
+        </form>
+    </div>
+</div>

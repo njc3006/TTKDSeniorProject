@@ -1,10 +1,48 @@
 (function() {
-	function StudentWaiverController($scope, $http, $stateParams, apiHost, FileUploader, SharedDataService, $cookies) {
-		$scope.waivers = [];
+	function StudentWaiverController($scope, $http, $stateParams, apiHost, FileUploader, SharedDataService, $cookies, $document, $uibModal) {
+		var modalInstance;
+	    $scope.waivers = [];
 		$scope.hasWaivers = false;
+
+		$scope.newWaiverSig = '';
+		$scope.newWaiverGuardSig = '';
 
 		$scope.uploadWaiver = function(waiverId){
 			document.getElementById('waiver-upload' + waiverId).click();
+        };
+
+		$scope.openWaiverModal = function () {
+            var modalElement = angular.element($document[0].querySelector('#waiver-modal'));
+
+                modalInstance = $uibModal.open({
+                    animation: true,
+                    windowClass: 'waiver-modal',
+                    ariaLabelledBy: 'modal-title',
+                    ariaDescribedBy: 'modal-body',
+                    templateUrl: 'components/students/detail/view/student_waiver/waiver.modal.html',
+                    scope: $scope
+                });
+
+                modalInstance.result.then(function(selectedItem) {
+                }, function() {});
+        };
+
+		$scope.cancel = function() {
+            modalInstance.dismiss('cancel');
+        };
+
+		$scope.create = function(waiverSig, guardianSig) {
+
+		    var payload = {
+		        "person": SharedDataService.getStudentId(),
+                "waiver_signature": waiverSig,
+                "guardian_signature": guardianSig
+            };
+
+            $http.post( apiHost + '/api/waivers/', payload);
+
+		    modalInstance.dismiss('create');
+		    $scope.getWaivers();
         };
 
 		$scope.getWaivers = function(){
@@ -57,6 +95,8 @@
 			'FileUploader',
 			'SharedDataSvc',
 			'$cookies',
+            '$document',
+            '$uibModal',
 			StudentWaiverController
 		]);
 })();
