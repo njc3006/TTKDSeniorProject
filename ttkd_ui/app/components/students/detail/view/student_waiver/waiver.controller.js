@@ -39,10 +39,12 @@
                 "guardian_signature": guardianSig
             };
 
-            $http.post( apiHost + '/api/waivers/', payload);
-
-		    modalInstance.dismiss('create');
-		    $scope.getWaivers();
+            $http.post( apiHost + '/api/waivers/', payload).then(
+                function (response) {
+                    modalInstance.dismiss('create');
+		            $scope.getWaivers();
+                }
+            );
         };
 
 		$scope.getWaivers = function(){
