@@ -84,6 +84,8 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
         if belt is not None:
             PersonBelt.objects.create(person=person, belt=belt, date_achieved=datetime.date.today())
+            person.belt = belt
+            person.save()
 
         # Because a person can have multiple waivers we have to iterate, however the list from the
         # UI will always be of size 1

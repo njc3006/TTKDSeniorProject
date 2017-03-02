@@ -30,6 +30,10 @@
 				}
 			}
 
+			if (filterData.student) {
+				params.person = filterData.student;
+			}
+
 			if (filterData.startDate && !isDateInvalid(filterData.startDate)) {
 				params['date__gte'] = moment(filterData.startDate).format('YYYY-MM-DD');
 			}

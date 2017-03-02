@@ -45,6 +45,7 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 
 /* Import Component SCSS */
 @import "./components/nav/nav";
+@import "./components/webcam/webcam";
 @import "./components/checkin/checkin";
 @import "./components/students/detail/student.detail";
 @import "./components/belts-stripes/belts-stripes";

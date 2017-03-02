@@ -17,8 +17,11 @@
 		return reformatted;
 	}
 
-	function StudentDetailController($scope, $stateParams, StudentsService, apiHost, FileUploader, SharedDataSvc) {
+	function StudentDetailController($scope, $stateParams, StudentsService, apiHost, FileUploader, SharedDataSvc, $cookies, $uibModal, WebcamService) {
 		$scope.apiHost = apiHost;
+		var modalInstance;
+		$scope.video = null;
+		$scope.imagePreview = false;
 
 		/* function to update this student object */
 		var updateStudent = function(){
@@ -26,6 +29,7 @@
 	      function(response) {
 						$scope.studentInfo = reformatObject(response.data);
 
+			  SharedDataSvc.setStudentDob($scope.studentInfo.dob);
 	          $scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
 
 	          $scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContact1);
@@ -60,7 +64,10 @@
 		$scope.uploader = new FileUploader({
 			url: apiHost + '/api/person/' + $stateParams.studentId + '/picture',
 			autoUpload: true,
-			onCompleteAll: updateStudent
+			onCompleteAll: updateStudent,
+			headers: {
+				Authorization: 'Token ' + $cookies.getObject('Authorization').token
+			}
 		});
 
 		function getBeltStyle(belt) {
@@ -107,6 +114,44 @@
 			return $scope.studentInfo.emails.map(function(email) { return email.email; }).join(', ');
 		};
 
+		$scope.openCameraModal = function() {
+			$scope.myChannel = {
+		    video: null // Will reference the video element on success
+		  };
+
+      modalInstance = $uibModal.open({
+          animation: true,
+          windowClass: 'webcam-modal',
+          ariaDescribedBy: 'modal-body',
+          templateUrl: 'components/webcam/webcam.modal.html',
+          scope: $scope
+      });
+		};
+
+		$scope.cancelPicture = function() {
+			$scope.imagePreview = false;
+			modalInstance.close();
+		};
+
+		/*
+		 * Take a picture from the video and draw it on the canvas.
+		 * Set the imagePreview flag to true to hide the webcame view and
+		 * show the preview. */
+		$scope.takePicture = function(){
+			if($scope.myChannel.video) {
+				var canvas = document.querySelector('canvas');
+				WebcamService.takeSnapshot($scope.myChannel, canvas, 800, 600);
+				$scope.imagePreview = true;
+			}
+		};
+
+		$scope.uploadCameraPicture = function() {
+			var canvas = document.querySelector('canvas');
+			WebcamService.uploadPicture($scope.uploader, canvas);
+			$scope.imagePreview = false;
+			modalInstance.close();
+		};
+
 		$scope.studentInfo = {};
 		$scope.earnedStripes = [];
 		$scope.studentBeltClass = '';
@@ -123,15 +168,24 @@
     SharedDataSvc.setStudentId($stateParams.studentId);
 	}
 
-	angular.module('ttkdApp.studentDetailCtrl', ['ttkdApp.studentsService', 'ttkdApp.telLinkDir',
-		'ttkdApp.constants', 'angularFileUpload'])
-		.controller('StudentDetailCtrl', [
+	angular.module('ttkdApp.studentDetailCtrl', [
+		'ttkdApp.studentsService',
+		'ttkdApp.attendanceService',
+		'ttkdApp.telLinkDir',
+		'ttkdApp.constants',
+		'angularFileUpload',
+		'ngCookies',
+		'webcam'
+	]).controller('StudentDetailCtrl', [
 			'$scope',
 			'$stateParams',
 			'StudentsSvc',
 			'apiHost',
 			'FileUploader',
 			'SharedDataSvc',
+			'$cookies',
+			'$uibModal',
+			'WebcamService',
 			StudentDetailController
 		]);
 })();

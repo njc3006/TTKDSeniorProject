@@ -1,56 +1,199 @@
 (function() {
-	function createRegistrationPayload(registrationInfo) {
-		var payload = {
-			person: {
-				'first_name': registrationInfo.firstName,
-				'last_name': registrationInfo.lastName,
-				'dob': moment(registrationInfo.dob.value).format('YYYY-MM-DD'),
-				'primary_phone': registrationInfo.primaryPhone,
-				'street': registrationInfo.street,
-				'city': registrationInfo.city,
-				'zipcode': parseInt(registrationInfo.zipcode),
-				'state': registrationInfo.state.value,
-				'emails': registrationInfo.emails.map(function(email) { return {email: email.email}; }),
-				'waivers': [{'waiver_signature': registrationInfo.participantSignature}],
-				'emergency_contact_1': {
-					'full_name': registrationInfo.emPrimaryFullName,
-					'phone_number': registrationInfo.emPrimaryPhone,
-					'relation': registrationInfo.emPrimaryRelationship
-				}
-			},
-			'program': registrationInfo.program.id
-		};
+	function createRegistrationPayload(registrationInfo, isPartialRegistration) {
+		var payload = angular.copy(registrationInfo);
 
-		// We only need to add the guardian signature if there was one
-		if (registrationInfo.guardianSignature !== undefined) {
-			payload.person.waivers[0]['guardian_signature'] = registrationInfo.guardianSignature;
+		if (payload.program) {
+			payload.program = parseInt(payload.program);
 		}
 
-		if (registrationInfo.secondaryPhone !== undefined) {
-			payload.person['secondary_phone'] = registrationInfo.secondaryPhone.replace(new RegExp('-', 'g'), '');
+		payload['is_partial'] = isPartialRegistration;
+
+		if (payload.person.dob.value) {
+			payload.person.dob = moment(payload.person.dob.value).format('YYYY-MM-DD');
 		} else {
+			delete payload.person.dob;
+		}
+
+		if (payload.person.state) {
+			payload.person.state = payload.person.state.value;
+		}
+
+		if (payload.person['secondary_phone'] === undefined) {
 			payload.person['secondary_phone'] = '';
 		}
 
-		// If this is here, then everything else is too.
-		// We only want to have this Information if it's there
-		if (registrationInfo.emSecondaryFullName !== undefined && registrationInfo.emSecondaryFullName.length > 0) {
-			payload.person['emergency_contact_2'] = {
-				'full_name': registrationInfo.emSecondaryFullName,
-				'phone_number': registrationInfo.emSecondaryPhone.replace(new RegExp('-', 'g'), ''),
-				'relation': registrationInfo.emSecondaryRelationship
-			};
+		if (angular.equals(payload.person['emergency_contact_1'], {})) {
+			delete payload.person['emergency_contact_1'];
 		}
-		return payload;
+
+		if (angular.equals(payload.person['emergency_contact_2'], {})) {
+			delete payload.person['emergency_contact_2'];
+		}
+
+		if (angular.equals(payload.person.waivers[0], {})) {
+			payload.person.waivers = [];
+		}
+
+		return payload
 	}
 
-	function RegistrationController($scope, $rootScope, $timeout, $state, $stateParams, RegistrationService,
-		ProgramsService, StateService) {
+	function parseErrorResponse(errors) {
+		var errorMessages = [];
+
+		angular.forEach(errors, function(value, key) {
+			if (angular.isArray(value) && !angular.isObject(value[0])) {
+				errorMessages = errorMessages.concat(value.map(function(error) {
+					return key + ': ' + error;
+				}));
+			} else if (angular.isArray(value) && angular.isObject(value[0])) {
+				var parsedErrors = value.map(parseErrorResponse);
+				parsedErrors.forEach(function(errorArray) {
+					errorMessages = errorMessages.concat(errorArray);
+				});
+			} else if (angular.isObject(value)) {
+				errorMessages = errorMessages.concat(parseErrorResponse(value));
+			}
+		});
+
+		return errorMessages;
+	}
+
+	function RegistrationController(
+		$scope,
+		$rootScope,
+		$timeout,
+		$state,
+		$stateParams,
+		$window,
+		RegistrationService,
+		ProgramsService,
+		StateService
+	) {
 		$rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
+		$scope.isPartialRegistration = $stateParams.partial;
+
+		if ($scope.isPartialRegistration) {
+			$scope.canVisit = function(sectionIndex) { return true; };
+
+			$scope.isFieldRequired = function(fieldName) {
+				if (fieldName === 'primaryPhone') {
+					return $scope.registrationInfo.person.emails.length === 1 &&
+						$scope.registrationInfo.person.emails[0].email === '';
+				} else if (fieldName === 'email') {
+					return $scope.registrationInfo.person['primary_phone'] &&
+						$scope.registrationInfo.person['primary_phone'].length > 0;
+				}
+
+				return fieldName === 'firstName' ||
+					fieldName === 'lastName' ||
+					fieldName === 'program';
+			};
+
+			$scope.fieldHasSuccess = function(fieldName) {
+				if (!$scope.registrationInfo || $stateParams.registrationId) {
+					return true;
+				}
+
+				if (angular.isString($scope.registrationInfo.person[fieldName])) {
+					return $scope.registrationInfo.person[fieldName].length > 0;
+				} else if (fieldName === 'dob') {
+					return $scope.registrationInfo.person.dob.value;
+				}
+
+				return $scope.registrationInfo.person[fieldName];
+			};
+
+			//Initialize registration info
+			$scope.registrationInfo = {
+				person: {
+					emails: [{email: ''}],
+					dob: {
+						open: false,
+					},
+					'emergency_contact_1': {},
+					'emergency_contact_2': {},
+					waivers: [{}]
+				}
+			};
+		} else {
+			$scope.canVisit = function(sectionIndex) {
+				return $scope.visitedSections[sectionIndex];
+			};
+
+			$scope.isFieldRequired = function(fieldName) {
+				if (fieldName.indexOf('emSecondary') !== -1) {
+					return $scope.anySecondaryContactInfoEntered();
+				}
+
+				if (fieldName === 'secondaryPhone') {
+					return false;
+				}
+
+				return true;
+			};
+
+			$scope.fieldHasSuccess = function(fieldName) { return true; };
+
+			//Load partial registration data if id is provided
+			if ($stateParams.registrationId) {
+				RegistrationService.getPartialRegistration($stateParams.registrationId).then(
+					function success(response) {
+						$scope.registrationInfo = response.data;
+
+						$scope.registrationInfo.program = '' + $scope.registrationInfo.program;
+
+						if (!$scope.registrationInfo.person.emails || $scope.registrationInfo.person.emails.length === 0) {
+							$scope.registrationInfo.person.emails = [{email: ''}];
+						}
+
+						if ($scope.registrationInfo.person['emergency_contact_2'] === null) {
+							$scope.registrationInfo.person['emergency_contact_2'] = {};
+						}
+
+						if ($scope.registrationInfo.person.dob !== null) {
+							$scope.registrationInfo.person.dob = {
+								value: moment($scope.registrationInfo.person.dob, 'YYYY-MM-DD').toDate(),
+								open: false
+							}
+						} else {
+							$scope.registrationInfo.person.dob = {
+								open: false
+							}
+						}
+
+						if ($scope.registrationInfo.person.state !== null) {
+							$scope.registrationInfo.person.state = {
+								name: $scope.registrationInfo.person.state,
+								value: $scope.registrationInfo.person.state
+							}
+						} else {
+							delete $scope.registrationInfo.person.state;
+						}
+					},
+					function failure(error) {
+						$scope.partialNotLoaded = true;
+						$scope.partialNotLoadedStatus = error.status;
+					}
+				);
+			} else {
+				//Initialize registration info
+				$scope.registrationInfo = {
+					person: {
+						emails: [{email: ''}],
+						dob: {
+							open: false,
+						},
+						'emergency_contact_1': {},
+						'emergency_contact_2': {},
+						waivers: [{}]
+					}
+				};
+			}
+		}
 
 		$scope.isLegalAdult = function() {
 			var today = moment();
-			var birthday = moment($scope.registrationInfo.dob.value);
+			var birthday = moment($scope.registrationInfo.person.dob.value);
 
 			var ageInYears = today.diff(birthday, 'years');
 
@@ -58,12 +201,12 @@
 		};
 
 		$scope.isTooYoung = function() {
-			if (!$scope.registrationInfo.dob.value) {
+			if (!$scope.registrationInfo || !$scope.registrationInfo.person.dob.value) {
 				return false;
 			}
 
 			var today = moment();
-			var birthday = moment($scope.registrationInfo.dob.value);
+			var birthday = moment($scope.registrationInfo.person.dob.value);
 
 			var ageInYears = today.diff(birthday, 'years');
 
@@ -71,11 +214,15 @@
 		};
 
 		$scope.formattedDob = function() {
-			return moment($scope.registrationInfo.dob.value).format('MM/DD/YYYY');
+			if ($scope.registrationInfo.person.dob.value) {
+				return moment($scope.registrationInfo.person.dob.value).format('MM/DD/YYYY');
+			}
+
+			return '';
 		};
 
 		$scope.formattedPhoneNumber = function(phone) {
-			if (phone === undefined || phone.length === 0) {
+			if (phone === undefined || phone === null || phone.length === 0) {
 				return '';
 			}
 
@@ -83,12 +230,14 @@
 		};
 
 		$scope.waiverSigned = function() {
-			var participantSignaturePresent = $scope.registrationInfo.participantSignature !== undefined &&
-				$scope.registrationInfo.participantSignature !== '';
+			var participantSignaturePresent =
+				$scope.registrationInfo.person.waivers[0].waiver_signature !== undefined &&
+				$scope.registrationInfo.person.waivers[0].waiver_signature !== '';
 
 			if (!$scope.isLegalAdult()) {
-				var guardianSignaturePresent = $scope.registrationInfo.guardianSignature !== undefined &&
-					$scope.registrationInfo.guardianSignature !== '';
+				var guardianSignaturePresent =
+					$scope.registrationInfo.person.waivers[0].guardian_signature !== undefined &&
+					$scope.registrationInfo.person.waivers[0].guardian_signature !== '';
 
 				return participantSignaturePresent && guardianSignaturePresent;
 			} else {
@@ -97,43 +246,91 @@
 		};
 
 		$scope.anySecondaryContactInfoEntered = function() {
-			var fullNameEntered = $scope.registrationInfo.emSecondaryFullName &&
-				$scope.registrationInfo.emSecondaryFullName.length > 0;
+			if (!$scope.registrationInfo) {
+				return false;
+			}
 
-			var phoneEntered = $scope.registrationInfo.emSecondaryPhone &&
-				$scope.registrationInfo.emSecondaryPhone.length > 0;
+			var secondaryContact = $scope.registrationInfo.person['emergency_contact_2'];
 
-			var relationEntered = $scope.registrationInfo.emSecondaryRelationship &&
-				$scope.registrationInfo.emSecondaryRelationship.length > 0;
+			var fullNameEntered = secondaryContact['full_name'] && secondaryContact['full_name'].length > 0;
+			var phoneEntered = secondaryContact['phone_number'] && secondaryContact['phone_number'].length > 0;
+			var relationEntered = secondaryContact['relation'] && secondaryContact['relation'].length > 0;
 
 			return fullNameEntered || phoneEntered || relationEntered;
 		};
 
-		$scope.onSubmit = function(formIsValid, isTooYoung) {
-			$scope.registrationInfo.emails.forEach(function(email) {
-				email.isNew = false;
-			});
+		$scope.onSubmit = function(formIsValid) {
+			var registrationPayload;
 
-			if (formIsValid) {
-				if ($scope.currentSelectionIndex < $scope.formSections.length - 1) {
-						$scope.selectFormSection($scope.currentSelectionIndex + 1);
+			if (!$scope.isPartialRegistration) {
+				if (formIsValid) {
+					registrationPayload = createRegistrationPayload($scope.registrationInfo, $scope.isPartialRegistration);
+
+					if ($stateParams.registrationId) {
+						RegistrationService.completePartialRegistration(registrationPayload.id, registrationPayload).then(
+							function success(response) {
+								$scope.registrationSuccess = true;
+								$window.scrollTo(0, 0);
+								$timeout(function(){ $state.go('home'); }, 1000); // Give people time to read the success message
+							},
+							function failure(error) {
+								$scope.registrationFailure = true;
+								$window.scrollTo(0, 0);
+								$scope.registrationErrors = parseErrorResponse(error.data);
+							}
+						);
+					} else {
+						RegistrationService.registerStudent(registrationPayload).then(function(response) {
+							$scope.registrationSuccess = true;
+							$window.scrollTo(0, 0);
+							$timeout($state.reload, 1000); // Give people time to read the success message
+						}, function(error) {
+							$scope.registrationFailure = true;
+							$window.scrollTo(0, 0);
+							$scope.registrationErrors = parseErrorResponse(error.data);
+						});
+					}
+				}
+			} else {
+				registrationPayload = createRegistrationPayload($scope.registrationInfo, $scope.isPartialRegistration);
+
+				//if neither phone number nor emails were entered,
+				var phoneEntered = registrationPayload.person['primary_phone'] &&
+					registrationPayload.person['primary_phone'] !== '';
+				var noEmailsEntered = registrationPayload.person.emails.length === 1 &&
+					(registrationPayload.person.emails[0].email === undefined ||
+					registrationPayload.person.emails[0].email.length === 0);
+
+				if (phoneEntered || !noEmailsEntered) {
+					if (noEmailsEntered) {
+						delete registrationPayload.person.emails;
+					}
+
+					$scope.missingEmailAndPhone = false;
+
+					RegistrationService.registerStudent(registrationPayload).then(
+						function success(response) {
+							$scope.registrationSuccess = true;
+							$scope.registrationFailure = false;
+							$window.scrollTo(0, 0);
+							$timeout(function(){ $state.go('home'); }, 1000); // Give people time to read the success message
+						},
+						function error(error) {
+							$scope.registrationFailure = true;
+							$window.scrollTo(0, 0);
+							$scope.registrationErrors = parseErrorResponse(error.data);
+						}
+					);
 				} else {
-					var registrationPayload = createRegistrationPayload($scope.registrationInfo);
-					RegistrationService.registerStudent(registrationPayload).then(function(response) {
-						$scope.registrationSuccess = true;
-						window.scrollTo(0, 0);
-						$timeout($state.reload, 1000); // Give people time to read the success message
-					}, function(error) {
-						$scope.registrationFailure = true;
-						window.scrollTo(0, 0);
-						console.error(error);
-					});
+					$scope.registrationFailure = true;
+					$scope.missingEmailAndPhone = true;
+					$window.scrollTo(0, 0);
 				}
 			}
 		};
 
 		$scope.addEmail = function() {
-			$scope.registrationInfo.emails.push({email: '', isNew: true});
+			$scope.registrationInfo.person.emails.push({email: ''});
 			$scope.numElements++;
 		};
 
@@ -143,12 +340,6 @@
 		};
 
 		$scope.selectFormSection = function(index) {
-			if (index === $scope.formSections.length - 1) {
-				$scope.submitText = 'Submit';
-			} else {
-				$scope.submitText = 'Continue';
-			}
-
 			$scope.currentFocusIndex = 0;
 			$scope.currentSelectionIndex = index;
 			$scope.currentFormTpl = $scope.formSections[index].templateUrl;
@@ -176,45 +367,58 @@
 		};
 
 		$scope.getFormattedEmailList = function() {
-			return $scope.registrationInfo.emails.map(function(email) { return email.email; }).join(', ');
+			return $scope.registrationInfo.person.emails.map(function(email) { return email.email; }).join(', ');
 		};
 
-		$scope.openCalendar = function($event) {
-			$scope.registrationInfo.dob.open = true;
+		$scope.openCalendar = function() {
+			$scope.registrationInfo.person.dob.open = true;
 		};
 
 		$scope.registrationSuccess = false;
 		$scope.registrationFailure = false;
 
-		$scope.registrationInfo = {
-			emails: [{email: '', isNew: true}],
-			dob: {
-				open: false,
-			}
-		};
-
 		$scope.visitedSections = {};
-		$scope.formSections = [
-			{
-				name: 'Basic Information',
-				templateUrl: 'components/registration/basic_info/basic_info.html',
-				baseFieldCount: 11
-			},
-			{
-				name: 'Emergency Contacts',
-				templateUrl: 'components/registration/emergency_contacts/emergency_contacts.html',
-				baseFieldCount: 6
-			},
-			{
-				name: 'Waiver Signature',
-				templateUrl: 'components/registration/waiver/waiver_sign.html',
-			},
-			{
-				name: 'Review Registration',
-				templateUrl: 'components/registration/review/reviewRegistration.html',
-				baseFieldCount: 1
-			}
-		];
+		if ($scope.isPartialRegistration) {
+			$scope.formSections = [
+				{
+					name: 'Basic Information',
+					templateUrl: 'components/registration/basic_info/basic_info.html',
+					baseFieldCount: 11
+				},
+				{
+					name: 'Emergency Contacts',
+					templateUrl: 'components/registration/emergency_contacts/emergency_contacts.html',
+					baseFieldCount: 6
+				},
+				{
+					name: 'Review Registration',
+					templateUrl: 'components/registration/review/reviewRegistration.html',
+					baseFieldCount: 1
+				}
+			];
+		} else {
+			$scope.formSections = [
+				{
+					name: 'Basic Information',
+					templateUrl: 'components/registration/basic_info/basic_info.html',
+					baseFieldCount: 11
+				},
+				{
+					name: 'Emergency Contacts',
+					templateUrl: 'components/registration/emergency_contacts/emergency_contacts.html',
+					baseFieldCount: 6
+				},
+				{
+					name: 'Waiver Signature',
+					templateUrl: 'components/registration/waiver/waiver_sign.html',
+				},
+				{
+					name: 'Review Registration',
+					templateUrl: 'components/registration/review/reviewRegistration.html',
+					baseFieldCount: 1
+				}
+			];
+		}
 
 		$scope.currentFocusIndex = 0;
 		$scope.currentSelectionIndex = 0;
@@ -240,6 +444,7 @@
 		'$timeout',
 		'$state',
 		'$stateParams',
+		'$window',
 		'RegistrationSvc',
 		'ProgramsSvc',
 		'StateSvc',

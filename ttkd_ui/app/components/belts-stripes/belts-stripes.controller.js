@@ -10,9 +10,10 @@
         $scope.stripes = [];
         $scope.primaryFocused = true;
         $scope.secondaryFocused = false;
-     
+
         $scope.currentBelt = {};
         $scope.currentStripe = {};
+        $scope.currentId = '';
         $scope.newBelt = {};
         $scope.newStripe = {};
 
@@ -47,22 +48,14 @@
             };
         };
 
-        $scope.closeSuccessAlert = function() {
-            $scope.statusAlert.success = false;
-        };
-
-        $scope.closeErrorAlert = function() {
-            $scope.statusAlert.failure = false;
-        };
-
-        $scope.closeColorAlert = function() {
-            $scope.statusAlert.color = false;
+        $scope.closeAlert = function(alert){
+            $scope.statusAlert[alert] = false;
         };
 
         $scope.closeAlerts = function(){
-            $scope.closeSuccessAlert();
-            $scope.closeErrorAlert();
-            $scope.closeColorAlert();
+            $scope.closeAlert('success');
+            $scope.closeAlert('error');
+            $scope.closeAlert('color');
         };
 
         $scope.validateColor = function(color){
@@ -101,6 +94,29 @@
             }
         };
 
+        $scope.previewStyle = function(currentBelt){
+            var primaryStyle, secondaryStyle = '';
+
+            if(currentBelt['primary_color']){
+                primaryStyle = currentBelt['primary_color'].toLowerCase() === '#ffffff' ?
+                    'black 8px double' : currentBelt['primary_color'] + ' 8px solid';
+            } 
+
+            if(currentBelt['secondary_color']){
+                 secondaryStyle = currentBelt['secondary_color'].toLowerCase() === '#ffffff' ?
+                    'black 8px double' : currentBelt['secondary_color'] + ' 8px solid';
+            } else if(currentBelt['primary_color']){
+                secondaryStyle = primaryStyle;
+            }
+
+            return {
+                'border-right': secondaryStyle,
+                'border-left': primaryStyle,
+                'border-top': primaryStyle,
+                'border-bottom': secondaryStyle
+            };
+        };
+
         $scope.getBeltList = function(){
             BeltsStripesService.getBeltList().then(
                 function(response){
@@ -113,7 +129,7 @@
 
                     $scope.belts = response.data;
 
-                    if($scope.belts.length > 0){
+                    if($scope.belts.length > 0 && $scope.currentId === ''){
                         $scope.currentBelt = $scope.belts[0];
                     }
                 });
@@ -199,6 +215,8 @@
 
                     $scope.statusAlert.success = true;
 
+                    $scope.getStripeList();
+
                 }, function(error){
                     $scope.statusAlert.failure = true;
                 });
@@ -210,7 +228,7 @@
             var newBelt = angular.copy($scope.newBelt);
 
             //validate belt color
-            if(!$scope.validateColor(newBelt.color)){
+            if(!$scope.validateColor(newBelt['primary_color'])){
                 return;
             }
 
@@ -290,6 +308,9 @@
                     $scope.currentBelt['display_name'] = currentBelt['name'];
 
                     $scope.statusAlert.success = true;
+                    $scope.currentId = currentBelt.id;
+
+                    $scope.getBeltList();
 
                 }, function(error){
                     $scope.statusAlert.failure = true;
@@ -301,6 +322,7 @@
 
         $scope.initBelt();
         $scope.initStripe();
+
     }]);
 
 })();
