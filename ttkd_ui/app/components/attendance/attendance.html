@@ -83,7 +83,7 @@
 		</div>
 	</div>
 
-	<div class="text-center">
+	<div class="text-center" ng-if="filterData.condensed === 'Uncondensed'">
 		<ul
 			uib-pagination
 			class="pagination-lg"
@@ -111,14 +111,14 @@
 	</div>
 
 	<div ng-if="filterData.condensed === 'Condensed'">
-		<div ng-repeat="(studentId, records) in attendanceRecords">
-			<div class="row" ng-repeat="(programId, program) in records.programs">
+		<div ng-repeat="recordPair in attendanceRecords">
+			<div class="row" ng-repeat="(programId, program) in recordPair[1].programs">
 				<div class="panel panel-default col-sm-10 col-sm-offset-1">
 					<div class="panel-body">
 						<div class="col-sm-11">
 							<div class="row">
 								<span class="h4 col-sm-6">
-									<a ui-sref="studentDetails({studentId: studentId})">{{records.name}}</a>
+									<a ui-sref="studentDetails({studentId: recordPair[0]})">{{recordPair[1].name}}</a>
 								</span>
 								<div class="col-sm-6">
 									<span class="h4 pull-right">{{format(program.min_date)}} - {{format(program.max_date)}}</span>
@@ -161,7 +161,7 @@
 		</div>
 	</div>
 
-	<div class="text-center">
+	<div class="text-center" ng-if="filterData.condensed === 'Uncondensed'">
 		<ul
 			uib-pagination
 			class="pagination-lg"
