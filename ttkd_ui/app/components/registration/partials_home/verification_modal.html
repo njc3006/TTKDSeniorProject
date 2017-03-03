@@ -1,23 +1,41 @@
-<div class="modal-header h3">
+<div class="modal-header h3 no-margins">
 	Authenticate for this Partial Registration
 </div>
 <div class="modal-body">
 	<div class="container-fluid">
-		<div class="alert alert-danger" role="alert" ng-if="incorrectPhoneNumber">
+		<div class="alert alert-danger" role="alert" ng-if="incorrectPhoneNumber && incorrectEmail">
+			<strong>Must provide phone number or email address</strong>
+		</div>
+		<div class="alert alert-danger" role="alert" ng-if="incorrectPhoneNumber && !incorrectEmail">
 			<strong>Phone number not in registration</strong>
 		</div>
-		<div class="alert alert-danger" role="alert" ng-if="incorrectEmail">
+		<div class="alert alert-danger" role="alert" ng-if="incorrectEmail && !incorrectPhoneNumber">
 			<strong>Email address not in registration</strong>
 		</div>
+		<h2 class="text-center no-margins">Enter either a phone number or an email address</h2>
 		<form class="form-horizontal col-sm-12" ng-submit="authenticateInput()" novalidate>
-			<div ng-class="{'has-error': incorrectPhoneNumber || incorrectEmail}">
+			<div ng-class="{'has-error': incorrectEmail}">
 				<div class="form-group">
-					<label class="control-label">Email or Phone Number</label>
+					<label class="control-label">Email Address</label>
 					<input
 						type="text"
 						class="form-control"
-						ng-model="verificationInput"
-						placeholder="Email or Phone Number">
+						ng-model="verificationEmail"
+						placeholder="email@example.com"
+						autofocus>
+				</div>
+			</div>
+			<div ng-class="{'has-error': incorrectPhoneNumber}">
+				<div class="form-group">
+					<label class="control-label">Phone Number</label>
+					<input
+						type="text"
+						class="form-control"
+						ng-model="verificationPhone"
+						mask="(999) 999-9999"
+						clean="true"
+						validate="true"
+						placeholder="(999) 999-9999">
 				</div>
 			</div>
 		</form>

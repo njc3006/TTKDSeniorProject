@@ -12,13 +12,13 @@
 		};
 
 		$scope.authenticateInput = function() {
-			//If the input is a Phone Number
-			var strippedInput = removeDashesParensAndSpaces($scope.verificationInput);
-
-			if (!isNaN(parseInt(strippedInput))) {
+			if ($scope.verificationPhone === '' && $scope.verificationEmail === '') {
+				$scope.incorrectPhoneNumber = true;
+				$scope.incorrectEmail = true;
+			} else if ($scope.verificationPhone !== '' && $scope.verificationPhone !== undefined) {
 				if(
-					registration.person['primary_phone'] === strippedInput ||
-					registration.person['secondary_phone'] === strippedInput
+					registration.person['primary_phone'] === $scope.verificationPhone ||
+					registration.person['secondary_phone'] === $scope.verificationPhone
 				) {
 					$state.go('finishPartialRegistration', {registrationId: registration.id});
 					$uibModalInstance.close('close');
@@ -30,7 +30,7 @@
 
 				registration.person.emails.forEach(function(email) {
 					if (!hasMatchingEmail) {
-						hasMatchingEmail = email.email === $scope.verificationInput;
+						hasMatchingEmail = email.email === $scope.verificationEmail;
 					}
 				});
 
@@ -43,7 +43,8 @@
 			}
 		};
 
-		$scope.verificationInput = '';
+		$scope.verificationPhone = '';
+		$scope.verificationEmail = '';
 	}
 
 	angular.module('ttkdApp.registationCtrl')
