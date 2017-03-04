@@ -49,6 +49,7 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 @import "./components/checkin/checkin";
 @import "./components/students/detail/student.detail";
 @import "./components/belts-stripes/belts-stripes";
+@import "./components/studentlist/studentlist";
 
 // Push containers below navbar
 #appContainer {
@@ -118,10 +119,6 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 .entry-picture {
 	margin-top: 30px;
 	margin-right: 5px;
-}
-
-.checkboxes {
-	margin-top: 6px;
 }
 
 .filter-bar {
