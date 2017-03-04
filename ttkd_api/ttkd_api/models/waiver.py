@@ -7,6 +7,7 @@ from .person import Person
 from django.utils.translation import ugettext_lazy as _
 from ..settings import STATIC_FOLDER
 import time
+import datetime
 import os
 
 
@@ -55,9 +56,7 @@ class Waiver(models.Model):
         null=True,
     )
 
-    signature_timestamp = models.DateTimeField(
-        auto_now=True
-    )
+    signature_date = models.DateField(_("Date"), default=datetime.date.today)
 
     waiver_image = models.ImageField(
         _('waiver_image'),

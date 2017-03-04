@@ -1,11 +1,16 @@
 (function() {
-	function StudentWaiverController($scope, $http, $stateParams, apiHost, FileUploader, SharedDataService, $cookies, $document, $uibModal) {
+	function StudentWaiverController($scope, $http, $stateParams, apiHost, FileUploader, SharedDataService, $cookies, $document, $uibModal, $filter) {
 		var modalInstance;
 	    $scope.waivers = [];
 		$scope.hasWaivers = false;
 
 		$scope.newWaiverSig = '';
 		$scope.newWaiverGuardSig = '';
+
+        $scope.selectedDate = {
+            open: false,
+            value: null
+        };
 
 		$scope.uploadWaiver = function(waiverId){
 			document.getElementById('waiver-upload' + waiverId).click();
@@ -19,6 +24,8 @@
                     windowClass: 'waiver-modal',
                     ariaLabelledBy: 'modal-title',
                     ariaDescribedBy: 'modal-body',
+                    backdrop  : 'static',
+                    keyboard  : false,
                     templateUrl: 'components/students/detail/view/student_waiver/waiver.modal.html',
                     scope: $scope
                 });
@@ -31,6 +38,11 @@
             modalInstance.dismiss('cancel');
         };
 
+        //opens the popup date picker window
+            $scope.open = function() {
+            $scope.selectedDate.open = true;
+        };
+
 		$scope.create = function(waiverSig, guardianSig) {
 
 		    var payload = {
@@ -38,6 +50,10 @@
                 "waiver_signature": waiverSig,
                 "guardian_signature": guardianSig
             };
+
+		    if ($scope.selectedDate.value != null){
+		        payload['signature_date'] = $filter('date')($scope.selectedDate.value, 'yyyy-MM-dd');
+            }
 
             $http.post( apiHost + '/api/waivers/', payload).then(
                 function (response) {
@@ -66,7 +82,7 @@
 						}
 
 						$scope.waivers[i].formattedDate = 
-								moment($scope.waivers[i]['signature_timestamp']).format('MM/DD/YYYY');
+								moment($scope.waivers[i]['signature_date']).format('MM/DD/YYYY');
 
 						$scope.waivers[i].waiverUploader = new FileUploader({
 							url : apiHost + '/api/waiver/' + $scope.waivers[i].id + '/image',
@@ -79,7 +95,8 @@
 						$scope.waivers[i].waiverUploader.onSuccessItem = function () {
 							$scope.getWaivers();
                         };
-                        $scope.waivers[i].age = moment($scope.waivers[i]['signature_timestamp']).diff(moment(SharedDataService.getStudentDob()), 'years');
+
+                        $scope.waivers[i].age = moment($scope.waivers[i]['signature_date']).diff(moment(SharedDataService.getStudentDob()), 'years');
 					}
 
 				});
@@ -99,6 +116,7 @@
 			'$cookies',
             '$document',
             '$uibModal',
+            '$filter',
 			StudentWaiverController
 		]);
 })();

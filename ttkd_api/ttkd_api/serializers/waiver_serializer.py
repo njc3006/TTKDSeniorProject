@@ -14,7 +14,7 @@ class WaiverSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Waiver
-        fields = ('id', 'person', 'waiver_signature', 'guardian_signature', 'signature_timestamp',
+        fields = ('id', 'person', 'waiver_signature', 'guardian_signature', 'signature_date',
                   'waiver_url')
 
 

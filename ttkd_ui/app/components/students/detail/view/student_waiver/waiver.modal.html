@@ -3,8 +3,17 @@
 </div>
 <form name="waiverForm" ng-submit="waiverForm.$valid && create(newWaiverSig, newWaiverGuardSig)">
     <div class="modal-body" id="modal-body">
-        <input type="text" class="form-control spacer-10" ng-model="newWaiverSig" maxlength="50" placeholder="Signature" required>
-        <input type="text" class="form-control" ng-model="newWaiverGuardSig" maxlength="50" placeholder="Guardian Signature (Optional)">
+        <input type="text" class="form-control spacer-10" ng-model="newWaiverSig" maxlength="50" placeholder="Signature" required autofocus>
+        <input type="text" class="form-control spacer-10" ng-model="newWaiverGuardSig" maxlength="50" placeholder="Guardian Signature (Optional)">
+            <input type="text" class="form-control spacer-10"
+                 uib-datepicker-popup="MM-dd-yyyy"
+                 ng-model="selectedDate.value"
+                 is-open="selectedDate.open"
+                 close-text="Close"
+                 ng-readonly="true"
+                 ng-click="selectedDate.open = !selectedDate.open"
+                 show-button-bar="false"
+                 placeholder="Click here to set a date for this waiver, defaults to today if unset"/>
     </div>
     <div class="modal-footer">
         <button class="btn btn-danger btn-lg pull-left" type="button" ng-click="cancel()">Cancel</button>
