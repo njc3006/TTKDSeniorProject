@@ -35,3 +35,36 @@ class UserSerializer(serializers.ModelSerializer):
 		user.save()
 
 		return user
+
+class UserInfoSerializer(serializers.ModelSerializer):
+	"""
+	UserSerializer Outputs User Model as JSON
+	"""
+	class Meta:
+		model = User
+		fields = ['username', 'is_staff']
+
+	def update(self, instance, validated_data):
+		for attr, value in validated_data.items():
+				setattr(instance, attr, value)
+
+		instance.save()
+		return instance
+
+class UserPasswordSerializer(serializers.ModelSerializer):
+	"""
+	UserSerializer Outputs User Model as JSON
+	"""
+	class Meta:
+		model = User
+		fields = ['password']
+
+		extra_kwargs = {'password': {'write_only': True,}}
+
+	def update(self, instance, validated_data):
+		for attr, value in validated_data.items():
+			if attr == 'password':
+				instance.set_password(value)
+
+		instance.save()
+		return instance

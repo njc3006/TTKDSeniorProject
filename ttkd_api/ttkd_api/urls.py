@@ -22,7 +22,7 @@ from .views.program_views import ProgramViewSet, StudentList
 from .views.registration_views import MinimalRegistrationViewSet, RegistrationViewSet, \
     RegistrationWithPeopleViewSet, SimpleRegistrationViewSet, PartialRegistrationViewSet
 from .views.email_views import EmailViewSet
-from .views.user_views import UserViewSet
+from .views.user_views import UserViewSet, ChangePasswordView, UserInfoView
 from .views.stripe_views import StripeViewSet
 from .views.person_stripe_views import PersonStripeViewSet
 from .views.people_views import PeopleViewSet
@@ -31,30 +31,31 @@ from rest_framework.authtoken import views
 router = routers.DefaultRouter()
 
 # Register Viewsets
-router.register(r'users', UserViewSet)
-router.register(r'persons', PersonViewSet)
-router.register(r'programs', ProgramViewSet)
+router.register(r'belts', BeltViewSet)
 router.register(r'check-ins', AttendanceRecordViewSet)
 router.register(r'check-ins-detailed', DetailedAttendanceRecordViewSet, 'check-ins-detailed')
 router.register(r'checked-in/persons', AttendanceRecordUsingPersonViewSet, 'checked-in-persons')
-router.register(r'registrations-minimal', MinimalRegistrationViewSet, 'registrations-minimal')
+router.register(r'class-people', RegistrationWithPeopleViewSet, 'class-people')
+router.register(r'emails', EmailViewSet)
+router.register(r'instructor-check-ins', InstructorAttendanceViewSet, 'instructor-check-ins')
+router.register(r'instructor-check-ins-detailed', DetailedInstructorAttendanceViewSet, 'instructor-check-ins-detailed')
+router.register(r'instructors', InstructorViewSet)
+router.register(r'instructors-minimal', MinimalInstructorViewSet, 'instructors-minimal')
+router.register(r'people', PeopleViewSet, 'people')
+router.register(r'person-belts', PersonBeltViewSet)
+router.register(r'person-stripes', PersonStripeViewSet)
+router.register(r'persons', PersonViewSet)
+router.register(r'programs', ProgramViewSet)
 router.register(r'register', RegistrationViewSet, 'register')
 router.register(r'registrations', SimpleRegistrationViewSet)
+router.register(r'registrations-minimal', MinimalRegistrationViewSet, 'registrations-minimal')
 router.register(r'registrations-partial', PartialRegistrationViewSet, 'registrations-partial')
-router.register(r'students', StudentList, 'student-list')
-router.register(r'emails', EmailViewSet)
 router.register(r'stripes', StripeViewSet)
-router.register(r'person-stripes', PersonStripeViewSet)
-router.register(r'belts', BeltViewSet)
-router.register(r'person-belts', PersonBeltViewSet)
-router.register(r'people', PeopleViewSet, 'people')
-router.register(r'class-people', RegistrationWithPeopleViewSet, 'class-people')
+router.register(r'students', StudentList, 'student-list')
+router.register(r'users', UserViewSet)
+router.register(r'userchangepass', ChangePasswordView)
+router.register(r'userchangeinfo', UserInfoView)
 router.register(r'waivers', WaiverViewSet)
-router.register(r'instructors-minimal', MinimalInstructorViewSet, 'instructors-minimal')
-router.register(r'instructors', InstructorViewSet)
-router.register(r'instructor-check-ins', InstructorAttendanceViewSet, 'instructor-check-ins')
-router.register(r'instructor-check-ins-detailed', DetailedInstructorAttendanceViewSet,
-                'instructor-check-ins-detailed')
 
 
 urlpatterns = [

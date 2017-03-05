@@ -3,8 +3,8 @@
   angular.module('ttkdApp.navCtrl', ['ngCookies'])
 
     .controller('NavCtrl', ['$scope', '$rootScope', '$state', '$document',
-      '$uibModal', '$http', 'apiHost', '$cookies', '$location',
-      function($scope, $rootScope, $state, $document, $uibModal, $http, apiHost, $cookies, $location) {
+      '$uibModal', '$http', 'apiHost', '$cookies', '$location', '$timeout',
+      function($scope, $rootScope, $state, $document, $uibModal, $http, apiHost, $cookies, $location, $timeout) {
       $rootScope.showCurrentProgram = true;
       $rootScope.showLogin = true;
       $rootScope.loggedin = ($cookies.getObject('Authorization') ?  true:false);
@@ -105,6 +105,86 @@
         $rootScope.currentUser = 'Anonymous';
         $rootScope.userlevel = -1;
         $location.path('/');
+      };
+
+      /*
+       * Open a prompt to change the current user's password.
+       */
+      $scope.openChangePass = function() {
+        $scope.passwordError = '';
+        var modalElement = angular.element($document[0].querySelector('#password-modal'));
+
+        modalInstance = $uibModal.open({
+          animation: true,
+          windowClass: 'password-modal',
+          ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'components/nav/password.modal.html',
+          scope: $scope
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+            //$ctrl.selected = selectedItem;
+        }, function () {
+        });
+      };
+
+      /*
+       * Changes the password for the currently logged in user.
+       */
+      $scope.changePass = function(current, password, passwordRepeat) {
+        console.log("Changing");
+        $timeout(function () { $scope.passwordError = '';}, 5000); // So that it is clear when the user creates a new error on submit
+        
+        if(!(current && password && passwordRepeat)) {
+          $scope.passwordError = 'All fields must be completed';
+          return;
+        }
+        if(password !== passwordRepeat) {
+          $scope.passwordError = 'Passwords do not match';
+          return;
+        }
+
+        return;
+
+        $http({
+          method: 'POST',
+          url: apiHost + '/api/token-auth/',
+          data: {
+          username: username,
+          password: password,
+        }}).then(
+          function(response) {
+            var authToken = response.data.token;
+
+            $scope.loginError = '';
+
+            $http.get(apiHost + '/api/users/current/', {
+              headers: {
+                'Authorization': 'Token ' + authToken,
+              }
+            }).then(
+              function(response) {
+                console.log(response.data);
+                var authData = {
+                  token: authToken,
+                  username: response.data.username,
+                  userlevel: response.data['is_staff'] ? 1:0,
+                };
+                $cookies.putObject('Authorization', authData);
+                $rootScope.currentUser = response.data.username;
+                $rootScope.loggedin = true;
+                $rootScope.currentUser = $cookies.getObject('Authorization').username;
+                $rootScope.userlevel = $cookies.getObject('Authorization').userlevel;
+                $scope.reload();
+              }
+            );
+            modalInstance.dismiss();
+          },
+          function(error) {
+            $scope.loginError = 'Invalid credentials';
+          }
+        );*/
       };
     }]);
 

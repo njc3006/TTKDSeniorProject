@@ -126,3 +126,37 @@ class IsAuthenticatedOrOptions(permissions.BasePermission):
             return False
 
         return True
+    
+
+
+class IsAuthenticatedPutOnly(permissions.BasePermission):
+    """
+    Object-level permission to only allow admins to edit it but anyone to read it.
+    """
+
+    def has_permission(self, request, view):
+        # so we'll always allow PUT, HEAD or OPTIONS requests.
+        if request.method == "OPTIONS":
+            return True
+
+        if request.user.is_anonymous or request.method != "PUT":
+            return False
+
+        return True
+    
+
+
+class IsAdminPutOnly(permissions.BasePermission):
+    """
+    Object-level permission to only allow admins to edit it but anyone to read it.
+    """
+
+    def has_permission(self, request, view):
+        # so we'll always allow PUT, HEAD or OPTIONS requests.
+        if request.method == "OPTIONS":
+            return True
+
+        if not request.user.is_staff or request.method != "PUT":
+            return False
+
+        return True
