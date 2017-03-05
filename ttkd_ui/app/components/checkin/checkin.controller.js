@@ -3,8 +3,8 @@
     angular.module('ttkdApp.checkinCtrl', ['ttkdApp.constants'])
 
     .controller('CheckinCtrl', ['$scope', '$rootScope', '$stateParams', '$document',
-        '$filter', '$uibModal', 'CheckinService', 'apiHost',
-        function($scope, $rootScope, $stateParams, $document, $filter, $uibModal, CheckinService, apiHost) {
+        '$filter', '$uibModal', 'CheckinService', 'apiHost', '$state',
+        function($scope, $rootScope, $stateParams, $document, $filter, $uibModal, CheckinService, apiHost, $state) {
             var modalInstance;
             $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
 
@@ -26,6 +26,52 @@
                 value: $scope.date
             };
 
+            $scope.mode = {
+                value: 'Checkin'
+            };
+
+            $scope.headerStr = 'Click A Student Picture to Check Them In';
+
+            $scope.updateHeader = function () {
+                if ($scope.mode.value === 'Checkin'){
+                    $scope.headerStr = 'Click A Student Picture to Check Them In';
+                } else if ($scope.mode.value === 'View'){
+                    $scope.headerStr = 'Click A Student Picture to View Their Information';
+                } else if ($scope.mode.value === 'Edit'){
+                    $scope.headerStr = 'Click A Student Picture to Edit Their Information';
+                }
+            };
+
+            $scope.clickStudentBasedOnMode = function (person) {
+                if ($scope.mode.value === 'Checkin'){
+                    if (person.checkedIn){
+                        $scope.instructClickDeleteCheckin(person);
+                    } else{
+                        $scope.instructClickCheckin(person);
+                    }
+                } else if ($scope.mode.value === 'View'){
+                    $state.go('studentDetails', ({studentId: person.id}));
+                } else if ($scope.mode.value === 'Edit') {
+                    // TODO
+                }
+
+            };
+
+            $scope.clickInstructorBasedOnMode = function (instructor) {
+                if ($scope.mode.value === 'Checkin'){
+                    if (instructor.checkedIn){
+                        $scope.clickDeleteInstructorCheckin(instructor);
+                    } else{
+                        $scope.clickCheckinInstructor(instructor);
+                    }
+                } else if ($scope.mode.value === 'View'){
+                    $state.go('studentDetails', ({studentId: instructor.id}));
+                } else if ($scope.mode.value === 'Edit') {
+                    // TODO
+                }
+
+            };
+
             //opens the popup date picker window
             $scope.open = function() {
                 $scope.selectedDate.open = true;
@@ -45,11 +91,9 @@
                 $scope.checkedInInstructorsIds = [];
                 $scope.checkedInInstructorsCheckinIds = [];
                 $scope.getCheckinsForClass();
-                $scope.getStudents();
 
                 if ($scope.isInstructor) {
                     $scope.getInstructorCheckinsForClass();
-                    $scope.getInstructors();
                 }
             };
 
@@ -99,6 +143,7 @@
                             $scope.checkedInPeopleCheckinIds.push(value['id']);
                         });
 
+                        $scope.getStudents();
                     });
             };
 
@@ -148,6 +193,7 @@
                             $scope.checkedInInstructorsCheckinIds.push(value['id']);
                         });
 
+                        $scope.getInstructors();
                     });
             };
 
@@ -186,13 +232,11 @@
                     });
             };
 
-            // Load the data for the page, must be called in this order
+            // Load the data for the page
             $scope.getCheckinsForClass();
-            $scope.getStudents();
 
             if ($scope.isInstructor) {
                 $scope.getInstructorCheckinsForClass();
-                $scope.getInstructors();
             }
 
             /*
