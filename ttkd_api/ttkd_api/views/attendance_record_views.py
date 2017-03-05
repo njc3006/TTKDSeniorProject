@@ -108,4 +108,4 @@ def get_grouped_attendance_records(request):
                     'count': 1
                 }
 
-    return Response(grouped_records)
+    return Response(sorted(grouped_records.items(), key=lambda r: r[1]['name']))

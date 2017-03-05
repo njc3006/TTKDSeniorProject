@@ -13,7 +13,8 @@ module.exports = {
 		'./app/lib/angular-file-upload/dist/angular-file-upload.min.js',
 		'./app/lib/ngMask/dist/ngMask.min.js',
 		'./app/lib/ng-cookies/dist/ng-cookies.min.js',
-		'./app/lib/angular-color-picker/angular-color-picker.js'
+		'./app/lib/angular-color-picker/angular-color-picker.js',
+		'./app/lib/webcam/app/scripts/webcam.js',
 	],
 	sourcePaths: ['!./app/**/*.test.js', './app/**/*.js', '!./app/lib/**/*.js', '!./app/*.constants.js'],
 	templatePaths: ['./app/*/**/*.html'],

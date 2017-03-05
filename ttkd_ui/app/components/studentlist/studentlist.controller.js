@@ -162,7 +162,8 @@
                         var transformed = {
                             id: value.id,
                             person: value,
-                            program: null
+                            program: null,
+                            fullName: value.first_name + ' ' + value.last_name
                         };
 
                         temp2.push(transformed);

@@ -21,10 +21,10 @@
 					<span class="pull-right">Age When Signed: {{waiver.age}} </span>
 			    </div>
 			    <a ng-class="{'disabled': waiver.waiver_url === null}" class="btn btn-default" ng-href="{{waiver.waiver_url}}" target="_blank">View</a>
-				<span class="file-upload">
-					<input class="btn btn-default" type="button" value="Upload Waiver" ng-click="uploadWaiver(waiver.id);">
-					<input id="waiver-upload{{waiver.id}}" class="btn btn-default hidden-input" type="file" nv-file-select uploader="waiver.waiverUploader"/><br/>
-				</span>
+					<div class="btn file-upload-btn">
+						<input class="btn btn-default" type="button" value="Upload Waiver" ng-click="uploadWaiver(waiver.id);">
+						<input id="waiver-upload{{waiver.id}}" class="btn btn-default hidden-input" type="file" nv-file-select uploader="waiver.waiverUploader"/><br/>
+					</div>
 		  	</div>
 		</div>
 	</div>
