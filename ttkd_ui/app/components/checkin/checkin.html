@@ -17,6 +17,29 @@
 				</span>
 			</div>
 		</div>
+		<div class="btn-group pull-right">
+			<label
+				class="btn btn-default"
+				ng-model="filterData.condensed"
+				ng-change="loadAttendanceRecords()"
+				uib-btn-radio="'Checkin'">
+				Checkin
+			</label>
+			<label
+				class="btn btn-default"
+				ng-model="filterData.condensed"
+				ng-change="loadAttendanceRecords()"
+				uib-btn-radio="'View'">
+				View
+			</label>
+			<label
+				class="btn btn-default"
+				ng-model="filterData.condensed"
+				ng-change="loadAttendanceRecords()"
+				uib-btn-radio="'Edit'">
+				Edit
+			</label>
+		</div>
 	</div>
 	<div class="row">
 		<div class="text-center">
