@@ -132,11 +132,11 @@
       /*
        * Changes the password for the currently logged in user.
        */
-      $scope.changePass = function(current, password, passwordRepeat) {
+      $scope.changePass = function(currentPass, password, passwordRepeat) {
         console.log("Changing");
         $timeout(function () { $scope.passwordError = '';}, 5000); // So that it is clear when the user creates a new error on submit
         
-        if(!(current && password && passwordRepeat)) {
+        if(!(currentPass && password && passwordRepeat)) {
           $scope.passwordError = 'All fields must be completed';
           return;
         }
@@ -145,46 +145,19 @@
           return;
         }
 
-        return;
-
-        $http({
-          method: 'POST',
-          url: apiHost + '/api/token-auth/',
-          data: {
-          username: username,
+        $http.put(apiHost + '/api/userchangepass/current/', {
           password: password,
-        }}).then(
+          currentPass: currentPass
+        }).then(
           function(response) {
-            var authToken = response.data.token;
-
-            $scope.loginError = '';
-
-            $http.get(apiHost + '/api/users/current/', {
-              headers: {
-                'Authorization': 'Token ' + authToken,
-              }
-            }).then(
-              function(response) {
-                console.log(response.data);
-                var authData = {
-                  token: authToken,
-                  username: response.data.username,
-                  userlevel: response.data['is_staff'] ? 1:0,
-                };
-                $cookies.putObject('Authorization', authData);
-                $rootScope.currentUser = response.data.username;
-                $rootScope.loggedin = true;
-                $rootScope.currentUser = $cookies.getObject('Authorization').username;
-                $rootScope.userlevel = $cookies.getObject('Authorization').userlevel;
-                $scope.reload();
-              }
-            );
+            console.log(response.data);
             modalInstance.dismiss();
           },
           function(error) {
-            $scope.loginError = 'Invalid credentials';
+            console.log(error);
+            $scope.passwordError = 'Invalid current password';
           }
-        );*/
+        );
       };
     }]);
 

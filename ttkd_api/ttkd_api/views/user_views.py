@@ -27,7 +27,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class ChangePasswordView(viewsets.ModelViewSet):
-    permission_classes = (custom_permissions.IsUserOrReadOnly,)
+    permission_classes = (custom_permissions.IsUserOrReadOnly, custom_permissions.CurrentUserPassword)
     """
     Returns all User objects to the Route.
     GET: Returns all User Objects To The Route, Or An Instance If Given A PK.

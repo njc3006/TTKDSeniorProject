@@ -55,6 +55,7 @@ class UserPasswordSerializer(serializers.ModelSerializer):
 	"""
 	UserSerializer Outputs User Model as JSON
 	"""
+
 	class Meta:
 		model = User
 		fields = ['password']

@@ -160,3 +160,22 @@ class IsAdminPutOnly(permissions.BasePermission):
             return False
 
         return True
+    
+
+
+class CurrentUserPassword(permissions.BasePermission):
+    """
+    Object-level permission to only allow admins to edit it but anyone to read it.
+    """
+
+    def has_permission(self, request, view):
+        # so we'll always allow PUT, HEAD or OPTIONS requests.
+        if request.method in permissions.SAFE_METHODS or request.method == "OPTIONS":
+            return True
+
+        data = request.data
+
+        if request.method == "PUT" and "currentPass" in data and request.user.check_password(data['currentPass']):
+            return True
+
+        return False

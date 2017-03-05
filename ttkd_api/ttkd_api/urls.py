@@ -52,9 +52,9 @@ router.register(r'registrations-minimal', MinimalRegistrationViewSet, 'registrat
 router.register(r'registrations-partial', PartialRegistrationViewSet, 'registrations-partial')
 router.register(r'stripes', StripeViewSet)
 router.register(r'students', StudentList, 'student-list')
-router.register(r'users', UserViewSet)
-router.register(r'userchangepass', ChangePasswordView)
-router.register(r'userchangeinfo', UserInfoView)
+router.register(r'users', UserViewSet, 'users')
+router.register(r'userchangepass', ChangePasswordView, 'change-password')
+router.register(r'userchangeinfo', UserInfoView, 'user-info')
 router.register(r'waivers', WaiverViewSet)
 
 
