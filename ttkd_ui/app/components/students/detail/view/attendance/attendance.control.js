@@ -5,28 +5,30 @@
 		StudentsService,
 		AttendanceService
 	) {
-		var studentId = SharedDataService.getStudentId();
+		var studentPromise = SharedDataService.getActiveStudent();
 
 		$scope.loadCheckIns = function() {
-			AttendanceService.getUngroupedRecords({
-				student: studentId,
-				page: $scope.filterData.page,
-				program: $scope.filterData.selectedProgram,
-				startDate: $scope.filterData.startDate.value,
-				endDate: $scope.filterData.endDate.value
-			}).then(
-				function onSuccess(ungroupedRecords) {
-					$scope.pagination.totalRecords = ungroupedRecords.count;
+			studentPromise.then(function(student) {
+				AttendanceService.getUngroupedRecords({
+					student: student.id,
+					page: $scope.filterData.page,
+					program: $scope.filterData.selectedProgram,
+					startDate: $scope.filterData.startDate.value,
+					endDate: $scope.filterData.endDate.value
+				}).then(
+					function onSuccess(ungroupedRecords) {
+						$scope.pagination.totalRecords = ungroupedRecords.count;
 
-					$scope.checkIns = ungroupedRecords.results.map(function(checkIn) {
-						checkIn.date = moment(checkIn.date, 'YYYY-MM-DD').format('MM/DD/YYYY');
-						return checkIn;
-					});
-				},
-				function onFailure(error) {
-					$scope.checkInsLoadFailed = true;
-				}
-			);
+						$scope.checkIns = ungroupedRecords.results.map(function(checkIn) {
+							checkIn.date = moment(checkIn.date, 'YYYY-MM-DD').format('MM/DD/YYYY');
+							return checkIn;
+						});
+					},
+					function onFailure(error) {
+						$scope.checkInsLoadFailed = true;
+					}
+				);
+			});
 		};
 
 		$scope.openStartCalendar = function() {
@@ -59,15 +61,17 @@
 			}
 		};
 
-		StudentsService.getStudentRegistrations(studentId).then(
-			function onSuccess(response) {
-				$scope.enrolledPrograms = response.data;
-				$scope.loadCheckIns();
-			},
-			function onError(error) {
-				$scope.programLoadFailed = true;
-			}
-		);
+		studentPromise.then(function(student) {
+			StudentsService.getStudentRegistrations(student.id).then(
+				function onSuccess(response) {
+					$scope.enrolledPrograms = response.data;
+					$scope.loadCheckIns();
+				},
+				function onError(error) {
+					$scope.programLoadFailed = true;
+				}
+			);
+		});
 	}
 
 	angular.module('ttkdApp.studentDetailCtrl')

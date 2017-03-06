@@ -1,62 +1,41 @@
 (function() {
-	function reformatObject(object) {
-		var reformatted = {};
 
-		for (var field in object) {
-			if (object.hasOwnProperty(field)) {
-				var camelCased = field.replace(/[\-_\s]+(.)?/g, function(match, chr) {
-		      return chr ? chr.toUpperCase() : '';
-		    });
+  function StudentDetailController($scope, $stateParams, StudentsService, apiHost, FileUploader, SharedDataSvc, $cookies) {
+    $scope.apiHost = apiHost;
+    var modalInstance;
+    $scope.video = null;
+    $scope.imagePreview = false;
 
-				camelCased = camelCased.substr(0, 1).toLowerCase() + camelCased.substr(1);
+    /* function to update this student object */
+    var updateStudent = function() {
+      SharedDataSvc.getStudent($stateParams.studentId).then(
+        function(student) {
+          $scope.studentInfo = student;
 
-				reformatted[camelCased] = object[field];
-			}
-		}
+          $scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
 
-		return reformatted;
-	}
+          if ($scope.studentInfo.belt) {
+            $scope.beltStyle = getBeltStyle($scope.studentInfo.belt);
 
-	function StudentDetailController($scope, $stateParams, StudentsService, apiHost, FileUploader, SharedDataSvc, $cookies, $uibModal, WebcamService) {
-		$scope.apiHost = apiHost;
-		var modalInstance;
-		$scope.video = null;
-		$scope.imagePreview = false;
+            $scope.earnedStripes = $scope.studentInfo.stripes.filter(function(personStripe) {
+              return personStripe['current_stripe'];
+            }).map(function(personStripe) {
+              return personStripe.stripe;
+            });
 
-		/* function to update this student object */
-		var updateStudent = function(){
-			StudentsService.getStudent($stateParams.studentId).then(
-	      function(response) {
-						$scope.studentInfo = reformatObject(response.data);
-
-			  SharedDataSvc.setStudentDob($scope.studentInfo.dob);
-	          $scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
-
-	          $scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContact1);
-	          $scope.secondaryEmergencyContact = reformatObject($scope.studentInfo.emergencyContact2);
-
-	          if ($scope.studentInfo.belt) {
-	              $scope.beltStyle = getBeltStyle($scope.studentInfo.belt);
-
-	              $scope.earnedStripes = $scope.studentInfo.stripes.filter(function(personStripe) {
-	                  return personStripe['current_stripe'];
-	              }).map(function(personStripe) {
-	                  return personStripe.stripe;
-	              });
-
-	              $scope.studentLoaded = true;
-	          } else {
-	              $scope.studentLoaded = true;
-	          }
-	      },
-        function(error) {
             $scope.studentLoaded = true;
+          } else {
+            $scope.studentLoaded = true;
+          }
+        },
+        function(error) {
+          $scope.studentLoaded = true;
 
-            if (error.status === 404) {
-                $scope.studentDoesNotExist = true;
-            } else {
-                $scope.studentRequestFailed = true;
-            }
+          if (error.status === 404) {
+            $scope.studentDoesNotExist = true;
+          } else {
+            $scope.studentRequestFailed = true;
+          }
         });
 		};
 
@@ -164,8 +143,6 @@
 		$scope.studentDoesNotExist = false;
 
 		updateStudent();
-
-    SharedDataSvc.setStudentId($stateParams.studentId);
 	}
 
 	angular.module('ttkdApp.studentDetailCtrl', [
