@@ -90,23 +90,24 @@
         };
 
         $scope.create = function (waiverSig, guardianSig) {
+            studentPromise.then(function(student) {
+                var payload = {
+                    "person": student.id,
+                    "waiver_signature": waiverSig,
+                    "guardian_signature": guardianSig
+                };
 
-            var payload = {
-                "person": SharedDataService.getStudentId(),
-                "waiver_signature": waiverSig,
-                "guardian_signature": guardianSig
-            };
-
-            if ($scope.selectedDate.value != null) {
-                payload['signature_date'] = $filter('date')($scope.selectedDate.value, 'yyyy-MM-dd');
-            }
-
-            $http.post(apiHost + '/api/waivers/', payload).then(
-                function (response) {
-                    modalInstance.close();
-                    $scope.getWaivers();
+                if ($scope.selectedDate.value != null) {
+                    payload['signature_date'] = $filter('date')($scope.selectedDate.value, 'yyyy-MM-dd');
                 }
-            );
+
+                $http.post(apiHost + '/api/waivers/', payload).then(
+                    function (response) {
+                        modalInstance.close();
+                        $scope.getWaivers();
+                    }
+                );
+            });
         };
 
         $scope.getWaivers = function () {
