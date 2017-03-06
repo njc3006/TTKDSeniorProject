@@ -1,8 +1,8 @@
 (function() {
 
   angular.module('ttkdApp.homeCtrl', [])
-    .controller('HomeCtrl', ['$scope', '$rootScope', '$stateParams', '$uibModal', '$document', 'ProgramsSvc',
-     function($scope, $rootScope, $stateParams, $uibModal, $document, ProgramsSvc) {
+    .controller('HomeCtrl', ['$scope', '$rootScope', '$state', '$stateParams', '$uibModal', '$document', 'ProgramsSvc',
+     function($scope, $rootScope, $state, $stateParams, $uibModal, $document, ProgramsSvc) {
         $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
 
     	var modalInstance;
@@ -17,6 +17,10 @@
                 $scope.programs = response.data;
             });
         };
+
+				$scope.goToPage = function(page, data) {
+					$state.go(page, data);
+				}
 
         $scope.openAddProgram = function() {
             $scope.addProgramMessage = {};
@@ -41,7 +45,7 @@
                         getActivePrograms();
                     }, function onFailure(response) {
                         $scope.addProgramMessage = {
-                            error: 'Failed to add ' + program + 
+                            error: 'Failed to add ' + program +
                             '. Please make sure this program does not already exist.'
                         };
                         $scope.newProgram = '';
