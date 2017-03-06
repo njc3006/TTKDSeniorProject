@@ -4,15 +4,15 @@
 <div class="modal-body">
 	<div class="container-fluid">
 		<div class="alert alert-danger" role="alert" ng-if="incorrectPhoneNumber && incorrectEmail">
-			<strong>Must provide phone number or email address</strong>
+			<strong>You must provide a phone number or email address</strong>
 		</div>
 		<div class="alert alert-danger" role="alert" ng-if="incorrectPhoneNumber && !incorrectEmail">
-			<strong>Phone number not in registration</strong>
+			<strong>This phone number was not found in the registration</strong>
 		</div>
 		<div class="alert alert-danger" role="alert" ng-if="incorrectEmail && !incorrectPhoneNumber">
-			<strong>Email address not in registration</strong>
+			<strong>This email was not found in the registration</strong>
 		</div>
-		<h2 class="text-center no-margins">Enter either a phone number or an email address</h2>
+		<h2 class="text-center no-margins">Enter a phone number or an email address</h2>
 		<form class="form-horizontal col-sm-12" ng-submit="authenticateInput()" novalidate>
 			<div ng-class="{'has-error': incorrectEmail}">
 				<div class="form-group">
