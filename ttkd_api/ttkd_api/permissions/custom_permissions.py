@@ -28,7 +28,11 @@ class IsUserOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        data = request.data.dict()
+        data = {}
+        try:
+            data = request.data.dict()
+        except:
+            data = request.data
 
         # Is the user being modified or an admin.
         return request.user.is_staff or (obj.id == request.user.id and ("is_staff" not in data or not data["is_staff"]))

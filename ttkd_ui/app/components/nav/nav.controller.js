@@ -11,7 +11,9 @@
       $rootScope.currentUser = $cookies.getObject('Authorization') ?
         $cookies.getObject('Authorization').username : 'Anonymous';
       $rootScope.userlevel = $cookies.getObject('Authorization') ?
-        $cookies.getObject('Authorization').userlevel : '-1';
+        $cookies.getObject('Authorization').userlevel : -1;
+      $rootScope.currentUserID = $cookies.getObject('Authorization') ?
+        $cookies.getObject('Authorization').currentUserID : -1;
       var modalInstance;
 
       $scope.reload = function() {
@@ -78,12 +80,14 @@
                   token: authToken,
                   username: response.data.username,
                   userlevel: response.data['is_staff'] ? 1:0,
+                  currentUserID: response.data.id
                 };
                 $cookies.putObject('Authorization', authData);
                 $rootScope.currentUser = response.data.username;
                 $rootScope.loggedin = true;
                 $rootScope.currentUser = $cookies.getObject('Authorization').username;
                 $rootScope.userlevel = $cookies.getObject('Authorization').userlevel;
+                $rootScope.currentUserID = $cookies.getObject('Authorization').currentUserID;
                 $scope.reload();
               }
             );

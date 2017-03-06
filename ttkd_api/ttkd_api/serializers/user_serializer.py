@@ -9,9 +9,9 @@ class UserSerializer(serializers.ModelSerializer):
 	"""
 	class Meta:
 		model = User
-		fields = ['username', 'password', 'is_staff']
+		fields = ['id', 'is_staff', 'password', 'username']
 
-		extra_kwargs = {'password': {'write_only': True,}}
+		extra_kwargs = {'password': {'write_only': True,}, 'id': {'read_only': True,}}
 
 	def update(self, instance, validated_data):
 		for attr, value in validated_data.items():

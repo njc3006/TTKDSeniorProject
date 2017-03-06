@@ -42,7 +42,7 @@ class ChangePasswordView(viewsets.ModelViewSet):
         if pk == "current":
             return self.request.user
 
-        return super(UserViewSet, self).get_object()
+        return super(ChangePasswordView, self).get_object()
 
 
 class UserInfoView(viewsets.ModelViewSet):
@@ -61,4 +61,4 @@ class UserInfoView(viewsets.ModelViewSet):
         if pk == "current":
             return self.request.user
 
-        return super(UserViewSet, self).get_object()
+        return super(UserInfoView, self).get_object()

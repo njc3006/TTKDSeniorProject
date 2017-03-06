@@ -110,6 +110,12 @@
         url: '/belts-stripes',
         templateUrl: 'components/belts-stripes/belts-stripes.html',
         controller: 'BeltsStripesCtrl'
+      })
+
+      .state('userManagement', {
+        url: '/user-management',
+        templateUrl: 'components/user-management/user.management.html',
+        controller: 'manageUserCtrl'
       });
 
 			// For any unmatched url, send to /

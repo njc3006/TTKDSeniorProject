@@ -24,7 +24,7 @@
             </button>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="simple-btn-keyboard-nav">
               <li role="menuitem"><a href="#" ng-click="openChangePass()">Change Password</a></li>
-              <li role="menuitem" ng-if="userlevel >= 1"><a href="#">Manage Accounts</a></li>
+              <li role="menuitem" ng-if="userlevel >= 1"><a ui-sref="userManagement" ui-sref-active="active">Manage Accounts</a></li>
               <li class="divider"></li>
               <li role="menuitem"><a href="#" ng-click="logout()" id>Logout</a></li>
             </ul>

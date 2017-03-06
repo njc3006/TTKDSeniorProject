@@ -1,0 +1,33 @@
+<div class="container text-center">
+	<div class="spacer-35"></div>
+
+	<h1>User List</h1>
+	<button class="btn btn-success btn-lg pull-right" type="button" ng-click="openCreateUser()">Create User</button>
+	<div class="col-xs-1 text-center">
+		Username
+	</div>
+	<div class="col-xs-2 text-center">
+		Admin (Y/N)
+	</div>
+	<hr>
+
+	<div class="col-xs-10 col-xs-offset-1" ng-repeat="u in userList | orderBy: 'username'">
+		<div class="col-xs-1 text-center">
+			{{u.username}}
+		</div>
+		<div class="col-xs-2 text-center">
+			<div ng-if="u.is_staff == 1">Yes</div>
+			<div ng-if="u.is_staff != 1">No</div>
+		</div>
+		<div class="col-xs-4 text-center" ng-if="u.id != currentUserID">
+			<button id="delete-user" class="btn btn-danger btn-sm" type="button" ng-click="openDeleteUser(u.id, u.username)">Delete</button>
+			<button id="edit-user" class="btn btn-success btn-sm" type="button" ng-click="openEditUser(u.id, u.username, u.is_staff)">Edit</button>
+			<button id="set-password" class="btn btn-success btn-sm" type="button" ng-click="openChangePass(u.id, u.username)">Reset Password</button>
+
+		</div>
+	</div>
+	
+</div>
+
+<div id="modal-area">
+</div>
