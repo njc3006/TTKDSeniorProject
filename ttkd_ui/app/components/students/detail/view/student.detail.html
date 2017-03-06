@@ -14,8 +14,8 @@
 	<div ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
 		<div class="row spacer-20">
 			<div class="col-sm-2" style="padding-left: 0px">
-				<img ng-if="studentInfo.pictureUrl" class="img-responsive {{studentBeltClass}}" ng-src="{{apiHost}}/{{studentInfo.pictureUrl}}" ng-style="beltStyle">
-				<img ng-if="!studentInfo.pictureUrl" class="img-responsive {{studentBeltClass}}" ng-src="./img/components/students/placeholder.png" ng-style="beltStyle">
+				<img ng-if="pictureUrl.length > 0" class="img-responsive {{studentBeltClass}}" ng-src="{{pictureUrl}}" ng-style="beltStyle">
+				<img ng-if="pictureUrl.length == 0" class="img-responsive {{studentBeltClass}}" ng-src="./img/components/students/placeholder.png" ng-style="beltStyle">
 				<div class="btn-group btn-group-justified">
 					<div class="btn-group">
 						<div class="btn file-upload-btn">

@@ -41,6 +41,7 @@
        * This also sets "activeStudent" equal to that promise so that we can
        * use the same student object without making subsequent calls. */
       getStudent: function(id) {
+        activeStudent = $q.defer();
         StudentsSvc.getStudent(id).then(
           function onSuccess(response){
             // on success reformat the student object before returning.

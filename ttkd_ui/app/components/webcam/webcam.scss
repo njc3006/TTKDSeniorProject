@@ -3,3 +3,12 @@ canvas {
   width: 100%;
   height: auto;
 }
+
+.webcam-modal .modal-dialog{
+  width: 80%;
+  
+  .rotate-btn {
+    position: fixed;
+    z-index: 1;
+  }
+}
