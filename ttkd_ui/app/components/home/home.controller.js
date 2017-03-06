@@ -20,7 +20,7 @@
 
 				$scope.goToPage = function(page, data) {
 					$state.go(page, data);
-				}
+				};
 
         $scope.openAddProgram = function() {
             $scope.addProgramMessage = {};
