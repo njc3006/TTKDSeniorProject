@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-xs-2" ng-if="isInstructor">
             <div class="input-group">
-                <input type="text" class="form-control"
+                <input id="datePicker" type="text" class="form-control"
                        uib-datepicker-popup="MM-dd-yyyy"
                        ng-model="selectedDate.value"
                        is-open="selectedDate.open"
@@ -19,6 +19,7 @@
         </div>
         <div class="btn-group pull-right" ng-if="isInstructor">
             <label
+                    id="checkinModeBtn"
                     class="btn btn-default"
                     ng-model="mode.value"
                     ng-change="updateHeader()"
@@ -26,6 +27,7 @@
                 Checkin
             </label>
             <label
+                    id="viewModeBtn"
                     class="btn btn-default"
                     ng-model="mode.value"
                     ng-change="updateHeader()"
@@ -33,6 +35,7 @@
                 View
             </label>
             <label
+                    id="editModeBtn"
                     class="btn btn-default"
                     ng-model="mode.value"
                     ng-change="updateHeader()"
