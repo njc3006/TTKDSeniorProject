@@ -14,7 +14,7 @@
         <li ng-repeat="page in pages" ng-class="{active: isUrl(page.url)}" ng-include="'nav-item.html'">
         </li>
       </ul>
-      <ul class="nav navbar-nav navbar-right" ng-show="showLogin">
+      <ul class="nav navbar-nav navbar-right">
         <li>
           <a href="" ng-if="!loggedin" ng-click="openLogin()" id="login">Login</a>
         <!-- Single button with keyboard nav -->

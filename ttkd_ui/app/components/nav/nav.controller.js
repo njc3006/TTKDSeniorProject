@@ -129,7 +129,7 @@
           windowClass: 'password-modal',
           ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: 'components/nav/password.modal.html',
+            templateUrl: 'components/user-management/password.modal.html',
           scope: $scope
         });
 
@@ -142,7 +142,7 @@
       /*
        * Changes the password for the currently logged in user.
        */
-      $scope.changePass = function(currentPass, password, passwordRepeat) {
+      $scope.changePass = function(currentPass, password, passwordRepeat, selectedID) {
         $timeout(function () { $scope.passwordError = '';}, 5000); // So that it is clear when the user creates a new error on submit
         
         if(!(currentPass && password && passwordRepeat)) {
