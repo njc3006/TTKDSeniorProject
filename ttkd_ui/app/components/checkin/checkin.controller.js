@@ -10,7 +10,7 @@
 
             $scope.apiHost = apiHost;
             $scope.programID = $stateParams.programID;
-            $scope.isInstructor = $stateParams.instructor;
+            $scope.isInstructor = $rootScope.userlevel >= 0;
             $scope.date = new Date();
 
             $scope.people = [];
@@ -46,8 +46,11 @@
                 $scope.checkedInInstructorsCheckinIds = [];
                 $scope.getCheckinsForClass();
                 $scope.getStudents();
-                $scope.getInstructorCheckinsForClass();
-                $scope.getInstructors();
+
+                if ($scope.isInstructor) {
+                    $scope.getInstructorCheckinsForClass();
+                    $scope.getInstructors();
+                }
             };
 
             $scope.formatDate = function(date) {
@@ -186,8 +189,11 @@
             // Load the data for the page, must be called in this order
             $scope.getCheckinsForClass();
             $scope.getStudents();
-            $scope.getInstructorCheckinsForClass();
-            $scope.getInstructors();
+
+            if ($scope.isInstructor) {
+                $scope.getInstructorCheckinsForClass();
+                $scope.getInstructors();
+            }
 
             /*
              * Open a prompt to confirm checkin for a person.

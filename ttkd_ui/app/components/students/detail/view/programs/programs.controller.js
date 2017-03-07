@@ -1,11 +1,14 @@
 (function() {
   function StudentProgramsController($scope, SharedDataService, StudentsSvc) {
-    var studentId = SharedDataService.getStudentId();
+    var studentPromise = SharedDataService.getActiveStudent();
     $scope.programs = [];
 
-    StudentsSvc.getStudentRegistrations(studentId).then(
-      function(response) {
-        $scope.programs = response.data;
+    studentPromise.then(
+      function(student) {
+        StudentsSvc.getStudentRegistrations(student.id).then(
+          function(response) {
+            $scope.programs = response.data;
+          });
       });
 
   }

@@ -1,12 +1,16 @@
+from django.apps import apps
+from django.contrib.admin.views.decorators import staff_member_required
+from django.core.management import call_command
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.status import *
-from django.core.management import call_command
-from django.apps import apps
+
 import json
 
 
 @api_view(['POST', ])
+@staff_member_required()
 def import_data(request):
     """
     An Url that is used to import a JSON export of the DB

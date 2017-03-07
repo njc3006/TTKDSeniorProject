@@ -91,7 +91,7 @@
 					return $http.delete(apiHost + '/api/registrations/'+registrationId+'/');
 				},
 
-				/* 
+				/*
 				 * Get student registrations and transform them to have program names and ids
 				 * response data will be formatted as: [{id: 0, name:""}] */
 				getStudentRegistrations: function(id) {
@@ -101,7 +101,7 @@
 			      function (response) {
 			        // create a dictionary mapping each program id to it's name
 			        angular.forEach(response.data, function(program) {
-			          programs[program.id] = program.name;
+			          programs[program.id] = program;
 			        });
 
 			        // start the call to get student registrations from in here so our program list is populated
@@ -111,12 +111,13 @@
 			            response.data = response.data.map(function(registration){
 			              return {
 			              	programId: registration.program,
-			              	name: programs[registration.program],
+			              	name: programs[registration.program].name,
+											active: programs[registration.program].active,
 			              	registrationId: registration.id
 			              };
 			            });
 			            return response;
-			          }, 
+			          },
 			          function(response) {// on error
 			          	return response;
 			          }

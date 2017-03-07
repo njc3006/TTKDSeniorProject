@@ -1,56 +1,122 @@
-(function() {
-	function StudentWaiverController($scope, $http, $stateParams, apiHost, FileUploader) {
-		$scope.waivers = [];
-		$scope.hasWaivers = false;
+(function () {
+    function StudentWaiverController($scope, $http, apiHost, FileUploader, SharedDataService, $cookies, $document, $uibModal, $filter) {
+        var modalInstance;
+        $scope.waivers = [];
+        $scope.hasWaivers = false;
 
-		$scope.uploadWaiver = function(waiverId){
-			document.getElementById('waiver-upload' + waiverId).click();
+        $scope.newWaiverSig = '';
+        $scope.newWaiverGuardSig = '';
+
+        $scope.selectedDate = {
+            open: false,
+            value: null
         };
 
-		$scope.getWaivers = function(){
-			var waiversEndpoint = apiHost + '/api/waivers/?person=' + $stateParams.studentId;
-			$scope.waivers = [];
+        var studentPromise = SharedDataService.getActiveStudent();
 
-			$http.get(waiversEndpoint).then(
-				function(response){
-					$scope.waivers = response.data;
-					$scope.hasWaivers = ($scope.waivers.length > 0);
+        $scope.uploadWaiver = function (waiverId) {
+            document.getElementById('waiver-upload' + waiverId).click();
+        };
 
-					for(var i = 0; i < $scope.waivers.length; i++){
+        $scope.openWaiverModal = function () {
+            var modalElement = angular.element($document[0].querySelector('#waiver-modal'));
 
-						var waiverUrl = $scope.waivers[i]['waiver_url'];
+            modalInstance = $uibModal.open({
+                animation: true,
+                windowClass: 'waiver-modal',
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                backdrop: 'static',
+                keyboard: false,
+                templateUrl: 'components/students/detail/view/student_waiver/waiver.modal.html',
+                scope: $scope
+            });
+        };
 
-						// If the waiver_url is not null lets fix the url by adding the api host
-						if (waiverUrl !== undefined){
-							$scope.waivers[i]['waiver_url'] = apiHost + '/' + $scope.waivers[i]['waiver_url'];
-						}
+        $scope.cancel = function () {
+            modalInstance.close();
+        };
 
-						$scope.waivers[i].formattedDate = 
-								moment($scope.waivers[i]['signature_timestamp']).format('MM/DD/YYYY');
+        //opens the popup date picker window
+        $scope.open = function () {
+            $scope.selectedDate.open = true;
+        };
 
-						$scope.waivers[i].waiverUploader = new FileUploader({
-							url : apiHost + '/api/waiver/' + $scope.waivers[i].id + '/image',
-							autoUpload: true
-						});
+        $scope.create = function (waiverSig, guardianSig) {
+            studentPromise.then(function(student) {
+                var payload = {
+                    "person": student.id,
+                    "waiver_signature": waiverSig,
+                    "guardian_signature": guardianSig
+                };
 
-						$scope.waivers[i].waiverUploader.onSuccessItem = function () {
-							$scope.getWaivers();
-                        };
-					}
+                if ($scope.selectedDate.value != null) {
+                    payload['signature_date'] = $filter('date')($scope.selectedDate.value, 'yyyy-MM-dd');
+                }
 
-				});
-		};
+                $http.post(apiHost + '/api/waivers/', payload).then(
+                    function (response) {
+                        modalInstance.close();
+                        $scope.getWaivers();
+                    }
+                );
+            });
+        };
 
-		$scope.getWaivers();
-	}
+        $scope.getWaivers = function () {
+            studentPromise.then(function(student) {
+                var waiversEndpoint = apiHost + '/api/waivers/?person=' + student.id;
+                $scope.waivers = [];
 
-	angular.module('ttkdApp.studentWaiverCtrl', ['angularFileUpload'])
-		.controller('StudentWaiverCtrl', [
-			'$scope',
-			'$http',
-			'$stateParams',
-			'apiHost',
-			'FileUploader',
-			StudentWaiverController
-		]);
+                $http.get(waiversEndpoint).then(
+                    function (response) {
+                        $scope.waivers = response.data;
+                        $scope.hasWaivers = ($scope.waivers.length > 0);
+
+                        for (var i = 0; i < $scope.waivers.length; i++) {
+
+                            var waiverUrl = $scope.waivers[i]['waiver_url'];
+
+                            // If the waiver_url is not null lets fix the url by adding the api host
+                            if (waiverUrl !== undefined && waiverUrl !== null) {
+                                $scope.waivers[i]['waiver_url'] = apiHost + '/' + $scope.waivers[i]['waiver_url'];
+                            }
+
+                            $scope.waivers[i].formattedDate =
+                                moment($scope.waivers[i]['signature_date']).format('MM/DD/YYYY');
+
+                            $scope.waivers[i].waiverUploader = new FileUploader({
+                                url: apiHost + '/api/waiver/' + $scope.waivers[i].id + '/image',
+                                autoUpload: true,
+                                headers: {
+                                    Authorization: 'Token ' + $cookies.getObject('Authorization').token
+                                }
+                            });
+
+                            $scope.waivers[i].waiverUploader.onSuccessItem = function () {
+                                $scope.getWaivers();
+                            };
+                            $scope.waivers[i].age = moment($scope.waivers[i]['signature_date']).diff(moment(student.dob), 'years');
+                        }
+
+                });
+            });
+        };
+
+        $scope.getWaivers();
+    }
+
+    angular.module('ttkdApp.studentWaiverCtrl', ['angularFileUpload', 'ngCookies'])
+        .controller('StudentWaiverCtrl', [
+            '$scope',
+            '$http',
+            'apiHost',
+            'FileUploader',
+            'SharedDataSvc',
+            '$cookies',
+            '$document',
+            '$uibModal',
+            '$filter',
+            StudentWaiverController
+        ]);
 })();

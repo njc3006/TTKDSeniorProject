@@ -1,58 +1,41 @@
 (function() {
-	function reformatObject(object) {
-		var reformatted = {};
 
-		for (var field in object) {
-			if (object.hasOwnProperty(field)) {
-				var camelCased = field.replace(/[\-_\s]+(.)?/g, function(match, chr) {
-		      return chr ? chr.toUpperCase() : '';
-		    });
+  function StudentDetailController($scope, $stateParams, StudentsService, apiHost, FileUploader, SharedDataSvc, $cookies) {
+    $scope.apiHost = apiHost;
+    var modalInstance;
+    $scope.video = null;
+    $scope.imagePreview = false;
 
-				camelCased = camelCased.substr(0, 1).toLowerCase() + camelCased.substr(1);
+    /* function to update this student object */
+    var updateStudent = function() {
+      SharedDataSvc.getStudent($stateParams.studentId).then(
+        function(student) {
+          $scope.studentInfo = student;
 
-				reformatted[camelCased] = object[field];
-			}
-		}
+          $scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
 
-		return reformatted;
-	}
+          if ($scope.studentInfo.belt) {
+            $scope.beltStyle = getBeltStyle($scope.studentInfo.belt);
 
-	function StudentDetailController($scope, $stateParams, StudentsService, apiHost, FileUploader, SharedDataSvc) {
-		$scope.apiHost = apiHost;
+            $scope.earnedStripes = $scope.studentInfo.stripes.filter(function(personStripe) {
+              return personStripe['current_stripe'];
+            }).map(function(personStripe) {
+              return personStripe.stripe;
+            });
 
-		/* function to update this student object */
-		var updateStudent = function(){
-			StudentsService.getStudent($stateParams.studentId).then(
-	      function(response) {
-						$scope.studentInfo = reformatObject(response.data);
-
-	          $scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
-
-	          $scope.primaryEmergencyContact   = reformatObject($scope.studentInfo.emergencyContact1);
-	          $scope.secondaryEmergencyContact = reformatObject($scope.studentInfo.emergencyContact2);
-
-	          if ($scope.studentInfo.belt) {
-	              $scope.beltStyle = getBeltStyle($scope.studentInfo.belt);
-
-	              $scope.earnedStripes = $scope.studentInfo.stripes.filter(function(personStripe) {
-	                  return personStripe['current_stripe'];
-	              }).map(function(personStripe) {
-	                  return personStripe.stripe;
-	              });
-
-	              $scope.studentLoaded = true;
-	          } else {
-	              $scope.studentLoaded = true;
-	          }
-	      },
-        function(error) {
             $scope.studentLoaded = true;
+          } else {
+            $scope.studentLoaded = true;
+          }
+        },
+        function(error) {
+          $scope.studentLoaded = true;
 
-            if (error.status === 404) {
-                $scope.studentDoesNotExist = true;
-            } else {
-                $scope.studentRequestFailed = true;
-            }
+          if (error.status === 404) {
+            $scope.studentDoesNotExist = true;
+          } else {
+            $scope.studentRequestFailed = true;
+          }
         });
 		};
 
@@ -60,7 +43,10 @@
 		$scope.uploader = new FileUploader({
 			url: apiHost + '/api/person/' + $stateParams.studentId + '/picture',
 			autoUpload: true,
-			onCompleteAll: updateStudent
+			onCompleteAll: updateStudent,
+			headers: {
+				Authorization: 'Token ' + $cookies.getObject('Authorization').token
+			}
 		});
 
 		function getBeltStyle(belt) {
@@ -107,6 +93,44 @@
 			return $scope.studentInfo.emails.map(function(email) { return email.email; }).join(', ');
 		};
 
+		$scope.openCameraModal = function() {
+			$scope.myChannel = {
+		    video: null // Will reference the video element on success
+		  };
+
+      modalInstance = $uibModal.open({
+          animation: true,
+          windowClass: 'webcam-modal',
+          ariaDescribedBy: 'modal-body',
+          templateUrl: 'components/webcam/webcam.modal.html',
+          scope: $scope
+      });
+		};
+
+		$scope.cancelPicture = function() {
+			$scope.imagePreview = false;
+			modalInstance.close();
+		};
+
+		/*
+		 * Take a picture from the video and draw it on the canvas.
+		 * Set the imagePreview flag to true to hide the webcame view and
+		 * show the preview. */
+		$scope.takePicture = function(){
+			if($scope.myChannel.video) {
+				var canvas = document.querySelector('canvas');
+				WebcamService.takeSnapshot($scope.myChannel, canvas, 800, 600);
+				$scope.imagePreview = true;
+			}
+		};
+
+		$scope.uploadCameraPicture = function() {
+			var canvas = document.querySelector('canvas');
+			WebcamService.uploadPicture($scope.uploader, canvas);
+			$scope.imagePreview = false;
+			modalInstance.close();
+		};
+
 		$scope.studentInfo = {};
 		$scope.earnedStripes = [];
 		$scope.studentBeltClass = '';
@@ -119,19 +143,26 @@
 		$scope.studentDoesNotExist = false;
 
 		updateStudent();
-
-    SharedDataSvc.setStudentId($stateParams.studentId);
 	}
 
-	angular.module('ttkdApp.studentDetailCtrl', ['ttkdApp.studentsService', 'ttkdApp.telLinkDir',
-		'ttkdApp.constants', 'angularFileUpload'])
-		.controller('StudentDetailCtrl', [
+	angular.module('ttkdApp.studentDetailCtrl', [
+		'ttkdApp.studentsService',
+		'ttkdApp.attendanceService',
+		'ttkdApp.telLinkDir',
+		'ttkdApp.constants',
+		'angularFileUpload',
+		'ngCookies',
+		'webcam'
+	]).controller('StudentDetailCtrl', [
 			'$scope',
 			'$stateParams',
 			'StudentsSvc',
 			'apiHost',
 			'FileUploader',
 			'SharedDataSvc',
+			'$cookies',
+			'$uibModal',
+			'WebcamService',
 			StudentDetailController
 		]);
 })();

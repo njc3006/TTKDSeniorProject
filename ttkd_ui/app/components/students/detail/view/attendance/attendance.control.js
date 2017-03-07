@@ -1,68 +1,34 @@
 (function() {
-	function StudentAttendanceController($scope, $http, $q, apiHost, SharedDataService) {
-		var uniquePrograms = {};
+	function StudentAttendanceController(
+		$scope,
+		SharedDataService,
+		StudentsService,
+		AttendanceService
+	) {
+		var studentPromise = SharedDataService.getActiveStudent();
 
-		$scope.loadCheckIns = function(programId, date) {
-			var studentId = SharedDataService.getStudentId();
+		$scope.loadCheckIns = function() {
+			studentPromise.then(function(student) {
+				AttendanceService.getUngroupedRecords({
+					student: student.id,
+					page: $scope.filterData.page,
+					program: $scope.filterData.selectedProgram,
+					startDate: $scope.filterData.startDate.value,
+					endDate: $scope.filterData.endDate.value
+				}).then(
+					function onSuccess(ungroupedRecords) {
+						$scope.pagination.totalRecords = ungroupedRecords.count;
 
-			var requestEndpoint = apiHost + '/api/check-ins/?person=' + studentId;
-
-			if (programId !== undefined) {
-				requestEndpoint += '&program=' + programId;
-			}
-
-			$http.get(requestEndpoint).then(
-				function(checkinsResponse) {
-					var discoveredProgramIds = {};
-
-					checkinsResponse.data.forEach(function(checkIn) {
-						if (uniquePrograms[checkIn.program] === undefined) {
-							discoveredProgramIds[checkIn.program] = true;
-						}
-					});
-
-					var programPromises = [];
-
-					angular.forEach(discoveredProgramIds, function(value, key) {
-						programPromises.push($http.get(apiHost + '/api/programs/' + key + '/'));
-					});
-
-					$q.all(programPromises).then(
-						function(programResponses) {
-							programResponses.forEach(function(resp) {
-								uniquePrograms[resp.data.id] = resp.data;
-							});
-
-							$scope.checkIns = checkinsResponse.data.map(function(checkIn) {
-								return {
-									id: checkIn.id,
-									dateObj: moment(checkIn.date, 'YYYY-MM-DD').toDate(),
-									formattedDate: moment(checkIn.date, 'YYYY-MM-DD').format('MM/DD/YYYY'),
-									program: uniquePrograms[checkIn.program].name
-								};
-							});
-							// Initialize the filteredDates which will potentially be changed and
-							// reset multiple times in the future, but checkIns will remain the
-							// master list
-							$scope.filteredDates = $scope.checkIns;
-
-							$scope.checkedInPrograms = Object.keys(uniquePrograms).map(function(programId) {
-								return uniquePrograms[programId];
-							});
-						},
-						function(errors) {
-							// TODO: Error Handling
-						}
-					);
-				},
-				function(error) {
-					// TODO: Error Handling
-				}
-			);
-		};
-
-		$scope.onProgramChange = function() {
-			$scope.loadCheckIns($scope.filterData.selectedProgram, $scope.filterData.startDate.value);
+						$scope.checkIns = ungroupedRecords.results.map(function(checkIn) {
+							checkIn.date = moment(checkIn.date, 'YYYY-MM-DD').format('MM/DD/YYYY');
+							return checkIn;
+						});
+					},
+					function onFailure(error) {
+						$scope.checkInsLoadFailed = true;
+					}
+				);
+			});
 		};
 
 		$scope.openStartCalendar = function() {
@@ -73,7 +39,14 @@
 			$scope.filterData.endDate.open = true;
 		};
 
+		$scope.enrolledPrograms = [];
+
+		$scope.pagination = {
+			pageSize: 125
+		};
+
 		$scope.filterData = {
+			page: 1,
 			startDate: {
 				open: false,
 				options: {
@@ -88,56 +61,25 @@
 			}
 		};
 
-		$scope.filterDates = function(start, end){
-			$scope.filteredDates = [];
-			angular.forEach($scope.checkIns, function(value){
-				// Start date defin
-				if (start){
-					if (end){
-						// Both start date and end date were defined
-						if (value.dateObj >= start && value.dateObj <= end){
-							$scope.filteredDates.push(value);
-						}
-					} else {
-						// Just the start date was defined
-						if (value.dateObj >= start){
-							$scope.filteredDates.push(value);
-						}
-					}
-				} else if (end){
-					// Just the end date was defined
-					if (value.dateObj <= end){
-						$scope.filteredDates.push(value);
-					}
-				} else {
-					// No filters, set to master list
-					$scope.filteredDates = $scope.checkIns;
+		studentPromise.then(function(student) {
+			StudentsService.getStudentRegistrations(student.id).then(
+				function onSuccess(response) {
+					$scope.enrolledPrograms = response.data;
+					$scope.loadCheckIns();
+				},
+				function onError(error) {
+					$scope.programLoadFailed = true;
 				}
-            });
-		};
-
-		$scope.checkIns = [];
-		$scope.enrolledPrograms = [];
-		$scope.filteredDates = [];
-
-		$scope.loadCheckIns();
-
-		$scope.$watch('filterData["startDate"]["value"]', function(newDate) {
-			$scope.filterDates(newDate, $scope.filterData.endDate.value);
-		});
-
-		$scope.$watch('filterData["endDate"]["value"]', function(newDate) {
-			$scope.filterDates($scope.filterData.startDate.value, newDate);
+			);
 		});
 	}
 
 	angular.module('ttkdApp.studentDetailCtrl')
 		.controller('StudentAttendanceCtrl', [
 			'$scope',
-			'$http',
-			'$q',
-			'apiHost',
 			'SharedDataSvc',
+			'StudentsSvc',
+			'AttendanceSvc',
 			StudentAttendanceController
 		]);
 })();

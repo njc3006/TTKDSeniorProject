@@ -3,9 +3,12 @@
   angular.module('ttkdApp.studentlistCtrl', ['ttkdApp.constants'])
 
     .controller('StudentListCtrl', ['$scope', '$rootScope', '$filter', '$stateParams', 'StudentListService', 
-        'ProgramsSvc',
-        function($scope, $rootScope, $filter, $stateParams, StudentListService, ProgramsSvc) {
+        'ProgramsSvc', 'apiHost',
+        function($scope, $rootScope, $filter, $stateParams, StudentListService, ProgramsSvc, apiHost) {
         $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
+
+        $scope.apiHost = apiHost;
+
         $scope.people = [];
         $scope.allPeople = [];
         $scope.classPeople = [];
@@ -159,7 +162,8 @@
                         var transformed = {
                             id: value.id,
                             person: value,
-                            program: null
+                            program: null,
+                            fullName: value.first_name + ' ' + value.last_name
                         };
 
                         temp2.push(transformed);
