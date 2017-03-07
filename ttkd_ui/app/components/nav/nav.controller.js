@@ -3,8 +3,8 @@
   angular.module('ttkdApp.navCtrl', ['ngCookies'])
 
     .controller('NavCtrl', ['$scope', '$rootScope', '$state', '$document',
-      '$uibModal', '$http', 'apiHost', '$cookies', '$location',
-      function($scope, $rootScope, $state, $document, $uibModal, $http, apiHost, $cookies, $location) {
+      '$uibModal', '$http', 'apiHost', '$cookies', '$location', '$timeout',
+      function($scope, $rootScope, $state, $document, $uibModal, $http, apiHost, $cookies, $location, $timeout) {
       $rootScope.showCurrentProgram = true;
       $rootScope.showLogin = true;
       $rootScope.loggedin = ($cookies.getObject('Authorization') ?  true:false);

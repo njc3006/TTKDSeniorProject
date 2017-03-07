@@ -2,8 +2,8 @@
 
   angular.module('ttkdApp.manageUserCtrl',['ttkdApp.constants'])
     .controller('manageUserCtrl', ['$scope', '$rootScope', '$state', '$document',
-      '$uibModal', '$http', 'apiHost', '$timeout',
-      function($scope, $rootScope, $state, $document, $uibModal, $http, apiHost, $location, $timeout) {
+      '$uibModal', '$http', 'apiHost',
+      function($scope, $rootScope, $state, $document, $uibModal, $http, apiHost, $location) {
       
       var modalInstance;
 
