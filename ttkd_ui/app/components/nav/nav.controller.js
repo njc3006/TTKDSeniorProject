@@ -100,6 +100,13 @@
       };
 
       /*
+       * Changes the password for the currently logged in user.
+       */
+      $scope.cancelModal  = function() {
+        modalInstance.dismiss();
+      };
+
+      /*
        * Logs a user out.
        */
       $scope.logout = function() {

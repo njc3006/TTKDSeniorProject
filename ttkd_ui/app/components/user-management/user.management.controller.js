@@ -23,9 +23,9 @@
        * Open a prompt to change the current user's password.
        */
       $scope.openDeleteUser = function(selectedID, selectedUsername) {
+        console.log("Open Delete");
         $scope.selectedID = selectedID;
         $scope.selectedUsername = selectedUsername;
-        var modalElement = angular.element($document[0].querySelector('#delete-modal'));
 
         modalInstance = $uibModal.open({
           animation: true,
@@ -34,11 +34,6 @@
             ariaDescribedBy: 'modal-body',
             templateUrl: 'components/user-management/delete.modal.html',
           scope: $scope
-        });
-
-        modalInstance.result.then(function (selectedItem) {
-            //$ctrl.selected = selectedItem;
-        }, function () {
         });
       };
 
@@ -65,12 +60,12 @@
        * Open a prompt to change the current user's password.
        */
       $scope.openCreateUser = function() {
+        console.log("Open Create");
         $scope.editingUser = false;
         $scope.selectedUsername = '';
         $scope.password = '';
         $scope.passwordRepeat = '';
         $scope.selectedStaff = false;
-        var modalElement = angular.element($document[0].querySelector('#edit-modal'));
 
         modalInstance = $uibModal.open({
           animation: true,
@@ -79,11 +74,6 @@
             ariaDescribedBy: 'modal-body',
             templateUrl: 'components/user-management/edit.modal.html',
           scope: $scope
-        });
-
-        modalInstance.result.then(function (selectedItem) {
-            //$ctrl.selected = selectedItem;
-        }, function () {
         });
       };
 
@@ -121,12 +111,12 @@
        * Open a prompt to change the current user's password.
        */
       $scope.openEditUser = function(selectedID, selectedUsername, selectedStaff) {
+        console.log("Open Edit");
         $scope.editingUser = true;
         $scope.selectedID = selectedID;
         $scope.selectedUsername = selectedUsername;
         $scope.selectedStaff = selectedStaff;
 
-        var modalElement = angular.element($document[0].querySelector('#edit-modal'));
 
         modalInstance = $uibModal.open({
           animation: true,
@@ -135,11 +125,6 @@
             ariaDescribedBy: 'modal-body',
             templateUrl: 'components/user-management/edit.modal.html',
           scope: $scope
-        });
-
-        modalInstance.result.then(function (selectedItem) {
-            //$ctrl.selected = selectedItem;
-        }, function () {
         });
       };
 
@@ -172,7 +157,7 @@
        * Changes the password for the currently logged in user.
        */
       $scope.cancelModal  = function() {
-        modalInstance.dismiss();
+        modalInstance.close();
       };
 
       /*
@@ -180,7 +165,6 @@
        */
       $scope.openChangePass = function(selectedID, selectedUsername) {
         $scope.passwordError = '';
-        var modalElement = angular.element($document[0].querySelector('#password-modal'));
         $scope.selectedID = selectedID;
         $scope.selectedUsername = selectedUsername;
 
@@ -192,19 +176,12 @@
             templateUrl: 'components/user-management/password.modal.html',
           scope: $scope
         });
-
-        modalInstance.result.then(function (selectedItem) {
-            //$ctrl.selected = selectedItem;
-        }, function () {
-        });
       };
 
       /*
        * Changes the password for the currently logged in user.
        */
       $scope.changePass = function(currentPass, password, passwordRepeat, selectedID) {
-        //$timeout(function () { $scope.passwordError = '';}, 5000); // So that it is clear when the user creates a new error on submit
-        
         if(!(currentPass && password && passwordRepeat)) {
           $scope.passwordError = 'All fields must be completed';
           return;
