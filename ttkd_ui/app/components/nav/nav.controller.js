@@ -42,7 +42,7 @@
           windowClass: 'login-modal',
           ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: 'components/nav/login.modal.html',
+            templateUrl: 'components/user-management/login.modal.html',
           scope: $scope
         });
 
