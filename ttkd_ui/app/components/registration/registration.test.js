@@ -181,7 +181,36 @@ describe('Registration', function() {
 			});
 		});
 
-		it('should always have at least one email field');
+		it('should not required a secondary phone number', function(done) {
+			var secondaryPhone = element(by.model('registrationInfo.person.secondary_phone'));
+
+			secondaryPhone.sendKeys('2134567890').then(function() {
+				secondaryPhone.clear();
+
+				var parentDiv = secondaryPhone.element(by.xpath('..'));
+				expect(hasError(parentDiv)).toBe(false);
+
+				done();
+			});
+		});
+
+		it('should validate secondary phone if it\'s provided', function(done) {
+			var secondaryPhone = element(by.model('registrationInfo.person.secondary_phone'));
+
+			secondaryPhone.sendKeys('2134abc').then(function() {
+				var parentDiv = secondaryPhone.element(by.xpath('..'));
+				expect(hasError(parentDiv)).toBe(true);
+
+				done();
+			});
+		});
+
+		it('should always have at least one email field', function() {
+			var firstEmailInput = element(by.id('email0'));
+			var firstRemoveButton = element(by.id('remove0'));
+			expect(firstEmailInput.isDisplayed()).toBe(true);
+			expect(firstRemoveButton.isDisplayed()).toBe(false);
+		});
 
 		it('should allow user to continue once all info has been entered');
 
