@@ -17,6 +17,7 @@
     "bootstrap-3-card": "^0.2.0"
   },
   "resolutions": {
-    "angular": "^1.6.2"
+    "angular": "^1.6.2",
+    "webcam": "^3.1.1"
   }
 }
