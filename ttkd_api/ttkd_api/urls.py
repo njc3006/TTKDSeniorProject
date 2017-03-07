@@ -17,7 +17,7 @@ from .views.belt_views import BeltViewSet
 from .views.attendance_record_views import AttendanceRecordViewSet, \
     AttendanceRecordUsingPersonViewSet, DetailedAttendanceRecordViewSet, \
     get_grouped_attendance_records
-from .views.person_views import PersonViewSet, PersonPictureViewSet
+from .views.person_views import PersonViewSet, PersonPictureViewSet, PersonNotesViewSet
 from .views.program_views import ProgramViewSet, StudentList
 from .views.registration_views import MinimalRegistrationViewSet, RegistrationViewSet, \
     RegistrationWithPeopleViewSet, SimpleRegistrationViewSet, PartialRegistrationViewSet
@@ -52,9 +52,9 @@ router.register(r'registrations-minimal', MinimalRegistrationViewSet, 'registrat
 router.register(r'registrations-partial', PartialRegistrationViewSet, 'registrations-partial')
 router.register(r'stripes', StripeViewSet)
 router.register(r'students', StudentList, 'student-list')
-router.register(r'users', UserViewSet, 'users')
-router.register(r'userchangepass', ChangePasswordView, 'change-password')
+router.register(r'person-notes', PersonNotesViewSet, 'person-notes')
 router.register(r'userchangeinfo', UserInfoView, 'user-info')
+router.register(r'userchangepass', ChangePasswordView, 'change-password')
 router.register(r'waivers', WaiverViewSet)
 
 
