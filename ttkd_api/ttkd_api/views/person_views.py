@@ -1,6 +1,7 @@
 """PersonViewSet"""
 from rest_framework import viewsets, filters, permissions
-from ..serializers.person_serializer import PersonSerializer, PersonPictureSerializer
+from ..serializers.person_serializer import PersonSerializer, PersonPictureSerializer, \
+    NotesPersonSerializer
 from ..models.person import Person
 from ..permissions import custom_permissions
 
@@ -57,3 +58,15 @@ class PersonPictureViewSet(viewsets.GenericViewSet):
             return Response(status=HTTP_201_CREATED, headers={'Location': person.picture.url})
         else:
             return Response(status=HTTP_400_BAD_REQUEST)
+
+
+class PersonNotesViewSet(viewsets.ModelViewSet):
+    """
+    Returns all Person objects to the Route with id and misc_notes.
+    GET: Returns all PersonStripe Objects To The Route, Or An Instance If Given A PK.
+    PUT: Update a specific person's misc_notes.
+    POST: NOT SUPPORTED
+    """
+    permission_classes = (custom_permissions.IsAuthenticatedOrOptions,)
+    queryset = Person.objects.all()
+    serializer_class = NotesPersonSerializer

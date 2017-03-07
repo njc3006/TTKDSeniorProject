@@ -118,3 +118,13 @@ class MinimalPersonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
         fields = ('id', 'first_name', 'last_name', 'belt', 'picture_url', 'active')
+
+
+class NotesPersonSerializer(serializers.ModelSerializer):
+    """
+    NotesPersonSerializer Outputs Person Model with id and misc_notes
+    """
+
+    class Meta:
+        model = Person
+        fields = ('id', 'misc_notes')
