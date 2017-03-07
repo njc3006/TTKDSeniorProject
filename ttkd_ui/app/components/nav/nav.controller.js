@@ -3,8 +3,8 @@
   angular.module('ttkdApp.navCtrl', ['ngCookies'])
 
     .controller('NavCtrl', ['$scope', '$rootScope', '$state', '$document',
-      '$uibModal', '$http', 'apiHost', '$cookies', '$location', '$timeout',
-      function($scope, $rootScope, $state, $document, $uibModal, $http, apiHost, $cookies, $location, $timeout) {
+      '$uibModal', '$http', 'apiHost', '$cookies', '$location',
+      function($scope, $rootScope, $state, $document, $uibModal, $http, apiHost, $cookies, $location) {
       $rootScope.showCurrentProgram = true;
       $rootScope.showLogin = true;
       $rootScope.loggedin = ($cookies.getObject('Authorization') ?  true:false);
@@ -75,7 +75,6 @@
               }
             }).then(
               function(response) {
-                console.log(response.data);
                 var authData = {
                   token: authToken,
                   username: response.data.username,
@@ -144,7 +143,6 @@
        * Changes the password for the currently logged in user.
        */
       $scope.changePass = function(currentPass, password, passwordRepeat) {
-        console.log("Changing");
         $timeout(function () { $scope.passwordError = '';}, 5000); // So that it is clear when the user creates a new error on submit
         
         if(!(currentPass && password && passwordRepeat)) {
@@ -161,11 +159,9 @@
           currentPass: currentPass
         }).then(
           function(response) {
-            console.log(response.data);
             modalInstance.dismiss();
           },
           function(error) {
-            console.log(error);
             $scope.passwordError = 'Invalid current password';
           }
         );
