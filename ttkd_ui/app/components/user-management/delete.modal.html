@@ -5,6 +5,7 @@
 	This deletetion is perminant you will have to create a new user if you change your mind later.
 </div>
 <div class="modal-footer">
+  <div class="text-danger">{{errorText}}}</div>
   <button id="cancel-action" class="btn btn-danger btn-lg pull-left" type="button" ng-click="cancelModal()">Cancel</button>
   <button id="delete-yes" class="btn btn-success btn-lg pull-right" type="button" ng-click="deleteUser(selectedID)">Yes</button>
 </div>

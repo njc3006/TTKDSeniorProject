@@ -11,7 +11,6 @@
         $http.get(apiHost + '/api/users/'
         ).then(
           function(response) {
-            console.log(response.data);
             $scope.userList = response.data;
           }
         );
@@ -23,7 +22,7 @@
        * Open a prompt to change the current user's password.
        */
       $scope.openDeleteUser = function(selectedID, selectedUsername) {
-        console.log("Open Delete");
+        $scope.errorText = '';
         $scope.selectedID = selectedID;
         $scope.selectedUsername = selectedUsername;
 
@@ -46,12 +45,11 @@
         $http.delete(apiHost + '/api/users/' + selectedID + '/', {
         }).then(
           function(response) {
-            console.log(response.data);
             modalInstance.close();
             $scope.reload();
           },
           function(error) {
-            console.log(error);
+            $scope.errorText = 'System failed to make request. Insure server is still running';
           }
         );
       };
@@ -60,7 +58,7 @@
        * Open a prompt to change the current user's password.
        */
       $scope.openCreateUser = function() {
-        console.log("Open Create");
+        $scope.errorText = '';
         $scope.editingUser = false;
         $scope.selectedUsername = '';
         $scope.password = '';
@@ -97,12 +95,11 @@
           is_staff: selectedStaff || false
         }).then(
           function(response) {
-            console.log(response.data);
             modalInstance.close();
             $scope.reload();
           },
           function(error) {
-            console.log(error);
+            $scope.errorText = 'System failed to make request. Insure server is still running';
           }
         );
       };
@@ -111,7 +108,7 @@
        * Open a prompt to change the current user's password.
        */
       $scope.openEditUser = function(selectedID, selectedUsername, selectedStaff) {
-        console.log("Open Edit");
+        $scope.errorText = '';
         $scope.editingUser = true;
         $scope.selectedID = selectedID;
         $scope.selectedUsername = selectedUsername;
@@ -143,12 +140,11 @@
           is_staff: selected_is_staff || false
         }).then(
           function(response) {
-            console.log(response.data);
             modalInstance.close();
             $scope.reload();
           },
           function(error) {
-            console.log(error);
+            $scope.errorText = 'System failed to make request. Insure server is still running';
           }
         );
       };
@@ -196,11 +192,9 @@
           currentPass: currentPass
         }).then(
           function(response) {
-            console.log(response.data);
             modalInstance.close();
           },
           function(error) {
-            console.log(error);
             $scope.passwordError = 'Invalid current password';
           }
         );
