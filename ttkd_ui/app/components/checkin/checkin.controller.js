@@ -52,7 +52,7 @@
                 } else if ($scope.mode.value === 'View'){
                     $state.go('studentDetails', ({studentId: person.id}));
                 } else if ($scope.mode.value === 'Edit') {
-                    // TODO
+                    $state.go('editStudentDetails' , ({studentId: person.id}));
                 }
 
             };
@@ -67,7 +67,7 @@
                 } else if ($scope.mode.value === 'View'){
                     $state.go('studentDetails', ({studentId: instructor.id}));
                 } else if ($scope.mode.value === 'Edit') {
-                    // TODO
+                     $state.go('editStudentDetails' , ({studentId: instructor.id}));
                 }
 
             };
