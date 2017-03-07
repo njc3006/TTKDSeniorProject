@@ -1,5 +1,5 @@
 (function () {
-    function StudentWaiverController($scope, $http, apiHost, FileUploader, SharedDataService, $cookies, $document, $uibModal, $filter) {
+    function StudentWaiverController($scope, $http, $stateParams, apiHost, FileUploader, SharedDataService, $cookies, $document, $uibModal, $filter, WebcamService) {
         var modalInstance;
         $scope.waivers = [];
         $scope.hasWaivers = false;
@@ -11,8 +11,55 @@
             open: false,
             value: null
         };
+        // the currently selected waiver, used for picture uploading
+        $scope.selectedWaiver = null;
+        $scope.documentCameraSize = true;// configures webcam size for capturing documents
 
         var studentPromise = SharedDataService.getActiveStudent();
+
+        $scope.openCameraModal = function(waiver) {
+          $scope.selectedWaiver = waiver;
+          $scope.myChannel = {
+            video: null // Will reference the video element on success
+          };
+
+          modalInstance = $uibModal.open({
+              animation: true,
+              windowClass: 'webcam-modal',
+              ariaDescribedBy: 'modal-body',
+              templateUrl: 'components/webcam/webcam.modal.html',
+              scope: $scope
+          });
+        };
+
+        $scope.cancelPicture = function() {
+          $scope.imagePreview = false;
+          modalInstance.close();
+        };
+
+        /*
+         * Take a picture from the video and draw it on the canvas.
+         * Set the imagePreview flag to true to hide the webcame view and
+         * show the preview. */
+        $scope.takePicture = function(){
+          if($scope.myChannel.video) {
+            var canvas = document.querySelector('canvas');
+            WebcamService.takeSnapshot($scope.myChannel, canvas, 1080, 720);
+            $scope.imagePreview = true;
+          }
+        };
+
+        $scope.rotatePicture = function() {
+          var canvas = document.querySelector('canvas');
+          WebcamService.rotateSnapshot(canvas);
+        };
+
+        $scope.uploadCameraPicture = function() {
+          var canvas = document.querySelector('canvas');
+          WebcamService.uploadPicture($scope.selectedWaiver.waiverUploader, canvas);
+          $scope.imagePreview = false;
+          modalInstance.close();
+        };
 
         $scope.uploadWaiver = function (waiverId) {
             document.getElementById('waiver-upload' + waiverId).click();
@@ -22,7 +69,7 @@
             var modalElement = angular.element($document[0].querySelector('#waiver-modal'));
 
             modalInstance = $uibModal.open({
-                animation: true,
+                animation: false,
                 windowClass: 'waiver-modal',
                 ariaLabelledBy: 'modal-title',
                 ariaDescribedBy: 'modal-body',
@@ -110,6 +157,7 @@
         .controller('StudentWaiverCtrl', [
             '$scope',
             '$http',
+            '$stateParams',
             'apiHost',
             'FileUploader',
             'SharedDataSvc',
@@ -117,6 +165,7 @@
             '$document',
             '$uibModal',
             '$filter',
+            'WebcamService',
             StudentWaiverController
         ]);
 })();

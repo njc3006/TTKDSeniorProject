@@ -1,16 +1,33 @@
 (function() {
 
-  function StudentDetailController($scope, $stateParams, StudentsService, apiHost, FileUploader, SharedDataSvc, $cookies) {
+  function StudentDetailController(
+  		$scope, 
+  		$stateParams, 
+  		StudentsService, 
+  		apiHost, 
+  		FileUploader, 
+  		SharedDataSvc, 
+  		$cookies, 
+  		$uibModal, 
+  		WebcamService) 
+  {
     $scope.apiHost = apiHost;
     var modalInstance;
     $scope.video = null;
     $scope.imagePreview = false;
+
+    $scope.pictureUrl = "";
+    var pictureUpdatedQueryParam = 0;
 
     /* function to update this student object */
     var updateStudent = function() {
       SharedDataSvc.getStudent($stateParams.studentId).then(
         function(student) {
           $scope.studentInfo = student;
+
+          if(student.pictureUrl) {
+          	$scope.pictureUrl = apiHost + '/' + student.pictureUrl + '?p=' + pictureUpdatedQueryParam;
+          }
 
           $scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
 
@@ -121,8 +138,14 @@
 				var canvas = document.querySelector('canvas');
 				WebcamService.takeSnapshot($scope.myChannel, canvas, 800, 600);
 				$scope.imagePreview = true;
+				pictureUpdatedQueryParam++;
 			}
 		};
+
+		$scope.rotatePicture = function() {
+      var canvas = document.querySelector('canvas');
+      WebcamService.rotateSnapshot(canvas);
+    };
 
 		$scope.uploadCameraPicture = function() {
 			var canvas = document.querySelector('canvas');
