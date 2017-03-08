@@ -90,10 +90,10 @@
                 $scope.instructors = [];
                 $scope.checkedInInstructorsIds = [];
                 $scope.checkedInInstructorsCheckinIds = [];
-                $scope.getCheckinsForClass();
+                $scope.getCheckinsForProgram();
 
                 if ($scope.isInstructor) {
-                    $scope.getInstructorCheckinsForClass();
+                    $scope.getInstructorCheckinsForProgram();
                 }
             };
 
@@ -133,8 +133,8 @@
             };
 
             // Get who is currently checked into the class
-            $scope.getCheckinsForClass = function() {
-                CheckinService.getCheckinsForClass($scope.programID, $scope.formatDate($scope.date)).then(
+            $scope.getCheckinsForProgram = function() {
+                CheckinService.getCheckinsForProgram($scope.programID, $scope.formatDate($scope.date)).then(
                     function(response) {
                         var tempdata = response.data;
 
@@ -149,7 +149,7 @@
 
             // Get all of the students from the class and determine ones already checked in
             $scope.getStudents = function() {
-                CheckinService.getStudentsFromClass($stateParams.programID).then(
+                CheckinService.getStudentsFromProgram($stateParams.programID).then(
                     function(response) {
                         var tempdata = response.data;
 
@@ -183,8 +183,8 @@
             };
 
             // Get instructors who are currently checked into the class
-            $scope.getInstructorCheckinsForClass = function() {
-                CheckinService.getInstructorCheckinsForClass($scope.programID, $scope.formatDate($scope.date)).then(
+            $scope.getInstructorCheckinsForProgram = function() {
+                CheckinService.getInstructorCheckinsForProgram($scope.programID, $scope.formatDate($scope.date)).then(
                     function(response) {
                         var tempdata = response.data;
 
@@ -199,7 +199,7 @@
 
             // Get all of the instructors from the class and determine ones already checked in
             $scope.getInstructors = function() {
-                CheckinService.getInstructorsForClass($stateParams.programID).then(
+                CheckinService.getInstructorsForProgram($stateParams.programID).then(
                     function(response) {
                         var tempdata = response.data;
 
@@ -233,10 +233,10 @@
             };
 
             // Load the data for the page
-            $scope.getCheckinsForClass();
+            $scope.getCheckinsForProgram();
 
             if ($scope.isInstructor) {
-                $scope.getInstructorCheckinsForClass();
+                $scope.getInstructorCheckinsForProgram();
             }
 
             /*

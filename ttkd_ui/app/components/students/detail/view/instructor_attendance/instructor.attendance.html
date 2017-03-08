@@ -16,12 +16,12 @@
 		</table>
 
 		<div class="form-group col-xs-4 col-md-4">
-			<div>Class</div>
+			<div>Program</div>
 			<select
 				class="form-control"
 				ng-model="filterData.selectedProgram"
 				ng-change="onProgramChange()">
-				<option value="">All Classes</option>
+				<option value="">All Programs</option>
 				<optgroup label="Active">
  					<option ng-repeat="program in checkedInPrograms | filter: {active:true}" value="{{program.id}}">
 						{{program.name}}
@@ -82,7 +82,7 @@
 		<table class="table table-striped">
 			<thead>
 				<th>Date</th>
-				<th>Class</th>
+				<th>Program</th>
 			</thead>
 			<tbody>
 				<tr ng-repeat="checkIn in filteredDates | orderBy: 'dateObj':true">
