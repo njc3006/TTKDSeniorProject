@@ -6,6 +6,16 @@
       function($scope, $rootScope, $state, $document, $uibModal, $http, apiHost, $location) {
       
       var modalInstance;
+      $scope.statusAlert = {
+          failure: false,
+          missing: false,
+          passwords: false,
+          success: false
+      };
+
+      $scope.closeAlert = function(alert){
+          $scope.statusAlert[alert] = false;
+      };
 
       $scope.reload = function() {
         $http.get(apiHost + '/api/users/'
@@ -22,7 +32,13 @@
        * Open a prompt to change the current user's password.
        */
       $scope.openDeleteUser = function(selectedID, selectedUsername) {
-        $scope.errorText = '';
+        $scope.statusAlert = {
+            failure: false,
+            missing: false,
+            passwords: false,
+            success: false
+        };
+
         $scope.selectedID = selectedID;
         $scope.selectedUsername = selectedUsername;
 
@@ -46,10 +62,11 @@
         }).then(
           function(response) {
             modalInstance.close();
+            $scope.statusAlert['success'] = true;
             $scope.reload();
           },
           function(error) {
-            $scope.errorText = 'System failed to make request. Insure server is still running';
+            $scope.statusAlert['failure'] = true;
           }
         );
       };
@@ -58,7 +75,13 @@
        * Open a prompt to change the current user's password.
        */
       $scope.openCreateUser = function() {
-        $scope.errorText = '';
+        $scope.statusAlert = {
+            failure: false,
+            missing: false,
+            passwords: false,
+            success: false
+        };
+
         $scope.editingUser = false;
         $scope.selectedUsername = '';
         $scope.password = '';
@@ -81,12 +104,19 @@
       $scope.createUser  = function(selectedUsername, password, passwordRepeat, selectedStaff) {
         
         if(!(selectedUsername && password && passwordRepeat)) {
-          $scope.passwordError = 'All fields must be completed';
+          $scope.statusAlert['missing'] = true;
           return;
         }
+        else {
+          $scope.statusAlert['missing'] = false;
+        }
+
         if(password !== passwordRepeat) {
-          $scope.passwordError = 'Passwords do not match';
+          $scope.statusAlert['password'] = true;
           return;
+        }
+        else {
+          $scope.statusAlert['password'] = false;
         }
 
         $http.post(apiHost + '/api/users/', {
@@ -96,10 +126,11 @@
         }).then(
           function(response) {
             modalInstance.close();
+            $scope.statusAlert['success'] = true;
             $scope.reload();
           },
           function(error) {
-            $scope.errorText = 'System failed to make request. Insure server is still running';
+            $scope.statusAlert['failure'] = true;
           }
         );
       };
@@ -108,9 +139,16 @@
        * Open a prompt to change the current user's password.
        */
       $scope.openEditUser = function(selectedID, selectedUsername, selectedStaff) {
-        $scope.errorText = '';
+        $scope.statusAlert = {
+            failure: false,
+            missing: false,
+            passwords: false,
+            success: false
+        };
+
         $scope.editingUser = true;
         $scope.selectedID = selectedID;
+        $scope.newUsername = selectedUsername;
         $scope.selectedUsername = selectedUsername;
         $scope.selectedStaff = selectedStaff;
 
@@ -130,8 +168,11 @@
        */
       $scope.editUser  = function(selectedID, selectedUsername, selected_is_staff) {
         if(!selectedUsername) {
-          $scope.passwordError = 'Must have a username';
+          $scope.statusAlert['missing'] = true;
           return;
+        }
+        else {
+          $scope.statusAlert['missing'] = false;
         }
 
 
@@ -141,10 +182,11 @@
         }).then(
           function(response) {
             modalInstance.close();
+            $scope.statusAlert['success'] = true;
             $scope.reload();
           },
           function(error) {
-            $scope.errorText = 'System failed to make request. Insure server is still running';
+            $scope.statusAlert['failure'] = true;
           }
         );
       };
@@ -160,7 +202,13 @@
        * Open a prompt to change the current user's password.
        */
       $scope.openChangePass = function(selectedID, selectedUsername) {
-        $scope.passwordError = '';
+        $scope.statusAlert = {
+            failure: false,
+            missing: false,
+            passwords: false,
+            success: false
+        };
+
         $scope.selectedID = selectedID;
         $scope.selectedUsername = selectedUsername;
 
@@ -179,12 +227,19 @@
        */
       $scope.changePass = function(currentPass, password, passwordRepeat, selectedID) {
         if(!(currentPass && password && passwordRepeat)) {
-          $scope.passwordError = 'All fields must be completed';
+          $scope.statusAlert['missing'] = true;
           return;
         }
+        else {
+          $scope.statusAlert['missing'] = false;
+        }
+
         if(password !== passwordRepeat) {
-          $scope.passwordError = 'Passwords do not match';
+          $scope.statusAlert['password'] = true;
           return;
+        }
+        else {
+          $scope.statusAlert['password'] = false;
         }
 
         $http.put(apiHost + '/api/userchangepass/' + selectedID + '/', {
@@ -193,9 +248,15 @@
         }).then(
           function(response) {
             modalInstance.close();
+            $scope.statusAlert['success'] = true;
           },
           function(error) {
-            $scope.passwordError = 'Invalid current password';
+            if(error.status == 403) {
+              $scope.statusAlert['incorrect'] = true;
+            }
+            else {
+              $scope.statusAlert['failure'] = true;
+            }
           }
         );
       };

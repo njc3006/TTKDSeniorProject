@@ -3,8 +3,8 @@
   angular.module('ttkdApp.navCtrl', ['ngCookies'])
 
     .controller('NavCtrl', ['$scope', '$rootScope', '$state', '$document',
-      '$uibModal', '$http', 'apiHost', '$cookies', '$location', '$timeout',
-      function($scope, $rootScope, $state, $document, $uibModal, $http, apiHost, $cookies, $location, $timeout) {
+      '$uibModal', '$http', 'apiHost', '$cookies', '$location',
+      function($scope, $rootScope, $state, $document, $uibModal, $http, apiHost, $cookies, $location) {
       $rootScope.showCurrentProgram = true;
       $rootScope.showLogin = true;
       $rootScope.loggedin = ($cookies.getObject('Authorization') ?  true:false);
@@ -34,7 +34,11 @@
        * Open a prompt to confirm login for a person.
        */
       $scope.openLogin = function() {
-        $scope.loginError = '';
+        $scope.statusAlert = {
+            failure: false,
+            missing: false
+        };
+
         var modalElement = angular.element($document[0].querySelector('#login-modal'));
 
         modalInstance = $uibModal.open({
@@ -56,7 +60,14 @@
        * Logs a user out.
        */
       $scope.login = function(username, password) {
-        $scope.loginError = '';
+        if(!(username && password)) {
+          $scope.statusAlert['missing'] = true;
+          return;
+        }
+        else {
+          $scope.statusAlert['missing'] = false;
+        }
+
         $http({
           method: 'POST',
           url: apiHost + '/api/token-auth/',
@@ -90,10 +101,10 @@
                 $scope.reload();
               }
             );
-            modalInstance.dismiss();
+            modalInstance.close();
           },
           function(error) {
-            $scope.loginError = 'Invalid credentials';
+            $scope.statusAlert['failure'] = true;
           }
         );
       };
@@ -102,7 +113,7 @@
        * Changes the password for the currently logged in user.
        */
       $scope.cancelModal  = function() {
-        modalInstance.dismiss();
+        modalInstance.close();
       };
 
       /*
@@ -121,7 +132,12 @@
        * Open a prompt to change the current user's password.
        */
       $scope.openChangePass = function() {
-        $scope.passwordError = '';
+        $scope.statusAlert = {
+            failure: false,
+            missing: false,
+            passwords: false
+        };
+
         var modalElement = angular.element($document[0].querySelector('#password-modal'));
 
         modalInstance = $uibModal.open({
@@ -143,15 +159,20 @@
        * Changes the password for the currently logged in user.
        */
       $scope.changePass = function(currentPass, password, passwordRepeat, selectedID) {
-        $timeout(function () { $scope.passwordError = '';}, 5000); // So that it is clear when the user creates a new error on submit
-        
         if(!(currentPass && password && passwordRepeat)) {
-          $scope.passwordError = 'All fields must be completed';
+          $scope.statusAlert['missing'] = true;
           return;
         }
+        else {
+          $scope.statusAlert['missing'] = false;
+        }
+
         if(password !== passwordRepeat) {
-          $scope.passwordError = 'Passwords do not match';
+          $scope.statusAlert['password'] = true;
           return;
+        }
+        else {
+          $scope.statusAlert['password'] = false;
         }
 
         $http.put(apiHost + '/api/userchangepass/current/', {
@@ -159,10 +180,15 @@
           currentPass: currentPass
         }).then(
           function(response) {
-            modalInstance.dismiss();
+            modalInstance.close();
           },
           function(error) {
-            $scope.passwordError = 'Invalid current password';
+            if(error.status == 403) {
+              $scope.statusAlert['incorrect'] = true;
+            }
+            else {
+              $scope.statusAlert['failure'] = true;
+            }
           }
         );
       };
