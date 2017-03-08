@@ -49,11 +49,6 @@
             templateUrl: 'components/nav/login.modal.html',
           scope: $scope
         });
-
-        modalInstance.result.then(function (selectedItem) {
-            //$ctrl.selected = selectedItem;
-        }, function () {
-        });
       };
 
       /*
@@ -148,11 +143,6 @@
             templateUrl: 'components/user-management/password.modal.html',
           scope: $scope
         });
-
-        modalInstance.result.then(function (selectedItem) {
-            //$ctrl.selected = selectedItem;
-        }, function () {
-        });
       };
 
       /*
@@ -183,7 +173,7 @@
             modalInstance.close();
           },
           function(error) {
-            if(error.status == 403) {
+            if(error.status === 403) {
               $scope.statusAlert['incorrect'] = true;
             }
             else {

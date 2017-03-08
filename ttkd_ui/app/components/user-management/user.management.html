@@ -1,41 +1,47 @@
 <div class="container text-center">
 	<div class="spacer-35"></div>
 
-	<h1>User List</h1>
-	<button class="btn btn-success btn-lg pull-right" type="button" ng-click="openCreateUser()">Create User</button>
-	<br>
-	<hr>
-	<div class="alert alert-success" ng-show="statusAlert.success" uib-alert close="closeAlert('success')">
-		Changes were made successfully.
+	<div class="row">
+		<h1>User List</h1>
+		<button class="btn btn-success btn-lg pull-right" type="button" ng-click="openCreateUser()">Create User</button>
 	</div>
-	<div class="col-xs-3 text-center">
-		Username
-	</div>
-	<div class="col-xs-3 text-center">
-		Admin (Y/N)
-	</div>
-	<br>
 	<hr>
 
-	<div class="row" ng-repeat="u in userList | orderBy: 'username'">
+	<div class="row">
+		<div class="alert alert-success" ng-show="statusAlert.success" uib-alert close="closeAlert('success')">
+			Changes were made successfully.
+		</div>
+	</div>
+
+	<div class="row">
 		<div class="col-xs-3 text-center">
-			{{u.username}}
+			Username
 		</div>
 		<div class="col-xs-3 text-center">
-			<div ng-if="u.is_staff == 1">Yes</div>
-			<div ng-if="u.is_staff != 1">No</div>
+			Admin (Y/N)
 		</div>
-		<div class="text-center" ng-if="u.id != currentUserID">
-			<button id="delete-user" class="btn btn-danger col-xs-2" type="button" ng-click="openDeleteUser(u.id, u.username)">Delete</button>
-			<button id="set-password" class="btn btn-danger col-xs-2" type="button" ng-click="openChangePass(u.id, u.username)">Reset Password</button>
-			<button id="edit-user" class="btn btn-success col-xs-2" type="button" ng-click="openEditUser(u.id, u.username, u.is_staff)">Edit</button>
-		</div>
-		<div class="text-center" ng-if="u.id == currentUserID">
-			<button id="edit-user" class="btn btn-success col-xs-2 col-xs-offset-4" type="button" ng-click="openEditUser(u.id, u.username, u.is_staff)">Edit</button>
+	</div>
+	<hr>
+
+	<div ng-repeat="u in userList | orderBy: 'username'">
+		<div class="row">
+			<div class="col-xs-3 text-center">
+				{{u.username}}
+			</div>
+			<div class="col-xs-3 text-center">
+				<div ng-if="u.is_staff === 1">Yes</div>
+				<div ng-if="u.is_staff !== 1">No</div>
+			</div>
+			<div ng-if="u.id !== currentUserID">
+				<button id="delete-user" class="btn btn-danger col-xs-2" type="button" ng-click="openDeleteUser(u.id, u.username)">Delete</button>
+				<button id="set-password" class="btn btn-warning col-xs-2" type="button" ng-click="openChangePass(u.id, u.username)">Reset Password</button>
+				<button id="edit-user" class="btn btn-success col-xs-2" type="button" ng-click="openEditUser(u.id, u.username, u.is_staff)">Edit</button>
+			</div>
+			<div ng-if="u.id === currentUserID">
+				<button id="edit-user" class="btn btn-success col-xs-2 col-xs-offset-4" type="button" ng-click="openEditUser(u.id, u.username, u.is_staff)">Edit</button>
+			</div>
 		</div>
 	</div>
 	
 </div>
 
-<div id="modal-area">
-</div>

@@ -1,18 +1,10 @@
 (function() {
 
   angular.module('ttkdApp.manageUserCtrl',['ttkdApp.constants'])
-    .controller('manageUserCtrl', ['$scope', '$rootScope', '$state', '$document',
-      '$uibModal', '$http', 'apiHost',
-      function($scope, $rootScope, $state, $document, $uibModal, $http, apiHost, $location) {
+    .controller('manageUserCtrl', ['$scope', '$uibModal', '$http', 'apiHost',
+      function($scope, $uibModal, $http, apiHost) {
       
       var modalInstance;
-      $scope.statusAlert = {
-          failure: false,
-          missing: false,
-          passwords: false,
-          success: false
-      };
-
       $scope.closeAlert = function(alert){
           $scope.statusAlert[alert] = false;
       };
@@ -26,18 +18,23 @@
         );
       };
 
-      $scope.reload();
-
-      /*
-       * Open a prompt to change the current user's password.
-       */
-      $scope.openDeleteUser = function(selectedID, selectedUsername) {
+      $scope.clearAlerts = function() {
         $scope.statusAlert = {
             failure: false,
             missing: false,
             passwords: false,
             success: false
         };
+      }
+
+      $scope.clearAlerts();
+      $scope.reload();
+
+      /*
+       * Open a prompt to delete the currently selected user.
+       */
+      $scope.openDeleteUser = function(selectedID, selectedUsername) {
+        $scope.clearAlerts();
 
         $scope.selectedID = selectedID;
         $scope.selectedUsername = selectedUsername;
@@ -53,13 +50,12 @@
       };
 
       /*
-       * Changes the password for the currently logged in user.
+       * Queries the api to delete the currently selected user.
        */
       $scope.deleteUser  = function(selectedID) {
         
 
-        $http.delete(apiHost + '/api/users/' + selectedID + '/', {
-        }).then(
+        $http.delete(apiHost + '/api/users/' + selectedID + '/').then(
           function(response) {
             modalInstance.close();
             $scope.statusAlert['success'] = true;
@@ -72,15 +68,10 @@
       };
 
       /*
-       * Open a prompt to change the current user's password.
+       * Open a prompt to create a new user.
        */
       $scope.openCreateUser = function() {
-        $scope.statusAlert = {
-            failure: false,
-            missing: false,
-            passwords: false,
-            success: false
-        };
+        $scope.clearAlerts();
 
         $scope.editingUser = false;
         $scope.newUsername = '';
@@ -100,7 +91,7 @@
       };
 
       /*
-       * Changes the password for the currently logged in user.
+       * Queries the api to create a new user with the provided field values.
        */
       $scope.createUser  = function(selectedUsername, password, passwordRepeat, selectedStaff) {
         
@@ -137,15 +128,10 @@
       };
 
       /*
-       * Open a prompt to change the current user's password.
+       * Open a prompt to edit the selected user's username and admin status.
        */
       $scope.openEditUser = function(selectedID, selectedUsername, selectedStaff) {
-        $scope.statusAlert = {
-            failure: false,
-            missing: false,
-            passwords: false,
-            success: false
-        };
+        $scope.clearAlerts();
 
         $scope.editingUser = true;
         $scope.selectedID = selectedID;
@@ -165,7 +151,7 @@
       };
 
       /*
-       * Changes the password for the currently logged in user.
+       * Queries the api to edit the currently selected user.
        */
       $scope.editUser  = function(selectedID, selectedUsername, selected_is_staff) {
         if(!selectedUsername) {
@@ -193,7 +179,7 @@
       };
 
       /*
-       * Changes the password for the currently logged in user.
+       * Closes the current modal.
        */
       $scope.cancelModal  = function() {
         modalInstance.close();
@@ -203,12 +189,7 @@
        * Open a prompt to change the current user's password.
        */
       $scope.openChangePass = function(selectedID, selectedUsername) {
-        $scope.statusAlert = {
-            failure: false,
-            missing: false,
-            passwords: false,
-            success: false
-        };
+        $scope.clearAlerts();
 
         $scope.selectedID = selectedID;
         $scope.selectedUsername = selectedUsername;
@@ -252,7 +233,7 @@
             $scope.statusAlert['success'] = true;
           },
           function(error) {
-            if(error.status == 403) {
+            if(error.status === 403) {
               $scope.statusAlert['incorrect'] = true;
             }
             else {
