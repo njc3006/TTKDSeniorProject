@@ -1,5 +1,5 @@
 <div class="container checkin">
-	<div class="row">
+	<div class="row spacer-20">
 		<div class="col-xs-2" ng-if="isInstructor">
 			<div class="input-group">
 				<input type="text" class="form-control"
@@ -18,7 +18,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row spacer-10">
 		<div class="text-center">
 			<h2 ng-if="!isInstructor">Click Your Picture to Check In</h2>
 			<h2 ng-if="isInstructor">Click A Student Picture to Check Them In</h2>
@@ -26,18 +26,17 @@
 	</div>
 
 	<div class="row thumbnail-area">
-			<a href="" class="thumbnail" 
-					ng-click="isInstructor ? (person.checkedIn ? instructClickDeleteCheckin(person) : instructClickCheckin(person))  : openCheckinPrompt(person)"
-			   	ng-class="{'checked checked-in-student-instruct': (isInstructor && person.checkedIn ), 'checked checked-in-student' : (!isInstructor && person.checkedIn ), 'unchecked' : !person.checkedIn}"
-					ng-repeat="person in people | orderBy: 'first_name' ">
-				<img ng-if="person.picture_url" class="img-responsive {{studentBeltClass}}" ng-src="{{apiHost}}/{{person.picture_url}}" ng-style="person.beltStyle">
-				<img ng-if="!person.picture_url" class="img-responsive {{studentBeltClass}}" ng-src="./img/components/students/placeholder.png" ng-style="person.beltStyle">
-				<div class="caption">
-					<span class="person-name">{{person.first_name}} {{person.last_name}}</span>
-				</div>
-			</a>
+		<a href="" class="thumbnail" 
+		   	ng-class="{'checked checked-in-student-instruct': (isInstructor && person.checkedIn ), 'checked checked-in-student' : (!isInstructor && person.checkedIn ), 'unchecked' : !person.checkedIn}"
+				ng-repeat="person in people | orderBy: 'first_name' ">
+			<img ng-if="person.picture_url" class="img-responsive {{studentBeltClass}}" ng-src="{{apiHost}}/{{person.picture_url}}" ng-style="person.beltStyle" ng-click="isInstructor ? (person.checkedIn ? instructClickDeleteCheckin(person) : instructClickCheckin(person))  : openCheckinPrompt(person)">
+			<img ng-if="!person.picture_url" class="img-responsive {{studentBeltClass}}" ng-src="./img/components/students/placeholder.png" ng-style="person.beltStyle" ng-click="isInstructor ? (person.checkedIn ? instructClickDeleteCheckin(person) : instructClickCheckin(person))  : openCheckinPrompt(person)">
+			<div class="caption">
+				<span class="person-name" ng-click="isInstructor ? (person.checkedIn ? instructClickDeleteCheckin(person) : instructClickCheckin(person))  : openCheckinPrompt(person)">{{person.first_name}} {{person.last_name}}</span>
+			</div>
+		</a>
 	</div>
-	<div ng-if="isInstructor">
+	<div ng-if="isInstructor" class="spacer-100">
 		<div class="row">
 			<div class="text-center">
 				<h2 >Click An Instructor Picture to Check Them In</h2>
