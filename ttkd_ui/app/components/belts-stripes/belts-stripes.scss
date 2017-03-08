@@ -20,5 +20,17 @@
 }
 
 .belts-stripes-buffer {
-	margin-top: 30px;
+	margin-top: 60px;
+}
+
+@media only screen and (min-width: 1200px) {
+	.preview-offset {
+		margin-left: 30px;
+	}
+}
+
+@media only screen and (max-width: 1200px) and (min-width: 460px) {
+	.belts-stripes-buffer {
+		background-color: red;
+	}
 }
