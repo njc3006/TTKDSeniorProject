@@ -9,3 +9,18 @@
 	left: -6px;
 	width: 40px;
 }
+
+.stripe-preview {
+	border: 2px solid #dce4ec;
+	height: 45px;
+}
+
+.belts-stripes-buffer {
+	margin-top: 30px;
+}
+
+@media only screen and (min-width: 1200px)  {
+	.belt-stripe-active {
+		padding-left: 15px;
+	}
+}
