@@ -3,7 +3,6 @@ from ..serializers import UserSerializer, UserPasswordSerializer, UserInfoSerial
 from django.contrib.auth.models import User
 from rest_framework import viewsets
 from ..permissions import custom_permissions
-from django.http import HttpResponse
 
 
 
@@ -27,7 +26,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class ChangePasswordView(viewsets.ModelViewSet):
-    permission_classes = (custom_permissions.IsUserOrReadOnly, custom_permissions.CurrentUserPassword)
+    permission_classes = (custom_permissions.CurrentUserPassword,)
     """
     Returns all User objects to the Route.
     GET: Returns all User Objects To The Route, Or An Instance If Given A PK.
@@ -39,7 +38,7 @@ class ChangePasswordView(viewsets.ModelViewSet):
     def get_object(self):
         pk = self.kwargs.get('pk')
 
-        if pk == "current":
+        if pk == "current" or not self.request.user.is_staff: # if they aren't staff they should only get their own object (this is to keep users from modding other user passwords)
             return self.request.user
 
         return super(ChangePasswordView, self).get_object()
