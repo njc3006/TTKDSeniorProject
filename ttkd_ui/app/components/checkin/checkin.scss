@@ -12,6 +12,10 @@
 	    filter: alpha(opacity=40); /* msie */
 	}
 
+	.datepicker {
+		min-width: 210px;
+	}
+
 	ul.uib-datepicker-popup {
 		padding: 0;
 		border-radius: 5px;
