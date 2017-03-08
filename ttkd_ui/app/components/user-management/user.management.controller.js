@@ -83,6 +83,7 @@
         };
 
         $scope.editingUser = false;
+        $scope.newUsername = '';
         $scope.selectedUsername = '';
         $scope.password = '';
         $scope.passwordRepeat = '';
