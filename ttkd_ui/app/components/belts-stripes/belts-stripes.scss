@@ -2,12 +2,16 @@
 .belt-preview {
 	height: 30px;
 	width: 100%;
-	border: gray 1px solid;
+	border: 2px solid #dce4ec;
 }
 
 .picker-cursor>._hues>._cursor{
 	left: -6px;
 	width: 40px;
+}
+
+.picker-cursor {
+	border: 2px solid #dce4ec;
 }
 
 .stripe-preview {
@@ -17,10 +21,4 @@
 
 .belts-stripes-buffer {
 	margin-top: 30px;
-}
-
-@media only screen and (min-width: 1200px)  {
-	.belt-stripe-active {
-		padding-left: 15px;
-	}
 }
