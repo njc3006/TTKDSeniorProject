@@ -9,7 +9,14 @@
         <p>To restore, selecting a json restore file and click confirm.</p>
     </div>
     <form name="fileForm">
-    	<input type="file" class="modal-file-chooser" id="filepicker" accept=".json" ng-click="fileChosen()">
+          <div class="input-group">
+                <label class="input-group-btn">
+                    <span class="btn btn-primary">
+                        Choose File <input type="file" id="filepicker" class="no-display" multiple onChange="angular.element(this).scope().fileChosen(this.value)">
+                    </span>
+                </label>
+                <input type="text" class="form-control" ng-model="filepath" id="filepicker2" ng-readonly="true">
+            </div>
     </form>
 </div>
 <div class="modal-footer">

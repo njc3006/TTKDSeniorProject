@@ -35,8 +35,8 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 	padding-top: 20px;
 }
 
-.spacer-top-5 {
-	margin-top: 5px;
+.spacer-top-10 {
+	margin-top: 10px;
 }
 
 .spacer-10 {
@@ -84,25 +84,6 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 
 .no-display {
 	display: none !important;
-}
-
-//Custom styles for the class list page
-.entry span {
-	padding-right: 20px;
-}
-
-.entry div {
-	padding-left: 30px;
-}
-
-.entry-picture {
-	margin-top: 30px;
-	margin-right: 5px;
-}
-
-.filter-bar {
-	margin-bottom: 30px;
-	margin-top: 20px;
 }
 
 .link-card{
