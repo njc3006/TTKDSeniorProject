@@ -105,7 +105,7 @@
       };
 
       /*
-       * Changes the password for the currently logged in user.
+       * Closes the modal that is currently open.
        */
       $scope.cancelModal  = function() {
         modalInstance.close();
