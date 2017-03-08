@@ -26,7 +26,9 @@
 
                 var modalInstance;
                 $scope.apiHost = apiHost;
+                $scope.filepath = '';
                 $scope.modalMessage = '';
+                $scope.modalError = '';
                 $scope.modalDisabledOk = true;
                 $scope.modalDisabledConfirm = true;
                 $scope.modalConfirmTitle = '';
@@ -50,15 +52,21 @@
                 $scope.backup = function() {
                     $scope.modalMessage = 'Please wait while we create a system backup.....';
                     $scope.modalTitle = 'Backup';
+                    $scope.clearError();
                     $scope.openExportModal();
                     $scope.createBackup();
                 };
+
+                $scope.clearError = function(){
+                    $scope.modalError = '';
+                }
 
                 $scope.createBackup = function(){
                     ImportExportService.initiateBackup().then(
                         function(response) {
                             var createdFile = response.data['File'];
                             $scope.modalMessage ='System backup created. File: ' + createdFile;
+                            $scope.clearError();
                             $scope.modalDisabledOk = false;
                         });
                 };
@@ -68,12 +76,13 @@
                         function(response) {
                             $scope.modalMessage = response.data;
                             $scope.modalTitle = 'Restore - Successful';
+                            $scope.clearError();
                             $scope.modalDisabledOk = false;
                         },
                         function(error) {
                             $scope.modalMessage = 'Something went wrong while restoring the system, ' +
-                                'please make sure your backup file is a correctly formated json file.' +
-                                ' The error message is: ' + error.data['detail'];
+                                'please make sure your backup file is a correctly formated json file.';
+                            $scope.modalError = 'The error message is: ' + error.data['detail'];
                             $scope.modalTitle = 'Restore - Error';
                             $scope.modalDisabledOk = false;
                         }
@@ -98,9 +107,12 @@
                     $scope.openCSVOptionsModal();
                 };
 
-                $scope.fileChosen = function () {
+                $scope.fileChosen = function(filePath) {
                     $scope.modalDisabledConfirm = false;
                     $scope.modalConfirmTitle = '';
+
+                    $scope.filepath = filePath;
+                    $scope.$apply();
                 };
 
                 $scope.startExport = function() {
@@ -246,6 +258,7 @@
                     var modalElement = angular.element($document[0].querySelector('#modal-area'));
                     $scope.modalDisabledConfirm = true;
                     $scope.modalConfirmTitle = 'Please select a file';
+                    $scope.filepath = '';
 
                     modalInstance = $uibModal.open({
                         animation: true,
@@ -294,6 +307,7 @@
 
                         $scope.modalMessage = 'Please wait while we restore the system';
                         $scope.modalTitle = 'Restoring';
+                        $scope.clearError();
                         $scope.openExportModal();
                     }
                 };
