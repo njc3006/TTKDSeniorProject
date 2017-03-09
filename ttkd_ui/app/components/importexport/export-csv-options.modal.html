@@ -1,36 +1,42 @@
 <div class="modal-header">
   <h3 class="modal-title" id="modal-title">Choose Your CSV Options</h3>
 </div>
-<div class="modal-body" id="modal-body">
-    <p>You may chose to limit your csv export with the following options:</p>
-    <br>
-
-    <label>Active Students:
-        <input
-            ng-model="exportOptions.exportActive"
-            type="checkbox"
-            name="active"
-            placeholder="Active Students"
-            checked = checked
-            >
-        </label><br>
-    <label>Inactive Students:
-        <input
-            ng-model="exportOptions.exportInactive"
-            type="checkbox"
-            name="inactive"
-            placeholder="Inactive Students">
-    </label><br>
-    <label>Program Filter:</label>
-    <select class="form-control" ng-model="exportOptions.SelectedProgram">
-        <option value="">Select Program</option>
-        <optgroup label="Active">
-            <option ng-repeat="program in programs | filter: {active:true}" value="{{program.id}}">{{program.name}}</option>
-        </optgroup>
-        <optgroup label="Inactive">
-            <option ng-repeat="program in programs | filter: {active:false}" value="{{program.id}}">{{program.name}}</option>
-        </optgroup>
-    </select>
+<div class="modal-body modal-message" id="modal-body">
+    <p>You may chose to limit your CSV export with the following options:</p>
+    <span class="checkbox-inline csv-spacer">
+        <label class="csv-checkbox">Active Students
+            <input
+                ng-model="exportOptions.exportActive"
+                type="checkbox"
+                name="active"
+                placeholder="Active Students"
+                class="pull-right style-2"
+                checked = checked>
+        </label>
+    </span>
+    <div class="csv-spacer">
+        <span class="checkbox-inline">
+            <label class="csv-checkbox">Inactive Students
+                <input
+                    ng-model="exportOptions.exportInactive"
+                    type="checkbox"
+                    name="inactive"
+                    placeholder="Inactive Students">
+            </label>
+        </span>
+    </div>
+    <div class="csv-spacer">
+        <label class="csv-spacer">Program Filter:</label>
+        <select class="form-control" ng-model="exportOptions.SelectedProgram">
+            <option value="">Select Class</option>
+            <optgroup label="Active">
+                <option ng-repeat="program in programs | filter: {active:true}" value="{{program.id}}">{{program.name}}</option>
+            </optgroup>
+            <optgroup label="Inactive">
+                <option ng-repeat="program in programs | filter: {active:false}" value="{{program.id}}">{{program.name}}</option>
+            </optgroup>
+        </select>
+    </div>
 </div>
 <div class="modal-footer">
     <button class="btn btn-danger btn-lg pull-left" type="button" ng-click="cancelExport()">Cancel</button>

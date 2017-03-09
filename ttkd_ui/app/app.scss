@@ -3,38 +3,20 @@
  */
 
 /* Bootstrap */
-
-/* Override Bootstrap Variables */
-$brand-primary: #7d7d7d;
 $border-radius-base: 0px;
-
-// Navbar Settings
-$navbar-default-bg:                        $brand-primary;
-$navbar-default-color:                     #FFF;
-// Links
-$navbar-default-link-color:                $navbar-default-color;
-$navbar-default-link-hover-color:          darken($navbar-default-link-color, 6.5%);
-$navbar-default-link-hover-bg:             darken($navbar-default-bg, 6.5%);
-// Active Link
-$navbar-default-link-active-color:         darken($navbar-default-link-color, 6.5%);
-$navbar-default-link-active-bg:            darken($navbar-default-bg, 6.5%);
-// Brand
-$navbar-default-brand-color:               $navbar-default-link-color;
-$navbar-default-brand-hover-color:         darken($navbar-default-link-color, 6.5%);
-$navbar-default-brand-hover-bg:            darken($navbar-default-bg, 6.5%);
-// Toggle
-$navbar-default-toggle-hover-bg:           darken($navbar-default-bg, 6.5%);
-$navbar-default-toggle-icon-bar-bg:        $navbar-default-color;
-$navbar-default-toggle-border-color:       $navbar-default-color;
 
 //remove button border radius
 $border-radius-large: 0px;
 $border-radius-small: 0px;
 
-
-// Import Bootstrap
+// Import Bootstrap and Bootswatch Theme
 $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
+@import "./lib/bootswatch/flatly/_variables";
 @import "./lib/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "./lib/bootswatch/flatly/_bootswatch";
+
+// Import Card CSS
+@import "./lib/bootstrap-3-card/sass/_card";
 
 // Import color picker
 @import "./lib/angular-color-picker/angular-color-picker";
@@ -45,14 +27,16 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 @import "./components/checkin/checkin";
 @import "./components/students/detail/student.detail";
 @import "./components/belts-stripes/belts-stripes";
+@import "./components/studentlist/studentlist";
+@import "./components/importexport/importexport";
 
 // Push containers below navbar
 #appContainer {
-	padding-top: 70px;
+	padding-top: 20px;
 }
 
-.spacer-top-5 {
-	margin-top: 5px;
+.spacer-top-10 {
+	margin-top: 10px;
 }
 
 .spacer-10 {
@@ -102,27 +86,26 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 	display: none !important;
 }
 
-//Custom styles for the class list page
-.entry span {
-	padding-right: 20px;
-}
+.link-card{
+	height: 169px;
+	text-align: center;
+	padding: 0;
 
-.entry div {
-	padding-left: 30px;
-}
+	.btn{
+		width: 100%;
+	}
 
-.entry-picture {
-	margin-top: 30px;
-	margin-right: 5px;
-}
+	h3{
+		margin-top: 1px;
+		margin-bottom: 3px;
+		font-size: 17px;
+	}
 
-.checkboxes {
-	margin-top: 6px;
-}
-
-.filter-bar {
-	margin-bottom: 30px;
-	margin-top: 20px;
+	h4{
+		margin-top: 1px;
+		margin-bottom: 3px;
+		font-size: 15px;
+	}
 }
 
 select {

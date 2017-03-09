@@ -2,12 +2,21 @@
   <h3 class="modal-title" id="modal-title">Warning</h3>
 </div>
 <div class="modal-body" id="modal-body">
-    <p>Performing a system restore will remove ALL current data. This cannot be undone!
-        We strongly suggest making a backup of your system before doing this.
+    <div class="modal-message spacer-25">
+    	<p>Performing a system restore will remove ALL current data. This cannot be undone!
+        We strongly suggest making a backup of your system before doing this.</p>
 
-        To restore, selecting a json restore file and click confirm.</p>
+        <p>To restore, selecting a json restore file and click confirm.</p>
+    </div>
     <form name="fileForm">
-        <input type="file" id="filepicker" accept=".json" ng-click="fileChosen()">
+          <div class="input-group">
+                <label class="input-group-btn">
+                    <span class="btn btn-primary">
+                        Choose File <input type="file" id="filepicker" class="no-display" multiple onChange="angular.element(this).scope().fileChosen(this.value)">
+                    </span>
+                </label>
+                <input type="text" class="form-control" ng-model="filepath" id="filepicker2" ng-readonly="true">
+            </div>
     </form>
 </div>
 <div class="modal-footer">
