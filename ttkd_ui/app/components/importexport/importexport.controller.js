@@ -59,7 +59,7 @@
 
                 $scope.clearError = function(){
                     $scope.modalError = '';
-                }
+                };
 
                 $scope.createBackup = function(){
                     ImportExportService.initiateBackup().then(
