@@ -17,11 +17,11 @@
     <div class="navbar-text navbar-center hidden-xs hidden-sm"><p>{{currentProgram.name}}</p></div>
 
     <div class="navbar-collapse collapse pulled-text">
-        <ul class="nav navbar-nav navbar-left">
-            <li>
-                <a href="#/">Tioga Tae Kwon Do</a>
-            </li>
-        </ul>
+      <ul class="nav navbar-nav navbar-left">
+          <li>
+              <a href="#/">Tioga Tae Kwon Do</a>
+          </li>
+      </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
           <a href="" ng-if="!loggedin" ng-click="openLogin()" id="login">Login</a>
@@ -38,9 +38,6 @@
             </ul>
           </div>
         </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right" ng-show="showCurrentProgram">
-        <li><h2 class="current-class">{{currentProgram.name}}</h2></li>
       </ul>
     </div><!--/.nav-collapse -->
   </div>
