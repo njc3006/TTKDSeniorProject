@@ -5,6 +5,36 @@ describe('Registration', function() {
     });
 	}
 
+	function fillOutBasicInfo(isOverEighteen) {
+		var programSelect = element(by.model('registrationInfo.program'));
+		programSelect.element(by.cssContainingText('option', 'Adult Self-Defense Wednesday')).click();
+
+		element(by.model('registrationInfo.person.first_name')).sendKeys('First Name');
+		element(by.model('registrationInfo.person.last_name')).sendKeys('Last Name');
+
+		if (isOverEighteen) {
+			element(by.model('registrationInfo.person.dob.value')).sendKeys('01/01/1996');
+		} else {
+			element(by.model('registrationInfo.person.dob.value')).sendKeys('01/01/2010');
+		}
+
+		element(by.model('registrationInfo.person.street')).sendKeys('123 Street St');
+		element(by.model('registrationInfo.person.city')).sendKeys('Townsville');
+
+		var stateSelect = element(by.model('registrationInfo.person.state'));
+		stateSelect.element(by.cssContainingText('option', 'NY')).click();
+
+		element(by.model('registrationInfo.person.zipcode')).sendKeys('12345');
+		element(by.model('registrationInfo.person.primary_phone')).sendKeys('1234567890');
+		element(by.id('email0')).sendKeys('email@test.com');
+	}
+
+	function fillOutPrimaryEmergencyContactInfo() {
+		element(by.model('registrationInfo.person.emergency_contact_1.full_name')).sendKeys('Dad Name');
+		element(by.model('registrationInfo.person.emergency_contact_1.phone_number')).sendKeys('1234567890');
+		element(by.model('registrationInfo.person.emergency_contact_1.relation')).sendKeys('Father');
+	}
+
 	describe('General Functionality', function() {
 		beforeEach(() => {
 			browser.get(browser.params.registrationUrl);
@@ -212,28 +242,118 @@ describe('Registration', function() {
 			expect(firstRemoveButton.isDisplayed()).toBe(false);
 		});
 
-		it('should allow user to continue once all info has been entered');
+		it('should allow user to continue once all info has been entered', function(done) {
+			fillOutBasicInfo();
 
-		it('should allow user to move between pages the user has visited before');
+			var continueButton = element(by.id('contiue-button'));
+			expect(continueButton.isDisplayed()).toBe(true);
+
+			continueButton.getAttribute('disabled').then(function(disabled) {
+				expect(disabled).toBe(null)
+				done();
+			});
+		});
 	});
 
 	describe('Emergency Contacts', function() {
 		beforeEach(() => {
 			browser.get(browser.params.registrationUrl);
+			fillOutBasicInfo();
+			element(by.id('contiue-button')).click();
 		});
 
-		it('should always require primary contact info');
+		it('should allow user to move between pages the user has visited before', function(done) {
+			var firstTab = element(by.id('tab0'));
+			firstTab.getAttribute('disabled').then(function(disabled) {
+				expect(disabled).toBe(null)
+				done();
+			});
+		});
 
-		it('should only require secondary contact info if at least one field is entered');
+		it('should always require primary contact full name', function(done) {
+			var emPrimaryFullName = element(by.model('registrationInfo.person.emergency_contact_1.full_name'));
+
+			emPrimaryFullName.sendKeys('Dad Name').then(function() {
+				emPrimaryFullName.clear();
+
+				var parentDiv = emPrimaryFullName.element(by.xpath('../..'));
+				expect(hasError(parentDiv)).toBe(true);
+
+				done();
+			});
+		});
+
+		it('should always require primary contact phone', function(done) {
+			var emPrimaryPhone = element(by.model('registrationInfo.person.emergency_contact_1.phone_number'));
+
+			emPrimaryPhone.sendKeys('12345678990').then(function() {
+				emPrimaryPhone.clear();
+
+				var parentDiv = emPrimaryPhone.element(by.xpath('../..'));
+				expect(hasError(parentDiv)).toBe(true);
+
+				done();
+			});
+		});
+
+		it('should always require primary contact relation', function(done) {
+			var emPrimaryRelation = element(by.model('registrationInfo.person.emergency_contact_1.relation'));
+
+			emPrimaryRelation.sendKeys('Father').then(function() {
+				emPrimaryRelation.clear();
+
+				var parentDiv = emPrimaryRelation.element(by.xpath('../..'));
+				expect(hasError(parentDiv)).toBe(true);
+
+				done();
+			});
+		});
+
+		it('should only require secondary contact info if at least one field is entered', function(done) {
+			var emSecondaryFullName = element(by.model('registrationInfo.person.emergency_contact_2.full_name'));
+
+			var allFieldsRequired = false;
+			emSecondaryFullName.sendKeys('Mom Name').then(function() {
+				emSecondaryFullName.getAttribute('required').then(function(isRequired) {
+					allFieldsRequired = isRequired === 'true';
+
+					var emSecondaryPhone = element(by.model('registrationInfo.person.emergency_contact_2.phone_number'));
+					emSecondaryPhone.getAttribute('required').then(function(isRequired) {
+						allFieldsRequired = allFieldsRequired && (isRequired === 'true');
+
+						var emSecondaryRelation = element(by.model('registrationInfo.person.emergency_contact_2.relation'));
+						emSecondaryRelation.getAttribute('required').then(function(isRequired) {
+							allFieldsRequired = allFieldsRequired && (isRequired === 'true');
+							expect(allFieldsRequired).toBe(true);
+							done();
+						});
+					});
+				});
+			});
+		});
 	});
 
-	describe('Review Screen', function() {
+	describe('Waiver Screen', function() {
 		beforeEach(() => {
 			browser.get(browser.params.registrationUrl);
 		});
 
-		it('should show all info user has entered');
+		it('should have two input fields if the student is under 18', function() {
+			fillOutBasicInfo();
+			element(by.id('contiue-button')).click();
+			fillOutPrimaryEmergencyContactInfo();
+			element(by.id('contiue-button')).click();
 
-		it('should show a success alert when submission is successful');
+			expect(element.all(by.css('input[type=text]')).count()).toBe(2);
+		});
+
+		it('should only have one input field if the student is over 18', function() {
+			fillOutBasicInfo(true);
+			element(by.id('contiue-button')).click();
+			fillOutPrimaryEmergencyContactInfo();
+			element(by.id('contiue-button')).click();
+
+			expect(element.all(by.css('input[type=text]')).count()).toBe(1);
+		});
 	});
 });
