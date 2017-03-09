@@ -3,8 +3,8 @@
     angular.module('ttkdApp.checkinCtrl', ['ttkdApp.constants'])
 
     .controller('CheckinCtrl', ['$scope', '$rootScope', '$stateParams', '$document',
-        '$filter', '$uibModal', 'CheckinService', 'apiHost',
-        function($scope, $rootScope, $stateParams, $document, $filter, $uibModal, CheckinService, apiHost) {
+        '$filter', '$uibModal', 'CheckinService', 'apiHost', '$state',
+        function($scope, $rootScope, $stateParams, $document, $filter, $uibModal, CheckinService, apiHost, $state) {
             var modalInstance;
             $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
 
@@ -26,6 +26,52 @@
                 value: $scope.date
             };
 
+            $scope.mode = {
+                value: 'Checkin'
+            };
+
+            $scope.headerStr = 'Click A Student Picture to Check Them In';
+
+            $scope.updateHeader = function () {
+                if ($scope.mode.value === 'Checkin'){
+                    $scope.headerStr = 'Click A Student Picture to Check Them In';
+                } else if ($scope.mode.value === 'View'){
+                    $scope.headerStr = 'Click A Student Picture to View Their Information';
+                } else if ($scope.mode.value === 'Edit'){
+                    $scope.headerStr = 'Click A Student Picture to Edit Their Information';
+                }
+            };
+
+            $scope.clickStudentBasedOnMode = function (person) {
+                if ($scope.mode.value === 'Checkin'){
+                    if (person.checkedIn){
+                        $scope.instructClickDeleteCheckin(person);
+                    } else{
+                        $scope.instructClickCheckin(person);
+                    }
+                } else if ($scope.mode.value === 'View'){
+                    $state.go('studentDetails', ({studentId: person.id}));
+                } else if ($scope.mode.value === 'Edit') {
+                    $state.go('editStudentDetails' , ({studentId: person.id}));
+                }
+
+            };
+
+            $scope.clickInstructorBasedOnMode = function (instructor) {
+                if ($scope.mode.value === 'Checkin'){
+                    if (instructor.checkedIn){
+                        $scope.clickDeleteInstructorCheckin(instructor);
+                    } else{
+                        $scope.clickCheckinInstructor(instructor);
+                    }
+                } else if ($scope.mode.value === 'View'){
+                    $state.go('studentDetails', ({studentId: instructor.id}));
+                } else if ($scope.mode.value === 'Edit') {
+                     $state.go('editStudentDetails' , ({studentId: instructor.id}));
+                }
+
+            };
+
             //opens the popup date picker window
             $scope.open = function() {
                 $scope.selectedDate.open = true;
@@ -44,12 +90,10 @@
                 $scope.instructors = [];
                 $scope.checkedInInstructorsIds = [];
                 $scope.checkedInInstructorsCheckinIds = [];
-                $scope.getCheckinsForClass();
-                $scope.getStudents();
+                $scope.getCheckinsForProgram();
 
                 if ($scope.isInstructor) {
-                    $scope.getInstructorCheckinsForClass();
-                    $scope.getInstructors();
+                    $scope.getInstructorCheckinsForProgram();
                 }
             };
 
@@ -89,8 +133,8 @@
             };
 
             // Get who is currently checked into the class
-            $scope.getCheckinsForClass = function() {
-                CheckinService.getCheckinsForClass($scope.programID, $scope.formatDate($scope.date)).then(
+            $scope.getCheckinsForProgram = function() {
+                CheckinService.getCheckinsForProgram($scope.programID, $scope.formatDate($scope.date)).then(
                     function(response) {
                         var tempdata = response.data;
 
@@ -99,12 +143,13 @@
                             $scope.checkedInPeopleCheckinIds.push(value['id']);
                         });
 
+                        $scope.getStudents();
                     });
             };
 
             // Get all of the students from the class and determine ones already checked in
             $scope.getStudents = function() {
-                CheckinService.getStudentsFromClass($stateParams.programID).then(
+                CheckinService.getStudentsFromProgram($stateParams.programID).then(
                     function(response) {
                         var tempdata = response.data;
 
@@ -138,8 +183,8 @@
             };
 
             // Get instructors who are currently checked into the class
-            $scope.getInstructorCheckinsForClass = function() {
-                CheckinService.getInstructorCheckinsForClass($scope.programID, $scope.formatDate($scope.date)).then(
+            $scope.getInstructorCheckinsForProgram = function() {
+                CheckinService.getInstructorCheckinsForProgram($scope.programID, $scope.formatDate($scope.date)).then(
                     function(response) {
                         var tempdata = response.data;
 
@@ -148,12 +193,13 @@
                             $scope.checkedInInstructorsCheckinIds.push(value['id']);
                         });
 
+                        $scope.getInstructors();
                     });
             };
 
             // Get all of the instructors from the class and determine ones already checked in
             $scope.getInstructors = function() {
-                CheckinService.getInstructorsForClass($stateParams.programID).then(
+                CheckinService.getInstructorsForProgram($stateParams.programID).then(
                     function(response) {
                         var tempdata = response.data;
 
@@ -186,13 +232,11 @@
                     });
             };
 
-            // Load the data for the page, must be called in this order
-            $scope.getCheckinsForClass();
-            $scope.getStudents();
+            // Load the data for the page
+            $scope.getCheckinsForProgram();
 
             if ($scope.isInstructor) {
-                $scope.getInstructorCheckinsForClass();
-                $scope.getInstructors();
+                $scope.getInstructorCheckinsForProgram();
             }
 
             /*

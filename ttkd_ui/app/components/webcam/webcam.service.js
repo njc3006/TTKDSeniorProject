@@ -26,12 +26,35 @@
 
     return {
 
+      rotateSnapshot: function(canvas) {
+        var myImage = new Image();
+        myImage.src = canvas.toDataURL();
+        var context = canvas.getContext("2d");
+        var ch = canvas.height, cw = canvas.width;
+        myImage.onload = function () {
+          // reset the canvas with new dimensions
+          canvas.width = ch;
+          canvas.height = cw;
+          cw = canvas.width;
+          ch = canvas.height;
+
+          context.save();
+          // translate and rotate
+          context.translate(cw, ch / cw);
+          context.rotate(Math.PI / 2);
+          // draw the previows image, now rotated
+          context.drawImage(myImage, 0, 0);               
+          context.restore();
+          myImage = null;
+        }
+      },
+
       /*
        * Take a snapshot from the video channel and write it to 
        * the canvas. */
       takeSnapshot: function(channel, canvas, width, height) {
-        canvas.width = 800;
-        canvas.height = 600;
+        canvas.width = width;
+        canvas.height = height;
         var context = canvas.getContext('2d');
         context.fillRect(0, 0, canvas.width, canvas.height);
         // Grab the image from the video

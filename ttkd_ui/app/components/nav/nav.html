@@ -1,28 +1,38 @@
-<nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container">
+<nav class="navbar navbar-default" role="navigation">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#/">{{title}}</a>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+
+        <!-- Width < 765px -->
+        <div class="navbar-text visible-xs navbar-center-small"><p>{{currentProgram.name}}</p></div>
     </div>
-    <div id="navbar" class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li ng-repeat="page in pages" ng-class="{active: isUrl(page.url)}" ng-include="'nav-item.html'">
-        </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right" ng-show="showLogin">
-        <li>
-          <a href="" ng-if="!loggedin" ng-click="openLogin()" id="login">Login</a>
-          <a href="" ng-if="loggedin" ng-click="logout()" id="logout">{{currentUser}} Logout</a>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right" ng-show="showCurrentProgram">
-        <li><h2 class="current-class">{{currentProgram.name}}</h2></li>
-      </ul>
-    </div><!--/.nav-collapse -->
+
+    <!-- Width < 992px and > 765px -->
+    <div class="navbar-text visible-sm navbar-center"><p>{{currentProgram.name}}</p></div>
+
+    <!-- Width > 992px -->
+    <div class="navbar-text navbar-center hidden-xs hidden-sm"><p>{{currentProgram.name}}</p></div>
+
+    <div class="navbar-collapse collapse pulled-text">
+        <ul class="nav navbar-nav navbar-left">
+            <li>
+                <a href="#/">Tioga Tae Kwon Do</a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li ng-if="!loggedin" ng-click="openLogin()" id="login">
+                <p class="navbar-text">Login</p>
+            </li>
+            <li ng-if="loggedin">
+                <p class="navbar-text text-capitalize">{{currentUser}}</p>
+            </li>
+            <li ng-if="loggedin" ng-click="logout()" id="logout">
+                <p class="navbar-text">Logout</p>
+            </li>
+        </ul>
+    </div>
   </div>
 </nav>

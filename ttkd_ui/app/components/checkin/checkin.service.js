@@ -1,11 +1,11 @@
 (function() {
 	function CheckinService($http, apiHost) {
 		return {
-			getStudentsFromClass: function(programId) {
+			getStudentsFromProgram: function(programId) {
 				return $http.get(apiHost + '/api/registrations-minimal/?program=' + programId + '&person__active=2');
 			},
 
-			getCheckinsForClass: function(programId, checkinDate) {
+			getCheckinsForProgram: function(programId, checkinDate) {
 				return $http.get(apiHost + '/api/check-ins/?program=' + programId +
 					'&date=' + checkinDate);
 			},
@@ -18,11 +18,11 @@
 				return $http.delete(apiHost + '/api/check-ins/' + checkinId + '/');
 			},
 
-			getInstructorsForClass: function(programId) {
+			getInstructorsForProgram: function(programId) {
 				return $http.get(apiHost + '/api/instructors-minimal/?program=' + programId);
 			},
 
-			getInstructorCheckinsForClass: function(programId, checkinDate) {
+			getInstructorCheckinsForProgram: function(programId, checkinDate) {
 				return $http.get(apiHost + '/api/instructor-check-ins/?program=' + programId +
 					'&date=' + checkinDate);
 			},

@@ -170,7 +170,7 @@
 					state: $scope.studentInfo.state.value
 				});
 
-				StudentsService.updateStudentInfo($stateParams.studentId, payload).then(
+				StudentsService.updateStudentInfo($stateParams.studentId, payload, $scope.userlevel).then(
 					function success(response) {
 
 						$scope.oldStudent = angular.copy($scope.studentInfo);
@@ -195,6 +195,7 @@
 						}
 					}, function failure(error) {
 						$scope.requestFlags.submission.failure = true;
+						console.log(error);
 						window.scrollTo(0, 0);
 					}
 				);

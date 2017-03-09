@@ -50,7 +50,8 @@ gulp.task('scss', [], function(done) {
     })
     .pipe(gulp.dest(config.buildDir))
     .pipe(minifyCss({
-      keepSpecialComments: 0
+      keepSpecialComments: 0,
+			processImport: false
     }))
     .pipe(rename({ extname: '.css' }))
     .pipe(gulp.dest(config.buildDir + '/css'))
