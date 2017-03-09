@@ -1,0 +1,48 @@
+.padding-left-0 {
+	padding-left: 0;
+}
+
+.padding-right-0 {
+	padding-right: 0;
+}
+
+.padding-left-15 {
+	padding-left: 15px;
+}
+
+.left-15 {
+	margin-left: 15px;
+}
+
+.left-30{
+	margin-left: 30px;
+}
+
+.checkboxes {
+	padding: 0;
+	margin-top: 10px;
+}
+
+.entry {
+	margin-left: 20px;
+}
+
+.entry-spacer{
+	margin-top: 12px;
+}
+
+.entry-picture {
+	margin-top: 20px;
+	margin-right: 5px;
+}
+
+.filter-bar {
+	margin-bottom: 10px;
+}
+
+@media only screen and (min-width: 1200px)  {
+	.entry {
+		margin-top: 20px;
+		font-size: 16px;
+	}
+}

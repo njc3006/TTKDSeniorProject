@@ -1,94 +1,104 @@
 <div class="container">
 	<div class="row filter-bar">
-		<div class="col-xs-1">
-			<div class="btn btn-primary" ng-click="toggleSortAlpha()">{{sortDisplayString}}</div>
+		<div class="col-md-7 col-xs-12 spacer-10 padding-right-0">
+			<div class="col-md-1 col-xs-1 padding-left-0">
+				<div class="btn btn-primary" ng-click="toggleSortAlpha()">{{sortDisplayString}}</div>
+			</div>
+			<div class="col-md-5 col-md-offset-0 col-xs-4 col-xs-offset-0 margin-10">
+				<select class="form-control" ng-model="filters.currentClassId" ng-change="setDisplayedStudents()">
+					<option value="">Select Class</option>
+					<optgroup label="Active">
+						<option ng-repeat="class in classes | filter: {active:true}" value="{{class.id}}">{{class.name}}</option>
+					</optgroup>
+					<optgroup label="Inactive">
+						<option ng-repeat="class in classes | filter: {active:false}" value="{{class.id}}">{{class.name}}</option>
+					</optgroup>
+				</select>
+			</div>
+			<div class="col-md-3 col-xs-3 padding-left-0">
+				<select class="form-control" ng-model="filters.currentBelt" ng-change="setDisplayedStudents()" 
+				ng-options="belt.name for belt in belts">
+					<option value="">Select Belt</option>
+				</select>
+			</div>
+			<div class="col-md-3 col-xs-3 checkboxes text-center">
+				<span class="checkbox-inline">
+					<label><input type="checkbox" name="activeBox" id="activeBox" ng-model="filters.showActive" ng-click="setDisplayedStudents()">Active</label>
+				</span>
+				<span class="checkbox-inline">
+					<label><input type="checkbox" name="inactiveBox" ng-model="filters.showInactive" ng-click="setDisplayedStudents()">Inactive</label>
+				</span>
+			</div>
 		</div>
-		<div class="col-xs-2">
-			<select class="form-control" ng-model="filters.currentClassId" ng-change="setDisplayedStudents()">
-				<option value="">Select Class</option>
-				<optgroup label="Active">
-					<option ng-repeat="class in classes | filter: {active:true}" value="{{class.id}}">{{class.name}}</option>
-				</optgroup>
-				<optgroup label="Inactive">
-					<option ng-repeat="class in classes | filter: {active:false}" value="{{class.id}}">{{class.name}}</option>
-				</optgroup>
-			</select>
-		</div>
-		<div class="col-xs-2">
-			<select class="form-control" ng-model="filters.currentBelt" ng-change="setDisplayedStudents()" 
-			ng-options="belt.name for belt in belts">
-				<option value="">Select Belt</option>
-			</select>
-		</div>
-		<div class="col-xs-2 checkboxes">
-			<span class="checkbox-inline">
-				<label><input type="checkbox" name="activeBox" id="activeBox" ng-model="filters.showActive" ng-click="setDisplayedStudents()">Active</label>
-			</span>
-			<span class="checkbox-inline">
-				<label><input type="checkbox" name="inactiveBox" ng-model="filters.showInactive" ng-click="setDisplayedStudents()">Inactive</label>
-			</span>
-		</div>
-		<div class="col-xs-1">
-			<div class="btn btn-primary" ng-click="today()">Today</div>
-		</div>
-		<div class="col-xs-2">
-			<input type="search" class="form-control" placeholder="Search" name="searchbox" id="searchbox" ng-model="filters.searchQuery">
-		</div>
-		<div class="col-xs-2">
-	       	<div class="input-group">
-	          	<input type="text" class="form-control"
-		                 uib-datepicker-popup="MM-dd-yyyy"
-		                 ng-model="selectedDate.value"
-		                 is-open="selectedDate.open"
-		                 ng-required="true"
-		                 close-text="Close"
-		                 placeholder="Attnd. Date" />
-          		<span class="input-group-btn">
-	          		<button class="btn btn-default" ng-click="open()">
-	          		<i class="glyphicon glyphicon-calendar"></i></button>
-	          	</span>
-	        </div>
+		<div class="col-md-5 col-xs-12 spacer-25 padding-right-0">
+			<div class="col-md-5 col-xs-4 padding-left-0">
+				<input type="search" class="form-control" placeholder="Search" name="searchbox" id="searchbox" ng-model="filters.searchQuery">
+			</div>
+			<div class="col-md-5 col-xs-4 padding-left-0">
+		       	<div class="input-group">
+		          	<input type="text" class="form-control"
+			                 uib-datepicker-popup="MM-dd-yyyy"
+			                 ng-model="selectedDate.value"
+			                 is-open="selectedDate.open"
+			                 ng-required="true"
+			                 close-text="Close"
+			                 placeholder="Attnd. Date" />
+	          		<span class="input-group-btn">
+		          		<button class="btn btn-default" ng-click="open()">
+		          		<i class="glyphicon glyphicon-calendar"></i></button>
+		          	</span>
+		        </div>
+			</div>
+			<div class="col-md-2 col-xs-2 padding-left-0">
+				<div class="btn btn-primary" ng-click="today()">Today</div>
+			</div>
 		</div>
 	</div>
 
-	<div class="row">
-		<div class="display-4"">
+	<div class="row spacer-25">
+		<div class="left-30">
 			Showing {{people.length}} student<span ng-if="people.length !== 1">s</span>
-
 		</div>
 	</div>
 
 	<div class="row">
-        <div class="col-xs-10 col-xs-offset-1" ng-repeat="p in people | filter: displayedFilter | orderBy: 'person.first_name':!sortAZ">
-			<div class="col-xs-2 text-center entry-picture">
+        <div class="col-xs-11 col-xs-offset-1" ng-repeat="p in people | filter: displayedFilter | orderBy: 'person.first_name':!sortAZ">
+			<div class="col-xs-3 col-md-2 text-center entry-picture">
 				<a ui-sref="studentDetails({studentId: p.person.id})">
 					<img ng-if="p.person.picture_url" class="img-responsive" ng-src="{{apiHost}}/{{p.person.picture_url}}" ng-style="p.beltStyle">
 					<img ng-if="!p.person.picture_url" class="img-responsive" ng-src="./img/components/students/placeholder.png" ng-style="p.beltStyle">
 				</a>
 			</div>
-			<div class="col-xs-8 entry">
-				<div class="row">
+			<div class="col-xs-8 col-md-9 entry spacer-10">
+				<div class="row padding-left-15"> 
 					<a ui-sref="studentDetails({studentId: p.person.id})">
 						<h2>{{p.person.first_name}} {{p.person.last_name}}</h2>
 					</a>
 				</div>
-				<div class="row spacer-20">
-					<span ng-repeat="email in p.person.emails | limitTo:1 track by $index">
-						<span>Email: {{email.email}} <br></span>
-					</span>
-					<span>Phone: {{p.person.primary_phone}}</span>
-				</div>
-				<div class="row" >
-					Emergency Contact 1:
-					<span ng-if="p.person.emergency_contact_1.full_name !== undefined">
-						{{p.person.emergency_contact_1.full_name}}({{p.person.emergency_contact_1.relation}}) - <tel-link phone="p.person.emergency_contact_1.phone_number"></tel-link>
+				<div class="col-xs-12 col-md-5 padding-left-0">
+					<span ng-repeat="email in p.person.emails | limitTo:1 track by $index" class="">
+						<span><b>Email:</b> {{email.email}}</span>
 					</span>
 					<br>
-					Emergency Contact 2:
-					<span ng-if="p.person.emergency_contact_2.full_name !== undefined">
-						{{p.person.emergency_contact_2.full_name}}({{p.person.emergency_contact_2.relation}}) - <tel-link phone="p.person.emergency_contact_2.phone_number"></tel-link>
+					<span><b>Phone:</b> {{p.person.primary_phone}}</span>
+				</div>
+				<div class="col-xs-12 col-md-7 padding-left-0">
+					<span class="text-wrap">
+						<b>Emergency Contact 1:</b>
+						<span ng-if="p.person.emergency_contact_1.full_name !== undefined">
+							{{p.person.emergency_contact_1.full_name}} - <tel-link phone="p.person.emergency_contact_1.phone_number"></tel-link>
+						</span>
+					</span>
+					<br>
+					<span class="">
+						<b>Emergency Contact 2:</b>
+						<span ng-if="p.person.emergency_contact_2.full_name !== undefined">
+							{{p.person.emergency_contact_2.full_name}} - <tel-link phone="p.person.emergency_contact_2.phone_number"></tel-link>
+						</span>
 					</span>
 				</div>
+			</div>
+			<div class="row col-xs-12 col-md-12 entry-spacer">
 				<hr>
 			</div>
 		</div>

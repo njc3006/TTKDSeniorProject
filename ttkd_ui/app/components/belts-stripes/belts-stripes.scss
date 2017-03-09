@@ -2,10 +2,35 @@
 .belt-preview {
 	height: 30px;
 	width: 100%;
-	border: gray 1px solid;
+	border: 2px solid #dce4ec;
 }
 
 .picker-cursor>._hues>._cursor{
 	left: -6px;
 	width: 40px;
+}
+
+.picker-cursor {
+	border: 2px solid #dce4ec;
+}
+
+.stripe-preview {
+	border: 2px solid #dce4ec;
+	height: 45px;
+}
+
+.belts-stripes-buffer {
+	margin-top: 60px;
+}
+
+@media only screen and (min-width: 1200px) {
+	.preview-offset {
+		margin-left: 30px;
+	}
+}
+
+@media only screen and (max-width: 1200px) and (min-width: 460px) {
+	.belts-stripes-buffer {
+		background-color: red;
+	}
 }

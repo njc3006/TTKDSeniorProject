@@ -1,8 +1,12 @@
 <div class="modal-header">
   <h3 class="modal-title" id="modal-title">{{modalTitle}}</h3>
 </div>
-<div class="modal-body" id="modal-body">
-    {{modalMessage}}
+<div class="modal-body modal-message" id="modal-body">
+    <div>{{modalMessage}}</div>
+    <div ng-if="modalError !== ''">
+    	<br>
+    	<div>{{modalError}}</div>
+    </div>
 </div>
 <div class="modal-footer">
   <button class="btn btn-block btn-success btn-lg pull-right" type="button" ng-click="ok()" ng-disabled="modalDisabledOk">Ok</button>

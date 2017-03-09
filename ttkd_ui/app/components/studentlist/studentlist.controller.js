@@ -24,7 +24,7 @@
             showInactive: false,
             searchQuery: '',
             currentBelt: null,
-            currentClassId: null,
+            currentProgramId: null,
         };
 
         $scope.selectedDate = {
@@ -72,8 +72,8 @@
         //updates the displayed list of students based on the current filters
         $scope.setDisplayedStudents = function(){
             var filteredList = [];
-            var displayedPeople = $scope.filters.currentClassId ? $scope.classPeople : $scope.allPeople;
-            var displayedAttendance = $scope.filters.currentClassId ? $scope.classAttendance : $scope.allAttendance;
+            var displayedPeople = $scope.filters.currentProgramId ? $scope.classPeople : $scope.allPeople;
+            var displayedAttendance = $scope.filters.currentProgramId ? $scope.classAttendance : $scope.allAttendance;
 
             //filter based on active/inactive checkboxes
             for(var i = 0; i < displayedPeople.length; i++){
@@ -144,7 +144,7 @@
         };
 
         //retrieves the total list of classes
-        $scope.getClassList = function(){
+        $scope.getProgramList = function(){
             ProgramsSvc.getPrograms().then(
                 function(response){
                     $scope.classes = response.data;
@@ -180,19 +180,19 @@
         };
 
         //retrieves the list of students in a specific class
-        $scope.getStudentsFromClass = function(){
+        $scope.getStudentsFromProgram = function(){
             var classId = '';
 
-            if($scope.filters.currentClassId != null){
-                classId = $scope.filters.currentClassId;
+            if($scope.filters.currentProgramId != null){
+                classId = $scope.filters.currentProgramId;
             }
 
-            StudentListService.getStudentsFromClass(classId).then(
+            StudentListService.getStudentsFromProgram(classId).then(
                 function (response){
                     $scope.classPeople = response.data;
 
                     var formattedDate = $scope.getCurrentFormattedDate(new Date());
-                    StudentListService.getClassAttendanceRecords(classId, formattedDate).then(
+                    StudentListService.getProgramAttendanceRecords(classId, formattedDate).then(
                         function(response){
                             $scope.classAttendance = response.data;
 
@@ -202,7 +202,7 @@
         };
 
         //initialization
-        $scope.getClassList();
+        $scope.getProgramList();
         $scope.getBeltList();
         $scope.getAllStudents();
 
@@ -212,9 +212,9 @@
         });
 
         //class dropdown watcher
-        $scope.$watch('filters.currentClassId', function(newValue, oldValue){
-            if($scope.filters.currentClassId != null){
-                $scope.getStudentsFromClass();
+        $scope.$watch('filters.currentProgramId', function(newValue, oldValue){
+            if($scope.filters.currentProgramId != null){
+                $scope.getStudentsFromProgram();
             }
         });
 
