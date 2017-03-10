@@ -90,6 +90,15 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 	cursor: pointer;
 }
 
+ul.uib-datepicker-popup .btn-default {
+	color: #3f5060;
+	background: #f7f7f7;
+}
+
+.checkin ul.uib-datepicker-popup .active span {
+	color: #3f5060;
+}
+
 .link-card{
 	height: 169px;
 	text-align: center;
