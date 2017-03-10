@@ -8,6 +8,9 @@
 	<div class="alert alert-danger" ng-show="statusAlert.missing" uib-alert close="closeAlert('missing')">
 		All fields must be completed before submitting.
 	</div>
+	<div class="alert alert-danger" ng-show="statusAlert.password" uib-alert close="closeAlert('password')">
+		Unable to log in with provided credentials.
+	</div>
 
 	<form ng-submit="login(username, password)">
 		<div class="form-group">

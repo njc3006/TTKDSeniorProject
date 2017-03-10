@@ -36,6 +36,7 @@
       $scope.openLogin = function() {
         $scope.statusAlert = {
             failure: false,
+            password: false,
             missing: false
         };
 
@@ -99,7 +100,13 @@
             modalInstance.close();
           },
           function(error) {
-            $scope.statusAlert['failure'] = true;
+            console.log(error);
+            if(error.status === 400 && error.data.non_field_errors && error.data.non_field_errors[0] === "Unable to log in with provided credentials.") {
+              $scope.statusAlert['password'] = true;
+            }
+            else {
+              $scope.statusAlert['failure'] = true;
+            }
           }
         );
       };
