@@ -35,6 +35,8 @@ describe('Registration', function() {
 		element(by.model('registrationInfo.person.emergency_contact_1.relation')).sendKeys('Father');
 	}
 
+	var REGISTRATION_URL = browser.params.appUrl + 'registration';
+
 	describe('General Functionality', function() {
 		beforeEach(() => {
 			browser.get(REGISTRATION_URL);
@@ -55,8 +57,6 @@ describe('Registration', function() {
 			});
 		});
 	});
-
-	var REGISTRATION_URL = browser.params.appUrl + 'registration';
 
 	describe('Basic Info', function() {
 		beforeEach(() => {
