@@ -19,6 +19,10 @@
       $scope.reload = function() {
         location.reload();
       };
+      
+      $scope.closeAlert = function(alert){
+          $scope.statusAlert[alert] = false;
+      };
 
       // returns true if the current router url matches the passed in url
       // so views can set 'active' on links easily
@@ -57,11 +61,11 @@
        */
       $scope.login = function(username, password) {
         if(!(username && password)) {
-          $scope.statusAlert['missing'] = true;
+          $scope.statusAlert.missing = true;
           return;
         }
         else {
-          $scope.statusAlert['missing'] = false;
+          $scope.statusAlert.missing = false;
         }
 
         $http({
@@ -102,10 +106,10 @@
           function(error) {
             console.log(error);
             if(error.status === 400 && error.data.non_field_errors && error.data.non_field_errors[0] === "Unable to log in with provided credentials.") {
-              $scope.statusAlert['password'] = true;
+              $scope.statusAlert.password = true;
             }
             else {
-              $scope.statusAlert['failure'] = true;
+              $scope.statusAlert.failure = true;
             }
           }
         );
@@ -157,19 +161,19 @@
        */
       $scope.changePass = function(currentPass, password, passwordRepeat, selectedID) {
         if(!(currentPass && password && passwordRepeat)) {
-          $scope.statusAlert['missing'] = true;
+          $scope.statusAlert.missing = true;
           return;
         }
         else {
-          $scope.statusAlert['missing'] = false;
+          $scope.statusAlert.missing = false;
         }
 
         if(password !== passwordRepeat) {
-          $scope.statusAlert['password'] = true;
+          $scope.statusAlert.password = true;
           return;
         }
         else {
-          $scope.statusAlert['password'] = false;
+          $scope.statusAlert.password = false;
         }
 
         $http.put(apiHost + '/api/userchangepass/current/', {
@@ -181,10 +185,10 @@
           },
           function(error) {
             if(error.status === 403) {
-              $scope.statusAlert['incorrect'] = true;
+              $scope.statusAlert.incorrect = true;
             }
             else {
-              $scope.statusAlert['failure'] = true;
+              $scope.statusAlert.failure = true;
             }
           }
         );

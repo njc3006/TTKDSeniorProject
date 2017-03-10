@@ -58,11 +58,11 @@
         $http.delete(apiHost + '/api/users/' + selectedID + '/').then(
           function(response) {
             modalInstance.close();
-            $scope.statusAlert['success'] = true;
+            $scope.statusAlert.success = true;
             $scope.reload();
           },
           function(error) {
-            $scope.statusAlert['failure'] = true;
+            $scope.statusAlert.failure = true;
           }
         );
       };
@@ -96,19 +96,19 @@
       $scope.createUser  = function(selectedUsername, password, passwordRepeat, selectedStaff) {
         
         if(!(selectedUsername && password && passwordRepeat)) {
-          $scope.statusAlert['missing'] = true;
+          $scope.statusAlert.missing = true;
           return;
         }
         else {
-          $scope.statusAlert['missing'] = false;
+          $scope.statusAlert.missing = false;
         }
 
         if(password !== passwordRepeat) {
-          $scope.statusAlert['password'] = true;
+          $scope.statusAlert.password = true;
           return;
         }
         else {
-          $scope.statusAlert['password'] = false;
+          $scope.statusAlert.password = false;
         }
 
         $http.post(apiHost + '/api/users/', {
@@ -118,11 +118,11 @@
         }).then(
           function(response) {
             modalInstance.close();
-            $scope.statusAlert['success'] = true;
+            $scope.statusAlert.success = true;
             $scope.reload();
           },
           function(error) {
-            $scope.statusAlert['failure'] = true;
+            $scope.statusAlert.failure = true;
           }
         );
       };
@@ -155,11 +155,11 @@
        */
       $scope.editUser  = function(selectedID, selectedUsername, selected_is_staff) {
         if(!selectedUsername) {
-          $scope.statusAlert['missing'] = true;
+          $scope.statusAlert.missing = true;
           return;
         }
         else {
-          $scope.statusAlert['missing'] = false;
+          $scope.statusAlert.missing = false;
         }
 
 
@@ -169,11 +169,11 @@
         }).then(
           function(response) {
             modalInstance.close();
-            $scope.statusAlert['success'] = true;
+            $scope.statusAlert.success = true;
             $scope.reload();
           },
           function(error) {
-            $scope.statusAlert['failure'] = true;
+            $scope.statusAlert.failure = true;
           }
         );
       };
@@ -209,19 +209,19 @@
        */
       $scope.changePass = function(currentPass, password, passwordRepeat, selectedID) {
         if(!(currentPass && password && passwordRepeat)) {
-          $scope.statusAlert['missing'] = true;
+          $scope.statusAlert.missing = true;
           return;
         }
         else {
-          $scope.statusAlert['missing'] = false;
+          $scope.statusAlert.missing = false;
         }
 
         if(password !== passwordRepeat) {
-          $scope.statusAlert['password'] = true;
+          $scope.statusAlert.password = true;
           return;
         }
         else {
-          $scope.statusAlert['password'] = false;
+          $scope.statusAlert.password = false;
         }
 
         $http.put(apiHost + '/api/userchangepass/' + selectedID + '/', {
@@ -230,14 +230,14 @@
         }).then(
           function(response) {
             modalInstance.close();
-            $scope.statusAlert['success'] = true;
+            $scope.statusAlert.success = true;
           },
           function(error) {
             if(error.status === 403) {
-              $scope.statusAlert['incorrect'] = true;
+              $scope.statusAlert.incorrect = true;
             }
             else {
-              $scope.statusAlert['failure'] = true;
+              $scope.statusAlert.failure = true;
             }
           }
         );
