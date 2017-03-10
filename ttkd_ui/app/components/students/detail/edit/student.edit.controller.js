@@ -1,5 +1,5 @@
 (function() {
-	function EditStudentController($scope, $state, $stateParams, $timeout, 
+	function EditStudentController($scope, $state, $stateParams, $timeout,
 										$q, StudentsService, StateService, ProgramsService) {
 		var programsTouched = false;
 		var allPrograms = [];
