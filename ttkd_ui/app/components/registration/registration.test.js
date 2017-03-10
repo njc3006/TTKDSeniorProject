@@ -37,7 +37,7 @@ describe('Registration', function() {
 
 	describe('General Functionality', function() {
 		beforeEach(() => {
-			browser.get(browser.params.registrationUrl);
+			browser.get(REGISTRATION_URL);
 		});
 
 		it('should not allow user to submit without filling out info', function() {
@@ -56,9 +56,11 @@ describe('Registration', function() {
 		});
 	});
 
+	var REGISTRATION_URL = browser.params.appUrl + 'registration';
+
 	describe('Basic Info', function() {
 		beforeEach(() => {
-			browser.get(browser.params.registrationUrl);
+			browser.get(REGISTRATION_URL);
 		});
 
 		it('should require a program', function() {
@@ -257,7 +259,7 @@ describe('Registration', function() {
 
 	describe('Emergency Contacts', function() {
 		beforeEach(() => {
-			browser.get(browser.params.registrationUrl);
+			browser.get(REGISTRATION_URL);
 			fillOutBasicInfo();
 			element(by.id('contiue-button')).click();
 		});
@@ -335,7 +337,7 @@ describe('Registration', function() {
 
 	describe('Waiver Screen', function() {
 		beforeEach(() => {
-			browser.get(browser.params.registrationUrl);
+			browser.get(REGISTRATION_URL);
 		});
 
 		it('should have two input fields if the student is under 18', function() {
