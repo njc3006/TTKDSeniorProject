@@ -65,13 +65,14 @@
 
 <div class="spacer-25"
 	ng-class="{'has-error': (registrationForm.dob.$invalid && !registrationForm.dob.$pristine) || isTooYoung(), 'has-success': fieldHasSuccess('dob') && registrationForm.dob.$valid}">
-	<label class="control-label">Date of Birth (format: MM/DD/YYYY)</label>
+	<label class="control-label">Date of Birth</label>
 	<div class="input-group">
 		<input
 			type="text"
 			class="form-control"
 			name="dob"
 			form-focus="currentFocusIndex === 3"
+			ng-readonly="true"
 			ng-focus="setFocus(3)"
 			ng-required="isFieldRequired('dob')"
 			uib-datepicker-popup="MM/dd/yyyy"
