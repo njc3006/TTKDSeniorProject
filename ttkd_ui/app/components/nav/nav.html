@@ -24,13 +24,13 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li ng-if="!loggedin" ng-click="openLogin()" id="login">
-                <p class="navbar-text">Login</p>
+                <p class="navbar-text link-pointer">Login</p>
             </li>
             <li ng-if="loggedin">
                 <p class="navbar-text text-capitalize">{{currentUser}}</p>
             </li>
             <li ng-if="loggedin" ng-click="logout()" id="logout">
-                <p class="navbar-text">Logout</p>
+                <p class="navbar-text link-pointer">Logout</p>
             </li>
         </ul>
     </div>

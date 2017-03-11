@@ -31,8 +31,12 @@
 					});
 				},
 
-				updateStudentInfo: function(id, newInfo) {
-					return $http.put(apiHost + '/api/persons/' + id + '/', newInfo);
+				updateStudentInfo: function(id, newInfo, userlevel) {
+					if(userlevel === 0){
+						return $http.put(apiHost + '/api/person-notes/' + id + '/', newInfo);
+					} else {
+						return $http.put(apiHost + '/api/persons/' + id + '/', newInfo);
+					}
 				},
 
 				updateStudentBelt: function(id, newBeltId) {

@@ -29,6 +29,8 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 @import "./components/belts-stripes/belts-stripes";
 @import "./components/studentlist/studentlist";
 @import "./components/importexport/importexport";
+@import "./components/home/choose-program";
+@import "./components/registration/registration";
 
 // Push containers below navbar
 #appContainer {
@@ -90,8 +92,21 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 	display: none !important;
 }
 
+.link-pointer {
+	cursor: pointer;
+}
+
+ul.uib-datepicker-popup .btn-default {
+	color: #3f5060;
+	background: #f7f7f7;
+}
+
+.checkin ul.uib-datepicker-popup .active span {
+	color: #3f5060;
+}
+
 .link-card{
-	height: 169px;
+	height: 139px;
 	text-align: center;
 	padding: 0;
 
@@ -109,6 +124,8 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 		margin-top: 1px;
 		margin-bottom: 3px;
 		font-size: 15px;
+		cursor: pointer;
+		padding-top: 5px;
 	}
 }
 
