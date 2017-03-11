@@ -1,6 +1,15 @@
 (function() {
-	function EditStudentController($scope, $state, $stateParams, $timeout,
-										$q, StudentsService, StateService, ProgramsService) {
+	function EditStudentController(
+		$scope,
+		$state,
+		$stateParams,
+		$timeout,
+		$q,
+		$window,
+		StudentsService,
+		StateService,
+		ProgramsService
+	) {
 		var programsTouched = false;
 		var allPrograms = [];
 		$scope.registeredPrograms = [];
@@ -61,7 +70,7 @@
 						// on errors
 						function(response) {
 							$scope.requestFlags.submission.failure = true;
-							window.scrollTo(0, 0);
+							$window.scrollTo(0, 0);
 						}
 					));
 				}
@@ -77,7 +86,7 @@
 						// on error
 						function (response) {
 							$scope.requestFlags.submission.failure = true;
-							window.scrollTo(0, 0);
+							$window.scrollTo(0, 0);
 						}
 					));
 				}
@@ -102,12 +111,12 @@
 
 					$scope.oldStudent = angular.copy($scope.studentInfo);
 
-					window.scrollTo(0, 0);
+					$window.scrollTo(0, 0);
 					$scope.requestFlags.submission.success = true;
 				},
 				function failure(error) {
 					$scope.requestFlags.submission.failure = true;
-					window.scrollTo(0, 0);
+					$window.scrollTo(0, 0);
 				}
 			);
 		}
@@ -186,7 +195,7 @@
 								},
 								function failure(error) {
 									$scope.requestFlags.submission.failure = true;
-									window.scrollTo(0, 0);
+									$window.scrollTo(0, 0);
 								}
 							);
 						} else {
@@ -194,8 +203,7 @@
 						}
 					}, function failure(error) {
 						$scope.requestFlags.submission.failure = true;
-						console.log(error);
-						window.scrollTo(0, 0);
+						$window.scrollTo(0, 0);
 					}
 				);
 			}
@@ -301,6 +309,7 @@
 		'$stateParams',
 		'$timeout',
 		'$q',
+		'$window',
 		'StudentsSvc',
 		'StateSvc',
 		'ProgramsSvc',
