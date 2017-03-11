@@ -13,29 +13,36 @@
 			<strong>This email was not found in the registration</strong>
 		</div>
 		<h2 class="text-center no-margins">Enter a phone number or an email address</h2>
-		<form class="form-horizontal col-sm-12" ng-submit="authenticateInput()" novalidate>
-			<div ng-class="{'has-error': incorrectEmail}">
+		<form
+			name="verification"
+			class="form-horizontal col-sm-12"
+			ng-submit="authenticateInput()"
+			novalidate>
+			<div ng-class="{'has-error': incorrectEmail || verification.email.$invalid}">
 				<div class="form-group">
 					<label class="control-label">Email Address</label>
 					<input
-						type="text"
+						type="email"
+						name="email"
 						class="form-control"
 						ng-model="verificationEmail"
 						placeholder="email@example.com"
 						autofocus>
 				</div>
 			</div>
-			<div ng-class="{'has-error': incorrectPhoneNumber}">
+			<div ng-class="{'has-error': incorrectPhoneNumber || verification.phone.$invalid}">
 				<div class="form-group">
 					<label class="control-label">Phone Number</label>
 					<input
 						type="text"
+						name="phone"
 						class="form-control"
+						placeholder="(999) 999-9999"
 						ng-model="verificationPhone"
 						mask="(999) 999-9999"
 						clean="true"
 						validate="true"
-						placeholder="(999) 999-9999">
+						restrict="reject">
 				</div>
 			</div>
 		</form>
