@@ -1,113 +1,92 @@
-<div class="row spacer-25">
-	<h2 class="col-xs-12">Basic Information</h2>
-	<table class="table">
-		<tbody>
-			<tr>
-				<td>First Name</td>
-				<td>{{registrationInfo.person.first_name}}</td>
-			</tr>
-			<tr>
-				<td>Last Name</td>
-				<td>{{registrationInfo.person.last_name}}</td>
-			</tr>
+<div class="left-30">
+	<div class="row spacer-25">
+		<h2 class="spacer-10">Basic Information</h2>
+		<div class="row data-row">
+			<div class="col-xs-6"><b>First Name</b></div>
+			<div class="col-xs-6">{{registrationInfo.person.first_name}}</div>
+		</div>
+		<div class="row data-row">
+			<div class="col-xs-6"><b>Last Name</b></div>
+			<div class="col-xs-6">{{registrationInfo.person.last_name}}</div>
+		</div>
+		<div class="row data-row">
+			<div class="col-xs-6"><b>Street</b></div>
+			<div class="col-xs-6">{{registrationInfo.person.street}}</div>
+		</div>
+		<div class="row data-row">
+			<div class="col-xs-6"><b>City</b></div>
+			<div class="col-xs-6">{{registrationInfo.person.city}}</div>
+		</div>
+		<div class="row data-row">
+			<div class="col-xs-6"><b>State</b></div>
+			<div class="col-xs-6">{{registrationInfo.person.state.value}}</div>
+		</div>
+		<div class="row data-row">
+			<div class="col-xs-6"><b>Zipcode</b></div>
+			<div class="col-xs-6">{{registrationInfo.person.zipcode}}</div>
+		</div>
+		<div class="row data-row">
+			<div class="col-xs-6"><b>Email(s)</b></div>
+			<div class="col-xs-6">{{getFormattedEmailList()}}</div>
+		</div>
+		<div class="row data-row">
+			<div class="col-xs-6"><b>Date of Birth</b></div>
+			<div class="col-xs-6">{{formattedDob()}}</div>
+		</div>
+		<div class="row data-row">
+			<div class="col-xs-6"><b>Primary Phone</b></div>
+			<div class="col-xs-6">{{formattedPhoneNumber(registrationInfo.person.primary_phone)}}</div>
+		</div>
+		<div class="row data-row">
+			<div class="col-xs-6"><b>Secondary Phone</b></div>
+			<div class="col-xs-6">{{formattedPhoneNumber(registrationInfo.person.secondary_phone)}}</div>
+		</div>
+	</div>
 
-			<tr>
-				<td>Street</td>
-				<td>
-					{{registrationInfo.person.street}}
-				</td>
-			</tr>
-			<tr>
-				<td>City</td>
-				<td>
-					{{registrationInfo.person.city}}
-				</td>
-			</tr>
-			<tr>
-				<td>State</td>
-				<td>
-					{{registrationInfo.person.state.value}}
-				</td>
-			</tr>
-			<tr>
-				<td>Zipcode</td>
-				<td>
-					{{registrationInfo.person.zipcode}}
-				</td>
-			</tr>
-			<tr>
-				<td>Email(s)</td>
-				<td>{{getFormattedEmailList()}}</td>
-			</tr>
-			<tr>
-				<td>Date of Birth</td>
-				<td>{{formattedDob()}}</td>
-			</tr>
-			<tr>
-				<td>Primary Phone</td>
-				<td>{{formattedPhoneNumber(registrationInfo.person.primary_phone)}}</td>
-			</tr>
-			<tr>
-				<td>Secondary Phone</td>
-				<td>{{formattedPhoneNumber(registrationInfo.person.secondary_phone)}}</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
+	<div class="row spacer-25">
+		<h2 class="spacer-10">Emergency Contact</h2>
+		<div class="row data-row">
+			<div class="col-xs-6"><b>Primary Contact Name</b></div>
+			<div class="col-xs-6">{{registrationInfo.person.emergency_contact_1.full_name}}</div>
+		</div>
+		<div class="row data-row">
+			<div class="col-xs-6"><b>Primary Contact Phone</b></div>
+			<div class="col-xs-6">{{formattedPhoneNumber(registrationInfo.person.emergency_contact_1.phone_number)}}</div>
+		</div>
+		<div class="row data-row">
+			<div class="col-xs-6"><b>Primary Contact Relationship</b></div>
+			<div class="col-xs-6">{{registrationInfo.person.emergency_contact_1.relation}}</div>
+		</div>
+		<div class="row data-row">
+			<div class="col-xs-6"><b>Secondary Contact Name</b></div>
+			<div class="col-xs-6">{{registrationInfo.person.emergency_contact_2.full_name}}</div>
+		</div>
+		<div class="row data-row">
+			<div class="col-xs-6"><b>Secondary Contact Phone</b></div>
+			<div class="col-xs-6">{{formattedPhoneNumber(registrationInfo.person.emergency_contact_2.phone_number)}}</div>
+		</div>
+		<div class="row data-row">
+			<div class="col-xs-6"><b>Secondary Contact Relationship</b></div>
+			<div class="col-xs-6">{{registrationInfo.person.emergency_contact_2.relation}}</div>
+		</div>
+	</div>
 
-<div class="row spacer-25">
-	<h2 class="col-xs-12">Emergency Contact</h2>
-	<table class="table">
-		<tbody>
-			<tr>
-				<td>Primary Contact Name</td>
-				<td>{{registrationInfo.person.emergency_contact_1.full_name}}</td>
-			</tr>
-			<tr>
-				<td>Primary Contact Phone</td>
-				<td>{{formattedPhoneNumber(registrationInfo.person.emergency_contact_1.phone_number)}}</td>
-			</tr>
-			<tr>
-				<td>Primary Contact Relationship</td>
-				<td>{{registrationInfo.person.emergency_contact_1.relation}}</td>
-			</tr>
-			<tr>
-				<td>Secondary Contact Name</td>
-				<td>{{registrationInfo.person.emergency_contact_2.full_name}}</td>
-			</tr>
-			<tr>
-				<td>Secondary Contact Phone</td>
-				<td>{{formattedPhoneNumber(registrationInfo.person.emergency_contact_2.phone_number)}}</td>
-			</tr>
-			<tr>
-				<td>Secondary Contact Relationship</td>
-				<td>{{registrationInfo.person.emergency_contact_2.relation}}</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-
-<div class="row review">
-	<h2 class="col-xs-12">Waiver</h2>
-	<table class="table">
-		<tbody>
-			<tr>
-				<td>Participant</td>
-				<td>{{registrationInfo.person.waivers[0].waiver_signature}}</td>
-			</tr>
-			<tr ng-if="!isLegalAdult()">
-				<td>Guardian</td>
-				<td>{{registrationInfo.person.waivers[0].guardian_signature}}</td>
-			</tr>
-			<tr>
-				<td>Signed?</td>
-				<td ng-if="waiverSigned()">
-					Yes
-				</td>
-				<td ng-if="!waiverSigned()">
-					No
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="row spacer-25">
+		<h2 class="spacer-10">Waiver</h2>
+		<div class="row data-row">
+			<div class="col-xs-6"><b>Participant</b></div>
+			<div class="col-xs-6">{{registrationInfo.person.waivers[0].waiver_signature}}</div>
+		</div>
+		<div class="row data-row" ng-if="!isLegalAdult()">
+			<div class="col-xs-6"><b>Guardian</b></div>
+			<div class="col-xs-6">{{registrationInfo.person.waivers[0].guardian_signature}}</div>
+		</div>
+		<div class="row data-row">
+			<div class="col-xs-6"><b>Signed</b></div>
+			<div class="col-xs-6">
+				<div ng-if="waiverSigned()">Yes</div>
+				<div ng-if="!waiverSigned()">No</div>
+			</div>
+		</div>
+	</div>
 </div>
