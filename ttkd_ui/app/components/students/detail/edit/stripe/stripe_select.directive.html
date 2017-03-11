@@ -1,30 +1,6 @@
 <div>
 	<div class="form-group col-sm-5">
 		<label class="control-label">
-			<span class="h3">Current Stripes</span>
-		</label>
-		<ul class="list-group">
-			<a
-				ui-sref="."
-				class="list-group-item"
-				ng-repeat="stripe in ctrl.studentStripes"
-				ng-click="ctrl.onStudentStripeClick($index)"
-				ng-class="{'active': stripe.active}">
-				{{stripe.name}}
-			</a>
-		</ul>
-	</div>
-	<div class="col-sm-2 h3-align">
-		<button type="button" class="btn btn-primary form-control spacer-10" ng-click="ctrl.removeSelectedStripesFromStudent()">
-			<span class="glyphicon glyphicon-chevron-right"></span>
-		</button>
-
-		<button type="button" class="btn btn-primary form-control" ng-click="ctrl.addSelectedStripesToStudent()">
-			<span class="glyphicon glyphicon-chevron-left"></span>
-		</button>
-	</div>
-	<div class="form-group col-sm-5">
-		<label class="control-label">
 			<span class="h3">Available Stripes</span>
 		</label>
 		<ul class="list-group">
@@ -33,6 +9,32 @@
 				class="list-group-item"
 				ng-repeat="stripe in ctrl.allStripes"
 				ng-click="ctrl.onAllStripeClick($index)"
+				ng-class="{'active': stripe.active}">
+				{{stripe.name}}
+			</a>
+		</ul>
+	</div>
+
+	<div class="col-sm-2 h3-align">
+		<button type="button" class="btn btn-primary form-control spacer-10" ng-click="ctrl.addSelectedStripesToStudent()">
+			<span class="glyphicon glyphicon-chevron-right"></span>
+		</button>
+
+		<button type="button" class="btn btn-primary form-control" ng-click="ctrl.removeSelectedStripesFromStudent()">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+		</button>
+	</div>
+
+	<div class="form-group col-sm-5">
+		<label class="control-label">
+			<span class="h3">Current Stripes</span>
+		</label>
+		<ul class="list-group">
+			<a
+				ui-sref="."
+				class="list-group-item"
+				ng-repeat="stripe in ctrl.studentStripes"
+				ng-click="ctrl.onStudentStripeClick($index)"
 				ng-class="{'active': stripe.active}">
 				{{stripe.name}}
 			</a>

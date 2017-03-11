@@ -181,7 +181,6 @@
 
 				StudentsService.updateStudentInfo($stateParams.studentId, payload, $scope.userlevel).then(
 					function success(response) {
-
 						$scope.oldStudent = angular.copy($scope.studentInfo);
 
 						if ($scope.studentInfo.newBelt.id !== $scope.currentBelt.id) {
