@@ -26,3 +26,14 @@
 .pulled-text{
 	font-size: 16px;
 }
+
+.btn-primary.dropdown-toggle:focus, .open>.btn-primary.dropdown-toggle:hover {
+   background-color: #2C3E50;
+   border-color: #2C3E50;
+}
+
+.btn-primary.dropdown-toggle{
+   background-color: #2C3E50;
+   border-color: #2C3E50;
+   margin-top: 9px;
+}

@@ -19,8 +19,8 @@
 			<label for="username">Username</label>
 			<input autofocus id="username" class="form-control" type="text" name="newUsername" ng-required="true" ng-model="newUsername">
 		</div>
-		<div class="checkbox" ng-hide="selectedID === currentUserID">
-			<label>
+		<div class="checkbox-inline spacer-5" ng-hide="selectedID === currentUserID">
+			<label class="user-manage-checkbox">
 				<input id="admin" type="checkbox" name="selectedStaff" ng-model="selectedStaff">Is Admin
 			</label>
 		</div>
