@@ -55,31 +55,31 @@
 			</div>
 			<div class="col-xs-9">
 				<div class="row spacer-10">
-					<span class="h2 col-xs-3 no-padding no-margins">
+					<span class="h2 col-xs-3 no-padding no-margins info-text">
 						{{studentInfo.firstName}} {{studentInfo.lastName}}
 					</span>
 					<div ng-if="userlevel >= 1" class="btn-group pull-right">
 						<a class="btn btn-warning" ui-sref="editStudentDetails({studentId: studentInfo.id})">Edit</a>
 					</div>
 				</div>
-				<div class="row h4 spacer-10 normal-text">
-					Status: <span ng-class="{'text-success': studentInfo.active, 'text-danger': !studentInfo.active}">
+				<div class="row h4 spacer-10 info-text info-text">
+					Status:<span ng-class="{'text-success': studentInfo.active, 'text-danger': !studentInfo.active}">
 						{{studentInfo.active ? 'Active' : 'Inactive'}}
 					</span>
 				</div>
-				<div class="row h4 spacer-10 normal-text">
+				<div class="row h4 spacer-10 info-text">
 					<span style="padding-right: 3em">Age: {{currentAge()}}</span>
 					<span>Birthday: {{formattedBirthday()}}</span>
 				</div>
-				<div class="row h4 spacer-10 normal-text">
+				<div class="row h4 spacer-10 info-text">
 					<tel-link phone="studentInfo.primaryPhone" label="'Primary Phone'" style="padding-right: 3em"></tel-link>
 					<tel-link ng-if="studentInfo.secondaryPhone" phone="studentInfo.secondaryPhone" label="'Secondary Phone'">
 					</tel-link>
 				</div>
-				<div class="row h4 spacer-10 normal-text">
+				<div class="row h4 spacer-10 info-text">
 					<span>Address: {{studentInfo.street}}, {{studentInfo.city}}, {{studentInfo.state}} {{studentInfo.zipcode}}</span>
 				</div>
-				<div class="row h4 normal-text">
+				<div class="row h4 info-text">
 					Emails:
 					<span ng-repeat="email in studentInfo.emails">
 						<a href="mailto:{{email.email}}">{{email.email}}</a>{{$last ? '' : ', '}}
@@ -89,7 +89,7 @@
 		</div>
 
 		<div class="row" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
-			<div class="panel panel-primary col-xs-5">
+			<div class="panel panel-primary col-xs-5 info-text">
 				<div class="panel-heading">
 					Primary Emergency Contact
 				</div>
@@ -100,7 +100,7 @@
 				</div>
 			</div>
 
-			<div class="panel panel-primary col-xs-5 pull-right" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
+			<div class="panel panel-primary col-xs-5 pull-right info-text" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
 				<div class="panel-heading">
 					Secondary Emergency Contact
 				</div>
@@ -112,7 +112,7 @@
 			</div>
 		</div>
 
-		<div class="row spacer-20" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
+		<div class="row spacer-20 info-text" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
 			<uib-tabset type="pills">
 				<uib-tab heading="Notes">
 					<ng-include src="'components/students/detail/view/notes/notes.panel.html'"></ng-include>
