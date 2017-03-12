@@ -20,11 +20,13 @@
 
       $scope.clearAlerts = function() {
         $scope.statusAlert = {
+            custom: false,
             failure: false,
             missing: false,
             passwords: false,
             success: false
         };
+        $scope.customError = '';
       }
 
       $scope.clearAlerts();
@@ -53,7 +55,7 @@
        * Queries the api to delete the currently selected user.
        */
       $scope.deleteUser  = function(selectedID) {
-        
+        $scope.clearAlerts();
 
         $http.delete(apiHost + '/api/users/' + selectedID + '/').then(
           function(response) {
@@ -73,6 +75,7 @@
       $scope.openCreateUser = function() {
         $scope.clearAlerts();
 
+        $scope.selectedID = -1;
         $scope.editingUser = false;
         $scope.newUsername = '';
         $scope.selectedUsername = '';
@@ -94,6 +97,7 @@
        * Queries the api to create a new user with the provided field values.
        */
       $scope.createUser  = function(selectedUsername, password, passwordRepeat, selectedStaff) {
+        $scope.clearAlerts();
         
         if(!(selectedUsername && password && passwordRepeat)) {
           $scope.statusAlert.missing = true;
@@ -122,7 +126,14 @@
             $scope.reload();
           },
           function(error) {
-            $scope.statusAlert.failure = true;
+            if(error.status === 400 && error.data.username) {
+              console.log(error.data.username[0]);
+              $scope.statusAlert.custom = true;
+              $scope.customError = error.data.username[0];
+            }
+            else {
+              $scope.statusAlert.failure = true;
+            }
           }
         );
       };
@@ -154,6 +165,8 @@
        * Queries the api to edit the currently selected user.
        */
       $scope.editUser  = function(selectedID, selectedUsername, selected_is_staff) {
+        $scope.clearAlerts();
+        
         if(!selectedUsername) {
           $scope.statusAlert.missing = true;
           return;
@@ -208,6 +221,8 @@
        * Changes the password for the currently logged in user.
        */
       $scope.changePass = function(currentPass, password, passwordRepeat, selectedID) {
+        $scope.clearAlerts();
+        
         if(!(currentPass && password && passwordRepeat)) {
           $scope.statusAlert.missing = true;
           return;

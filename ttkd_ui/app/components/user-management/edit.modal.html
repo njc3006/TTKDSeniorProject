@@ -14,6 +14,9 @@
 		<div class="alert alert-danger" ng-show="statusAlert.password" uib-alert close="closeAlert('password')">
 			New passwords fields must match.
 		</div>
+		<div class="alert alert-danger" ng-show="statusAlert.custom" uib-alert close="closeAlert('custom')">
+			{{customError}}
+		</div>
 
 		<div class="form-group">
 			<label for="username">Username</label>
