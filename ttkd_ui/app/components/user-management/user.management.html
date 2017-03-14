@@ -1,16 +1,13 @@
 <div class="container text-center spacer-35">
 	<!-- <div class="spacer-35"></div> -->
+	<div class="alert alert-success no-bottom-margin" ng-show="statusAlert.success" uib-alert close="closeAlert('success')">
+		Changes were made successfully.
+	</div>	
 
 	<div class="row col-xs-12 spacer-10">
 		<h1>User List</h1>
 	</div>
 	<hr>
-
-	<div class="row">
-		<div class="alert alert-success" ng-show="statusAlert.success" uib-alert close="closeAlert('success')">
-			Changes were made successfully.
-		</div>
-	</div>
 
 	<div class="row">
 		<h3 class="col-xs-3 text-center padding-top-7">
