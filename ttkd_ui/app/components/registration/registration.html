@@ -21,11 +21,11 @@
 				<span ng-if="partialNotLoadedStatus === 500">Internal server Error</span>
 			</strong>
 		</div>
-		<div class="alert alert-danger" role="alert" ng-show="registrationFailure">
+		<div id="failureAlert" class="alert alert-danger" role="alert" ng-show="registrationFailure">
 			<strong>Registration failed</strong>
 			<strong ng-if="isPartialRegistration">
 				<ul>
-					<li ng-if="missingEmailAndPhone">Missing phone number or email address</li>
+					<li id="missingEmailAndPhone" ng-if="missingEmailAndPhone">Missing phone number or email address</li>
 					<li ng-repeat="error in registrationErrors track by $index">{{error}}</li>
 				</ul>
 			</strong>
