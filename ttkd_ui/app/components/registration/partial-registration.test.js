@@ -31,9 +31,30 @@ describe('Partial Registration', function() {
 		browser.driver.sleep(1000);
 	}
 
-	describe('New Partial Registration',function() {
+	function completePartialRegistration() {
+		var program = element(by.model('registrationInfo.program')),
+			firstName = element(by.model('registrationInfo.person.first_name')),
+			lastName = element(by.model('registrationInfo.person.last_name')),
+			phoneNumber = element(by.model('registrationInfo.person.primary_phone')),
+			emailAddress = element(by.id('email0'));
+
+		program.element(by.cssContainingText('option', 'Adult Self-Defense Wednesday')).click();
+		firstName.sendKeys('First');
+		lastName.sendKeys('Name');
+		phoneNumber.sendKeys('1234567890');
+		emailAddress.sendKeys('email@email.net');
+
+		element(by.css('[type=submit]')).submit();
+	}
+
+	describe('New Partial Registration', function() {
 		beforeEach(() => {
-			browser.get(browser.params.appUrl + 'partial-registrations/new')
+			login();
+			browser.get(browser.params.appUrl + 'partial-registrations/new');
+		});
+
+		afterEach(() => {
+			element(by.id('logout')).click();
 		});
 
 		it('should require a phone number or email', function() {
@@ -56,6 +77,69 @@ describe('Partial Registration', function() {
 
 		it('should require a program', function() {
 			testRequired('registrationInfo.program', 'Adult Self-Defense Wednesday', true);
+		});
+	});
+
+	describe('Completing a Partial Registration', function() {
+		beforeAll(() => {
+			login();
+			browser.get(browser.params.appUrl + 'partial-registrations/new');
+			completePartialRegistration();
+			element(by.id('logout')).click();
+		});
+
+		beforeEach(() => {
+			browser.get(browser.params.appUrl + 'partial-registrations');
+			element(by.id('registration0')).click();
+		});
+
+		it('should have an email and phone number input', function() {
+			var verificationEmail = element(by.model('verificationEmail')),
+				verificationPhone = element(by.model('verificationPhone'));
+
+			expect(verificationEmail.isDisplayed() && verificationPhone.isDisplayed()).toBe(true);
+		});
+
+		it('should require either a phone number or email address', function() {
+			element(by.id('authRegistration')).click();
+			expect(element(by.id('noInputAlert')).isDisplayed()).toBe(true);
+		});
+
+		it('should display an error if an incorrect phone number is entered', function() {
+			var verificationPhone = element(by.model('verificationPhone'));
+			verificationPhone.sendKeys('0987654321');
+
+			element(by.id('authRegistration')).click();
+
+			expect(element(by.id('incorrectPhoneNumber')).isDisplayed()).toBe(true);
+		});
+
+		it('should display an error if an incorrect email address is entered', function() {
+			var verificationEmail = element(by.model('verificationEmail'));
+			verificationEmail.sendKeys('email@gmail.com');
+
+			element(by.id('authRegistration')).click();
+
+			expect(element(by.id('incorrectEmail')).isDisplayed()).toBe(true);
+		});
+
+		it('should pre-load information for a partial registration', function() {
+			var verificationPhone = element(by.model('verificationPhone'));
+			verificationPhone.sendKeys('1234567890');
+
+			element(by.id('authRegistration')).click();
+
+			var program = element(by.model('registrationInfo.program')),
+				firstName = element(by.model('registrationInfo.person.first_name')),
+				lastName = element(by.model('registrationInfo.person.last_name')),
+				phoneNumber = element(by.model('registrationInfo.person.primary_phone')),
+				emailAddress = element(by.id('email0'));
+
+			expect(program.getAttribute('value')).toBe('1')
+			expect(firstName.getAttribute('value')).toBe('First');
+			expect(lastName.getAttribute('value')).toBe('Name');
+			expect(phoneNumber.getAttribute('value')).toBe('(123) 456-7890');
+			expect(emailAddress.getAttribute('value')).toBe('email@email.net');
 		});
 	});
 });
