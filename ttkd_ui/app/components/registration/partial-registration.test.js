@@ -90,7 +90,11 @@ describe('Partial Registration', function() {
 
 		beforeEach(() => {
 			browser.get(browser.params.appUrl + 'partial-registrations');
-			element(by.id('registration0')).click();
+			element.all(by.css('a.h2')).filter(function(elem, index) {
+				return elem.getText().then(function(text) {
+				  return text === 'First Name';
+				});
+			}).first().click();
 		});
 
 		it('should have an email and phone number input', function() {
