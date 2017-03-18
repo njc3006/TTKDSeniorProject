@@ -110,6 +110,12 @@
         url: '/belts-stripes',
         templateUrl: 'components/belts-stripes/belts-stripes.html',
         controller: 'BeltsStripesCtrl'
+      })
+
+      .state('editPrograms', {
+        url: '/edit-programs',
+        templateUrl: 'components/programs/edit-programs.html',
+        controller: 'ProgramsCtrl'
       });
 
 			// For any unmatched url, send to /

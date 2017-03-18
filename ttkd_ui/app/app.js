@@ -20,6 +20,7 @@
 		'ttkdApp.importExportCtrl',
 		'ttkdApp.beltsStripesCtrl',
 		'ttkdApp.studentWaiverCtrl',
+		'ttkdApp.programsCtrl',
 		'ttkdApp.AuthInterceptor'
     ]
   ).config(['$httpProvider', function($httpProvider) {

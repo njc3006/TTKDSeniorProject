@@ -1,0 +1,45 @@
+<div class="container">
+	<div class="row alert alert-info" role="alert" ng-show="!alerts.loaded">
+		<strong>Loading...</strong>
+	</div>
+
+	<div class="row alert alert-danger" role="alert" ng-show="alerts.error">
+		<strong>Could not retrieve programs data</strong>
+	</div>
+
+	<div ng-show="alerts.loaded">
+		<div class="row">
+			<h3 class="col-md-offset-1 spacer-25">Active Programs</h3>
+			<div ng-if="!checkActiveFlag(programs, true)" class="text-center spacer-35">
+				<h4>No active programs found.</h4>
+			</div>
+			<div ng-repeat="program in programs | filter: { active: true }">
+				 <div class="row col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 spacer-20 program-entry no-padding">
+		            <div class="col-md-10 col-sm-9">  
+		                <div class="program-name">{{program.name}}</div>
+		            </div>
+		            <div class="col-md-2 col-sm-3 program-edit-btn">  
+		                <button class="btn btn-block btn-success" ng-click="editProgram(program)">Edit</button>
+		            </div>
+		        </div>
+			</div>
+		</div>
+
+	 	<div class="row">
+			<h3 class="spacer-25">Inactive Programs</h3>
+			<div ng-if="!checkActiveFlag(programs, false)" class="text-center spacer-35">
+				<h4>No inactive programs found.</h4>
+			</div>
+			<div ng-repeat="program in programs | filter: { active: false }">
+				 <div class="row col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 spacer-20 program-entry no-padding">
+		            <div class="col-md-10 col-sm-9">  
+		                <div class="program-name">{{program.name}}</div>
+		            </div>
+		            <div class="col-md-2 col-sm-3 program-edit-btn">  
+		                <button class="btn btn-block btn-success" ng-click="editProgram(program)">Edit</button>
+		            </div>
+		        </div>
+			</div>
+		</div>
+	</div>
+</div>
