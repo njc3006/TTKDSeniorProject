@@ -19,6 +19,11 @@
 				return $http.post(apiHost + '/api/programs/', programData);
 			},
 
+			/* updates an existing program */
+			updateProgram: function(programData) {
+				return $http.put(apiHost + '/api/programs', programData);
+			},
+
 			/* get a single program by it's id */
 			getProgram: function(id) {
 				return $http.get(apiHost + '/api/programs/'+id);

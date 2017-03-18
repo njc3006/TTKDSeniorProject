@@ -1,9 +1,9 @@
 <div class="container">
-	<div class="row alert alert-info" role="alert" ng-show="!alerts.loaded">
+	<div class="row alert alert-info col-sm-10 col-sm-offset-1" role="alert" ng-show="!alerts.loaded">
 		<strong>Loading...</strong>
 	</div>
 
-	<div class="row alert alert-danger" role="alert" ng-show="alerts.error">
+	<div class="row alert alert-danger col-sm-10 col-sm-offset-1" role="alert" ng-show="alerts.error">
 		<strong>Could not retrieve programs data</strong>
 	</div>
 
@@ -14,7 +14,7 @@
 				<h4>No active programs found.</h4>
 			</div>
 			<div ng-repeat="program in programs | filter: { active: true }">
-				 <div class="row col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 spacer-20 program-entry no-padding">
+				 <div class="row col-sm-8 col-sm-offset-2 spacer-20 program-entry no-padding">
 		            <div class="col-md-10 col-sm-9">  
 		                <div class="program-name">{{program.name}}</div>
 		            </div>
@@ -31,7 +31,7 @@
 				<h4>No inactive programs found.</h4>
 			</div>
 			<div ng-repeat="program in programs | filter: { active: false }">
-				 <div class="row col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 spacer-20 program-entry no-padding">
+				 <div class="row col-sm-8 col-sm-offset-2 spacer-20 program-entry no-padding">
 		            <div class="col-md-10 col-sm-9">  
 		                <div class="program-name">{{program.name}}</div>
 		            </div>
@@ -42,4 +42,7 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<div id="modal-area">
 </div>
