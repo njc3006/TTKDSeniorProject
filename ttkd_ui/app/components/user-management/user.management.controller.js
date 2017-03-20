@@ -1,8 +1,10 @@
 (function() {
 
   angular.module('ttkdApp.manageUserCtrl',['ttkdApp.constants'])
-    .controller('manageUserCtrl', ['$scope', '$uibModal', '$http', 'apiHost',
-      function($scope, $uibModal, $http, apiHost) {
+    .controller('manageUserCtrl', ['$scope', '$uibModal', '$http', 'apiHost', '$rootScope', '$stateParams',
+      function($scope, $uibModal, $http, apiHost, $rootScope, $stateParams) {
+      
+      $rootScope.showCurrentProgram = $stateParams.hideCurrentProgram;
       
       var modalInstance;
       $scope.closeAlert = function(alert){
