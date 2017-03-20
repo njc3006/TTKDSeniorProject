@@ -1,5 +1,24 @@
 import json, sys, os, random
 
+
+class AttendanceRecord:
+    """
+    AttendanceRecord makes it easy to keep track of attendance records we have already seen
+    eq is implemented for comparison, specifically so we can do if x in set
+    hash is implemented so we can put these objects in a set
+    """
+    def __init__(self, per, pro, day):
+        self.person = per
+        self.program = pro
+        self.date = day
+
+    def __eq__(self, other):
+        return (self.person == other.person) and (self.program == other.program) and \
+               (self.date == other.date)
+
+    def __hash__(self):
+        return hash((self.person, self.program, self.date))
+
 students_file = open("students.json").read()
 attendances_file = open("attendances.json").read()
 classes_file = open("classes.json").read()
@@ -196,18 +215,32 @@ for import_class in classes_import:
 
 attendances = []
 attendance_pk = 1
-for attendance in attendances_import:
-    attendances.append({
-        "model": "ttkd_api.attendancerecord",
-        "pk": attendance_pk,
-        "fields": {
-            "person": students[attendance["student"]["$oid"]]["pk"],
-            "program": classes[attendance["classAttended"]["$oid"]]["pk"],
-            "date": attendance['checkInTime']['$date'][:10]
-        }
-    })
 
-    attendance_pk += 1
+# Use a set because it is much faster
+attendance_set = set()
+
+# This for loop was modified because our import data has checkins to the same program on the same
+# day, which is bad data, and we can clean it up to prevent our unique constraint from failing
+for attendance in attendances_import:
+    person = students[attendance["student"]["$oid"]]["pk"]
+    program = classes[attendance["classAttended"]["$oid"]]["pk"]
+    date = attendance['checkInTime']['$date'][:10]
+
+    attendance_record = AttendanceRecord(person, program, date)
+
+    # If we have not seen this attendance record before, let's add it, otherwise ignore
+    if attendance_record not in attendance_set:
+        attendances.append({
+            "model": "ttkd_api.attendancerecord",
+            "pk": attendance_pk,
+            "fields": {
+                "person": person,
+                "program": program,
+                "date": date
+            }
+        })
+        attendance_set.add(attendance_record)
+        attendance_pk += 1
 
 for student in students:
     dump_import.append(students[student])

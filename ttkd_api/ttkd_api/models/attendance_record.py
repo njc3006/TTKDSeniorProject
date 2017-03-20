@@ -17,3 +17,6 @@ class AttendanceRecord(models.Model):
     program = models.ForeignKey(Program)
 
     date = models.DateField()
+
+    class Meta:
+        unique_together = ("person", "program", "date")

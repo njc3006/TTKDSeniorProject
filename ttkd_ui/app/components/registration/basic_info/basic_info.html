@@ -64,7 +64,7 @@
 </div>
 
 <div class="spacer-25"
-	ng-class="{'has-error': (registrationForm.dob.$invalid && !registrationForm.dob.$pristine) || isTooYoung(), 'has-success': fieldHasSuccess('dob') && registrationForm.dob.$valid}">
+	ng-class="{'has-error': (registrationForm.dob.$invalid && !registrationForm.dob.$pristine) || isTooYoung(), 'has-success': (fieldHasSuccess('dob') && registrationForm.dob.$valid) && !isTooYoung()}">
 	<label class="control-label">Date of Birth (format: MM/DD/YYYY)</label>
 	<div class="input-group">
 		<input
