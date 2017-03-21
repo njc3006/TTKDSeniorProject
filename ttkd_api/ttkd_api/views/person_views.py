@@ -1,7 +1,7 @@
 """PersonViewSet"""
 from rest_framework import viewsets, filters, permissions
 from ..serializers.person_serializer import PersonSerializer, PersonPictureSerializer, \
-    NotesPersonSerializer
+    NotesPersonSerializer, PersonMinimalSerializer
 from ..models.person import Person
 from ..permissions import custom_permissions
 
@@ -70,3 +70,14 @@ class PersonNotesViewSet(viewsets.ModelViewSet):
     permission_classes = (custom_permissions.IsAuthenticatedOrOptions,)
     queryset = Person.objects.all()
     serializer_class = NotesPersonSerializer
+
+class PersonMinimalViewSet(viewsets.ModelViewSet):
+    """
+    Returns all Person objects to the Route with id and misc_notes.
+    GET: Returns all PersonStripe Objects To The Route, Or An Instance If Given A PK.
+    PUT: Update a specific person's misc_notes.
+    POST: NOT SUPPORTED
+    """
+    permission_classes = (custom_permissions.ReadOnly,)
+    queryset = Person.objects.all()
+    serializer_class = PersonMinimalSerializer
