@@ -336,10 +336,10 @@ describe('Student Checkin', function () {
         // Now that we are on edit page, make sure there is current belt, and that there is not
         // a first name input which would mean we are on an admin edit student
         // Using a contains here because the span has a newline in it or something weird
-        var countOfBelt = element.all(by.xpath('//span[contains(text(),\'Current belt: Orange\')]')).count();
+        var countOfBelt = element.all(by.xpath('//span[contains(text(),\'Current belt\')]')).count();
         expect(countOfBelt).toBe(1);
 
-        var countOfNameInput = element.all(by.css('input[name=firstName]')).count();
+        var countOfNameInput = element.all(by.css('input[name=\'firstName\']')).count();
         expect(countOfNameInput).toBe(0);
 
         element(by.id('backBtn')).click();
@@ -375,7 +375,7 @@ describe('Student Checkin', function () {
         // Now that we are on edit page, make sure there is a first name input which would mean we
         // are on an admin edit student
 
-        var countOfNameInput = element.all(by.css('input[name=firstName]')).count();
+        var countOfNameInput = element.all(by.css('input[name=\'firstName\']')).count();
         expect(countOfNameInput).toBe(1);
 
         element(by.id('backBtn')).click();
