@@ -3,8 +3,9 @@ import os
 import sys
 
 if __name__ == "__main__":
-    sys.stdout = open("logs/application.log", "w")
-    sys.stderr = open("logs/error.log", "w")
+    if os.path.isdir("logs"):
+        sys.stdout = open("logs/application.log", "w")
+        sys.stderr = open("logs/error.log", "w")
     pidFile = open(".pid", "w")
     pidFile.write(str(os.getpid()))
     pidFile.close();
