@@ -3,13 +3,21 @@
 </div>
 <div class="modal-body">
 	<div class="container-fluid">
-		<div class="alert alert-danger" role="alert" ng-if="incorrectPhoneNumber && incorrectEmail">
+		<div id="noInputAlert" class="alert alert-danger" role="alert" ng-if="incorrectPhoneNumber && incorrectEmail">
 			<strong>You must provide a phone number or email address</strong>
 		</div>
-		<div class="alert alert-danger" role="alert" ng-if="incorrectPhoneNumber && !incorrectEmail">
+		<div
+			id="incorrectPhoneNumber"
+			class="alert alert-danger"
+			role="alert"
+			ng-if="incorrectPhoneNumber && !incorrectEmail">
 			<strong>This phone number was not found in the registration</strong>
 		</div>
-		<div class="alert alert-danger" role="alert" ng-if="incorrectEmail && !incorrectPhoneNumber">
+		<div
+			id="incorrectEmail"
+			class="alert alert-danger"
+			role="alert"
+			ng-if="incorrectEmail && !incorrectPhoneNumber">
 			<strong>This email was not found in the registration</strong>
 		</div>
 		<h2 class="text-center no-margins">Enter a phone number or an email address</h2>
@@ -49,6 +57,6 @@
 	</div>
 </div>
 <div class="modal-footer">
-	<button type="submit" class="btn btn-danger" ng-click="cancel()">Cancel</button>
-	<button type="submit" class="btn btn-success" ng-click="authenticateInput()">Authenticate</button>
+	<button class="btn btn-danger" ng-click="cancel()">Cancel</button>
+	<button id="authRegistration" class="btn btn-success" ng-click="authenticateInput()">Authenticate</button>
 </div>
