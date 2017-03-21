@@ -5,22 +5,23 @@
     [
 		'ui.router',
 		'ui.bootstrap',
-		'ttkdApp.constants',
-		'ttkdApp.routes',
-		'ttkdApp.mainCtrl',
-		'ttkdApp.navCtrl',
-		'ttkdApp.checkinCtrl',
-		'ttkdApp.partials',
-		'ttkdApp.homeCtrl',
-		'ttkdApp.registationCtrl',
-		'ttkdApp.studentlistCtrl',
-		'ttkdApp.studentDetailCtrl',
 		'ttkdApp.attendanceCtrl',
-		'ttkdApp.editStudentCtrl',
-		'ttkdApp.importExportCtrl',
+		'ttkdApp.AuthInterceptor',
 		'ttkdApp.beltsStripesCtrl',
-		'ttkdApp.studentWaiverCtrl',
-		'ttkdApp.AuthInterceptor'
+		'ttkdApp.checkinCtrl',
+		'ttkdApp.constants',
+		'ttkdApp.editStudentCtrl',
+		'ttkdApp.homeCtrl',
+		'ttkdApp.importExportCtrl',
+		'ttkdApp.mainCtrl',
+		'ttkdApp.manageUserCtrl',
+		'ttkdApp.navCtrl',
+		'ttkdApp.partials',
+		'ttkdApp.registationCtrl',
+		'ttkdApp.routes',
+		'ttkdApp.studentDetailCtrl',
+		'ttkdApp.studentlistCtrl',
+		'ttkdApp.studentWaiverCtrl'
     ]
   ).config(['$httpProvider', function($httpProvider) {
     	$httpProvider.interceptors.push('AuthInterceptor');
