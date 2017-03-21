@@ -3,6 +3,11 @@ import os
 import sys
 
 if __name__ == "__main__":
+    sys.stdout = open("logs/application.log", "w")
+    sys.stderr = open("logs/error.log", "w")
+    pidFile = open(".pid", "w")
+    pidFile.write(str(os.getpid()))
+    pidFile.close();
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ttkd_api.settings")
     try:
         from django.core.management import execute_from_command_line
