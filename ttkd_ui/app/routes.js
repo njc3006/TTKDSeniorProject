@@ -33,13 +33,13 @@
         url: '/registration',
         params: {
           hideCurrentProgram: true,
-          partial: false
+					partial: false
         },
         data: {
           pageTitle: 'Registration'
         },
         templateUrl: 'components/registration/registration.html',
-        controller: 'RegistrationCtrl'
+				controller: 'RegistrationCtrl'
       })
 
       .state('partialRegistrations', {
@@ -47,38 +47,38 @@
         params: {
           hideCurrentProgram: true
         },
-        data: {
-          pageTitle: 'Partial Registrations'
-        },
-        templateUrl: 'components/registration/partials_home/partials_home.html',
-        controller: 'PartialsHomeCtrl'
+				data: {
+					pageTitle: 'Partial Registrations'
+				},
+				templateUrl: 'components/registration/partials_home/partials_home.html',
+				controller: 'PartialsHomeCtrl'
       })
 
-      .state('newPartialRegistration', {
+			.state('newPartialRegistration', {
         url: '/partial-registrations/new',
         params: {
           hideCurrentProgram: true,
-          partial: true
+					partial: true
         },
         data: {
           pageTitle: 'New Partial Registration',
         },
         templateUrl: 'components/registration/registration.html',
-        controller: 'RegistrationCtrl'
+				controller: 'RegistrationCtrl'
       })
 
-      .state('finishPartialRegistration', {
-        url:'/partial-registrations/{registrationId:int}',
-        params: {
+			.state('finishPartialRegistration', {
+				url:'/partial-registrations/{registrationId:int}',
+				params: {
           hideCurrentProgram: true,
-          partial: false
+					partial: false
         },
-        data: {
+				data: {
           pageTitle: 'Finish Partial Registration'
         },
         templateUrl: 'components/registration/registration.html',
-        controller: 'RegistrationCtrl'
-      })
+				controller: 'RegistrationCtrl'
+			})
 
       .state('studentlist', {
         url: '/studentlist',
@@ -87,24 +87,24 @@
         controller: 'StudentListCtrl'
       })
 
-      .state('studentDetails', {
-        url: '/students/{studentId:int}',
-        templateUrl: 'components/students/detail/view/student.detail.html',
-        controller: 'StudentDetailCtrl'
-      })
+			.state('studentDetails', {
+				url: '/students/{studentId:int}',
+				templateUrl: 'components/students/detail/view/student.detail.html',
+				controller: 'StudentDetailCtrl'
+			})
 
-      .state('attendance', {
-        url: '/attendance',
+			.state('attendance', {
+				url: '/attendance',
         params: { hideCurrentProgram: true },
-        templateUrl: 'components/attendance/attendance.html',
-        controller: 'AttendanceCtrl'
-      })
+				templateUrl: 'components/attendance/attendance.html',
+				controller: 'AttendanceCtrl'
+			})
 
-      .state('editStudentDetails', {
-        url: '/students/{studentId:int}/edit',
-        templateUrl: 'components/students/detail/edit/student.edit.html',
-        controller: 'EditStudentCtrl'
-      })
+			.state('editStudentDetails', {
+				url: '/students/{studentId:int}/edit',
+				templateUrl: 'components/students/detail/edit/student.edit.html',
+				controller: 'EditStudentCtrl'
+			})
 
       .state('beltsStripes', {
         url: '/belts-stripes',
@@ -112,7 +112,7 @@
         controller: 'BeltsStripesCtrl'
       });
 
-      // For any unmatched url, send to /
-      $urlRouterProvider.otherwise('/');
+			// For any unmatched url, send to /
+	    $urlRouterProvider.otherwise('/');
   }]);
 })();
