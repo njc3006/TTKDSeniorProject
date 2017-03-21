@@ -112,29 +112,29 @@
 			</div>
 		</div>
 
-		<div class="row spacer-20 info-text" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
+		<div class="row spacer-20" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
 			<uib-tabset type="pills">
-				<uib-tab heading="Notes">
+				<uib-tab heading="Notes" class="info-text">
 					<ng-include src="'components/students/detail/view/notes/notes.panel.html'"></ng-include>
 				</uib-tab>
-				<uib-tab heading="Attendance">
+				<uib-tab heading="Attendance" class="info-text">
 					<ng-include
 						src="'components/students/detail/view/attendance/attendance.html'"
 						ng-controller="StudentAttendanceCtrl">
 					</ng-include>
 				</uib-tab>
-				<uib-tab heading="Waiver">
+				<uib-tab heading="Waiver" class="info-text">
 					<ng-include
 						src="'components/students/detail/view/student_waiver/waiver.html'"
 						ng-controller="StudentWaiverCtrl">
 				</uib-tab>
-				<uib-tab heading="Programs">
+				<uib-tab heading="Programs" class="info-text">
 					<ng-include
 						src="'components/students/detail/view/programs/programs.html'"
 						ng-controller="StudentProgramsCtrl">
 					</ng-include>
 				</uib-tab>
-				<uib-tab heading="Student Instruction">
+				<uib-tab heading="Student Instruction" class="info-text">
 					<ng-include
 						src="'components/students/detail/view/instructor_attendance/instructor.attendance.html'"
 						ng-controller="InstructorAttendanceCtrl">
