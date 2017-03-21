@@ -4,7 +4,7 @@
 		<div class="panel panel-default col-xs-6 col-xs-offset-3"
 			ng-repeat="registration in existingPartialRegistrations">
 			<div class="panel-body" ng-click="openPartialRegistration(registration.id, registration)">
-				<a class="h2 text-center" ui-sref=".">
+				<a id="registration{{$index}}" class="h2 text-center" ui-sref=".">
 					{{registration.person.first_name + ' ' + registration.person.last_name}}
 				</a>
 			</div>

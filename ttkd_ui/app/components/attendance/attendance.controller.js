@@ -38,6 +38,10 @@
 			filterData.condensed = filterData.condensed === 'Condensed';
 			filterData.page = $scope.pagination.currentPage;
 
+			//If we don't do this, then the service will look for a student with an id of a student name, which will
+			//always return zero results
+			delete filterData.student;
+
 			if (filterData.startDate) {
 				filterData.startDate = filterData.startDate.value;
 			}

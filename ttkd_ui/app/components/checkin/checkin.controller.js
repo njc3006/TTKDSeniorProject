@@ -266,6 +266,14 @@
                 CheckinService.createCheckin({ 'person': $scope.selectedPerson.id, 'program': $scope.programID }).then(
                     function(response) {
                         $scope.selectedPerson.checkinID = response.data.id;
+                    },
+                    function (error) {
+                        // This is an okay console log, if someone was watching the console it
+                        // explains a 400 that could happen
+                        console.log('No need to worry about the above bad request, you just tried ' +
+                            'to checkin someone who is already checked in, so we refreshed the ' +
+                            'checkins for you');
+                        $scope.updateCheckins();
                     });
                 modalInstance.dismiss('yes');
 
@@ -281,6 +289,14 @@
                 }).then(
                     function(response) {
                         person.checkinID = response.data.id;
+                    },
+                    function (error) {
+                        // This is an okay console log, if someone was watching the console it
+                        // explains a 400 that could happen
+                        console.log('No need to worry about the above bad request, you just tried ' +
+                            'to checkin someone who is already checked in, so we refreshed the ' +
+                            'checkins for you');
+                        $scope.updateCheckins();
                     });
 
                 person.checkedIn = true;
@@ -289,9 +305,19 @@
             $scope.instructClickDeleteCheckin = function(person) {
                 // delete checkin using api
 
-                CheckinService.deleteCheckin(person.checkinID);
-                person.checkinID = null;
-                person.checkedIn = false;
+                CheckinService.deleteCheckin(person.checkinID).then(
+                    function (response) {
+                        person.checkinID = null;
+                        person.checkedIn = false;
+                    },
+                    function (error) {
+                        // This is an okay console log, if someone was watching the console it
+                        // explains a 404 that could happen
+                        console.log('No need to worry about the above not found, you just tried to ' +
+                            'delete a checkin that has already been deleted, so we refreshed the ' +
+                            'checkins for you');
+                        $scope.updateCheckins();
+                    });
             };
 
             $scope.clickCheckinInstructor = function(instructor) {
@@ -303,6 +329,14 @@
                 }).then(
                     function(response) {
                         instructor.checkinID = response.data.id;
+                    },
+                    function (error) {
+                        // This is an okay console log, if someone was watching the console it
+                        // explains a 400 that could happen
+                        console.log('No need to worry about the above bad request, you just tried ' +
+                            'to checkin someone who is already checked in, so we refreshed the ' +
+                            'checkins for you');
+                        $scope.updateCheckins();
                     });
 
                 instructor.checkedIn = true;
@@ -311,9 +345,19 @@
             $scope.clickDeleteInstructorCheckin = function(instructor) {
                 // delete instructor checkin using api
 
-                CheckinService.deleteInstructorCheckin(instructor.checkinID);
-                instructor.checkinID = null;
-                instructor.checkedIn = false;
+                CheckinService.deleteInstructorCheckin(instructor.checkinID).then(
+                    function (response) {
+                        instructor.checkinID = null;
+                        instructor.checkedIn = false;
+                    },
+                    function (error) {
+                        // This is an okay console log, if someone was watching the console it
+                        // explains a 404 that could happen
+                        console.log('No need to worry about the above not found, you just tried to ' +
+                            'delete a checkin that has already been deleted, so we refreshed the ' +
+                            'checkins for you');
+                        $scope.updateCheckins();
+                    });
             };
 
             $scope.no = function() {

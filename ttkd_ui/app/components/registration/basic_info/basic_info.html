@@ -64,7 +64,7 @@
 </div>
 
 <div class="spacer-25"
-	ng-class="{'has-error': (registrationForm.dob.$invalid && !registrationForm.dob.$pristine) || isTooYoung(), 'has-success': fieldHasSuccess('dob') && registrationForm.dob.$valid}">
+	ng-class="{'has-error': (registrationForm.dob.$invalid && !registrationForm.dob.$pristine) || isTooYoung(), 'has-success': (fieldHasSuccess('dob') && registrationForm.dob.$valid) && !isTooYoung()}">
 	<label class="control-label">Date of Birth</label>
 	<div class="input-group">
 		<input
@@ -240,6 +240,7 @@
 					<i class="glyphicon glyphicon-plus"></i>
 				</button>
 				<button
+					id="remove{{$index}}"
 					type="button"
 					class="btn btn-danger"
 					ng-click="removeEmail($index)"
@@ -248,6 +249,7 @@
 				</button>
 			</span>
 			<input
+				id="email{{$index}}"
 				type="email"
 				name="email"
 				class="form-control"

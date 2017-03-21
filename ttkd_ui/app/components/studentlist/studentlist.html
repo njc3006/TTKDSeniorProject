@@ -5,7 +5,7 @@
 				<div class="btn btn-primary" ng-click="toggleSortAlpha()">{{sortDisplayString}}</div>
 			</div>
 			<div class="col-md-5 col-md-offset-0 col-xs-4 col-xs-offset-0 margin-10">
-				<select class="form-control" ng-model="filters.currentClassId" ng-change="setDisplayedStudents()">
+				<select class="form-control" ng-model="filters.currentProgramId" ng-change="setDisplayedStudents()">
 					<option value="">Select Class</option>
 					<optgroup label="Active">
 						<option ng-repeat="class in classes | filter: {active:true}" value="{{class.id}}">{{class.name}}</option>
