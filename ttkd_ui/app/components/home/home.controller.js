@@ -1,7 +1,8 @@
 (function() {
 
   angular.module('ttkdApp.homeCtrl', [])
-    .controller('HomeCtrl', ['$scope', '$rootScope', '$state', '$stateParams', '$uibModal', '$document', 'ProgramsSvc', 'CheckinService',
+    .controller('HomeCtrl', ['$scope', '$rootScope', '$state', '$stateParams', '$uibModal',
+        '$document', 'ProgramsSvc', 'CheckinService',
      function($scope, $rootScope, $state, $stateParams, $uibModal, $document, ProgramsSvc, CheckinService) {
         $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
 

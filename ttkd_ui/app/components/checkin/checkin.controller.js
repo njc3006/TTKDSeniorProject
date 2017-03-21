@@ -35,13 +35,13 @@
             $scope.updateHeader = function () {
                 if ($scope.mode.value === 'Checkin'){
                     $scope.headerStr = 'Click A Student Picture to Check Them In';
-                    CheckinService.setCheckinMode('Checkin')
+                    CheckinService.setCheckinMode('Checkin');
                 } else if ($scope.mode.value === 'View'){
                     $scope.headerStr = 'Click A Student Picture to View Their Information';
-                    CheckinService.setCheckinMode('View')
+                    CheckinService.setCheckinMode('View');
                 } else if ($scope.mode.value === 'Edit'){
                     $scope.headerStr = 'Click A Student Picture to Edit Their Information';
-                    CheckinService.setCheckinMode('Edit')
+                    CheckinService.setCheckinMode('Edit');
                 }
             };
 
