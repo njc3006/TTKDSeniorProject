@@ -21,18 +21,20 @@
 			</select>
 		</div>
 		<div class="form-group col-xs-4 col-md-4">
-			<div>Start Date (Format: 03/14/2000)</div>
+			<div>Start Date</div>
 			<div class="input-group col-sm-12">
 				<input
 					type="text"
 					class="form-control"
 					name="dob"
 					ng-required="true"
+					ng-readonly="true"
 					uib-datepicker-popup="MM/dd/yyyy"
 					datepicker-options="datePickerOptions"
 					ng-model="filterData.startDate.value"
 					ng-model-options="{debounce: 250}"
 					ng-change="loadCheckIns()"
+					ng-click="openStartCalendar()"
 					is-open="filterData.startDate.open"
 					close-text="Close">
 				<span class="input-group-btn">
@@ -43,13 +45,15 @@
 			</div>
 		</div>
 		<div class="form-group col-xs-4 col-md-4 pull-right">
-			<div>End Date (Format: 03/14/2000)</div>
+			<div>End Date</div>
 			<div class="input-group col-sm-12">
 				<input
 					type="text"
 					class="form-control"
 					name="dob"
 					ng-required="true"
+					ng-readonly="true"
+					ng-click="openEndCalendar()"
 					uib-datepicker-popup="MM/dd/yyyy"
 					datepicker-options="datePickerOptions"
 					ng-model="filterData.endDate.value"

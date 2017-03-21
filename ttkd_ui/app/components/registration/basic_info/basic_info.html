@@ -75,6 +75,7 @@
 			ng-readonly="true"
 			ng-focus="setFocus(3)"
 			ng-required="isFieldRequired('dob')"
+			ng-click="openCalendar($event)"
 			uib-datepicker-popup="MM/dd/yyyy"
 			ng-model="registrationInfo.person.dob.value"
 			is-open="registrationInfo.person.dob.open"
