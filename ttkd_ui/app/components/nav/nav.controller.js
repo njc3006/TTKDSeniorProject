@@ -34,15 +34,19 @@
         }
       };
 
-      /*
-       * Open a prompt to confirm login for a person.
-       */
-      $scope.openLogin = function() {
+      $scope.clearAlerts = function() {
         $scope.statusAlert = {
             failure: false,
             password: false,
             missing: false
         };
+      }
+
+      /*
+       * Open a prompt to confirm login for a person.
+       */
+      $scope.openLogin = function() {
+        $scope.clearAlerts();
 
         var modalElement = angular.element($document[0].querySelector('#login-modal'));
 
@@ -60,12 +64,11 @@
        * Logs a user out.
        */
       $scope.login = function(username, password) {
+        $scope.clearAlerts();
+
         if(!(username && password)) {
           $scope.statusAlert.missing = true;
           return;
-        }
-        else {
-          $scope.statusAlert.missing = false;
         }
 
         $http({
@@ -138,11 +141,7 @@
        * Open a prompt to change the current user's password.
        */
       $scope.openChangePass = function() {
-        $scope.statusAlert = {
-            failure: false,
-            missing: false,
-            passwords: false
-        };
+        $scope.clearAlerts();
 
         var modalElement = angular.element($document[0].querySelector('#password-modal'));
 
@@ -160,6 +159,8 @@
        * Changes the password for the currently logged in user.
        */
       $scope.changePass = function(currentPass, password, passwordRepeat, selectedID) {
+        $scope.clearAlerts();
+
         if(!(currentPass && password && passwordRepeat)) {
           $scope.statusAlert.missing = true;
           return;
