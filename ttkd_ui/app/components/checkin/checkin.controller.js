@@ -27,7 +27,7 @@
             };
 
             $scope.mode = {
-                value: 'Checkin'
+                value: CheckinService.getCheckinMode()
             };
 
             $scope.headerStr = 'Click A Student Picture to Check Them In';
@@ -35,10 +35,13 @@
             $scope.updateHeader = function () {
                 if ($scope.mode.value === 'Checkin'){
                     $scope.headerStr = 'Click A Student Picture to Check Them In';
+                    CheckinService.setCheckinMode('Checkin');
                 } else if ($scope.mode.value === 'View'){
                     $scope.headerStr = 'Click A Student Picture to View Their Information';
+                    CheckinService.setCheckinMode('View');
                 } else if ($scope.mode.value === 'Edit'){
                     $scope.headerStr = 'Click A Student Picture to Edit Their Information';
+                    CheckinService.setCheckinMode('Edit');
                 }
             };
 
@@ -52,7 +55,7 @@
                 } else if ($scope.mode.value === 'View'){
                     $state.go('studentDetails', ({studentId: person.id}));
                 } else if ($scope.mode.value === 'Edit') {
-                    $state.go('editStudentDetails' , ({studentId: person.id}));
+                    $state.go('editStudentDetails' , ({studentId: person.id, backToCheckinID: $scope.programID}));
                 }
 
             };
@@ -67,7 +70,7 @@
                 } else if ($scope.mode.value === 'View'){
                     $state.go('studentDetails', ({studentId: instructor.id}));
                 } else if ($scope.mode.value === 'Edit') {
-                     $state.go('editStudentDetails' , ({studentId: instructor.id}));
+                     $state.go('editStudentDetails' , ({studentId: instructor.id,  backToCheckinID: $scope.programID}));
                 }
 
             };
@@ -238,6 +241,8 @@
             if ($scope.isInstructor) {
                 $scope.getInstructorCheckinsForProgram();
             }
+
+            $scope.updateHeader();
 
             /*
              * Open a prompt to confirm checkin for a person.
