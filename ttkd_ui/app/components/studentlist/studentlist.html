@@ -16,7 +16,7 @@
 				</select>
 			</div>
 			<div class="col-md-3 col-xs-3 padding-left-0">
-				<select class="form-control" ng-model="filters.currentBelt" ng-change="setDisplayedStudents()" 
+				<select class="form-control" ng-model="filters.currentBelt" ng-change="setDisplayedStudents()"
 				ng-options="belt.name for belt in belts">
 					<option value="">Select Belt</option>
 				</select>
@@ -40,6 +40,8 @@
 			                 uib-datepicker-popup="MM-dd-yyyy"
 			                 ng-model="selectedDate.value"
 			                 is-open="selectedDate.open"
+											 ng-click="open()"
+											 ng-readonly="true"
 			                 ng-required="true"
 			                 close-text="Close"
 			                 placeholder="Attnd. Date" />
@@ -70,7 +72,7 @@
 				</a>
 			</div>
 			<div class="col-xs-8 col-md-9 entry spacer-10">
-				<div class="row padding-left-15"> 
+				<div class="row padding-left-15">
 					<a ui-sref="studentDetails({studentId: p.person.id})">
 						<h2>{{p.person.first_name}} {{p.person.last_name}}</h2>
 					</a>
