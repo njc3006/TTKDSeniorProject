@@ -1,6 +1,17 @@
 (function() {
 	function CheckinService($http, apiHost) {
+
+		var checkinMode = 'Checkin';
+
 		return {
+			getCheckinMode: function () {
+				return checkinMode;
+            },
+
+			setCheckinMode: function (mode) {
+				checkinMode = mode;
+            },
+
 			getStudentsFromProgram: function(programId) {
 				return $http.get(apiHost + '/api/registrations-minimal/?program=' + programId + '&person__active=2');
 			},

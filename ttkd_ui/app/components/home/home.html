@@ -13,10 +13,10 @@
 
 		<div ng-if="userlevel >= 0" class="col-xs-4 col-md-3 col-sm-4">
 			<div class="card link-card">
-				<a ui-sref="checkin({programID: currentProgram.id, instructor: true})" class="btn btn-primary">
+				<a ui-sref="checkin({programID: currentProgram.id, instructor: true})" class="btn btn-primary" ng-click="updateCheckinMode()">
 					<h3 class="card-title">Instructor Check-in</h3>
 				</a>
-				<div class="card-block" ng-click="goToPage('checkin', {programID: currentProgram.id, instructor: true})">
+				<div class="card-block" ng-click="updateCheckinMode(); goToPage('checkin', {programID: currentProgram.id})">
 					<h4>Check-in with extra features for instructors</h4>
 				</div>
 			</div>
