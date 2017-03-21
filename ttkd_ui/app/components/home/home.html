@@ -1,33 +1,33 @@
 <div class="container">
 	<div class="row no-margins">
 		<div ng-if="userlevel < 0" class="col-xs-4 col-md-3 col-sm-4">
-			<div class="card link-card">
-				<a ui-sref="checkin({programID: currentProgram.id})" class="btn btn-primary">
+			<div ng-click="goToPage('checkin', {programID: currentProgram.id})" class="card link-card">
+				<button class="btn btn-primary">
 					<h3 class="card-title">Begin Check-in</h3>
-				</a>
-				<div class="card-block" ng-click="goToPage('checkin', {programID: currentProgram.id})">
+				</button>
+				<div class="card-block">
 					<h4>Check students into the current program</h4>
 				</div>
 			</div>
 		</div>
 
 		<div ng-if="userlevel >= 0" class="col-xs-4 col-md-3 col-sm-4">
-			<div class="card link-card">
-				<a ui-sref="checkin({programID: currentProgram.id, instructor: true})" class="btn btn-primary">
+			<div ng-click="goToPage('checkin', {programID: currentProgram.id, instructor: true})" class="card link-card">
+				<button class="btn btn-primary">
 					<h3 class="card-title">Instructor Check-in</h3>
-				</a>
-				<div class="card-block" ng-click="goToPage('checkin', {programID: currentProgram.id, instructor: true})">
+				</button>
+				<div class="card-block">
 					<h4>Check-in with extra features for instructors</h4>
 				</div>
 			</div>
 		</div>
 
 		<div class="col-xs-4 col-md-3 col-sm-4">
-			<div class="card link-card">
-				<a ng-click="openChangeProgram()" class="btn btn-primary">
+			<div ng-click="openChangeProgram()" class="card link-card">
+				<button class="btn btn-primary">
 					<h3 class="card-title">Change Program</h3>
-				</a>
-				<div class="card-block" ng-click="openChangeProgram()">
+				</button>
+				<div class="card-block">
 					<h4>Change the current program</h4>
 				</div>
 			</div>
@@ -35,88 +35,88 @@
 		</div>
 
 		<div ng-if="userlevel >= 0" class="col-xs-4 col-md-3 col-sm-4">
-			<div class="card link-card">
-				<a ui-sref="attendance" class="btn btn-primary">
+			<div ng-click="goToPage('attendance')" class="card link-card">
+				<button class="btn btn-primary">
 					<h3 class="card-title">Program Attendance</h3>
-				</a>
-				<div class="card-block" ng-click="goToPage('attendance')">
+				</button>
+				<div class="card-block">
 					<h4>View attendance for your programs</h4>
 				</div>
 			</div>
 		</div>
 
 		<div ng-if="userlevel >= 1" class="col-xs-4 col-md-3 col-sm-4">
-			<div class="card link-card">
-				<a ng-click="openAddProgram()" class="btn btn-primary">
+			<div ng-click="openAddProgram()" class="card link-card">
+				<button class="btn btn-primary">
 					<h3 class="card-title">Add Program</h3>
-				</a>
-				<div class="card-block" ng-click="openAddProgram()">
+				</button>
+				<div class="card-block">
 					<h4>Create a new program</h4>
 				</div>
 			</div>
 		</div>
 
 		<div ng-if="userlevel < 0" class="col-xs-4 col-md-3 col-sm-4">
-			<div class="card link-card">
-				<a ui-sref="registration" class="btn btn-primary">
+			<div ng-click="goToPage('registration')" class="card link-card">
+				<button class="btn btn-primary">
 					<h3 class="card-title">Register</h3>
-				</a>
-				<div class="card-block" ng-click="goToPage('registration')">
+				</button>
+				<div class="card-block">
 					<h4>Register a new student</h4>
 				</div>
 			</div>
 		</div>
 
 		<div ng-if="userlevel > 0" class="col-xs-4 col-md-3 col-sm-4">
-			<div class="card link-card">
-				<a ui-sref="newPartialRegistration" class="btn btn-primary">
+			<div ng-click="goToPage('newPartialRegistration')" class="card link-card">
+				<button class="btn btn-primary">
 					<h3 class="card-title">New Partial Registration</h3>
-				</a>
-				<div class="card-block" ng-click="goToPage('newPartialRegistration')">
+				</button>
+				<div class="card-block">
 					<h4>Start a partial registration for a new student</h4>
 				</div>
 			</div>
 		</div>
 
 		<div ng-if="userlevel < 0" class="col-xs-4 col-md-3 col-sm-4">
-			<div class="card link-card">
-				<a ui-sref="partialRegistrations" class="btn btn-primary">
+			<div ng-click="goToPage('partialRegistrations')" class="card link-card">
+				<button class="btn btn-primary">
 					<h3 class="card-title">Complete Registration</h3>
-				</a>
-				<div class="card-block" ng-click="goToPage('partialRegistrations')">
+				</button>
+				<div class="card-block">
 					<h4>Complete an already existing student&#x27;s registration</h4>
 				</div>
 			</div>
 		</div>
 
 		<div ng-if="userlevel >= 0" class="col-xs-4 col-md-3 col-sm-4">
-			<div class="card link-card">
-				<a ui-sref="studentlist" class="btn btn-primary">
+			<div ng-click="goToPage('studentlist')" class="card link-card">
+				<button class="btn btn-primary">
 					<h3 class="card-title">Student List</h3>
-				</a>
-				<div class="card-block" ng-click="goToPage('studentlist')">
+				</button>
+				<div class="card-block">
 					<h4>Lookup students in the system</h4>
 				</div>
 			</div>
 		</div>
 
 		<div ng-if="userlevel >= 1" class="col-xs-4 col-md-3 col-sm-4">
-			<div class="card link-card">
-				<a ui-sref="beltsStripes" class="btn btn-primary">
+			<div ng-click="goToPage('beltsStripes')" class="card link-card">
+				<button class="btn btn-primary">
 					<h3 class="card-title">Belts and Stripes</h3>
-				</a>
-				<div class="card-block" ng-click="goToPage('beltsStripes')">
+				</button>
+				<div class="card-block">
 					<h4>Manage belts and stripes in the system</h4>
 				</div>
 			</div>
 		</div>
 
 		<div ng-if="userlevel >= 1" class="col-xs-4 col-md-3 col-sm-4">
-			<div class="card link-card">
-				<a ui-sref="importexport" class="btn btn-primary">
+			<div ng-click="goToPage('importexport')" class="card link-card">
+				<button class="btn btn-primary">
 					<h3 class="card-title">Import&#x2F;Export</h3>
-				</a>
-				<div class="card-block" ng-click="goToPage('importexport')">
+				</button>
+				<div class="card-block">
 					<h4>Manage Imports and Exports to and from the system</h4>
 				</div>
 			</div>
