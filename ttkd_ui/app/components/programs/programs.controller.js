@@ -12,13 +12,13 @@
 
         $scope.alerts = {
             loaded : false,
-            error : false
+            error : false,
+            success: false
         };
 
         $scope.getPrograms = function(){
             ProgramsSvc.getPrograms().then(
                 function(response){
-                    response.data[0].active = false;
                     $scope.programs = response.data;
                     $scope.alerts.loaded = true;
                 }, function(error){
@@ -39,6 +39,7 @@
         $scope.editProgram = function(program) {
             $scope.curProgram = program;
             $scope.editProgramAlert = {};
+            $scope.alerts.success = false;
 
             var modalElement = angular.element($document[0].querySelector('#modal-area'));
             modalInstance = $uibModal.open({
@@ -51,22 +52,21 @@
         };
 
         $scope.updateProgram = function(program) {
-            console.log("updating: " + program.name);
-
             if(program) {
-                ProgramsSvc.updateProgram(program).then(
+                ProgramsSvc.updateProgram(program, program.id).then(
                     function(response){
-                        $scope.editProgramAlert = { success: 'Successfully updated ' + program.name + '.' };
                         $scope.curProgram = {};
+                        $scope.alerts.success = true;
+                        $scope.closeModal();
                     }, function(error){
                         $scope.editProgramAlert = { error : 'Failed to update ' + program.name + '.' };
-                        $scope.curProgram = {};
+                        $scope.alerts.success = false;
                     });
             }
         };
 
         $scope.closeModal = function() {
-            modalInstance.dismiss('no');
+            modalInstance.close();
         };
 
         $scope.getPrograms();

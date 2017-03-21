@@ -20,8 +20,8 @@
 			},
 
 			/* updates an existing program */
-			updateProgram: function(programData) {
-				return $http.put(apiHost + '/api/programs', programData);
+			updateProgram: function(programData, id) {
+				return $http.put(apiHost + '/api/programs/' + id + '/', programData);
 			},
 
 			/* get a single program by it's id */
