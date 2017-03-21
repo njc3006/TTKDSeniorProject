@@ -239,6 +239,7 @@
 					<i class="glyphicon glyphicon-plus"></i>
 				</button>
 				<button
+					id="remove{{$index}}"
 					type="button"
 					class="btn btn-danger"
 					ng-click="removeEmail($index)"
@@ -247,6 +248,7 @@
 				</button>
 			</span>
 			<input
+				id="email{{$index}}"
 				type="email"
 				name="email"
 				class="form-control"
