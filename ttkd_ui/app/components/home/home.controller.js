@@ -1,8 +1,9 @@
 (function() {
 
   angular.module('ttkdApp.homeCtrl', [])
-    .controller('HomeCtrl', ['$scope', '$rootScope', '$state', '$stateParams', '$uibModal', '$document', 'ProgramsSvc',
-     function($scope, $rootScope, $state, $stateParams, $uibModal, $document, ProgramsSvc) {
+    .controller('HomeCtrl', ['$scope', '$rootScope', '$state', '$stateParams', '$uibModal',
+        '$document', 'ProgramsSvc', 'CheckinService',
+     function($scope, $rootScope, $state, $stateParams, $uibModal, $document, ProgramsSvc, CheckinService) {
         $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
 
     	var modalInstance;
@@ -74,6 +75,10 @@
     	$scope.closeModal = function() {
     		modalInstance.dismiss('no');
     	};
+
+    	$scope.updateCheckinMode = function(){
+    	    CheckinService.setCheckinMode('Checkin');
+         };
 
     	//initialization
         getActivePrograms();
