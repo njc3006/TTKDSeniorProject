@@ -11,6 +11,7 @@ echo Set oWS = WScript.CreateObject("WScript.Shell") >> %SCRIPT%
 echo sLinkFile = "%AppData%\Microsoft\Windows\Start Menu\Programs\Startup\start.bat.lnk" >> %SCRIPT%
 echo Set oLink = oWS.CreateShortcut(sLinkFile) >> %SCRIPT%
 echo oLink.TargetPath = "%~dp0/start.bat" >> %SCRIPT%
+echo oLink.WindowStyle = 7 >> %SCRIPT%
 echo oLink.Save >> %SCRIPT%
 
 cscript /nologo %SCRIPT%

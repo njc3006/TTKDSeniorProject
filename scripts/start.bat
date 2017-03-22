@@ -1,6 +1,6 @@
-@echo off
+cd "%~dp0"
 IF EXIST .pid (
-  start /b "" stop.bat
+  stop.bat
 )
 
-start "" "%~dp0python-3.5.2-embed-amd64\pythonw.exe" manage.py runserver 0.0.0.0:80
+start /wait "" "%~dp0python-3.5.2-embed-amd64\pythonw.exe" "%~dp0manage.py" runserver 0.0.0.0:80
