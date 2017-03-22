@@ -279,11 +279,11 @@
 							</span>
 						</div>
 				</uib-tab>
-		
+
 				<uib-tab heading="Miscellaneous Notes" ng-if="userlevel !== 0">
 					<textarea class="form-control" rows="8" ng-model="studentInfo.misc_notes"></textarea>
 				</uib-tab>
-			
+
 				<uib-tab heading="Emergency Contacts" ng-if="userlevel !== 0">
 					<h2>Primary Emergency Contact</h2>
 					<emergency-contact-input
@@ -298,13 +298,13 @@
 						required="anySecondaryContactInfoEntered()">
 					</emergency-contact-input>
 				</uib-tab>
-				
+
+        <uib-tab heading="Stripe Assignment">
+          <stripe-select student-stripes="studentInfo.stripes"></stripe-select>
+        </uib-tab>
+
 				<uib-tab heading="Belt Assignment">
 					<belt-select current-belt="currentBelt" new-belt="studentInfo.newBelt"></belt-select>
-				</uib-tab>
-
-				<uib-tab heading="Stripe Assignment">
-					<stripe-select student-stripes="studentInfo.stripes"></stripe-select>
 				</uib-tab>
 
 				<uib-tab heading="Programs">
