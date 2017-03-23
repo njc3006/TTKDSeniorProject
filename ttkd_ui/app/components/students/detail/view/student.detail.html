@@ -62,25 +62,28 @@
 						<a class="btn btn-warning" ui-sref="editStudentDetails({studentId: studentInfo.id})">Edit</a>
 					</div>
 				</div>
-				<div class="row h4 spacer-10 info-text info-text">
-					Status:<span ng-class="{'text-success': studentInfo.active, 'text-danger': !studentInfo.active}">
+				<div class="row h4 spacer-10">
+					<span class="info-text">Status: </span><span ng-class="{'text-success': studentInfo.active, 'text-danger': !studentInfo.active}">
 						{{studentInfo.active ? 'Active' : 'Inactive'}}
 					</span>
 				</div>
-				<div class="row h4 spacer-10 info-text">
-					<span style="padding-right: 3em">Age: {{currentAge()}}</span>
-					<span>Birthday: {{formattedBirthday()}}</span>
+				<div class="row h4 spacer-10">
+					<span class="info-text">Age: </span>
+					<span style="padding-right: 3em">{{currentAge()}}</span>
+					<span class="info-text">Birthday: </span>
+					<span>{{formattedBirthday()}}</span>
 				</div>
-				<div class="row h4 spacer-10 info-text">
+				<div class="row h4 spacer-10">
 					<tel-link phone="studentInfo.primaryPhone" label="'Primary Phone'" style="padding-right: 3em"></tel-link>
 					<tel-link ng-if="studentInfo.secondaryPhone" phone="studentInfo.secondaryPhone" label="'Secondary Phone'">
 					</tel-link>
 				</div>
-				<div class="row h4 spacer-10 info-text">
-					<span>Address: {{studentInfo.street}}, {{studentInfo.city}}, {{studentInfo.state}} {{studentInfo.zipcode}}</span>
+				<div class="row h4 spacer-10">
+					<span class="info-text">Address: </span>
+					<span>{{studentInfo.street}}, {{studentInfo.city}}, {{studentInfo.state}} {{studentInfo.zipcode}}</span>
 				</div>
-				<div class="row h4 info-text">
-					Emails:
+				<div class="row h4">
+					<span class="info-text">Emails:</span>
 					<span ng-repeat="email in studentInfo.emails">
 						<a href="mailto:{{email.email}}">{{email.email}}</a>{{$last ? '' : ', '}}
 					</span>
@@ -89,24 +92,32 @@
 		</div>
 
 		<div class="row" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
-			<div class="panel panel-primary col-xs-5 info-text">
-				<div class="panel-heading">
+			<div class="panel panel-primary col-xs-5">
+				<div class="panel-heading info-text">
 					Primary Emergency Contact
 				</div>
 				<div class="panel-body">
-					Name: {{primaryEmergencyContact.fullName}}<br/>
-					Relationship: {{primaryEmergencyContact.relation}}<br/>
+					<div class="text-line">
+						<span class="info-text">Name: </span><span>{{primaryEmergencyContact.fullName}}</span>
+					</div>
+					<div class="text-line">
+						<span class="info-text">Relationship: </span><span>{{primaryEmergencyContact.relation}}</span>
+					</div>
 					<tel-link phone="primaryEmergencyContact.phoneNumber" label="'Phone'"></tel-link>
 				</div>
 			</div>
 
-			<div class="panel panel-primary col-xs-5 pull-right info-text" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
+			<div class="panel panel-primary col-xs-5 pull-right" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
 				<div class="panel-heading">
 					Secondary Emergency Contact
 				</div>
 				<div class="panel-body">
-					Name: {{secondaryEmergencyContact.fullName}}<br/>
-					Relationship: {{secondaryEmergencyContact.relation}}<br/>
+					<div class="text-line">
+						<span class="info-text">Name: </span><span>{{secondaryEmergencyContact.fullName}}</span>
+					</div>
+					<div class="text-line">
+						<span class="info-text">Relationship: </span><span>{{secondaryEmergencyContact.relation}}</span>
+					</div>
 					<tel-link phone="secondaryEmergencyContact.phoneNumber" label="'Phone'"></tel-link>
 				</div>
 			</div>

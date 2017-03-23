@@ -1,15 +1,15 @@
 (function() {
 
   function StudentDetailController(
-  		$scope, 
-  		$stateParams, 
-  		StudentsService, 
-  		apiHost, 
-  		FileUploader, 
-  		SharedDataSvc, 
-  		$cookies, 
-  		$uibModal, 
-  		WebcamService) 
+  		$scope,
+  		$stateParams,
+  		StudentsService,
+  		apiHost,
+  		FileUploader,
+  		SharedDataSvc,
+  		$cookies,
+  		$uibModal,
+  		WebcamService)
   {
     $scope.apiHost = apiHost;
     var modalInstance;
@@ -24,6 +24,9 @@
       SharedDataSvc.getStudent($stateParams.studentId).then(
         function(student) {
           $scope.studentInfo = student;
+
+					$scope.primaryEmergencyContact = student.emergencyContact1;
+					$scope.secondaryEmergencyContact = student.emergencyContact2;
 
           if(student.pictureUrl) {
           	$scope.pictureUrl = apiHost + '/' + student.pictureUrl + '?p=' + pictureUpdatedQueryParam;
