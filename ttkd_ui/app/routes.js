@@ -89,6 +89,7 @@
 
                 .state('studentDetails', {
                     url: '/students/{studentId:int}',
+                    params: {backToCheckinID: null, backToAttendance: null},
                     templateUrl: 'components/students/detail/view/student.detail.html',
                     controller: 'StudentDetailCtrl'
                 })
@@ -102,7 +103,7 @@
 
                 .state('editStudentDetails', {
                     url: '/students/{studentId:int}/edit',
-                    params: {backToCheckinID: null},
+                    params: {backToCheckinID: null, viewBackToCheckinID: null, viewBackToAttendance: null},
                     templateUrl: 'components/students/detail/edit/student.edit.html',
                     controller: 'EditStudentCtrl'
                 })
