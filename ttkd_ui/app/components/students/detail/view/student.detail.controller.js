@@ -1,20 +1,24 @@
 (function() {
 
   function StudentDetailController(
-  		$scope,
-  		$stateParams,
-  		StudentsService,
-  		apiHost,
-  		FileUploader,
-  		SharedDataSvc,
-  		$cookies,
+  		$scope, 
+  		$stateParams, 
+  		StudentsService, 
+  		apiHost, 
+  		FileUploader, 
+  		SharedDataSvc, 
+  		$cookies, 
   		$uibModal,
-  		WebcamService)
+  		WebcamService,
+  		$state)
   {
     $scope.apiHost = apiHost;
     var modalInstance;
     $scope.video = null;
     $scope.imagePreview = false;
+
+    $scope.viewBackToCheckinID = $stateParams.backToCheckinID;
+    $scope.viewBackToAttendance = $stateParams.backToAttendance;
 
     $scope.pictureUrl = "";
     var pictureUpdatedQueryParam = 0;
@@ -157,6 +161,16 @@
 			modalInstance.close();
 		};
 
+		$scope.backNavigate = function () {
+			if ($stateParams.backToCheckinID !== null) {
+				$state.go('checkin', {programID: $stateParams.backToCheckinID})
+			} else if ($stateParams.backToAttendance !== null){
+				$state.go('attendance');
+			} else {
+				$state.go('studentlist');
+			}
+		};
+
 		$scope.studentInfo = {};
 		$scope.earnedStripes = [];
 		$scope.studentBeltClass = '';
@@ -189,6 +203,7 @@
 			'$cookies',
 			'$uibModal',
 			'WebcamService',
+			'$state',
 			StudentDetailController
 		]);
 })();
