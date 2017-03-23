@@ -53,7 +53,7 @@
                         $scope.instructClickCheckin(person);
                     }
                 } else if ($scope.mode.value === 'View'){
-                    $state.go('studentDetails', ({studentId: person.id}));
+                    $state.go('studentDetails', ({studentId: person.id, backToCheckinID: $scope.programID}));
                 } else if ($scope.mode.value === 'Edit') {
                     $state.go('editStudentDetails' , ({studentId: person.id, backToCheckinID: $scope.programID}));
                 }

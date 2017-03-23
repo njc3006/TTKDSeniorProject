@@ -8,13 +8,16 @@
   		FileUploader, 
   		SharedDataSvc, 
   		$cookies, 
-  		$uibModal, 
-  		WebcamService) 
+  		$uibModal,
+  		WebcamService,
+  		$state)
   {
     $scope.apiHost = apiHost;
     var modalInstance;
     $scope.video = null;
     $scope.imagePreview = false;
+
+    $scope.viewBackToCheckinID = $stateParams.backToCheckinID;
 
     $scope.pictureUrl = "";
     var pictureUpdatedQueryParam = 0;
@@ -154,6 +157,14 @@
 			modalInstance.close();
 		};
 
+		$scope.backNavigate = function () {
+			if ($stateParams.backToCheckinID !== null) {
+				$state.go('checkin', {programID: $stateParams.backToCheckinID})
+			} else {
+				$state.go('studentlist');
+			}
+		};
+
 		$scope.studentInfo = {};
 		$scope.earnedStripes = [];
 		$scope.studentBeltClass = '';
@@ -186,6 +197,7 @@
 			'$cookies',
 			'$uibModal',
 			'WebcamService',
+			'$state',
 			StudentDetailController
 		]);
 })();
