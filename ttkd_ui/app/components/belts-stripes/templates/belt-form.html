@@ -1,6 +1,15 @@
 <form ng-if="showTab.updateBelt" ng-submit="updateBelt(currentBelt)" class="belts-stripes-buffer">
-	<div class="col-xs-3 spacer-25">
+	<div class="col-xs-4 col-xs-offset-1 col-md-3 col-md-offset-0 spacer-25 belt-preview">
 		<img src='./img/components/students/placeholder.png' class="img-responsive" ng-style="previewStyle(currentBelt)">
+	</div>
+
+	<div class="col-xs-5 col-xs-offset-1 display-color-picker-small spacer-25">
+		<div class="form-group" ng-if="primaryFocused">
+			<color-picker class="picker-cursor" ng-model="currentBelt.primary_color"></color-picker>
+		</div>
+		<div class="form-group" ng-if="secondaryFocused">
+			<color-picker class="picker-cursor" ng-model="currentBelt.secondary_color"></color-picker>
+		</div>
 	</div>
 
 	<div class="col-md-5 col-xs-12">
@@ -42,7 +51,7 @@
 		</div>
 	</div>	
 
-	<div class="col-xs-3">
+	<div class="col-xs-3 display-color-picker-regular">
 		<div class="form-group" ng-if="primaryFocused">
 			<color-picker class="picker-cursor" ng-model="currentBelt.primary_color"></color-picker>
 		</div>
@@ -53,8 +62,17 @@
 </form>
 
 <form ng-if="showTab.createBelt" ng-submit="createBelt()" class="belts-stripes-buffer">
-	<div class="col-xs-3 spacer-25">
+	<div class="col-xs-4 col-xs-offset-1 col-md-3 col-md-offset-0 spacer-25 belt-preview">
 		<img src='./img/components/students/placeholder.png' class="img-responsive" ng-style="previewStyle(newBelt)">
+	</div>
+
+	<div class="col-xs-5 col-xs-offset-1 display-color-picker-small spacer-25">
+		<div class="form-group" ng-if="primaryFocused">
+			<color-picker class="picker-cursor" ng-model="currentBelt.primary_color"></color-picker>
+		</div>
+		<div class="form-group" ng-if="secondaryFocused">
+			<color-picker class="picker-cursor" ng-model="currentBelt.secondary_color"></color-picker>
+		</div>
 	</div>
 
 	<div class="col-md-5 col-xs-12">
@@ -84,7 +102,7 @@
 		</div>
 	</div>	
 
-	<div class="col-xs-3">
+	<div class="col-xs-3 display-color-picker-regular">
 		<div class="form-group" ng-if="primaryFocused">
 			<color-picker class="picker-cursor" ng-model="newBelt.primary_color"></color-picker>
 		</div>
