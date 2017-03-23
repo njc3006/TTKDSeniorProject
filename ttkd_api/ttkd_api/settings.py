@@ -55,9 +55,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'rest_framework',
-    'ttkd_api',
     'rest_framework.authtoken',
+    'ttkd_api',
 ]
 
 MIDDLEWARE = [
