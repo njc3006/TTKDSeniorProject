@@ -18,6 +18,7 @@
     $scope.imagePreview = false;
 
     $scope.viewBackToCheckinID = $stateParams.backToCheckinID;
+    $scope.viewBackToAttendance = $stateParams.backToAttendance;
 
     $scope.pictureUrl = "";
     var pictureUpdatedQueryParam = 0;
@@ -160,6 +161,8 @@
 		$scope.backNavigate = function () {
 			if ($stateParams.backToCheckinID !== null) {
 				$state.go('checkin', {programID: $stateParams.backToCheckinID})
+			} else if ($stateParams.backToAttendance !== null){
+				$state.go('attendance');
 			} else {
 				$state.go('studentlist');
 			}

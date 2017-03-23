@@ -130,7 +130,8 @@
                         $state.go('checkin', {programID: $stateParams.backToCheckinID})
                     } else {
                         $state.go('studentDetails', {studentId: $stateParams.studentId,
-                            backToCheckinID: $stateParams.viewBackToCheckinID});
+                            backToCheckinID: $stateParams.viewBackToCheckinID,
+                            backToAttendance: $stateParams.viewBackToAttendance});
                     }
                 }
             }
@@ -139,7 +140,8 @@
                     $state.go('checkin', {programID: $stateParams.backToCheckinID})
                 } else {
                     $state.go('studentDetails', {studentId: $stateParams.studentId,
-                            backToCheckinID: $stateParams.viewBackToCheckinID});
+                            backToCheckinID: $stateParams.viewBackToCheckinID,
+                            backToAttendance: $stateParams.viewBackToAttendance});
                 }
             }
         };

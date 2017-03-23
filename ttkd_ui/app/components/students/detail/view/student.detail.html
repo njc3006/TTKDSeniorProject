@@ -66,7 +66,10 @@
 						{{studentInfo.firstName}} {{studentInfo.lastName}}
 					</span>
 					<div class="btn-group pull-right">
-						<a class="btn btn-warning" ui-sref="editStudentDetails({studentId: studentInfo.id, viewBackToCheckinID: viewBackToCheckinID})">Edit</a>
+						<a class="btn btn-warning"
+						   ui-sref="editStudentDetails({studentId: studentInfo.id,
+						   			viewBackToCheckinID: viewBackToCheckinID,
+						   			viewBackToAttendance: viewBackToAttendance})">Edit</a>
 					</div>
 				</div>
 				<div class="row h4 spacer-10 normal-text">
