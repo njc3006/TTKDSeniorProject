@@ -10,7 +10,7 @@ To Install and run this application, do the following:
 3. `cd` into the topmost `ttkd_api/` directory of the repo.
 4. Run `pip install -r requirements.txt`
 5. Run `python manage.py migrate` to initialize your database.
-6. Run `python manage.py runserver`
+6. Run `python manage.py runserver_plus --cert .\cert`
 7. Navigate to `localhost:8000/api`
 
 This project is set up with PyLint. To run the linter, cd to `ttkd_api/` and run `pylint ttkd_api/`.

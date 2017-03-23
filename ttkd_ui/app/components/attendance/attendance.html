@@ -34,8 +34,10 @@
 					class="form-control"
 					placeholder="Start Date"
 					uib-datepicker-popup="MM/dd/yyyy"
+					ng-readonly="true"
 					ng-model="filterData.startDate.value"
 					ng-model-options="{debounce: 1000}"
+					ng-click="openCalendar(filterData.startDate)"
 					ng-change="onFilterChange()"
 					is-open="filterData.startDate.open"
 					close-text="Close">
@@ -53,8 +55,10 @@
 					class="form-control"
 					placeholder="End Date"
 					uib-datepicker-popup="MM/dd/yyyy"
+					ng-readonly="true"
 					ng-model="filterData.endDate.value"
 					ng-model-options="{debounce: 1000}"
+					ng-click="openCalendar(filterData.endDate)"
 					ng-change="onFilterChange()"
 					is-open="filterData.endDate.open"
 					close-text="Close">

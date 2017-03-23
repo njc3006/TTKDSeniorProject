@@ -1,42 +1,53 @@
-(function() {
-	function CheckinService($http, apiHost) {
-		return {
-			getStudentsFromProgram: function(programId) {
-				return $http.get(apiHost + '/api/registrations-minimal/?program=' + programId + '&person__active=2');
-			},
+(function () {
+    function CheckinService($http, apiHost) {
 
-			getCheckinsForProgram: function(programId, checkinDate) {
-				return $http.get(apiHost + '/api/check-ins/?program=' + programId +
-					'&date=' + checkinDate);
-			},
+        var checkinMode = 'Checkin';
 
-			createCheckin: function(data) {
-				return $http.post(apiHost + '/api/check-ins/', data);
-			},
+        return {
+            getCheckinMode: function () {
+                return checkinMode;
+            },
 
-			deleteCheckin: function(checkinId) {
-				return $http.delete(apiHost + '/api/check-ins/' + checkinId + '/');
-			},
+            setCheckinMode: function (mode) {
+                checkinMode = mode;
+            },
 
-			getInstructorsForProgram: function(programId) {
-				return $http.get(apiHost + '/api/instructors-minimal/?program=' + programId);
-			},
+            getStudentsFromProgram: function (programId) {
+                return $http.get(apiHost + '/api/registrations-minimal/?program=' + programId + '&person__active=2');
+            },
 
-			getInstructorCheckinsForProgram: function(programId, checkinDate) {
-				return $http.get(apiHost + '/api/instructor-check-ins/?program=' + programId +
-					'&date=' + checkinDate);
-			},
+            getCheckinsForProgram: function (programId, checkinDate) {
+                return $http.get(apiHost + '/api/check-ins/?program=' + programId +
+                    '&date=' + checkinDate);
+            },
 
-			createInstructorCheckin: function(data) {
-				return $http.post(apiHost + '/api/instructor-check-ins/', data);
-			},
+            createCheckin: function (data) {
+                return $http.post(apiHost + '/api/check-ins/', data);
+            },
 
-			deleteInstructorCheckin: function(checkinId) {
-				return $http.delete(apiHost + '/api/instructor-check-ins/' + checkinId + '/');
-			}
-		};
-	}
+            deleteCheckin: function (checkinId) {
+                return $http.delete(apiHost + '/api/check-ins/' + checkinId + '/');
+            },
 
-	angular.module('ttkdApp')
-		.factory('CheckinService', ['$http', 'apiHost', CheckinService]);
+            getInstructorsForProgram: function (programId) {
+                return $http.get(apiHost + '/api/instructors-minimal/?program=' + programId);
+            },
+
+            getInstructorCheckinsForProgram: function (programId, checkinDate) {
+                return $http.get(apiHost + '/api/instructor-check-ins/?program=' + programId +
+                    '&date=' + checkinDate);
+            },
+
+            createInstructorCheckin: function (data) {
+                return $http.post(apiHost + '/api/instructor-check-ins/', data);
+            },
+
+            deleteInstructorCheckin: function (checkinId) {
+                return $http.delete(apiHost + '/api/instructor-check-ins/' + checkinId + '/');
+            }
+        };
+    }
+
+    angular.module('ttkdApp')
+        .factory('CheckinService', ['$http', 'apiHost', CheckinService]);
 })();
