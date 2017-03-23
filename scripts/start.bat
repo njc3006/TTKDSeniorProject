@@ -1,1 +1,1 @@
-start "" "%~dp0python-3.5.2-embed-amd64\python.exe" manage.py runserver_plus --cert /tmp/cert
+start "" "%~dp0python-3.5.2-embed-amd64\python.exe" manage.py runserver_plus --cert .\cert
