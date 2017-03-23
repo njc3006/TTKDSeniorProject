@@ -259,7 +259,7 @@
 			return fullNameEntered || phoneEntered || relationEntered;
 		};
 
-		$scope.onSubmit = function(formIsValid) {
+		function sendFormDataToAPI(formIsValid) {
 			var registrationPayload;
 
 			if (!$scope.isPartialRegistration) {
@@ -325,6 +325,20 @@
 					$scope.registrationFailure = true;
 					$scope.missingEmailAndPhone = true;
 					$window.scrollTo(0, 0);
+				}
+			}
+		}
+
+		$scope.onSubmit = function(formIsValid) {
+			if ($scope.isPartialRegistration) {
+				sendFormDataToAPI(formIsValid);
+			} else {
+				if ($scope.currentSelectionIndex !== $scope.formSections.length - 1) {
+          if (formIsValid) {
+					  $scope.selectFormSection($scope.currentSelectionIndex + 1);
+          }
+				} else {
+					sendFormDataToAPI(formIsValid);
 				}
 			}
 		};
