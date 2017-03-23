@@ -11,8 +11,7 @@ cd ./ttkd_ui
 gulp buildstage
 cp -R ./dist/* ../dist/static/
 cd ..
-cp scripts/start.bat ./dist/
-cp scripts/initialSetup.bat ./dist/
+cp scripts/*.bat ./dist/
 cp data.json ./dist/
 cd dist
 python manage.py loaddata data.json
