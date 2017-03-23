@@ -73,9 +73,9 @@ class PersonNotesViewSet(viewsets.ModelViewSet):
 
 class PersonMinimalViewSet(viewsets.ModelViewSet):
     """
-    Returns all Person objects to the Route with id and misc_notes.
-    GET: Returns all PersonStripe Objects To The Route, Or An Instance If Given A PK.
-    PUT: Update a specific person's misc_notes.
+    Returns all Person objects to the Route with id, first, and last name.
+    GET: Returns all person objexts, Or An Instance If Given A PK.
+    PUT: NOT SUPPORTED
     POST: NOT SUPPORTED
     """
     permission_classes = (custom_permissions.ReadOnly,)
