@@ -1,18 +1,22 @@
 <div class="row tab-content spacer-25">
-	<div class="alert alert-info col-xs-6 col-md-6" ng-if="loadingBeltHistory">
-		<strong>Loading belt history</strong>
-	</div>
-	<div class="alert alert-info col-xs-6 col-md-6" ng-if="loadingStripeHistory">
-		<stripe>Loading stripe history</stripe>
+	<div class="alert alert-info col-xs-12 col-md-12" ng-if="loadingInProgress">
+		<strong>Loading history data</strong>
 	</div>
 
-	<div class="alert alert-info col-xs-6 col-md-6" ng-if="loadingBeltHistoryFailed">
-		<stripe>There was an error with loading belt history</stripe>
-	</div>
-	<div class="alert alert-info col-xs-6 col-md-6" ng-if="loadingStripeHistoryFailed">
-		<strong>There was an error with loading stripe history</strong>
+	<div class="alert alert-danger col-xs-12 col-md-12" ng-if="loadingBeltHistoryFailed">
+		<strong>There was an error with loading history data</strong>
 	</div>
 </div>
+<div class="row">
+	<div class="col-md-6 col-xs-12">
+		<ul class="list-group">
+			<li class="list-group-item" ng-repeat="record in history">
+				{{makeHistoryText(record)}}
+			</li>
+		</ul>
+	</div>
+</div>
+<!--
 <div class="row">
 	<div class="col-xs-6 col-md-6">
 		<div class="text-center spacer-10">
@@ -57,3 +61,4 @@
 		</table>
 	</div>
 </div>
+-->
