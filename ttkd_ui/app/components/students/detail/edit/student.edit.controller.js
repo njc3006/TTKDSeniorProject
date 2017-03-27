@@ -42,6 +42,19 @@
             );
         }
 
+        $scope.cleanKey = function (key) {
+            cleanKey = '';
+            pieces = key.split('_');
+
+            for (var piece in pieces) {
+                console.log(pieces[piece]);
+                piece = pieces[piece].charAt(0).toUpperCase() + pieces[piece].slice(1);
+                cleanKey += piece + ' ';
+            }
+
+            return(cleanKey)
+        }
+
         $scope.generateDetailedError = function (errorResponse) {
             console.log(errorResponse);
             $scope.requestFlags.submission.failure = true;
@@ -50,8 +63,15 @@
                 $scope.failureDetails = [];
             
                 for (var key in errorResponse.data) {
-                    if (key !== "__proto__") {
-                        $scope.failureDetails.push(key + ": " + errorResponse.data[key][0]);
+                    
+                    if (angular.isObject(errorResponse.data[key]) && !angular.isArray(errorResponse.data[key])) {
+                        for (var secondaryKey in errorResponse.data[key]) {
+                            $scope.failureDetails.push($scope.cleanKey(key) + ' - ' + $scope.cleanKey(secondaryKey) + ': ' + errorResponse.data[key][secondaryKey][0]);
+                        }
+                    }
+
+                    else {
+                        $scope.failureDetails.push($scope.cleanKey(key) + ': ' + errorResponse.data[key][0]);
                     }
                 }
                 console.log($scope.failureDetails);
