@@ -42,6 +42,25 @@
             );
         }
 
+        $scope.generateDetailedError = function (errorResponse) {
+            console.log(errorResponse);
+            $scope.requestFlags.submission.failure = true;
+            console.log(Object.keys(errorResponse.data).length);
+            if (errorResponse.data && Object.keys(errorResponse.data).length > 0) {
+                $scope.failureDetails = [];
+            
+                for (var key in errorResponse.data) {
+                    if (key !== "__proto__") {
+                        $scope.failureDetails.push(key + ": " + errorResponse.data[key][0]);
+                    }
+                }
+                console.log($scope.failureDetails);
+            }
+            else {  
+                $scope.failureDetails = ["There was an error submitting the information changes"];
+            }
+        }
+
         $scope.registerForProgram = function (program) {
             if (program) {
                 programsTouched = true;
@@ -69,7 +88,7 @@
                         },
                         // on errors
                         function (response) {
-                            $scope.requestFlags.submission.failure = true;
+                            $scope.generateDetailedError(response);
                             $window.scrollTo(0, 0);
                         }
                     ));
@@ -85,7 +104,7 @@
                         },
                         // on error
                         function (response) {
-                            $scope.requestFlags.submission.failure = true;
+                            $scope.generateDetailedError(response);
                             $window.scrollTo(0, 0);
                         }
                     ));
@@ -115,7 +134,7 @@
                     $scope.requestFlags.submission.success = true;
                 },
                 function failure(error) {
-                    $scope.requestFlags.submission.failure = true;
+                    $scope.generateDetailedError(error);
                     $window.scrollTo(0, 0);
                 }
             );
@@ -206,7 +225,7 @@
                                     submitStripeChanges();
                                 },
                                 function failure(error) {
-                                    $scope.requestFlags.submission.failure = true;
+                                    $scope.generateDetailedError(error);
                                     $window.scrollTo(0, 0);
                                 }
                             );
@@ -214,7 +233,7 @@
                             submitStripeChanges();
                         }
                     }, function failure(error) {
-                        $scope.requestFlags.submission.failure = true;
+                        $scope.generateDetailedError(error);
                         $window.scrollTo(0, 0);
                     }
                 );
