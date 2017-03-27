@@ -47,7 +47,6 @@
             pieces = key.split('_');
 
             for (var piece in pieces) {
-                console.log(pieces[piece]);
                 piece = pieces[piece].charAt(0).toUpperCase() + pieces[piece].slice(1);
                 cleanKey += piece + ' ';
             }
@@ -56,9 +55,7 @@
         }
 
         $scope.generateDetailedError = function (errorResponse) {
-            console.log(errorResponse);
             $scope.requestFlags.submission.failure = true;
-            console.log(Object.keys(errorResponse.data).length);
             if (errorResponse.data && Object.keys(errorResponse.data).length > 0) {
                 $scope.failureDetails = [];
             
@@ -74,7 +71,6 @@
                         $scope.failureDetails.push($scope.cleanKey(key) + ': ' + errorResponse.data[key][0]);
                     }
                 }
-                console.log($scope.failureDetails);
             }
             else {  
                 $scope.failureDetails = ["There was an error submitting the information changes"];
