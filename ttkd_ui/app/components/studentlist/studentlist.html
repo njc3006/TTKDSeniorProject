@@ -5,8 +5,8 @@
 				<div class="btn btn-primary" ng-click="toggleSortAlpha()">{{sortDisplayString}}</div>
 			</div>
 			<div class="col-md-5 col-md-offset-0 col-xs-4 col-xs-offset-0 margin-10">
-				<select class="form-control" ng-model="filters.currentProgramId" ng-change="setDisplayedStudents()">
-					<option value="">Select Class</option>
+				<select id="programSelect" class="form-control" ng-model="filters.currentProgramId" ng-change="setDisplayedStudents()">
+					<option value="">Select Program</option>
 					<optgroup label="Active">
 						<option ng-repeat="class in classes | filter: {active:true}" value="{{class.id}}">{{class.name}}</option>
 					</optgroup>
@@ -16,7 +16,7 @@
 				</select>
 			</div>
 			<div class="col-md-3 col-xs-3 padding-left-0">
-				<select class="form-control" ng-model="filters.currentBelt" ng-change="setDisplayedStudents()"
+				<select id="beltSelect" class="form-control" ng-model="filters.currentBelt" ng-change="setDisplayedStudents()"
 				ng-options="belt.name for belt in belts">
 					<option value="">Select Belt</option>
 				</select>
@@ -62,7 +62,7 @@
 	</div>
 
 	<div class="row spacer-25" ng-show="studentsLoaded">
-		<div class="left-30">
+		<div class="left-30" id="studentCount">
 			Showing {{people.length}} student<span ng-if="people.length !== 1">s</span>
 		</div>
 	</div>
