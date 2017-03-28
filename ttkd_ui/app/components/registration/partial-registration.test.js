@@ -54,6 +54,7 @@ describe('Partial Registration', function() {
 		});
 
 		afterEach(() => {
+			element(by.id('userBtn')).click();
 			element(by.id('logout')).click();
 		});
 
@@ -85,6 +86,7 @@ describe('Partial Registration', function() {
 			login();
 			browser.get(browser.params.appUrl + 'partial-registrations/new');
 			completePartialRegistration();
+			element(by.id('userBtn')).click();
 			element(by.id('logout')).click();
 		});
 
