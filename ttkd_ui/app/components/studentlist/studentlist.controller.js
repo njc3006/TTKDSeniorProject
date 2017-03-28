@@ -18,6 +18,7 @@
         $scope.belts = [];
         $scope.sortAZ = true;
         $scope.sortDisplayString = 'A-Z';
+        $scope.studentsLoaded = false;
 
         $scope.filters = {
             showActive: true,
@@ -175,12 +176,14 @@
                 
                             $scope.allPeople = temp2;
                             $scope.setDisplayedStudents();
+                            $scope.studentsLoaded = true;
                         });
                 });        
         };
 
         //retrieves the list of students in a specific class
         $scope.getStudentsFromProgram = function(){
+            $scope.studentsLoaded = false;
             var classId = '';
 
             if($scope.filters.currentProgramId != null){
@@ -197,6 +200,7 @@
                             $scope.classAttendance = response.data;
 
                             $scope.setDisplayedStudents();
+                            $scope.studentsLoaded = true;
                         });
                 });
         };
