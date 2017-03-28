@@ -32,7 +32,6 @@ class PartialRegistrationViewSet(viewsets.ModelViewSet):
     GET: Returns all Partial Registration Objects To The Route, Or An Instance If Given A PK
     Filters: program, person
     """
-    permission_classes = (custom_permissions.ReadOnly,)
     queryset = Registration.objects.filter(is_partial=True)
     serializer_class = RegistrationSerializer
     filter_backends = (filters.DjangoFilterBackend,)
