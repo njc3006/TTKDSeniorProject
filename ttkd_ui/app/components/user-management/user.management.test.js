@@ -1,11 +1,28 @@
 // Describe the group of tests
-var utils = require('./test.utils.js');
+var Logout = function() {
+    element(by.id('account')).click();
+    browser.driver.sleep(1);
+    element(by.id('logout')).click();
+    browser.driver.sleep(3000);
+};
+
+var Login = function(username, password) {
+    element.all(by.id('login')).click();
+    browser.driver.sleep(1000);
+
+    element(by.name('username')).sendKeys(username);
+    element(by.name('password')).sendKeys(password);
+    element(by.id('loginBtn')).click();
+
+    browser.driver.sleep(3000);
+};
+
 describe('User Management', function () {
 
     beforeEach(() => {
         browser.get(browser.params.appUrl);
         if(element.all(by.id('login')).count() !== 0) {
-            utils.Logout();
+            Logout();
         }
     });
 
@@ -13,7 +30,7 @@ describe('User Management', function () {
     });
 
     it('Test instructor can\'t see manage user button in dropdown', function() {
-        utils.Login('instruct', 'admin');
+        Login('instruct', 'admin');
 
         element(by.id('account')).click();
         browser.driver.sleep(1);
@@ -21,7 +38,7 @@ describe('User Management', function () {
     });
 
     it('Test instructor can change own password', function() {
-        utils.Login('instruct', 'admin');
+        Login('instruct', 'admin');
 
         element(by.id('account')).click();
         browser.driver.sleep(1);
@@ -34,10 +51,10 @@ describe('User Management', function () {
         
         browser.driver.sleep(300);
         expect(element.all(by.id('modal-body')).count()).toBe(0);
-        utils.Logout();
+        Logout();
         expect(element.all(by.id('login')).count() === 0);
 
-        utils.Login('instruct', 'instruct');
+        Login('instruct', 'instruct');
         expect(element.all(by.id('login')).count() !== 0);
 
         element(by.id('account')).click();
@@ -51,7 +68,7 @@ describe('User Management', function () {
     });
 
     it('Test admin can see manage user button in dropdown', function() {
-        utils.Login('admin', 'admin');
+        Login('admin', 'admin');
 
         element(by.id('account')).click();
         browser.driver.sleep(1);
