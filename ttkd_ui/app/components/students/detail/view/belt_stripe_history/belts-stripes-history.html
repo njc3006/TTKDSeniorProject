@@ -10,55 +10,9 @@
 <div class="row">
 	<div class="col-md-6 col-xs-12">
 		<ul class="list-group">
-			<li class="list-group-item" ng-repeat="record in history">
+			<li class="list-group-item form-control spacer-5" ng-repeat="record in history" class="belt-achieve-row" ng-class="getRecordStyle(record)">
 				{{makeHistoryText(record)}}
 			</li>
 		</ul>
 	</div>
 </div>
-<!--
-<div class="row">
-	<div class="col-xs-6 col-md-6">
-		<div class="text-center spacer-10">
-			<span class="h2">Belt History</span>
-		</div>
-		<div class="alert alert-info col-xs-12 col-md-12" ng-if="beltHistory.length == 0">
-			<strong>There is no stripe history for this person</strong>
-		</div>
-		<table class="table table-bordered table-striped" ng-if="beltHistory.length > 0">
-			<thead>
-				<th>Belt</th>
-				<th>Date Achieved</th>
-			</thead>
-			<tbody>
-				<tr ng-repeat="personBelt in beltHistory">
-					<td>{{personBelt.belt.name}}</td>
-					<td>{{formatDate(personBelt.date_achieved)}}</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	<div class="col-xs-6 col-md-6">
-		<div class="text-center spacer-10">
-			<span class="h2">Stripe History</span>
-		</div>
-		<div class="alert alert-info col-xs-12 col-md-12" ng-if="stripeHistory.length == 0">
-			<strong>There is no stripe history for this person</strong>
-		</div>
-		<table class="table table-bordered table-striped" ng-if="stripeHistory.length > 0">
-			<thead>
-				<th>Stripe</th>
-				<th>Date Achieved</th>
-				<th>Current Stripe?</th>
-			</thead>
-			<tbody>
-				<tr ng-repeat="personStripe in stripeHistory">
-					<td>{{personStripe.stripe.name}}</td>
-					<td>{{formatDate(personStripe.date_achieved)}}</td>
-					<td>{{personStripe.current_stripe ? 'Yes' : 'No'}}</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-</div>
--->

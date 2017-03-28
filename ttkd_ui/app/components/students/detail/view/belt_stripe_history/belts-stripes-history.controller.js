@@ -25,6 +25,10 @@
 			return text;
 		};
 
+		$scope.getRecordStyle = function(record) {
+			return record.type === 'belt' ? 'belt-achieve-row' : '';
+		};
+
 		SharedDataService.getActiveStudent().then(function(student) {
 			$scope.loadingInProgress = true;
 			$scope.loadingFailed = false;
