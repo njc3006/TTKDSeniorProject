@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
-RUNSERVERPLUS_SERVER_ADDRESS_PORT = '0.0.0.0:443'
+RUNSERVERPLUS_SERVER_ADDRESS_PORT = '0.0.0.0:3000'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
