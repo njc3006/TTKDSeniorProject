@@ -1,6 +1,11 @@
 <div class="container">
 	<div class="alert alert-danger" ng-show="requestFlags.submission.failure" uib-alert close="closeErrorAlert()">
-		There was an error submitting the information changes
+		Submission Errors:
+		<ul>
+			<li ng-repeat="error in failureDetails | orderBy: 'error'">
+				{{error}}
+			</li>
+		</ul>
 	</div>
 
 	<div class="alert alert-success" ng-show="requestFlags.submission.success" uib-alert close="closeSuccessAlert()">

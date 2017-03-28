@@ -42,6 +42,41 @@
             );
         }
 
+        $scope.cleanKey = function (key) {
+            cleanKey = '';
+            pieces = key.split('_');
+
+            for (var piece in pieces) {
+                piece = pieces[piece].charAt(0).toUpperCase() + pieces[piece].slice(1);
+                cleanKey += piece + ' ';
+            }
+
+            return(cleanKey)
+        }
+
+        $scope.generateDetailedError = function (errorResponse) {
+            $scope.requestFlags.submission.failure = true;
+            if (errorResponse.data && Object.keys(errorResponse.data).length > 0) {
+                $scope.failureDetails = [];
+            
+                for (var key in errorResponse.data) {
+                    
+                    if (angular.isObject(errorResponse.data[key]) && !angular.isArray(errorResponse.data[key])) {
+                        for (var secondaryKey in errorResponse.data[key]) {
+                            $scope.failureDetails.push($scope.cleanKey(key) + ' - ' + $scope.cleanKey(secondaryKey) + ': ' + errorResponse.data[key][secondaryKey][0]);
+                        }
+                    }
+
+                    else {
+                        $scope.failureDetails.push($scope.cleanKey(key) + ': ' + errorResponse.data[key][0]);
+                    }
+                }
+            }
+            else {  
+                $scope.failureDetails = ["There was an error submitting the information changes"];
+            }
+        }
+
         $scope.registerForProgram = function (program) {
             if (program) {
                 programsTouched = true;
@@ -69,7 +104,7 @@
                         },
                         // on errors
                         function (response) {
-                            $scope.requestFlags.submission.failure = true;
+                            $scope.generateDetailedError(response);
                             $window.scrollTo(0, 0);
                         }
                     ));
@@ -85,7 +120,7 @@
                         },
                         // on error
                         function (response) {
-                            $scope.requestFlags.submission.failure = true;
+                            $scope.generateDetailedError(response);
                             $window.scrollTo(0, 0);
                         }
                     ));
@@ -115,7 +150,7 @@
                     $scope.requestFlags.submission.success = true;
                 },
                 function failure(error) {
-                    $scope.requestFlags.submission.failure = true;
+                    $scope.generateDetailedError(error);
                     $window.scrollTo(0, 0);
                 }
             );
@@ -206,7 +241,7 @@
                                     submitStripeChanges();
                                 },
                                 function failure(error) {
-                                    $scope.requestFlags.submission.failure = true;
+                                    $scope.generateDetailedError(error);
                                     $window.scrollTo(0, 0);
                                 }
                             );
@@ -214,7 +249,7 @@
                             submitStripeChanges();
                         }
                     }, function failure(error) {
-                        $scope.requestFlags.submission.failure = true;
+                        $scope.generateDetailedError(error);
                         $window.scrollTo(0, 0);
                     }
                 );
