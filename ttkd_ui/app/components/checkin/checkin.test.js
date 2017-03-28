@@ -78,6 +78,7 @@ describe('Student Checkin', function () {
         expect(element.all(by.id('editModeBtn')).count()).toBe(1);
         expect(element.all(by.id('datePicker')).count()).toBe(1);
 
+        element(by.id('userBtn')).click();
         element(by.id('logout')).click();
         browser.driver.sleep(3000);
 
@@ -96,6 +97,7 @@ describe('Student Checkin', function () {
         expect(element.all(by.id('editModeBtn')).count()).toBe(1);
         expect(element.all(by.id('datePicker')).count()).toBe(1);
 
+        element(by.id('userBtn')).click();
         element(by.id('logout')).click();
     });
 
@@ -139,6 +141,7 @@ describe('Student Checkin', function () {
             });
         });
 
+        element(by.id('userBtn')).click();
         element(by.id('logout')).click();
     });
 
@@ -167,6 +170,7 @@ describe('Student Checkin', function () {
             });
         });
 
+        element(by.id('userBtn')).click();
         element(by.id('logout')).click();
     });
 
@@ -200,6 +204,7 @@ describe('Student Checkin', function () {
             });
         });
 
+        element(by.id('userBtn')).click();
         element(by.id('logout')).click();
     });
 
@@ -233,6 +238,7 @@ describe('Student Checkin', function () {
             });
         });
 
+        element(by.id('userBtn')).click();
         element(by.id('logout')).click();
     });
 
@@ -255,6 +261,7 @@ describe('Student Checkin', function () {
         // verify that we retrieved a student
         expect(numChecked).toBe(0);
 
+        element(by.id('userBtn')).click();
         element(by.id('logout')).click();
     });
 
@@ -284,6 +291,7 @@ describe('Student Checkin', function () {
             by.xpath('//span[text()=\'Address: 123 TTKD Lane, No Where, KS 12345\']')).count();
         expect(countOfAddress).toBe(1);
 
+        element(by.id('userBtn')).click();
         element(by.id('logout')).click();
     });
 
@@ -313,6 +321,7 @@ describe('Student Checkin', function () {
             by.xpath('//span[text()=\'Address: 123 TTKD Lane, No Where, KS 12345\']')).count();
         expect(countOfAddress).toBe(1);
 
+        element(by.id('userBtn')).click();
         element(by.id('logout')).click();
     });
 
@@ -352,6 +361,7 @@ describe('Student Checkin', function () {
         var valueOfActive =  element(by.id('editModeBtn')).getAttribute('class');
         expect(valueOfActive).toContain('active');
 
+        element(by.id('userBtn')).click();
         element(by.id('logout')).click();
     });
 
@@ -388,6 +398,7 @@ describe('Student Checkin', function () {
         var valueOfActive =  element(by.id('editModeBtn')).getAttribute('class');
         expect(valueOfActive).toContain('active');
 
+        element(by.id('userBtn')).click();
         element(by.id('logout')).click();
     });
 

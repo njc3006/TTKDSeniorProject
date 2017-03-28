@@ -26,8 +26,9 @@ programs_file = open("programs.json").read()
 
 args = sys.argv
 
-mask = "mask" in args
+mask = "mask" in args or "masked" in args
 nobelts = "nobelt" in args or "nostripe" in args or "nobelts" in args or "nostripes" in args
+stress = "stress" in args or "test" in args
 
 try:
     os.remove("../ttkd_api/db.sqlite3")
@@ -57,7 +58,7 @@ models_changing = [
 if not nobelts:
     models_changing.append("ttkd_api.belt")
     models_changing.append("ttkd_api.stripe")
-for i in range(len(dump_import)-1,-1, -1): # run backwards so we dont get indexing issues as we remove indexs
+for i in range(len(dump_import) - 1, -1, -1): # run backwards so we dont get indexing issues as we remove indexs
     if dump_import[i]["model"] in models_changing:
         del dump_import[i]
 
