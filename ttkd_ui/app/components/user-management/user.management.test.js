@@ -1,5 +1,5 @@
 // Describe the group of tests
-var utils = require('./test.utils.js')
+var utils = require('./test.utils.js');
 describe('User Management', function () {
 
     beforeEach(() => {
