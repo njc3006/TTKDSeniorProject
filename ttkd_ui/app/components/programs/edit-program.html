@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="row">
+        <div class="row col-sm-2 program-back-btn">
+            <button id="backBtn" class="row btn btn-primary" ng-click="backNavigate()">
+               <span class="glyphicon glyphicon-chevron-left"></span>
+               Back
+           </button>
+        </div>
+        <div class="row alert alert-danger col-sm-8 program-alert" role="alert" ng-show="alerts.error">
+            <strong>Failed to update program data</strong>
+        </div>
+
+        <div class="row alert alert-success col-sm-8 program-alert" role="alert" ng-show="alerts.success">
+            <strong>Successfully updated program data</strong>
+        </div>
+    </div>
+    <div class="col-sm-10 col-sm-offset-1">
+        <h3 class="">Edit Program</h3>
+        <div class="row">
+            <div class="container-fluid">
+                <div class="row no-margins">
+                    <div>  
+                        <input type="text" class="form-control" id="program" ng-model="program.name" maxlength="50" placeholder="Program Name">
+                    </div>
+                </div>
+                <span class="checkbox-inline csv-spacer program-active-checkbox">
+                    <label class="csv-checkbox">Active
+                        <input
+                            ng-model="program.active"
+                            type="checkbox"
+                            name="active"
+                            class="pull-right style-2"
+                            checked = checked>
+                    </label>
+                </span>
+            </div>
+        </div>
+        <div class="">
+            <button type="submit" class="btn btn-success pull-right" ng-click="updateProgram()">Save</button>
+        </div>
+    </div>
+</div>

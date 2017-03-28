@@ -113,9 +113,15 @@
       })
 
       .state('editPrograms', {
-        url: '/edit-programs',
-        templateUrl: 'components/programs/edit-programs.html',
+        url: '/programs',
+        templateUrl: 'components/programs/programs.html',
         controller: 'ProgramsCtrl'
+      })
+
+      .state('editProgram', {
+        url: '/programs/{curProgram:json}/edit',
+        templateUrl: 'components/programs/edit-program.html',
+        controller: 'EditProgramCtrl'
       });
 
 			// For any unmatched url, send to /

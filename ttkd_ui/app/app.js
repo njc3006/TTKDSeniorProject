@@ -21,6 +21,7 @@
 		'ttkdApp.beltsStripesCtrl',
 		'ttkdApp.studentWaiverCtrl',
 		'ttkdApp.programsCtrl',
+		'ttkdApp.editProgramCtrl',
 		'ttkdApp.AuthInterceptor'
     ]
   ).config(['$httpProvider', function($httpProvider) {

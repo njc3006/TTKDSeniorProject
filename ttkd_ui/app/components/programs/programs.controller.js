@@ -2,14 +2,11 @@
 
   angular.module('ttkdApp.programsCtrl', ['ttkdApp.constants'])
 
-    .controller('ProgramsCtrl', ['$scope', '$rootScope', '$stateParams', '$document', '$uibModal', 'ProgramsSvc', 
-        function($scope, $rootScope, $stateParams, $document, $uibModal, ProgramsSvc) {
+    .controller('ProgramsCtrl', ['$scope', '$rootScope', '$state', '$stateParams', 'ProgramsSvc', 
+        function($scope, $rootScope, $state, $stateParams, ProgramsSvc) {
         $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
 
         $scope.programs = [];
-        $scope.curProgram = {};
-        $scope.editProgramAlert = {};
-
         $scope.alerts = {
             loaded : false,
             error : false,
@@ -37,40 +34,10 @@
         };
 
         $scope.editProgram = function(program) {
-            $scope.curProgram = program;
-            $scope.editProgramAlert = {};
-            $scope.alerts.success = false;
-
-            var modalElement = angular.element($document[0].querySelector('#modal-area'));
-            modalInstance = $uibModal.open({
-                animation: true,
-                ariaLabelledBy: 'modal-title',
-                ariaDescribedBy: 'modal-body',
-                templateUrl: 'components/programs/edit-program.modal.html',
-                scope: $scope
-            });
-        };
-
-        $scope.updateProgram = function(program) {
-            if(program) {
-                ProgramsSvc.updateProgram(program, program.id).then(
-                    function(response){
-                        $scope.curProgram = {};
-                        $scope.alerts.success = true;
-                        $scope.closeModal();
-                    }, function(error){
-                        $scope.editProgramAlert = { error : 'Failed to update ' + program.name + '.' };
-                        $scope.alerts.success = false;
-                    });
-            }
-        };
-
-        $scope.closeModal = function() {
-            modalInstance.close();
+            $state.go('editProgram', ({curProgram: program}))
         };
 
         $scope.getPrograms();
 
     }]);
-
 })();
