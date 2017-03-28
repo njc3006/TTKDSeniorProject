@@ -7,7 +7,7 @@
            </button>
         </div>
         <div class="row alert alert-danger col-sm-8 program-alert" role="alert" ng-show="alerts.error">
-            <strong>Failed to update program data</strong>
+            <strong>{{alerts.errorText}}</strong>
         </div>
 
         <div class="row alert alert-success col-sm-8 program-alert" role="alert" ng-show="alerts.success">
@@ -16,27 +16,54 @@
     </div>
     <div class="col-sm-10 col-sm-offset-1">
         <h3 class="">Edit Program</h3>
-        <div class="row">
-            <div class="container-fluid">
-                <div class="row no-margins">
-                    <div>  
-                        <input type="text" class="form-control" id="program" ng-model="program.name" maxlength="50" placeholder="Program Name">
-                    </div>
-                </div>
-                <span class="checkbox-inline csv-spacer program-active-checkbox">
-                    <label class="csv-checkbox">Active
-                        <input
-                            ng-model="program.active"
-                            type="checkbox"
-                            name="active"
-                            class="pull-right style-2"
-                            checked = checked>
-                    </label>
+        <div class="row no-margins">
+            <div>  
+                <input type="text" class="form-control" id="program" ng-model="program.name" maxlength="50" placeholder="program Name">
+            </div>
+        </div>
+        <span class="checkbox-inline csv-spacer program-active-checkbox">
+            <label class="csv-checkbox">Active
+                <input
+                    ng-model="program.active"
+                    type="checkbox"
+                    name="active"
+                    class="pull-right style-2"
+                    checked = checked>
+            </label>
+        </span>
+
+        <h4 class="">Student Instructors</h4>
+        <div ng-repeat="instructor in instructors" class="spacer-10">
+            <div class="input-group col-sm-12 spacer-10">
+                <span class="form-control text-capitalize">{{instructor.name}}</span>
+                <span class="input-group-btn">
+                    <button
+                        type="button"
+                        class="btn btn-danger"
+                        ng-click="removeInstructor($index)"
+                        ng-show="instructors.length > 0">
+                        <i class="glyphicon glyphicon-minus"></i>
+                    </button>
                 </span>
             </div>
         </div>
-        <div class="">
-            <button type="submit" class="btn btn-success pull-right" ng-click="updateProgram()">Save</button>
+        <div class="spacer-25">
+            <div class="input-group col-sm-12">
+                <input 
+                    type="text" 
+                    ng-model="selected"
+                    uib-typeahead="person as person.name for person in people | filter:{name:$viewValue} | limitTo:10" 
+                    class="form-control">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-success" ng-click="addInstructor()">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-success pull-right spacer-25" ng-click="updateProgram()">Save</button>
         </div>
     </div>
 </div>

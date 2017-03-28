@@ -26,7 +26,19 @@
 
 			/* get a single program by it's id */
 			getProgram: function(id) {
-				return $http.get(apiHost + '/api/programs/'+id);
+				return $http.get(apiHost + '/api/programs/' + id);
+			},
+
+			getPeople: function() {
+				return $http.get(apiHost + '/api/person-minimal/');
+			},
+
+			getProgramInstructors: function() {
+				return $http.get(apiHost + '/api/instructors/');
+			},
+
+			updateProgramInstructors: function(data) {
+				return $http.post(apiHost + '/api/instructors/', data);
 			}
 		};
 	}]);
