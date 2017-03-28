@@ -71,6 +71,7 @@
 				<div class="form-group col-xs-2">
 					<label class="control-label">Active Status</label>
 					<button
+						id="activeBtn"
 						type="button"
 						class="form-control btn"
 						uib-btn-checkbox
@@ -337,6 +338,6 @@
 				<textarea class="form-control" rows="8" ng-model="studentInfo.misc_notes"></textarea>
 			</div>
 		</div>
-		<button type="submit" class="btn btn-primary btn-lg spacer-25" ng-disabled="!editForm.$valid">Update</button>
+		<button id="updateBtn" type="submit" class="btn btn-primary btn-lg spacer-25" ng-disabled="!editForm.$valid">Update</button>
 	</form>
 </div>

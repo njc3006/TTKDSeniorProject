@@ -2,7 +2,7 @@
 	<div class="row filter-bar">
 		<div class="col-md-7 col-xs-12 spacer-10 padding-right-0">
 			<div class="col-md-1 col-xs-1 padding-left-0">
-				<div class="btn btn-primary" ng-click="toggleSortAlpha()">{{sortDisplayString}}</div>
+				<div id="alphaSortBtn" class="btn btn-primary" ng-click="toggleSortAlpha()">{{sortDisplayString}}</div>
 			</div>
 			<div class="col-md-5 col-md-offset-0 col-xs-4 col-xs-offset-0 margin-10">
 				<select id="programSelect" class="form-control" ng-model="filters.currentProgramId" ng-change="setDisplayedStudents()">
@@ -46,13 +46,13 @@
 			                 close-text="Close"
 			                 placeholder="Attnd. Date" />
 	          		<span class="input-group-btn">
-		          		<button class="btn btn-default" ng-click="open()">
+		          		<button id="calendarBtn" class="btn btn-default" ng-click="open()">
 		          		<i class="glyphicon glyphicon-calendar"></i></button>
 		          	</span>
 		        </div>
 			</div>
 			<div class="col-md-2 col-xs-2 padding-left-0">
-				<div class="btn btn-primary" ng-click="today()">Today</div>
+				<div id="todayBtn" class="btn btn-primary" ng-click="today()">Today</div>
 			</div>
 		</div>
 	</div>
