@@ -2,8 +2,8 @@
 
   angular.module('ttkdApp.editProgramCtrl', ['ttkdApp.constants'])
 
-    .controller('EditProgramCtrl', ['$scope', '$rootScope', '$state', '$stateParams', 'ProgramsSvc', 
-        function($scope, $rootScope, $state, $stateParams, ProgramsSvc) {
+    .controller('EditProgramCtrl', ['$scope', '$rootScope', '$q', '$window', '$state', '$stateParams', 'ProgramsSvc', 
+        function($scope, $rootScope, $q, $window, $state, $stateParams, ProgramsSvc) {
         $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
 
         $scope.people = [];             //list of all students to populate the typeahead dropdown
@@ -14,7 +14,12 @@
         $scope.newStudents = [];        //list of students to be added to a program
         $scope.removeStudents = [];     //list of students to be removed from a program
 
+        $scope.promises = [];           //contains promises for adding/deleting/updating information
+        $scope.loadingPromises = [];    //contains promises for getting information
+
         $scope.program = $stateParams.curProgram;
+        $scope.promiseError = false;
+        $scope.loaded = false;
         
         $scope.alerts = {
             success: false,
@@ -23,68 +28,115 @@
         };
 
         $scope.getInstructors = function() {
-            ProgramsSvc.getProgramInstructors($stateParams.curProgram.id).then(
-                function(response){
-                   $scope.instructors = response.data;
-                }, function(error){
-                    console.log("failed to get instructors");
-                });
+            $scope.loadingPromises.push(
+                ProgramsSvc.getProgramInstructors($stateParams.curProgram.id).then(
+                    function(response){
+                       $scope.instructors = response.data;
+                    }, function(error){
+                        $scope.alerts.errorText = 'Failed to get program\'s instructors';
+                        $scope.alerts.error = true;
+                    })
+            );
         };
 
         $scope.getPeople = function() {
-            ProgramsSvc.getPeople().then(
-                function(response){
-                    angular.forEach(response.data, function(value){
-                        //filtering by full name requires a single property with the full name, which the objects don't include
-                        value.name = value.first_name + ' ' + value.last_name;
-                    });
+            $scope.loadingPromises.push(
+                ProgramsSvc.getPeople().then(
+                    function(response){
+                        angular.forEach(response.data, function(value){
+                            //filtering by full name requires a single property with the full name, which the objects don't include
+                            value.name = value.first_name + ' ' + value.last_name;
+                        });
 
-                    $scope.people = response.data;
+                        $scope.people = response.data;
 
-                }, function(error){
-                    $scope.alerts.errorText = "Failed to get list of students";
-                    $scope.alerts.error = true;
-                });
+                    }, function(error){
+                        $scope.alerts.errorText = 'Failed to get master list of students';
+                        $scope.alerts.error = true;
+                    })
+            );
         };
 
         $scope.getStudents = function() {
-            ProgramsSvc.getProgramStudents($stateParams.curProgram.id).then(
+            var promise1, promise2;
+            var tempStudents = [];
+
+            promise1 = ProgramsSvc.getProgramStudents($stateParams.curProgram.id).then(
                 function(response){
-                    angular.forEach(response.data, function(value){
-                        ProgramsSvc.getStudent(value.person).then(
-                            function(student){
-                                //in order to remove students from a program we need to know the program registration id, so store it for later use
-                                $scope.students.push(
-                                    {
-                                        registration: value,
-                                        student: student.data
-                                    }
-                                );
-                            }, function(studentError){
-
-                            });
-                    });
-
+                    tempStudents = response.data;
                 }, function(error){
+                    $scope.alerts.errorText = 'Failed to get program\'s students';
+                    $scope.alerts.error = true;
+                }
+            );
 
+            promise2 = promise1.then(function(){
+                angular.forEach(tempStudents, function(value){
+                    var newPromise = ProgramsSvc.getStudent(value.person).then(
+                        function(student){
+                            //in order to remove students from a program we need to know the program registration id, so store it for later use
+                            $scope.students.push(
+                                {
+                                    registration: value,
+                                    student: student.data
+                                }
+                            );
+                        }, function(studentError){
+                            $scope.alerts.errorText = 'Failed to get program\'s students';
+                            $scope.alerts.error = true;
+                        }
+                    );
+
+                    $scope.loadingPromises.push(newPromise);
                 });
+            });
+
+            $scope.loadingPromises.push(promise1);
+            $scope.loadingPromises.push(promise2);
+        };
+
+        //Load all of the needed data
+        $scope.loadInfo = function(){
+            $scope.getPeople();
+            $scope.getInstructors();
+            $scope.getStudents();
+
+            $q.all($scope.loadingPromises).then(function(){
+                $scope.loaded = true;
+            }); 
         };
 
         //Main function to update program info, instructors, and students
         $scope.updateProgram = function() {
             $scope.clearAlerts();
+            $scope.promises = [];    
+            $scope.promiseError = false;
 
             if($scope.program) {
-                ProgramsSvc.updateProgram($scope.program, $scope.program.id).then(
-                    function(response){
-                        console.log("updated program info");
-                    }, function(error){
-                        console.log("failed to update program info");
-                    }
+                $scope.promises.push(
+                    ProgramsSvc.updateProgram($scope.program, $scope.program.id).then(
+                        function(response){
+
+                        }, function(error){
+                            $scope.alerts.errorText = "Failed to update program info";
+                            $scope.promiseError = true;
+                        }
+                    )
                 );
 
                 $scope.updateInstructors();
                 $scope.updateStudents();
+
+                $q.all($scope.promises).then(function(){
+                    if($scope.promiseError) {
+                        $scope.alerts.error = true;
+                        $scope.alerts.success = false;
+                    } else {
+                        $scope.alerts.success = true;
+                        $scope.alerts.error = false;
+                        $window.scrollTo(0, 0);
+                    }
+                });
             }
         };
 
@@ -96,25 +148,30 @@
                     program: $stateParams.curProgram.id
                 };
 
-                ProgramsSvc.updateProgramInstructors(payload).then(
-                    function(response){
-                        console.log("added new instructor");
-                        $scope.newInstructors.splice($scope.newInstructors.indexOf(value), 1);
-                    }, function(error){
-                        console.log("failed to add new instructor");
-                        $scope.alerts.errorText = "Failed to update instructor data";
-                    });
+                $scope.promises.push(
+                    ProgramsSvc.updateProgramInstructors(payload).then(
+                        function(response){
+                            $scope.newInstructors.splice($scope.newInstructors.indexOf(value), 1);
+                        }, function(error){
+                            $scope.alerts.errorText = 'Failed to add new instructor';
+                            $scope.promiseError = true;
+                        })
+                );
             });
 
             angular.forEach($scope.removeInstructors, function(value){
-                ProgramsSvc.removeProgramInstructors(value.id).then(
-                    function(response){
-                        console.log("successfully removed instructor");
-                        $scope.removeInstructors.splice($scope.removeInstructors.indexOf(value), 1);
-                    }, function(error){
-                        console.log("failed to remove instructor");
-                        $scope.alerts.errorText = "Failed to update instructor data";
-                    });
+                if(value){
+                    $scope.promises.push(
+                        ProgramsSvc.removeProgramInstructors(value.id).then(
+                            function(response){
+                                $scope.removeInstructors.splice($scope.removeInstructors.indexOf(value), 1);
+                            }, function(error){
+                                console.log($scope.removeInstructors);
+                                $scope.alerts.errorText = 'Failed to remove instructor';
+                                $scope.promiseError = true;
+                            })
+                        );
+                }
             });
         };
 
@@ -127,25 +184,29 @@
                     is_partial: false
                 };
 
-                ProgramsSvc.updateProgramStudents(payload).then(
-                    function(response){
-                        console.log("added new student");
-                        $scope.newStudents.splice($scope.newStudents.indexOf(value), 1);
-                    }, function(error){
-                        console.log("failed to add new student");
-                        $scope.alerts.errorText = "Failed to update student data";
-                    });
+                $scope.promises.push(
+                    ProgramsSvc.updateProgramStudents(payload).then(
+                        function(response){
+                            $scope.newStudents.splice($scope.newStudents.indexOf(value), 1);
+                        }, function(error){
+                            $scope.alerts.errorText = 'Failed to add new student';
+                            $scope.promiseError = true;
+                        })
+                );
             });
 
             angular.forEach($scope.removeStudents, function(value){
-                ProgramsSvc.removeProgramStudents(value.registration.id).then(
-                    function(response){
-                        console.log("successfully removed student");
-                        $scope.removeStudents.splice($scope.removeStudents.indexOf(value), 1);
-                    }, function(error){
-                        console.log("failed to remove student");
-                        $scope.alerts.errorText = "Failed to update student data";
-                    });
+                if(value && value.registration){
+                    $scope.promises.push(
+                        ProgramsSvc.removeProgramStudents(value.registration.id).then(
+                            function(response){
+                                $scope.removeStudents.splice($scope.removeStudents.indexOf(value), 1);
+                            }, function(error){
+                                $scope.alerts.errorText = 'Failed to remove student';
+                                $scope.promiseError = true;
+                            })
+                        );
+                }
             });
         };
 
@@ -190,10 +251,13 @@
             $state.go('editPrograms');
         };
 
-        //Load all of the needed data
-        $scope.getPeople();
-        $scope.getInstructors();
-        $scope.getStudents();
+
+        $scope.loadInfo();
+
+          //date picker watcher
+        $scope.$watch('loadingPromises', function(newValue, oldValue) {
+            console.log($scope.loadingPromises);
+        });
 
     }]);
 })();
