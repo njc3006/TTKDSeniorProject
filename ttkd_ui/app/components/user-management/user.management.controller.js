@@ -188,7 +188,14 @@
             $scope.reload();
           },
           function(error) {
-            $scope.statusAlert.failure = true;
+            if(error.status === 400 && error.data.username) {
+              console.log(error.data.username[0]);
+              $scope.statusAlert.custom = true;
+              $scope.customError = error.data.username[0];
+            }
+            else {
+              $scope.statusAlert.failure = true;
+            }
           }
         );
       };

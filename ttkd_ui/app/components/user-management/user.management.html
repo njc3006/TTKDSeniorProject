@@ -1,6 +1,6 @@
 <div class="container text-center spacer-35">
 	<!-- <div class="spacer-35"></div> -->
-	<div class="row alert alert-success no-bottom-margin" ng-show="statusAlert.success" uib-alert close="closeAlert('success')">
+	<div id="success" class="row alert alert-success no-bottom-margin" ng-if="statusAlert.success" uib-alert close="closeAlert('success')">
 		Changes were made successfully.
 	</div>
 
@@ -17,26 +17,28 @@
 			Admin
 		</h3>
 		<h3>
-		<button class="btn btn-success col-xs-2 col-xs-offset-4" type="button" ng-click="openCreateUser()">Create User</button></h3>
+		<button id="createUser" class="btn btn-success col-xs-2 col-xs-offset-4" type="button" ng-click="openCreateUser()">Create User</button></h3>
 	</div>
 	<hr>
 
 	<div ng-repeat="u in userList | orderBy: 'username'">
 		<div class="row spacer-10 text-center">
-			<h4 id="{{u.username}}" class="col-xs-3 padding-top-10">
+			<h4 class="col-xs-3 padding-top-10">
 				{{u.username}}
 			</h4>
-			<h4 class="col-xs-2 padding-top-10">
-				<div ng-if="u.is_staff">Yes</div>
-				<div ng-if="!u.is_staff">No</div>
+			<h4 ng-if="u.is_staff" class="col-xs-2 padding-top-10">
+				Yes
+			</h4>
+			<h4 ng-if="!u.is_staff" class="col-xs-2 padding-top-10">
+				No
 			</h4>
 			<h4 ng-if="u.id !== currentUserID">
-				<button id="delete-user" class="btn btn-danger col-xs-2" type="button" ng-click="openDeleteUser(u.id, u.username)">Delete</button>
-				<button id="set-password" class="btn btn-warning col-xs-2" type="button" ng-click="openChangePass(u.id, u.username)">Reset Password</button>
-				<button id="edit-user" class="btn btn-success col-xs-2" type="button" ng-click="openEditUser(u.id, u.username, u.is_staff)">Edit</button>
+				<button id="delete-user-{{u.username}}" class="btn btn-danger col-xs-2" type="button" ng-click="openDeleteUser(u.id, u.username)">Delete</button>
+				<button id="set-password-{{u.username}}" class="btn btn-warning col-xs-2" type="button" ng-click="openChangePass(u.id, u.username)">Reset Password</button>
+				<button id="edit-user-{{u.username}}" class="btn btn-success col-xs-2" type="button" ng-click="openEditUser(u.id, u.username, u.is_staff)">Edit</button>
 			</h4>
 			<h4 ng-if="u.id === currentUserID">
-				<button id="edit-user" class="btn btn-success col-xs-2 col-xs-offset-4" type="button" ng-click="openEditUser(u.id, u.username, u.is_staff)">Edit</button>
+				<button id="edit-user-{{u.username}}" class="btn btn-success col-xs-2 col-xs-offset-4" type="button" ng-click="openEditUser(u.id, u.username, u.is_staff)">Edit</button>
 			</h4>
 		</div>
 	</div>
