@@ -33,8 +33,11 @@
 				return $http.get(apiHost + '/api/person-minimal/');
 			},
 
+			getStudent: function(id) {
+				return $http.get(apiHost + '/api/person-minimal/' + id + '/');
+			},
+
 			getProgramInstructors: function(id) {
-				console.log(id);
 				return $http.get(apiHost + '/api/instructors-minimal/?program=' + id);
 			},
 
@@ -44,6 +47,18 @@
 
 			removeProgramInstructors: function(id) {
 				return $http.delete(apiHost + '/api/instructors/' + id + '/');
+			},
+
+			getProgramStudents: function(id) {
+				return $http.get(apiHost + '/api/registrations/?program=' + id);
+			},
+
+			updateProgramStudents: function(data) {
+				return $http.post(apiHost + '/api/registrations/', data);
+			},
+
+			removeProgramStudents: function(id) {
+				return $http.delete(apiHost + '/api/registrations/?person=' + id);
 			}
 		};
 	}]);
