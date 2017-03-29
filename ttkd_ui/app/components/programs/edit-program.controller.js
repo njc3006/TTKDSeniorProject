@@ -122,7 +122,7 @@
         $scope.updateStudents = function(){
             angular.forEach($scope.newStudents, function(value){
                 var payload = {
-                    person: value.id,
+                    person: value.student.id,
                     program: $stateParams.curProgram.id,
                     is_partial: false
                 };
