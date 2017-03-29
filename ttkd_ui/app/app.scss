@@ -30,14 +30,27 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 @import "./components/studentlist/studentlist";
 @import "./components/importexport/importexport";
 @import "./components/programs/programs";
+@import "./components/user-management/user-management";
 
 // Push containers below navbar
 #appContainer {
 	padding-top: 20px;
 }
 
+.padding-top-7 {
+	padding-top: 7px;
+}
+
+.padding-top-10 {
+	padding-top: 10px;
+}
+
 .spacer-top-10 {
 	margin-top: 10px;
+}
+
+.spacer-5 {
+	margin-bottom: 5px;
 }
 
 .spacer-10 {

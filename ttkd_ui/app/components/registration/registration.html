@@ -2,6 +2,7 @@
 	<div class="col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1">
 		<ul class="nav nav-pills nav-stacked">
 			<li
+				id="tab{{$index}}"
 				ng-repeat="section in formSections"
 				role="presentation"
 				ng-class="{active: $index === currentSelectionIndex, disabled: !canVisit($index)}"
@@ -21,11 +22,11 @@
 				<span ng-if="partialNotLoadedStatus === 500">Internal server Error</span>
 			</strong>
 		</div>
-		<div class="alert alert-danger" role="alert" ng-show="registrationFailure">
+		<div id="failureAlert" class="alert alert-danger" role="alert" ng-show="registrationFailure">
 			<strong>Registration failed</strong>
 			<strong ng-if="isPartialRegistration">
 				<ul>
-					<li ng-if="missingEmailAndPhone">Missing phone number or email address</li>
+					<li id="missingEmailAndPhone" ng-if="missingEmailAndPhone">Missing phone number or email address</li>
 					<li ng-repeat="error in registrationErrors track by $index">{{error}}</li>
 				</ul>
 			</strong>
@@ -58,6 +59,7 @@
 				<div class="row" ng-if="!isPartialRegistration">
 					<div class="col-sm-6" ng-show="currentSelectionIndex !== (formSections.length - 1)">
 						<button
+							id="contiue-button"
 							ng-if="!isPartialRegistration"
 							class="btn btn-primary btn-lg btn-block"
 							type="button"
@@ -66,6 +68,7 @@
 							Continue
 						</button>
 						<button
+							id="contiue-button"
 							ng-if="isPartialRegistration"
 							class="btn btn-primary btn-lg btn-block"
 							type="button"

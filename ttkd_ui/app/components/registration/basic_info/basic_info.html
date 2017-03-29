@@ -65,15 +65,17 @@
 
 <div class="spacer-25"
 	ng-class="{'has-error': (registrationForm.dob.$invalid && !registrationForm.dob.$pristine) || isTooYoung(), 'has-success': (fieldHasSuccess('dob') && registrationForm.dob.$valid) && !isTooYoung()}">
-	<label class="control-label">Date of Birth (format: MM/DD/YYYY)</label>
+	<label class="control-label">Date of Birth</label>
 	<div class="input-group">
 		<input
 			type="text"
 			class="form-control"
 			name="dob"
 			form-focus="currentFocusIndex === 3"
+			ng-readonly="true"
 			ng-focus="setFocus(3)"
 			ng-required="isFieldRequired('dob')"
+			ng-click="openCalendar($event)"
 			uib-datepicker-popup="MM/dd/yyyy"
 			ng-model="registrationInfo.person.dob.value"
 			is-open="registrationInfo.person.dob.open"
@@ -239,6 +241,7 @@
 					<i class="glyphicon glyphicon-plus"></i>
 				</button>
 				<button
+					id="remove{{$index}}"
 					type="button"
 					class="btn btn-danger"
 					ng-click="removeEmail($index)"
@@ -247,6 +250,7 @@
 				</button>
 			</span>
 			<input
+				id="email{{$index}}"
 				type="email"
 				name="email"
 				class="form-control"

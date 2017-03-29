@@ -11,6 +11,13 @@
 		<strong>Could not retrieve student data</strong>
 	</div>
 
+	<div class="row form-group spacer-20" ng-show="studentLoaded">
+		<button id="backBtn" class="btn btn-primary" ng-click="backNavigate()">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+			Back
+		</button>
+	</div>
+
 	<div ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
 		<div class="row spacer-20">
 			<div class="col-sm-2" style="padding-left: 0px">
@@ -59,7 +66,10 @@
 						{{studentInfo.firstName}} {{studentInfo.lastName}}
 					</span>
 					<div class="btn-group pull-right">
-						<a class="btn btn-warning" ui-sref="editStudentDetails({studentId: studentInfo.id})">Edit</a>
+						<a class="btn btn-warning"
+						   ui-sref="editStudentDetails({studentId: studentInfo.id,
+						   			viewBackToCheckinID: viewBackToCheckinID,
+						   			viewBackToAttendance: viewBackToAttendance})">Edit</a>
 					</div>
 				</div>
 				<div class="row h4 spacer-10 normal-text">
@@ -121,6 +131,12 @@
 					<ng-include
 						src="'components/students/detail/view/attendance/attendance.html'"
 						ng-controller="StudentAttendanceCtrl">
+					</ng-include>
+				</uib-tab>
+        <uib-tab heading="Achievements">
+					<ng-include
+						src="'components/students/detail/view/belt_stripe_history/belts-stripes-history.html'"
+						ng-controller="BeltsStripesHistoryCtrl">
 					</ng-include>
 				</uib-tab>
 				<uib-tab heading="Waiver">

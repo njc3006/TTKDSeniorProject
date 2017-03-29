@@ -1,6 +1,11 @@
 <div class="container">
 	<div class="alert alert-danger" ng-show="requestFlags.submission.failure" uib-alert close="closeErrorAlert()">
-		There was an error submitting the information changes
+		Submission Errors:
+		<ul>
+			<li ng-repeat="error in failureDetails | orderBy: 'error'">
+				{{error}}
+			</li>
+		</ul>
 	</div>
 
 	<div class="alert alert-success" ng-show="requestFlags.submission.success" uib-alert close="closeSuccessAlert()">
@@ -16,7 +21,7 @@
 	</div>
 
 	<div class="row form-group spacer-20" ng-show="!requestFlags.loading.failure && requestFlags.loading.done">
-		<button class="btn btn-primary" ng-click="backNavigate()">
+		<button id="backBtn" class="btn btn-primary" ng-click="backNavigate()">
 			<span class="glyphicon glyphicon-chevron-left"></span>
 			Back
 		</button>
@@ -71,6 +76,7 @@
 				<div class="form-group col-xs-2">
 					<label class="control-label">Active Status</label>
 					<button
+						id="activeBtn"
 						type="button"
 						class="form-control btn"
 						uib-btn-checkbox
@@ -279,11 +285,11 @@
 							</span>
 						</div>
 				</uib-tab>
-		
+
 				<uib-tab heading="Miscellaneous Notes" ng-if="userlevel !== 0">
 					<textarea class="form-control" rows="8" ng-model="studentInfo.misc_notes"></textarea>
 				</uib-tab>
-			
+
 				<uib-tab heading="Emergency Contacts" ng-if="userlevel !== 0">
 					<h2>Primary Emergency Contact</h2>
 					<emergency-contact-input
@@ -298,13 +304,13 @@
 						required="anySecondaryContactInfoEntered()">
 					</emergency-contact-input>
 				</uib-tab>
-				
+
+        <uib-tab heading="Stripe Assignment">
+          <stripe-select student-stripes="studentInfo.stripes"></stripe-select>
+        </uib-tab>
+
 				<uib-tab heading="Belt Assignment">
 					<belt-select current-belt="currentBelt" new-belt="studentInfo.newBelt"></belt-select>
-				</uib-tab>
-
-				<uib-tab heading="Stripe Assignment">
-					<stripe-select student-stripes="studentInfo.stripes"></stripe-select>
 				</uib-tab>
 
 				<uib-tab heading="Programs">
@@ -337,6 +343,6 @@
 				<textarea class="form-control" rows="8" ng-model="studentInfo.misc_notes"></textarea>
 			</div>
 		</div>
-		<button type="submit" class="btn btn-primary btn-lg spacer-25" ng-disabled="!editForm.$valid">Update</button>
+		<button id="updateBtn" type="submit" class="btn btn-primary btn-lg spacer-25" ng-disabled="!editForm.$valid">Update</button>
 	</form>
 </div>

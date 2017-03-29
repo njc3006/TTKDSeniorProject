@@ -63,7 +63,7 @@ describe('Student Checkin', function () {
         });
     });
 
-    it('Login and assert date and mode buttons are present', function () {
+    it('Login and assert date and mode buttons are present for both admin and instructor', function () {
         element(by.id('login')).click();
         browser.driver.sleep(1000);
 
@@ -78,10 +78,30 @@ describe('Student Checkin', function () {
         expect(element.all(by.id('editModeBtn')).count()).toBe(1);
         expect(element.all(by.id('datePicker')).count()).toBe(1);
 
+        element(by.id('userBtn')).click();
+        element(by.id('logout')).click();
+        browser.driver.sleep(3000);
+
+        element(by.id('login')).click();
+        browser.driver.sleep(1000);
+
+        element(by.name('username')).sendKeys('instruct');
+        element(by.name('password')).sendKeys('admin');
+        element(by.id('loginBtn')).click();
+
+        element(by.id('instructorCheckinBtn')).click();
+        browser.driver.sleep(3000);
+
+        expect(element.all(by.id('checkinModeBtn')).count()).toBe(1);
+        expect(element.all(by.id('viewModeBtn')).count()).toBe(1);
+        expect(element.all(by.id('editModeBtn')).count()).toBe(1);
+        expect(element.all(by.id('datePicker')).count()).toBe(1);
+
+        element(by.id('userBtn')).click();
         element(by.id('logout')).click();
     });
 
-    it('Login and un-checkin the first person, and checkin the last', function () {
+    it('Login as an admin and un-checkin the first person, and checkin the last', function () {
         element(by.id('login')).click();
         browser.driver.sleep(1000);
 
@@ -91,7 +111,7 @@ describe('Student Checkin', function () {
 
         browser.driver.sleep(3000);
 
-         var firstStudent = element.all(by.css('.checked')).first();
+        var firstStudent = element.all(by.css('.checked')).first();
         // verify that we retrieved a student
         expect(firstStudent.isPresent()).toBeTruthy();
 
@@ -121,10 +141,267 @@ describe('Student Checkin', function () {
             });
         });
 
+        element(by.id('userBtn')).click();
         element(by.id('logout')).click();
     });
 
-    // TODO create tests to assert the date picker works, and the other two modes work
-    // TODO long term add an instructor to the class and make sure all functions work with them
+    it('Login as an instructor and un-checkin the only checked in person', function () {
+        element(by.id('login')).click();
+        browser.driver.sleep(1000);
+
+        element(by.name('username')).sendKeys('instruct');
+        element(by.name('password')).sendKeys('admin');
+        element(by.id('loginBtn')).click();
+
+        browser.driver.sleep(3000);
+
+        var checkedInStudent = element.all(by.css('.checked')).first();
+        // verify that we retrieved a student
+        expect(checkedInStudent.isPresent()).toBeTruthy();
+
+        element.all(by.css('.checked')).count().then(function (oldNumChecked) {
+            // click and un-check them in
+            checkedInStudent.click();
+            browser.driver.sleep(1);
+            browser.waitForAngular();
+            // verify student was checked in
+            element.all(by.css('.checked')).count().then(function (newNumChecked) {
+                expect(newNumChecked).toEqual(oldNumChecked - 1);
+            });
+        });
+
+        element(by.id('userBtn')).click();
+        element(by.id('logout')).click();
+    });
+
+    it('Login as an instructor and checkin someone for the 7th of the month', function () {
+        element(by.id('login')).click();
+        browser.driver.sleep(1000);
+
+        element(by.name('username')).sendKeys('instruct');
+        element(by.name('password')).sendKeys('admin');
+        element(by.id('loginBtn')).click();
+
+        browser.driver.sleep(3000);
+
+        element(by.id('calendarBtn')).click();
+        // Find the first 7 in the calendar and click on it using xpath
+        element(by.xpath('(//span[text()=\'07\'])[1]')).click();
+        browser.driver.sleep(3000);
+
+        var firstStudent = element.all(by.css('.unchecked')).first();
+        // verify that we retrieved a student
+        expect(firstStudent.isPresent()).toBeTruthy();
+
+        element.all(by.css('.checked')).count().then(function (oldNumChecked) {
+            // click and check them in
+            firstStudent.click();
+            browser.driver.sleep(1);
+            browser.waitForAngular();
+            // verify student was checked in
+            element.all(by.css('.checked')).count().then(function (newNumChecked) {
+                expect(newNumChecked).toEqual(oldNumChecked + 1);
+            });
+        });
+
+        element(by.id('userBtn')).click();
+        element(by.id('logout')).click();
+    });
+
+    it('Login as an instructor and un-checkin someone for the 7th of the month', function () {
+        element(by.id('login')).click();
+        browser.driver.sleep(1000);
+
+        element(by.name('username')).sendKeys('instruct');
+        element(by.name('password')).sendKeys('admin');
+        element(by.id('loginBtn')).click();
+
+        browser.driver.sleep(3000);
+
+        element(by.id('calendarBtn')).click();
+        // Find the first 7 in the calendar and click on it using xpath
+        element(by.xpath('(//span[text()=\'07\'])[1]')).click();
+        browser.driver.sleep(3000);
+
+        var firstStudent = element.all(by.css('.checked')).first();
+        // verify that we retrieved a student
+        expect(firstStudent.isPresent()).toBeTruthy();
+
+        element.all(by.css('.checked')).count().then(function (oldNumChecked) {
+            // click and un-check them in
+            firstStudent.click();
+            browser.driver.sleep(1);
+            browser.waitForAngular();
+            // verify student was checked in
+            element.all(by.css('.checked')).count().then(function (newNumChecked) {
+                expect(newNumChecked).toEqual(oldNumChecked - 1);
+            });
+        });
+
+        element(by.id('userBtn')).click();
+        element(by.id('logout')).click();
+    });
+
+    it('Login as an instructor no one is checked in on the the 7th of the month', function () {
+        element(by.id('login')).click();
+        browser.driver.sleep(1000);
+
+        element(by.name('username')).sendKeys('instruct');
+        element(by.name('password')).sendKeys('admin');
+        element(by.id('loginBtn')).click();
+
+        browser.driver.sleep(3000);
+
+        element(by.id('calendarBtn')).click();
+        // Find the first 7 in the calendar and click on it using xpath
+        element(by.xpath('(//span[text()=\'07\'])[1]')).click();
+        browser.driver.sleep(3000);
+
+        var numChecked = element.all(by.css('.checked')).count();
+        // verify that we retrieved a student
+        expect(numChecked).toBe(0);
+
+        element(by.id('userBtn')).click();
+        element(by.id('logout')).click();
+    });
+
+    it('Login as an instructor and test the view button', function () {
+        element(by.id('login')).click();
+        browser.driver.sleep(1000);
+
+        element(by.name('username')).sendKeys('instruct');
+        element(by.name('password')).sendKeys('admin');
+        element(by.id('loginBtn')).click();
+
+        browser.driver.sleep(3000);
+
+        element(by.id('viewModeBtn')).click();
+
+        // Click on Brenda TTKD now that we are in view mode
+        element(by.xpath('//span[text()=\'Brenda TTKD\']')).click();
+
+        browser.driver.sleep(3000);
+
+        // Now that we are on the page, make sure it is Brenda's by finding her name and address.
+        // Using a contains here because the span has a newline in it or something weird
+        var countOfName = element.all(by.xpath('//span[contains(text(),\'Brenda TTKD\')]')).count();
+        expect(countOfName).toBe(1);
+
+        var countOfAddress = element.all(
+            by.xpath('//span[text()=\'Address: 123 TTKD Lane, No Where, KS 12345\']')).count();
+        expect(countOfAddress).toBe(1);
+
+        element(by.id('userBtn')).click();
+        element(by.id('logout')).click();
+    });
+
+    it('Login as an admin and test the view button', function () {
+        element(by.id('login')).click();
+        browser.driver.sleep(1000);
+
+        element(by.name('username')).sendKeys('admin');
+        element(by.name('password')).sendKeys('admin');
+        element(by.id('loginBtn')).click();
+
+        browser.driver.sleep(3000);
+
+        element(by.id('viewModeBtn')).click();
+
+        // Click on Brenda TTKD now that we are in view mode
+        element(by.xpath('//span[text()=\'Brenda TTKD\']')).click();
+
+        browser.driver.sleep(3000);
+
+        // Now that we are on the page, make sure it is Brenda's by finding her name and address.
+        // Using a contains here because the span has a newline in it or something weird
+        var countOfName = element.all(by.xpath('//span[contains(text(),\'Brenda TTKD\')]')).count();
+        expect(countOfName).toBe(1);
+
+        var countOfAddress = element.all(
+            by.xpath('//span[text()=\'Address: 123 TTKD Lane, No Where, KS 12345\']')).count();
+        expect(countOfAddress).toBe(1);
+
+        element(by.id('userBtn')).click();
+        element(by.id('logout')).click();
+    });
+
+    it('Login as an instructor and test the edit button', function () {
+        element(by.id('login')).click();
+        browser.driver.sleep(1000);
+
+        element(by.name('username')).sendKeys('instruct');
+        element(by.name('password')).sendKeys('admin');
+        element(by.id('loginBtn')).click();
+
+        browser.driver.sleep(3000);
+
+        element(by.id('editModeBtn')).click();
+
+        // Click on Brenda TTKD now that we are in edit mode
+        element(by.xpath('//span[text()=\'Brenda TTKD\']')).click();
+
+        browser.driver.sleep(3000);
+
+        // Now that we are on edit page, make sure there is current belt, and that there is not
+        // a first name input which would mean we are on an admin edit student
+        // Using a contains here because the span has a newline in it or something weird
+        var countOfBelt = element.all(by.xpath('//span[contains(text(),\'Current belt\')]')).count();
+        expect(countOfBelt).toBe(1);
+
+        var countOfNameInput = element.all(by.css('input[name=\'firstName\']')).count();
+        expect(countOfNameInput).toBe(0);
+
+        element(by.id('backBtn')).click();
+        browser.driver.sleep(3000);
+
+        // Validate we are on the checkin page again by finding unchecked class
+        expect(element.all(by.css('.unchecked')).count()).toBeGreaterThan(0);
+
+        // Make sure we are still in edit mode after returning
+        var valueOfActive =  element(by.id('editModeBtn')).getAttribute('class');
+        expect(valueOfActive).toContain('active');
+
+        element(by.id('userBtn')).click();
+        element(by.id('logout')).click();
+    });
+
+    it('Login as an admin and test the edit button', function () {
+        element(by.id('login')).click();
+        browser.driver.sleep(1000);
+
+        element(by.name('username')).sendKeys('admin');
+        element(by.name('password')).sendKeys('admin');
+        element(by.id('loginBtn')).click();
+
+        browser.driver.sleep(3000);
+
+        element(by.id('editModeBtn')).click();
+
+        // Click on Brenda TTKD now that we are in edit mode
+        element(by.xpath('//span[text()=\'Brenda TTKD\']')).click();
+
+        browser.driver.sleep(3000);
+
+        // Now that we are on edit page, make sure there is a first name input which would mean we
+        // are on an admin edit student
+
+        var countOfNameInput = element.all(by.css('input[name=\'firstName\']')).count();
+        expect(countOfNameInput).toBe(1);
+
+        element(by.id('backBtn')).click();
+        browser.driver.sleep(3000);
+
+        // Validate we are on the checkin page again by finding unchecked class
+        expect(element.all(by.css('.unchecked')).count()).toBeGreaterThan(0);
+
+        // Make sure we are still in edit mode after returning
+        var valueOfActive =  element(by.id('editModeBtn')).getAttribute('class');
+        expect(valueOfActive).toContain('active');
+
+        element(by.id('userBtn')).click();
+        element(by.id('logout')).click();
+    });
+
+    // TODO once the ui supports it, add an instructor to the class and make sure all functions work with them
 
 });

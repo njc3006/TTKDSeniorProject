@@ -17,22 +17,28 @@
     <div class="navbar-text navbar-center hidden-xs hidden-sm"><p>{{currentProgram.name}}</p></div>
 
     <div class="navbar-collapse collapse pulled-text">
-        <ul class="nav navbar-nav navbar-left">
-            <li>
-                <a href="#/">Tioga Tae Kwon Do</a>
-            </li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li ng-if="!loggedin" ng-click="openLogin()" id="login">
-                <p class="navbar-text">Login</p>
-            </li>
-            <li ng-if="loggedin">
-                <p class="navbar-text text-capitalize">{{currentUser}}</p>
-            </li>
-            <li ng-if="loggedin" ng-click="logout()" id="logout">
-                <p class="navbar-text">Logout</p>
-            </li>
-        </ul>
-    </div>
+      <ul class="nav navbar-nav navbar-left">
+          <li>
+              <a href="#/">Tioga Tae Kwon Do</a>
+          </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a href="" ng-if="!loggedin" ng-click="openLogin()" id="login">Login</a>
+        <!-- Single button with keyboard nav -->
+          <div ng-if="loggedin" uib-dropdown keyboard-nav>
+            <button id="userBtn" type="button" class="btn btn-primary" uib-dropdown-toggle>
+              {{currentUser}} <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="simple-btn-keyboard-nav">
+              <li role="menuitem"><a href="#" ng-click="openChangePass()">Change Password</a></li>
+              <li role="menuitem" ng-if="userlevel >= 1"><a ui-sref="userManagement" ui-sref-active="active">Manage Accounts</a></li>
+              <li class="divider"></li>
+              <li role="menuitem"><a href="#" ng-click="logout()" id="logout">Logout</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div><!--/.nav-collapse -->
   </div>
 </nav>

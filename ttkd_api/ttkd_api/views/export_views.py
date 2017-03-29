@@ -250,7 +250,7 @@ def export_to_excel(request):
 
     num_emails = 1
 
-    contacts = Person.objects.all().prefetch_related('classes').order_by('last_name')
+    contacts = Person.objects.all().order_by('last_name')
 
     row = 1
     column = 0
