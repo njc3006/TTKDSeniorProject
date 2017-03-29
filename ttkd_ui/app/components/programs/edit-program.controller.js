@@ -166,7 +166,6 @@
                             function(response){
                                 $scope.removeInstructors.splice($scope.removeInstructors.indexOf(value), 1);
                             }, function(error){
-                                console.log($scope.removeInstructors);
                                 $scope.alerts.errorText = 'Failed to remove instructor';
                                 $scope.promiseError = true;
                             })
@@ -253,11 +252,5 @@
 
 
         $scope.loadInfo();
-
-          //date picker watcher
-        $scope.$watch('loadingPromises', function(newValue, oldValue) {
-            console.log($scope.loadingPromises);
-        });
-
     }]);
 })();

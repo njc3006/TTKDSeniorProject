@@ -16,20 +16,18 @@
             <strong>Loading...</strong>
         </div>
     </div>
-   
+
     <div ng-show="loaded">
         <div class="col-sm-10 col-sm-offset-1">
             <div class="row">
-            <h3 class="spacer-20 col-xs-10">Edit Program</h3>
-
-            <div class="col-xs-2 program-save-btn">
-                <button type="submit" class="btn btn-success pull-right spacer-25" ng-click="updateProgram()">Save</button>
+                <h3 class="spacer-20 col-xs-10">Edit Program</h3>
+                <div class="col-xs-2 program-save-btn">
+                    <button type="submit" class="btn btn-success pull-right spacer-25" ng-click="updateProgram()">Save</button>
+                </div>
             </div>
-            </div>
-
             <div class="row col-xs-10">
-                <div>  
-                    <input type="text" class="form-control" id="program" ng-model="program.name" maxlength="50" placeholder="program Name">
+                <div>
+                    <input type="text" class="form-control" id="program" ng-model="program.name" maxlength="50" placeholder="Program Name">
                 </div>
             </div>
             <span class="checkbox-inline csv-spacer program-active-checkbox col-xs-2">
@@ -59,11 +57,12 @@
             </div>
             <div class="">
                 <div class="input-group col-sm-12">
-                    <input 
-                        type="text" 
+                    <input
+                        placeholder="Search For A Student To Add As An Instructor"
+                        type="text"
                         ng-model="selectedInstructor"
                         typeahead-on-select="addInstructor()"
-                        uib-typeahead="person as person.name for person in people | filter:{name:$viewValue} | limitTo:10" 
+                        uib-typeahead="person as person.name for person in people | filter:{name:$viewValue} | limitTo:10"
                         class="form-control">
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-success" ng-click="addInstructor()">
@@ -90,11 +89,12 @@
             </div>
             <div class="spacer-35">
                 <div class="input-group col-sm-12">
-                    <input 
-                        type="text" 
+                    <input
+                        placeholder="Search For A Student To Add To This Program"
+                        type="text"
                         ng-model="selectedStudent"
                         typeahead-on-select="addStudent()"
-                        uib-typeahead="person as person.name for person in people | filter:{name:$viewValue} | limitTo:10" 
+                        uib-typeahead="person as person.name for person in people | filter:{name:$viewValue} | limitTo:10"
                         class="form-control">
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-success" ng-click="addStudent()">
