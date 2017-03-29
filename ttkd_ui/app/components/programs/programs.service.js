@@ -58,7 +58,7 @@
 			},
 
 			removeProgramStudents: function(id) {
-				return $http.delete(apiHost + '/api/registrations/?person=' + id);
+				return $http.delete(apiHost + '/api/registrations/' + id + '/');
 			}
 		};
 	}]);

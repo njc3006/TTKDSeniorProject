@@ -6,13 +6,13 @@
         function($scope, $rootScope, $state, $stateParams, ProgramsSvc) {
         $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
 
-        $scope.people = [];
-        $scope.instructors = [];
-        $scope.newInstructors = [];
-        $scope.removeInstructors = [];
-        $scope.students = [];
-        $scope.newStudents = [];
-        $scope.removeStudents = [];
+        $scope.people = [];             //list of all students to populate the typeahead dropdown
+        $scope.instructors = [];        //list of all instructors for a program
+        $scope.newInstructors = [];     //list of instructors to be added to a program
+        $scope.removeInstructors = [];  //list of instructors to be removed from a program
+        $scope.students = [];           //list of all students of a program
+        $scope.newStudents = [];        //list of students to be added to a program
+        $scope.removeStudents = [];     //list of students to be removed from a program
 
         $scope.program = $stateParams.curProgram;
         
@@ -34,13 +34,12 @@
         $scope.getPeople = function() {
             ProgramsSvc.getPeople().then(
                 function(response){
-                    var data = response.data;
-
-                    angular.forEach(data, function(value){
+                    angular.forEach(response.data, function(value){
+                        //filtering by full name requires a single property with the full name, which the objects don't include
                         value.name = value.first_name + ' ' + value.last_name;
                     });
 
-                    $scope.people = data;
+                    $scope.people = response.data;
 
                 }, function(error){
                     $scope.alerts.errorText = "Failed to get list of students";
@@ -51,12 +50,16 @@
         $scope.getStudents = function() {
             ProgramsSvc.getProgramStudents($stateParams.curProgram.id).then(
                 function(response){
-                    var data = response.data;
-
-                    angular.forEach(data, function(value){
+                    angular.forEach(response.data, function(value){
                         ProgramsSvc.getStudent(value.person).then(
                             function(student){
-                                $scope.students.push(student.data);
+                                //in order to remove students from a program we need to know the program registration id, so store it for later use
+                                $scope.students.push(
+                                    {
+                                        registration: value,
+                                        student: student.data
+                                    }
+                                );
                             }, function(studentError){
 
                             });
@@ -67,6 +70,7 @@
                 });
         };
 
+        //Main function to update program info, instructors, and students
         $scope.updateProgram = function() {
             $scope.clearAlerts();
 
@@ -84,6 +88,7 @@
             }
         };
 
+        //Sends API calls to add/remove instructors from the program
         $scope.updateInstructors = function(){
             angular.forEach($scope.newInstructors, function(value){
                 var payload = {
@@ -113,10 +118,9 @@
             });
         };
 
+        //Sends API calls to add/remove students from the program
         $scope.updateStudents = function(){
             angular.forEach($scope.newStudents, function(value){
-                
-                console.log(value);
                 var payload = {
                     person: value.id,
                     program: $stateParams.curProgram.id,
@@ -134,9 +138,7 @@
             });
 
             angular.forEach($scope.removeStudents, function(value){
-               
-                console.log(value);
-                ProgramsSvc.removeProgramStudents(value.id).then(
+                ProgramsSvc.removeProgramStudents(value.registration.id).then(
                     function(response){
                         console.log("successfully removed student");
                         $scope.removeStudents.splice($scope.removeStudents.indexOf(value), 1);
@@ -155,7 +157,7 @@
 
                 $scope.newInstructors.push(instructor);
                 $scope.instructors.push(instructor);
-                delete $scope.selectedInstructor;
+                delete $scope.selectedInstructor; //clear the input field
             }
         };
 
@@ -166,10 +168,10 @@
 
         $scope.addStudent = function(){
             if($scope.selectedStudent){
-                delete $scope.selectedStudent.name;
-                $scope.newStudents.push($scope.selectedStudent);
-                $scope.students.push($scope.selectedStudent);
-                delete $scope.selectedStudent;
+                delete $scope.selectedStudent.name; //this isn't part of the schema and is only used on the front end
+                $scope.newStudents.push({student: $scope.selectedStudent});
+                $scope.students.push({student: $scope.selectedStudent});
+                delete $scope.selectedStudent; //clear the input field
             }
         };
 
@@ -177,15 +179,6 @@
             $scope.removeStudents.push($scope.students[index]);
             $scope.students.splice(index, 1);
         };
-
-        // $scope.updateSelected = function(value, type){
-        //     console.log("hit");
-        //     if(type === 'instructor'){
-        //         $scope.newInstructor = value;
-        //     } else {
-        //         $scope.newStudent = value;
-        //     }
-        // };
 
         $scope.clearAlerts = function() {
             $scope.alerts.success = false;
@@ -197,6 +190,7 @@
             $state.go('editPrograms');
         };
 
+        //Load all of the needed data
         $scope.getPeople();
         $scope.getInstructors();
         $scope.getStudents();
