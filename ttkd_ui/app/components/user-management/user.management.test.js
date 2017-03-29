@@ -1,9 +1,9 @@
 // Describe the group of tests
 var Logout = function() {
-    element(by.id('account')).click();
+    element(by.id('userBtn')).click();
     browser.driver.sleep(1);
     element(by.id('logout')).click();
-    browser.driver.sleep(3000);
+    browser.driver.sleep(1000);
 };
 
 var Login = function(username, password) {
@@ -14,7 +14,7 @@ var Login = function(username, password) {
     element(by.name('password')).sendKeys(password);
     element(by.id('loginBtn')).click();
 
-    browser.driver.sleep(3000);
+    browser.driver.sleep(1000);
 };
 
 describe('User Management', function () {
@@ -29,18 +29,10 @@ describe('User Management', function () {
     afterEach(() => {
     });
 
-    it('Test instructor can\'t see manage user button in dropdown', function() {
-        Login('instruct', 'admin');
-
-        element(by.id('account')).click();
-        browser.driver.sleep(1);
-        expect(element.all(by.id('manageAccounts')).count()).toBe(0);
-    });
-
     it('Test instructor can change own password', function() {
         Login('instruct', 'admin');
 
-        element(by.id('account')).click();
+        element(by.id('userBtn')).click();
         browser.driver.sleep(1);
         element(by.id('changePass')).click()
         browser.driver.sleep(1);
@@ -57,7 +49,7 @@ describe('User Management', function () {
         Login('instruct', 'instruct');
         expect(element.all(by.id('login')).count() !== 0);
 
-        element(by.id('account')).click();
+        element(by.id('userBtn')).click();
         browser.driver.sleep(1);
         element(by.id('changePass')).click()
         browser.driver.sleep(1);
@@ -70,8 +62,18 @@ describe('User Management', function () {
     it('Test admin can see manage user button in dropdown', function() {
         Login('admin', 'admin');
 
-        element(by.id('account')).click();
+        element(by.id('userBtn')).click();
         browser.driver.sleep(1);
         expect(element.all(by.id('manageAccounts')).count()).toBe(1);
+    });
+
+    it('Test instructor can not see manage user button in dropdown', function() {
+        Login('instruct', 'admin');
+        browser.driver.sleep(10000);
+        element(by.id('userBtn')).click();
+        console.log('We got here');
+        browser.driver.sleep(10000);
+        browser.driver.sleep(1);
+        expect(element.all(by.id('manageAccounts')).count()).toBe(0);
     });
 });
