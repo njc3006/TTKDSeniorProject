@@ -6,10 +6,10 @@
         function($scope, $rootScope, $state, $stateParams, ProgramsSvc) {
         $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
 
-        $scope.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
-
         $scope.people = [];
         $scope.instructors = [];
+        $scope.newInstructors = [];
+        $scope.removeInstructors = [];
         $scope.program = $stateParams.curProgram;
         $scope.alerts = {
             success: false,
@@ -18,10 +18,12 @@
         };
 
         $scope.getInstructors = function() {
-            ProgramsSvc.getProgramInstructors().then(
+            ProgramsSvc.getProgramInstructors($stateParams.curProgram.id).then(
                 function(response){
                    $scope.instructors = response.data;
-                });
+                }, function(error){
+                    console.log("failed to get instructors");
+            });
         };
 
         $scope.getPeople = function() {
@@ -47,34 +49,61 @@
             if($scope.program) {
                 ProgramsSvc.updateProgram($scope.program, $scope.program.id).then(
                     function(response){
-                        // $state.go('editPrograms');
-                        $scope.alerts.success = true;
+                        console.log("updated program info");
                     }, function(error){
-                        $scope.alerts.errorText = "Failed to update program data";
-                        $scope.alerts.error = true;
-                    });
+                        console.log("failed to update program info");
+                    }
+                );
 
-                // ProgramsSvc.updateProgramInstructors($scope.instructors).then(
-                //     function(response){
-                //         $scope.alerts.success = true;
-                //     }, function(error){
-                //         $scope.alerts.errorText = "Faield to update instructor data";
-                //         $scope.alerts.error = true;
-                //     });
+                angular.forEach($scope.newInstructors, function(value){
+                    var payload = {
+                        person: value.person.id,
+                        program: $stateParams.curProgram.id
+                    };
+
+                    ProgramsSvc.updateProgramInstructors(payload).then(
+                        function(response){
+                            console.log("added new instructor");
+                            $scope.newInstructors.splice($scope.newInstructors.indexOf(value), 1);
+                        }, function(error){
+                            console.log("failed to add new instructor");
+                            $scope.alerts.errorText = "Failed to update instructor data";
+                        });
+                });
+
+                angular.forEach($scope.removeInstructors, function(value){
+                    console.log(value.id);
+                    ProgramsSvc.removeProgramInstructors(value.id).then(
+                        function(response){
+                            console.log("successfully removed instructor");
+                            $scope.removeInstructors.splice($scope.removeInstructors.indexOf(value), 1);
+                        }, function(error){
+                            console.log("failed to remove instructor");
+                            $scope.alerts.errorText = "Failed to update instructor data";
+                        });
+                });
             }
         };
 
         $scope.addInstructor = function(){
-            $scope.instructors.push($scope.selected);
-            $scope.selected = '';
+            if($scope.selected){
+                var instructor = {
+                    person: $scope.selected
+                };
+
+                $scope.newInstructors.push(instructor);
+                $scope.instructors.push(instructor);
+                delete $scope.selected;
+            }
         };
 
         $scope.removeInstructor = function(index){
+            $scope.removeInstructors.push($scope.instructors[index]);
             $scope.instructors.splice(index, 1);
+            console.log($scope.instructors);
         };
 
         $scope.updateSelected = function(instructor){
-            console.log(instructor);
             $scope.newInstructor = instructor;
         }
 

@@ -33,12 +33,17 @@
 				return $http.get(apiHost + '/api/person-minimal/');
 			},
 
-			getProgramInstructors: function() {
-				return $http.get(apiHost + '/api/instructors/');
+			getProgramInstructors: function(id) {
+				console.log(id);
+				return $http.get(apiHost + '/api/instructors-minimal/?program=' + id);
 			},
 
 			updateProgramInstructors: function(data) {
 				return $http.post(apiHost + '/api/instructors/', data);
+			},
+
+			removeProgramInstructors: function(id) {
+				return $http.delete(apiHost + '/api/instructors/' + id + '/');
 			}
 		};
 	}]);

@@ -15,13 +15,13 @@
         </div>
     </div>
     <div class="col-sm-10 col-sm-offset-1">
-        <h3 class="">Edit Program</h3>
-        <div class="row no-margins">
+        <h3 class="spacer-20">Edit Program</h3>
+        <div class="row col-xs-10">
             <div>  
                 <input type="text" class="form-control" id="program" ng-model="program.name" maxlength="50" placeholder="program Name">
             </div>
         </div>
-        <span class="checkbox-inline csv-spacer program-active-checkbox">
+        <span class="checkbox-inline csv-spacer program-active-checkbox col-xs-2">
             <label class="csv-checkbox">Active
                 <input
                     ng-model="program.active"
@@ -31,11 +31,10 @@
                     checked = checked>
             </label>
         </span>
-
-        <h4 class="">Student Instructors</h4>
+        <h4 class="col-xs-12 programs-instruct-title no-padding">Student Instructors</h4>
         <div ng-repeat="instructor in instructors" class="spacer-10">
             <div class="input-group col-sm-12 spacer-10">
-                <span class="form-control text-capitalize">{{instructor.name}}</span>
+                <span class="form-control text-capitalize">{{instructor.person.first_name}} {{instructor.person.last_name}}</span>
                 <span class="input-group-btn">
                     <button
                         type="button"
