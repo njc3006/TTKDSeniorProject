@@ -118,7 +118,7 @@
                     url: '/programs/{curProgram:json}/edit',
                     templateUrl: 'components/programs/edit-program.html',
                     controller: 'EditProgramCtrl'
-                });
+                })
 
                 .state('beltsStripes', {
                     url: '/belts-stripes',
