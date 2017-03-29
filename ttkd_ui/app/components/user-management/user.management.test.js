@@ -41,21 +41,6 @@ describe('User Management', function () {
         //Login('admin', 'admin');
     });
 
-    it('Test admin can see manage user button in dropdown', function() {
-        
-        element(by.id('login')).click();
-        element(by.id('username')).sendKeys('admin');
-        element(by.id('password')).sendKeys('admin');
-        element(by.id('loginBtn')).click();
-
-        //Login('admin', 'admin');
-
-        element(by.id('userBtn')).click();
-        browser.driver.sleep(1);
-        expect(element.all(by.id('manageAccounts')).count()).toBe(1);
-        element(by.id('userBtn')).click();
-    });
-
     it('Test admin create new user', function() {
         
         element(by.id('login')).click();
@@ -69,8 +54,11 @@ describe('User Management', function () {
         browser.driver.sleep(1);
         expect(element.all(by.id('manageAccounts')).count()).toBe(1);
         element(by.id('manageAccounts')).click();
+        // Make sure we are on the correct page.
         var userManagement = element.all(by.xpath('//h1[contains(text(),\'User List\')]')).count();
         expect(userManagement).toBe(1);
+
+
     });
 
     it('Test instructor can not see manage user button in dropdown', function() {
@@ -111,14 +99,14 @@ describe('User Management', function () {
         browser.driver.sleep(1);
         element(by.id('logout')).click();
 
-        expect(element.all(by.id('login')).count()).toBe(0);
+        expect(element.all(by.id('login')).count()).toBe(1);
         
         element(by.id('login')).click();
         element(by.id('username')).sendKeys('instruct');
         element(by.id('password')).sendKeys('instruct');
         element(by.id('loginBtn')).click();
 
-        expect(element.all(by.id('login')).count()).toBe(1);
+        expect(element.all(by.id('login')).count()).toBe(0);
 
         element(by.id('userBtn')).click();
         browser.driver.sleep(1);
@@ -154,14 +142,14 @@ describe('User Management', function () {
         browser.driver.sleep(1);
         element(by.id('logout')).click();
 
-        expect(element.all(by.id('login')).count()).toBe(0);
+        expect(element.all(by.id('login')).count()).toBe(1);
         
         element(by.id('login')).click();
         element(by.id('username')).sendKeys('admin');
         element(by.id('password')).sendKeys('instruct');
         element(by.id('loginBtn')).click();
 
-        expect(element.all(by.id('login')).count()).toBe(1);
+        expect(element.all(by.id('login')).count()).toBe(0);
 
         element(by.id('userBtn')).click();
         browser.driver.sleep(1);
