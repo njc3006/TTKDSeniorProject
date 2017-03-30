@@ -10,9 +10,9 @@
         $scope.instructors = [];        //list of all instructors for a program
         $scope.newInstructors = [];     //list of instructors to be added to a program
         $scope.removeInstructors = [];  //list of instructors to be removed from a program
-        $scope.students = [];           //list of all students of a program
+        $scope.registrations = [];           //list of all students of a program
         $scope.newStudents = [];        //list of students to be added to a program
-        $scope.removeStudents = [];     //list of students to be removed from a program
+        $scope.removeRegistrations = [];     //list of students to be removed from a program
 
         $scope.promises = [];           //contains promises for adding/deleting/updating information
         $scope.loadingPromises = [];    //contains promises for getting information
@@ -58,41 +58,17 @@
         };
 
         $scope.getStudents = function() {
-            var promise1, promise2;
-            var tempStudents = [];
 
-            promise1 = ProgramsSvc.getProgramStudents($stateParams.curProgram.id).then(
+            var promise = ProgramsSvc.getProgramStudents($stateParams.curProgram.id).then(
                 function(response){
-                    tempStudents = response.data;
+                    $scope.registrations = response.data;
                 }, function(error){
                     $scope.alerts.errorText = 'Failed to get program\'s students';
                     $scope.alerts.error = true;
                 }
             );
 
-            promise2 = promise1.then(function(){
-                angular.forEach(tempStudents, function(value){
-                    var newPromise = ProgramsSvc.getStudent(value.person).then(
-                        function(student){
-                            //in order to remove students from a program we need to know the program registration id, so store it for later use
-                            $scope.students.push(
-                                {
-                                    registration: value,
-                                    student: student.data
-                                }
-                            );
-                        }, function(studentError){
-                            $scope.alerts.errorText = 'Failed to get program\'s students';
-                            $scope.alerts.error = true;
-                        }
-                    );
-
-                    $scope.loadingPromises.push(newPromise);
-                });
-            });
-
-            $scope.loadingPromises.push(promise1);
-            $scope.loadingPromises.push(promise2);
+            $scope.loadingPromises.push(promise);
         };
 
         //Load all of the needed data
@@ -135,6 +111,7 @@
                         $scope.alerts.success = true;
                         $scope.alerts.error = false;
                         $window.scrollTo(0, 0);
+                        $scope.backNavigate();
                     }
                 });
             }
@@ -160,7 +137,7 @@
             });
 
             angular.forEach($scope.removeInstructors, function(value){
-                if(value){
+                if(value && value.id){
                     $scope.promises.push(
                         ProgramsSvc.removeProgramInstructors(value.id).then(
                             function(response){
@@ -194,12 +171,12 @@
                 );
             });
 
-            angular.forEach($scope.removeStudents, function(value){
-                if(value && value.registration){
+            angular.forEach($scope.removeRegistrations, function(value){
+                if(value && value.id){
                     $scope.promises.push(
-                        ProgramsSvc.removeProgramStudents(value.registration.id).then(
+                        ProgramsSvc.removeProgramStudents(value.id).then(
                             function(response){
-                                $scope.removeStudents.splice($scope.removeStudents.indexOf(value), 1);
+                                $scope.removeRegistrations.splice($scope.removeRegistrations.indexOf(value), 1);
                             }, function(error){
                                 $scope.alerts.errorText = 'Failed to remove student';
                                 $scope.promiseError = true;
@@ -210,34 +187,143 @@
         };
 
         $scope.addInstructor = function(){
-            if($scope.selectedInstructor){
-                var instructor = {
-                    person: $scope.selectedInstructor
-                };
+            $scope.clearAlerts();
 
-                $scope.newInstructors.push(instructor);
-                $scope.instructors.push(instructor);
+            if($scope.selectedInstructor){
+
+                var alreadyInstructing = false;
+
+                angular.forEach($scope.instructors, function(value){
+                    if (value.person.id === $scope.selectedInstructor.id){
+                        alreadyInstructing = true;
+                    }
+                });
+
+                if (alreadyInstructing) {
+                    $scope.alerts.error = true;
+                    $scope.alerts.errorText = 'That Student Already Instructs this Program';
+                } else {
+
+                    // Lets figure out if they are in the remove list, if they are then just
+                    // put the element from the remove list back
+                    var indexToRemove = -1;
+                    angular.forEach($scope.removeInstructors, function(value){
+                        if (value.person.id === $scope.selectedInstructor.id){
+                            // -1 if not found
+                            indexToRemove = $scope.removeInstructors.indexOf(value);
+
+                            // Add it back in to the list of registrations
+                            $scope.instructors.push(value);
+                        }
+                    });
+                    if (indexToRemove !== -1){
+                        $scope.removeInstructors.splice(indexToRemove, 1);
+                    } else {
+                        // If we did't find it in the remove, then we must be good to add it to the new
+                        var instructor = {
+                        person: $scope.selectedInstructor
+                        };
+
+                        $scope.newInstructors.push(instructor);
+                        $scope.instructors.push(instructor);
+                    }
+                }
                 delete $scope.selectedInstructor; //clear the input field
             }
         };
 
         $scope.removeInstructor = function(index){
-            $scope.removeInstructors.push($scope.instructors[index]);
+            var instructor = $scope.instructors[index];
+
+            if (instructor.id){
+                // Only a real registration with an id has to be removed, if it doesn't have
+                // an id, then it doesn't exist in the api yet
+                $scope.removeInstructors.push(instructor);
+            }
+
+            // Next let's figure out if this person is in the list to add to the api
+            // if they are, we need to remove them
+            var indexToRemove = -1;
+            angular.forEach($scope.newInstructors, function(value){
+                if (value.person.id === instructor.person.id){
+                    // -1 if not found
+                    indexToRemove = $scope.newInstructors.indexOf(value);
+                }
+            });
+            if (indexToRemove !== -1){
+                $scope.newInstructors.splice(indexToRemove, 1);
+            }
+
             $scope.instructors.splice(index, 1);
         };
 
         $scope.addStudent = function(){
+            $scope.clearAlerts();
+
             if($scope.selectedStudent){
-                delete $scope.selectedStudent.name; //this isn't part of the schema and is only used on the front end
-                $scope.newStudents.push({student: $scope.selectedStudent});
-                $scope.students.push({student: $scope.selectedStudent});
+
+                var alreadyRegistered = false;
+
+                angular.forEach($scope.registrations, function(value){
+                    if (value.person.id === $scope.selectedStudent.id){
+                        alreadyRegistered = true;
+                    }
+                });
+
+                if (alreadyRegistered){
+                    $scope.alerts.error = true;
+                    $scope.alerts.errorText = 'That Student Already Belongs To this Program';
+                } else {
+                    delete $scope.selectedStudent.name; //this isn't part of the schema and is only used on the front end
+
+                    // Lets figure out if they are in the remove list, if they are then just
+                    // put the element from the remove list back
+                    var indexToRemove = -1;
+                    angular.forEach($scope.removeRegistrations, function(value){
+                        if (value.person.id === $scope.selectedStudent.id){
+                            // -1 if not found
+                            indexToRemove = $scope.removeRegistrations.indexOf(value);
+
+                            // Add it back in to the list of registrations
+                            $scope.registrations.push(value);
+                        }
+                    });
+                    if (indexToRemove !== -1){
+                        $scope.removeRegistrations.splice(indexToRemove, 1);
+                    } else {
+                        // If we did't find it in the remove, then we must be good to add it to the new
+                        $scope.newStudents.push({student: $scope.selectedStudent});
+                        $scope.registrations.push({person: $scope.selectedStudent});
+                    }
+                }
                 delete $scope.selectedStudent; //clear the input field
             }
         };
 
         $scope.removeStudent = function(index){
-            $scope.removeStudents.push($scope.students[index]);
-            $scope.students.splice(index, 1);
+            var registration = $scope.registrations[index];
+
+            if (registration.id){
+                // Only a real registration with an id has to be removed, if it doesn't have
+                // an id, then it doesn't exist in the api yet
+                $scope.removeRegistrations.push(registration);
+            }
+
+            // Next let's figure out if this person is in the list to add to the api
+            // if they are, we need to remove them
+            var indexToRemove = -1;
+            angular.forEach($scope.newStudents, function(value){
+                if (value.student.id === registration.person.id){
+
+                    // -1 if not found
+                    indexToRemove = $scope.newStudents.indexOf(value);
+                }
+            });
+            if (indexToRemove !== -1){
+                $scope.newStudents.splice(indexToRemove, 1);
+            }
+
+            $scope.registrations.splice(index, 1);
         };
 
         $scope.clearAlerts = function() {
@@ -247,9 +333,17 @@
         };
 
         $scope.backNavigate = function() {
-            $state.go('editPrograms');
-        };
+            var shouldBackNavigate = true;
 
+            if ($scope.removeInstructors.length > 0 ||  $scope.removeRegistrations.length > 0
+                || $scope.newInstructors.length > 0 ||  $scope.newStudents.length > 0) {
+                shouldBackNavigate = confirm('There are unsaved changes, are you sure you wish to leave?');
+            }
+
+            if (shouldBackNavigate){
+                $state.go('editPrograms');
+            }
+        };
 
         $scope.loadInfo();
     }]);

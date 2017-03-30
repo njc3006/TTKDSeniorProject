@@ -64,24 +64,19 @@
                         typeahead-on-select="addInstructor()"
                         uib-typeahead="person as person.name for person in people | filter:{name:$viewValue} | limitTo:10"
                         class="form-control">
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-success" ng-click="addInstructor()">
-                            <i class="glyphicon glyphicon-plus"></i>
-                        </button>
-                    </span>
                 </div>
             </div>
 
             <h4 class="col-xs-12 programs-instruct-title no-padding">Program Students</h4>
-            <div ng-repeat="student in students" class="spacer-10">
+            <div ng-repeat="registration in registrations" class="spacer-10">
                 <div class="input-group col-sm-12 spacer-10">
-                    <span class="form-control text-capitalize">{{student.student.first_name}} {{student.student.last_name}}</span>
+                    <span class="form-control text-capitalize">{{registration.person.first_name}} {{registration.person.last_name}}</span>
                     <span class="input-group-btn">
                         <button
                             type="button"
                             class="btn btn-danger"
                             ng-click="removeStudent($index)"
-                            ng-show="students.length > 0">
+                            ng-show="registrations.length > 0">
                             <i class="glyphicon glyphicon-minus"></i>
                         </button>
                     </span>
@@ -96,11 +91,6 @@
                         typeahead-on-select="addStudent()"
                         uib-typeahead="person as person.name for person in people | filter:{name:$viewValue} | limitTo:10"
                         class="form-control">
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-success" ng-click="addStudent()">
-                            <i class="glyphicon glyphicon-plus"></i>
-                        </button>
-                    </span>
                 </div>
             </div>
 

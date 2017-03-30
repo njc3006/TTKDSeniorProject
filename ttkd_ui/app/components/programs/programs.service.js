@@ -50,7 +50,7 @@
 			},
 
 			getProgramStudents: function(id) {
-				return $http.get(apiHost + '/api/registrations/?program=' + id);
+				return $http.get(apiHost + '/api/registrations-minimal/?program=' + id);
 			},
 
 			updateProgramStudents: function(data) {
