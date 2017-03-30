@@ -1,8 +1,11 @@
 <div>
 	<div class="col-sm-6">
-		<span class="h3">
+		<h3 ng-if="currentBelt">
 			Current belt: {{currentBelt.name}}
-		</span>
+		</h3>
+		<h3 ng-if="currentBelt === undefined">
+			This student does not have a belt.
+		</h3>
 	</div>
 	<div class="col-sm-6 form-group">
 		<label class="control-label">
