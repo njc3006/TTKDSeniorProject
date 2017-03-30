@@ -11,12 +11,15 @@ describe('Student List', function () {
     });
 
     beforeAll(() => {
+        browser.get(browser.params.appUrl);
+        browser.driver.sleep(1000);
         element(by.id('login')).click();
         browser.driver.sleep(1000);
 
         element(by.name('username')).sendKeys('admin');
         element(by.name('password')).sendKeys('admin');
         element(by.id('loginBtn')).click();
+        browser.driver.sleep(1000);
     });
 
     it('Test the showing student count and changing program', function () {
