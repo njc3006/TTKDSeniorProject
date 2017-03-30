@@ -245,6 +245,22 @@
                                     $window.scrollTo(0, 0);
                                 }
                             );
+                            // This is likely an imported student who does not have a belt
+                        } else if ($scope.currentBelt === undefined && $scope.studentInfo.newBelt){
+                            StudentsService.updateStudentBelt(
+                                $stateParams.studentId,
+                                $scope.studentInfo.newBelt.id
+                            ).then(
+                                function success(responses) {
+                                    $scope.currentBelt = $scope.studentInfo.newBelt;
+                                    $scope.oldPersonBelt = $scope.currentBelt;
+                                    submitStripeChanges();
+                                },
+                                function failure(error) {
+                                    $scope.generateDetailedError(error);
+                                    $window.scrollTo(0, 0);
+                                }
+                            );
                         } else {
                             submitStripeChanges();
                         }
