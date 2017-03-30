@@ -9,8 +9,8 @@
 				return $http.get(apiHost + '/api/class-people/?program=' + programId);
 			},
 
-			getAllCheckedIn: function() {
-				return $http.get(apiHost + '/api/check-ins/');
+			getCheckinsForDate: function(date) {
+				return $http.get(apiHost + '/api/check-ins/?date=' + date);
 			},
 
 			getProgramAttendanceRecords: function(programId, date) {

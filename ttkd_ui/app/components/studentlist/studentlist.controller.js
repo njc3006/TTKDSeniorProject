@@ -12,12 +12,13 @@
         $scope.people = [];
         $scope.allPeople = [];
         $scope.classPeople = [];
-        $scope.allAttendance = [];
+        $scope.attendanceRecords = [];
         $scope.classAttendance = [];
         $scope.classes = [];
         $scope.belts = [];
         $scope.sortAZ = true;
         $scope.sortDisplayString = 'A-Z';
+        $scope.studentsLoaded = false;
 
         $scope.filters = {
             showActive: true,
@@ -73,7 +74,7 @@
         $scope.setDisplayedStudents = function(){
             var filteredList = [];
             var displayedPeople = $scope.filters.currentProgramId ? $scope.classPeople : $scope.allPeople;
-            var displayedAttendance = $scope.filters.currentProgramId ? $scope.classAttendance : $scope.allAttendance;
+            var displayedAttendance = $scope.attendanceRecords;
 
             //filter based on active/inactive checkboxes
             for(var i = 0; i < displayedPeople.length; i++){
@@ -169,18 +170,15 @@
                         temp2.push(transformed);
                     });
 
-                    StudentListService.getAllCheckedIn().then(
-                        function(response){
-                            $scope.allAttendance = response.data;
-                
-                            $scope.allPeople = temp2;
-                            $scope.setDisplayedStudents();
-                        });
-                });        
+                    $scope.allPeople = temp2;
+                    $scope.setDisplayedStudents();
+                    $scope.studentsLoaded = true;
+                });
         };
 
         //retrieves the list of students in a specific class
         $scope.getStudentsFromProgram = function(){
+            $scope.studentsLoaded = false;
             var classId = '';
 
             if($scope.filters.currentProgramId != null){
@@ -191,13 +189,8 @@
                 function (response){
                     $scope.classPeople = response.data;
 
-                    var formattedDate = $scope.getCurrentFormattedDate(new Date());
-                    StudentListService.getProgramAttendanceRecords(classId, formattedDate).then(
-                        function(response){
-                            $scope.classAttendance = response.data;
-
-                            $scope.setDisplayedStudents();
-                        });
+                    // This will updateDisplayedStudents and set studentsLoaded
+                    $scope.updateAttendanceRecords();
                 });
         };
 
@@ -206,9 +199,47 @@
         $scope.getBeltList();
         $scope.getAllStudents();
 
+        $scope.updateAttendanceRecords = function(){
+            $scope.studentsLoaded = false;
+            if ($scope.selectedDate.value !== null && $scope.selectedDate.value !== undefined) {
+
+                var selectedDate = $scope.getCurrentFormattedDate($scope.selectedDate.value);
+
+                // If we have a current program, we can make the checkin request more specific
+                if($scope.filters.currentProgramId != null) {
+                    StudentListService.getProgramAttendanceRecords(
+                        $scope.filters.currentProgramId,
+                        selectedDate).then(
+                            function (response) {
+                                $scope.attendanceRecords = response.data;
+                                $scope.setDisplayedStudents();
+                                $scope.studentsLoaded = true;
+                            });
+                } else {
+                    // No current program, so get all attendance records for the date
+                    StudentListService.getCheckinsForDate(selectedDate).then(
+                        function (response) {
+                            $scope.attendanceRecords = response.data;
+                            $scope.setDisplayedStudents();
+                            $scope.studentsLoaded = true;
+                        });
+                }
+            } else {
+                // The date is either null or undefined, no need to send that to the api,
+                // just clear the records
+                $scope.attendanceRecords = [];
+                $scope.setDisplayedStudents();
+                $scope.studentsLoaded = true;
+            }
+        };
+
         //date picker watcher
         $scope.$watch('selectedDate.value', function(newValue, oldValue) {
-            $scope.setDisplayedStudents();
+            // This if prevents the method from being run on first load of the page
+            // Not quite sure why that is happening, but this fixes it
+            if (newValue !== oldValue){
+                $scope.updateAttendanceRecords();
+            }
         });
 
         //class dropdown watcher

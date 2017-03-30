@@ -40,7 +40,7 @@
             password: false,
             missing: false
         };
-      }
+      };
 
       /*
        * Open a prompt to confirm login for a person.
@@ -108,7 +108,8 @@
           },
           function(error) {
             console.log(error);
-            if(error.status === 400 && error.data.non_field_errors && error.data.non_field_errors[0] === "Unable to log in with provided credentials.") {
+            if(error.status === 400 && error.data.non_field_errors &&
+                error.data.non_field_errors[0] === 'Unable to log in with provided credentials.') {
               $scope.statusAlert.password = true;
             }
             else {
