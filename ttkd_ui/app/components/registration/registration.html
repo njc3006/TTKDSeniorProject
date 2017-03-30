@@ -1,5 +1,25 @@
 <div class="container-fluid">
-	<div class="col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1">
+	<div class="row spacer-25 prev-next">
+		<div class="pull-right col-sm-2 col-md-1">
+			<button
+				type="button"
+				class="btn btn-lg btn-primary pull-right"
+				ng-click="focusNext()"
+				ng-disabled="numElements === 1 || currentFocusIndex === (numElements - 1)">
+				Next
+			</button>
+		</div>
+		<div class="pull-right col-sm-2 col-md-1 padding-right-0 prev-btn">
+			<button
+				type="button"
+				class="btn btn-lg btn-primary pull-right"
+				ng-click="focusPrevious()"
+				ng-disabled="numElements === 1 || currentFocusIndex === 0">
+				Previous
+			</button>
+		</div>
+	</div>
+	<div class="col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1 padding-left-0">
 		<ul class="nav nav-pills nav-stacked">
 			<li
 				id="tab{{$index}}"
@@ -11,7 +31,7 @@
 			</li>
 		</ul>
 	</div>
-	<div class="col-md-5 col-sm-5">
+	<div class="col-md-8 col-sm-8">
 		<div class="alert alert-success" role="alert" ng-show="registrationSuccess">
 			<strong>Succesfully registered</strong>
 		</div>
@@ -33,7 +53,7 @@
 		</div>
 		<form
 			name="registrationForm"
-			class="form-horizontal spacer-25"
+			class="form-horizontal spacer-35"
 			ng-submit="onSubmit(registrationForm.$valid)"
 			novalidate>
 				<ng-include src="currentFormTpl"></ng-include>
@@ -95,21 +115,5 @@
 					</div>
 				</div>
 		</form>
-	</div>
-	<div class="col-md-3 col-sm-3 form-scroll-buttons">
-		<button
-			type="button"
-			class="btn btn-lg btn-primary col-sm-5 col-md-5"
-			ng-click="focusPrevious()"
-			ng-disabled="numElements === 1 || currentFocusIndex === 0">
-			Previous
-		</button>
-		<button
-			type="button"
-			class="btn btn-lg btn-primary col-sm-5 col-md-5 pull-right"
-			ng-click="focusNext()"
-			ng-disabled="numElements === 1 || currentFocusIndex === (numElements - 1)">
-			Next
-		</button>
 	</div>
 </div>
