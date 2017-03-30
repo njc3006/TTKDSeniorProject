@@ -133,7 +133,6 @@
           },
           function(error) {
             if(error.status === 400 && error.data.username) {
-              console.log(error.data.username[0]);
               $scope.statusAlert.custom = true;
               $scope.customError = error.data.username[0];
             }
@@ -193,7 +192,6 @@
           },
           function(error) {
             if(error.status === 400 && error.data.username) {
-              console.log(error.data.username[0]);
               $scope.statusAlert.custom = true;
               $scope.customError = error.data.username[0];
             }

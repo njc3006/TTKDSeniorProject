@@ -2,6 +2,21 @@
 
 describe('User Management', function () {
 
+    function Login(username, password) {
+        element(by.id('login')).click();
+
+        element(by.id('username')).sendKeys(username);
+        element(by.id('password')).sendKeys(password);
+
+        element(by.id('loginBtn')).click();
+    }
+
+    function Logout() {
+        element(by.id('userBtn')).click();
+        browser.driver.sleep(1);
+        element(by.id('logout')).click();     
+    }
+
     beforeEach(() => {
         browser.driver.sleep(100);
         browser.get(browser.params.appUrl);
@@ -9,9 +24,7 @@ describe('User Management', function () {
     });
 
     afterEach(() => {
-        element(by.id('userBtn')).click();
-        browser.driver.sleep(1);
-        element(by.id('logout')).click();
+        Logout();
     });
 
     it('Test login errors', function() {
@@ -43,12 +56,7 @@ describe('User Management', function () {
 
     it('Test admin create and delete new user', function() {
         
-        element(by.id('login')).click();
-        element(by.id('username')).sendKeys('admin');
-        element(by.id('password')).sendKeys('admin');
-        element(by.id('loginBtn')).click();
-
-        //Login('admin', 'admin');
+        Login('admin', 'admin');
 
         element(by.id('userBtn')).click();
         browser.driver.sleep(1);
@@ -126,12 +134,7 @@ describe('User Management', function () {
 
     it('Test admin updating another user', function() {
         
-        element(by.id('login')).click();
-        element(by.id('username')).sendKeys('admin');
-        element(by.id('password')).sendKeys('admin');
-        element(by.id('loginBtn')).click();
-
-        //Login('admin', 'admin');
+        Login('admin', 'admin');
 
         element(by.id('userBtn')).click();
         browser.driver.sleep(1);
@@ -203,12 +206,7 @@ describe('User Management', function () {
 
     it('Test admin resetting another\'s password', function() {
         
-        element(by.id('login')).click();
-        element(by.id('username')).sendKeys('admin');
-        element(by.id('password')).sendKeys('admin');
-        element(by.id('loginBtn')).click();
-
-        //Login('admin', 'admin');
+        Login('admin', 'admin');
 
         element(by.id('userBtn')).click();
         browser.driver.sleep(1);
@@ -266,16 +264,11 @@ describe('User Management', function () {
         expect(element.all(by.id('success')).count()).toBe(1);
         expect(element.all(by.id('modal-body')).count()).toBe(0);
         
-        element(by.id('userBtn')).click();
-        browser.driver.sleep(1);
-        element(by.id('logout')).click();
+        Logout();
 
         expect(element.all(by.id('login')).count()).toBe(1);
         
-        element(by.id('login')).click();
-        element(by.id('username')).sendKeys('instruct');
-        element(by.id('password')).sendKeys('instruct');
-        element(by.id('loginBtn')).click();
+        Login('instruct', 'instruct');
 
         expect(element.all(by.id('login')).count()).toBe(0);
 
@@ -293,10 +286,7 @@ describe('User Management', function () {
 
     it('Test admin can change own password', function() {
         
-        element(by.id('login')).click();
-        element(by.id('username')).sendKeys('admin');
-        element(by.id('password')).sendKeys('admin');
-        element(by.id('loginBtn')).click();
+        Login('admin', 'admin');
 
         element(by.id('userBtn')).click();
         browser.driver.sleep(1);
@@ -342,16 +332,11 @@ describe('User Management', function () {
         expect(element.all(by.id('currentPasswordError')).count()).toBe(0);
         expect(element.all(by.id('modal-body')).count()).toBe(0);
         
-        element(by.id('userBtn')).click();
-        browser.driver.sleep(1);
-        element(by.id('logout')).click();
+        Logout();
 
         expect(element.all(by.id('login')).count()).toBe(1);
         
-        element(by.id('login')).click();
-        element(by.id('username')).sendKeys('admin');
-        element(by.id('password')).sendKeys('instruct');
-        element(by.id('loginBtn')).click();
+        Login('admin', 'instruct');
 
         expect(element.all(by.id('login')).count()).toBe(0);
 
@@ -367,10 +352,7 @@ describe('User Management', function () {
 
     it('Test instructor can change own password', function() {
         
-        element(by.id('login')).click();
-        element(by.id('username')).sendKeys('instruct');
-        element(by.id('password')).sendKeys('admin');
-        element(by.id('loginBtn')).click();
+        Login('instruct', 'admin');
 
         element(by.id('userBtn')).click();
         browser.driver.sleep(1);
@@ -416,17 +398,12 @@ describe('User Management', function () {
         expect(element.all(by.id('currentPasswordError')).count()).toBe(0);
         expect(element.all(by.id('modal-body')).count()).toBe(0);
         
-        element(by.id('userBtn')).click();
-        browser.driver.sleep(1);
-        element(by.id('logout')).click();
+        Logout();
 
         expect(element.all(by.id('login')).count()).toBe(1);
         
-        element(by.id('login')).click();
-        element(by.id('username')).sendKeys('instruct');
-        element(by.id('password')).sendKeys('instruct');
-        element(by.id('loginBtn')).click();
-
+        Login('instruct', 'instruct');
+        
         expect(element.all(by.id('login')).count()).toBe(0);
 
         element(by.id('userBtn')).click();
@@ -441,12 +418,7 @@ describe('User Management', function () {
 
     it('Test instructor can not see manage user button in dropdown', function() {
         
-        element(by.id('login')).click();
-        element(by.id('username')).sendKeys('instruct');
-        element(by.id('password')).sendKeys('admin');
-        element(by.id('loginBtn')).click();
-
-        //Login('instruct', 'admin');
+        Login('instruct', 'admin');
 
         element(by.id('userBtn')).click();
         browser.driver.sleep(1);
@@ -463,10 +435,8 @@ describe('User Management', function () {
         var userManagement = element.all(by.xpath('//h1[contains(text(),\'User List\')]')).count();
         expect(userManagement).toBe(0);
 
-        element(by.id('login')).click();
-        element(by.id('username')).sendKeys('instruct');
-        element(by.id('password')).sendKeys('admin');
-        element(by.id('loginBtn')).click();
+        Login('instruct', 'admin');
+        
         browser.driver.sleep(500);
 
         browser.get(browser.params.appUrl + 'user-management');
