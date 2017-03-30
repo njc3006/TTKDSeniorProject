@@ -94,7 +94,7 @@
                         function(response){
 
                         }, function(error){
-                            $scope.alerts.errorText = "Failed to update program info";
+                            $scope.alerts.errorText = 'Failed to update program info';
                             $scope.promiseError = true;
                         }
                     )
