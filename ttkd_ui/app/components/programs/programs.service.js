@@ -19,9 +19,46 @@
 				return $http.post(apiHost + '/api/programs/', programData);
 			},
 
+			/* updates an existing program */
+			updateProgram: function(programData, id) {
+				return $http.put(apiHost + '/api/programs/' + id + '/', programData);
+			},
+
 			/* get a single program by it's id */
 			getProgram: function(id) {
-				return $http.get(apiHost + '/api/programs/'+id);
+				return $http.get(apiHost + '/api/programs/' + id);
+			},
+
+			getPeople: function() {
+				return $http.get(apiHost + '/api/person-minimal/');
+			},
+
+			getStudent: function(id) {
+				return $http.get(apiHost + '/api/person-minimal/' + id + '/');
+			},
+
+			getProgramInstructors: function(id) {
+				return $http.get(apiHost + '/api/instructors-minimal/?program=' + id);
+			},
+
+			updateProgramInstructors: function(data) {
+				return $http.post(apiHost + '/api/instructors/', data);
+			},
+
+			removeProgramInstructors: function(id) {
+				return $http.delete(apiHost + '/api/instructors/' + id + '/');
+			},
+
+			getProgramStudents: function(id) {
+				return $http.get(apiHost + '/api/registrations-minimal/?program=' + id);
+			},
+
+			updateProgramStudents: function(data) {
+				return $http.post(apiHost + '/api/registrations/', data);
+			},
+
+			removeProgramStudents: function(id) {
+				return $http.delete(apiHost + '/api/registrations/' + id + '/');
 			}
 		};
 	}]);

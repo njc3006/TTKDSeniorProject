@@ -17,7 +17,7 @@ from .views.belt_views import BeltViewSet
 from .views.attendance_record_views import AttendanceRecordViewSet, \
     AttendanceRecordUsingPersonViewSet, DetailedAttendanceRecordViewSet, \
     get_grouped_attendance_records
-from .views.person_views import PersonViewSet, PersonPictureViewSet, PersonNotesViewSet
+from .views.person_views import PersonViewSet, PersonPictureViewSet, PersonNotesViewSet, PersonMinimalViewSet
 from .views.program_views import ProgramViewSet, StudentList
 from .views.registration_views import MinimalRegistrationViewSet, RegistrationViewSet, \
     RegistrationWithPeopleViewSet, SimpleRegistrationViewSet, PartialRegistrationViewSet
@@ -47,6 +47,7 @@ router.register(r'person-belts-detailed', DetailedPersonBeltViewSet, 'person-bel
 router.register(r'person-stripes', PersonStripeViewSet)
 router.register(r'person-stripes-detailed', DetailedPersonStripeViewSet, 'person-stripes-detailed')
 router.register(r'persons', PersonViewSet)
+router.register(r'person-minimal', PersonMinimalViewSet, 'person-minimal')
 router.register(r'programs', ProgramViewSet)
 router.register(r'register', RegistrationViewSet, 'register')
 router.register(r'registrations', SimpleRegistrationViewSet)
