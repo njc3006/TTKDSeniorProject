@@ -31,6 +31,22 @@
 					});
 				},
 
+				getBeltHistoryForStudent: function(id) {
+					return $http.get(apiHost + '/api/person-belts-detailed/', {
+						params: {
+							person: id
+						}
+					});
+				},
+
+				getStripeHistoryForStudent: function(id) {
+					return $http.get(apiHost + '/api/person-stripes-detailed/', {
+						params: {
+							person: id
+						}
+					});
+				},
+
 				updateStudentInfo: function(id, newInfo, userlevel) {
 					if(userlevel === 0){
 						return $http.put(apiHost + '/api/person-notes/' + id + '/', newInfo);
@@ -129,7 +145,6 @@
 
 			      });
 				}
-
 			};
 		}]);
 })();
