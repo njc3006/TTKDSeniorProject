@@ -1,8 +1,12 @@
 (function() {
 
   angular.module('ttkdApp.manageUserCtrl',['ttkdApp.constants'])
-    .controller('manageUserCtrl', ['$scope', '$uibModal', '$http', 'apiHost', '$rootScope', '$stateParams',
-      function($scope, $uibModal, $http, apiHost, $rootScope, $stateParams) {
+    .controller('manageUserCtrl', ['$scope', '$uibModal', '$http', 'apiHost', '$rootScope', '$stateParams', '$location',
+      function($scope, $uibModal, $http, apiHost, $rootScope, $stateParams, $location) {
+
+      if(!$rootScope.userlevel || $rootScope.userlevel < 1) { // If the user is not an admin bounce them back to the home screen
+        $location.path('/');
+      }
       
       $rootScope.showCurrentProgram = $stateParams.hideCurrentProgram;
       

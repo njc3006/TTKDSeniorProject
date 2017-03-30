@@ -5,14 +5,21 @@ describe('Student List', function () {
         browser.get(browser.params.appUrl + 'studentlist');
     });
 
-    it('Test the showing student count and changing program', function () {
+    afterAll(() => {
+        element(by.id('userBtn')).click();
+        element(by.id('logout')).click();
+    });
 
+    beforeAll(() => {
         element(by.id('login')).click();
         browser.driver.sleep(1000);
 
         element(by.name('username')).sendKeys('admin');
         element(by.name('password')).sendKeys('admin');
         element(by.id('loginBtn')).click();
+    });
+
+    it('Test the showing student count and changing program', function () {
 
         browser.driver.sleep(1000);
         browser.get(browser.params.appUrl + 'studentlist');
@@ -29,8 +36,6 @@ describe('Student List', function () {
 
         expect(element(by.id('studentCount')).getText()).toContain('Showing 14 students');
 
-		// element(by.id('userBtn')).click();
-		// element(by.id('logout')).click();
     });
 
     it('Test all information appearing', function () {
