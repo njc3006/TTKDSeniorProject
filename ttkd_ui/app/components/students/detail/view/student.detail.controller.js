@@ -29,6 +29,9 @@
         function(student) {
           $scope.studentInfo = student;
 
+					$scope.primaryEmergencyContact = student.emergencyContact1;
+					$scope.secondaryEmergencyContact = student.emergencyContact2;
+
           if(student.pictureUrl) {
           	$scope.pictureUrl = apiHost + '/' + student.pictureUrl + '?p=' + pictureUpdatedQueryParam;
           }
