@@ -4,7 +4,7 @@
     .controller('HomeCtrl', ['$scope', '$rootScope', '$state', '$stateParams', '$uibModal',
         '$document', 'ProgramsSvc', 'CheckinService',
      function($scope, $rootScope, $state, $stateParams, $uibModal, $document, ProgramsSvc, CheckinService) {
-        $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
+        $rootScope.showCurrentProgram = !$stateParams.showCurrentProgram;
 
     	var modalInstance;
      	$scope.programs = [];

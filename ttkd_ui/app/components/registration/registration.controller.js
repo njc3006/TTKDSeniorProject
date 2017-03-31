@@ -69,7 +69,7 @@
 		ProgramsService,
 		StateService
 	) {
-		$rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
+		$rootScope.showCurrentProgram = !$stateParams.showCurrentProgram;
 		$scope.isPartialRegistration = $stateParams.partial;
 
 		if ($scope.isPartialRegistration) {

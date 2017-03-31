@@ -15,7 +15,7 @@
 
                 .state('importexport', {
                     url: '/importexport',
-                    params: {hideCurrentProgram: true},
+                    params: {showCurrentProgram: true},
                     templateUrl: 'components/importexport/importexport.html',
                     controller: 'ImportExportCtrl'
                 })
@@ -32,7 +32,7 @@
                 .state('registration', {
                     url: '/registration',
                     params: {
-                        hideCurrentProgram: true,
+                        showCurrentProgram: true,
                         partial: false
                     },
                     data: {
@@ -45,7 +45,7 @@
                 .state('partialRegistrations', {
                     url: '/partial-registrations',
                     params: {
-                        hideCurrentProgram: true
+                        showCurrentProgram: true
                     },
                     data: {
                         pageTitle: 'Partial Registrations'
@@ -57,7 +57,7 @@
                 .state('newPartialRegistration', {
                     url: '/partial-registrations/new',
                     params: {
-                        hideCurrentProgram: true,
+                        showCurrentProgram: true,
                         partial: true
                     },
                     data: {
@@ -70,7 +70,7 @@
                 .state('finishPartialRegistration', {
                     url: '/partial-registrations/{registrationId:int}',
                     params: {
-                        hideCurrentProgram: true,
+                        showCurrentProgram: true,
                         partial: false
                     },
                     data: {
@@ -82,7 +82,7 @@
 
                 .state('studentlist', {
                     url: '/studentlist',
-                    params: {hideCurrentProgram: true},
+                    params: {showCurrentProgram: true},
                     templateUrl: 'components/studentlist/studentlist.html',
                     controller: 'StudentListCtrl'
                 })
@@ -96,7 +96,7 @@
 
                 .state('attendance', {
                     url: '/attendance',
-                    params: {hideCurrentProgram: true},
+                    params: {showCurrentProgram: true},
                     templateUrl: 'components/attendance/attendance.html',
                     controller: 'AttendanceCtrl'
                 })
@@ -110,12 +110,14 @@
 
                 .state('editPrograms', {
                     url: '/programs',
+                    params: {showCurrentProgram: true},
                     templateUrl: 'components/programs/programs.html',
                     controller: 'ProgramsCtrl'
                 })
 
                 .state('editProgram', {
                     url: '/programs/{curProgram:json}/edit',
+                    params: {showCurrentProgram: true},
                     templateUrl: 'components/programs/edit-program.html',
                     controller: 'EditProgramCtrl'
                 })
@@ -128,6 +130,7 @@
           
                 .state('userManagement', {
                     url: '/user-management',
+                    params: {showCurrentProgram: true},
                     templateUrl: 'components/user-management/user.management.html',
                     controller: 'manageUserCtrl'
                 });
