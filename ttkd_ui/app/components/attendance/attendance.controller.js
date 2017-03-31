@@ -7,7 +7,7 @@
 		AttendanceService,
 		StudentsService
 	) {
-		$rootScope.showCurrentProgram = !$stateParams.showCurrentProgram;
+		$rootScope.showCurrentProgram = $stateParams.showCurrentProgram;
 
 		$scope.format = function(date) {
 			return moment(date).format('MM/DD/YYYY');

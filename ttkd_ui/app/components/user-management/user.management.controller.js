@@ -8,7 +8,7 @@
         $location.path('/');
       }
       
-      $rootScope.showCurrentProgram = !$stateParams.showCurrentProgram;
+      $rootScope.showCurrentProgram = $stateParams.showCurrentProgram;
       
       var modalInstance;
       $scope.closeAlert = function(alert){

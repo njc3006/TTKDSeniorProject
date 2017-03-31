@@ -6,7 +6,7 @@
         '$filter', '$uibModal', 'CheckinService', 'apiHost', '$state',
         function($scope, $rootScope, $stateParams, $document, $filter, $uibModal, CheckinService, apiHost, $state) {
             var modalInstance;
-            $rootScope.showCurrentProgram = !$stateParams.showCurrentProgram;
+            $rootScope.showCurrentProgram = $stateParams.showCurrentProgram;
 
             $scope.apiHost = apiHost;
             $scope.programID = $stateParams.programID;

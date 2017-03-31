@@ -22,7 +22,7 @@
                 ProgramsSvc
             ) {
 
-                $rootScope.showCurrentProgram = !$stateParams.showCurrentProgram;
+                $rootScope.showCurrentProgram = $stateParams.showCurrentProgram;
 
                 var modalInstance;
                 $scope.apiHost = apiHost;

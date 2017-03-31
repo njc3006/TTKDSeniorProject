@@ -4,7 +4,7 @@
 
     .controller('BeltsStripesCtrl', ['$scope', '$rootScope', '$stateParams', 'BeltsStripesService', 
         function($scope, $rootScope, $stateParams, BeltsStripesService) {
-        $rootScope.showCurrentProgram = !$stateParams.showCurrentProgram;
+        $rootScope.showCurrentProgram = $stateParams.showCurrentProgram;
 
         $scope.belts = [];
         $scope.stripes = [];
