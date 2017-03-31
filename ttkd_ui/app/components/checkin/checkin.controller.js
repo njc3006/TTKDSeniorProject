@@ -13,7 +13,7 @@
             $scope.isInstructor = $rootScope.userlevel >= 0;
             $scope.date = new Date();
 
-			$scope.totalCheckedInCount = 0;
+            $scope.totalCheckedInCount = 0;
 
             $scope.people = [];
             $scope.checkedInPeopleIds = [];
@@ -89,7 +89,7 @@
 
             $scope.updateCheckins = function() {
                 $scope.date = $scope.selectedDate.value;
-				$scope.totalCheckedInCount = 0;
+                $scope.totalCheckedInCount = 0;
                 $scope.people = [];
                 $scope.checkedInPeopleIds = [];
                 $scope.checkedInPeopleCheckinIds = [];
@@ -276,7 +276,7 @@
                 CheckinService.createCheckin({ 'person': $scope.selectedPerson.id, 'program': $scope.programID }).then(
                     function(response) {
                         $scope.selectedPerson.checkinID = response.data.id;
-												$scope.totalCheckedInCount++;
+                        $scope.totalCheckedInCount++;
                     },
                     function (error) {
                         // This is an okay console log, if someone was watching the console it
@@ -300,7 +300,7 @@
                 }).then(
                     function(response) {
                         person.checkinID = response.data.id;
-												$scope.totalCheckedInCount++;
+                        $scope.totalCheckedInCount++;
                     },
                     function (error) {
                         // This is an okay console log, if someone was watching the console it
@@ -322,7 +322,7 @@
                         person.checkinID = null;
                         person.checkedIn = false;
 
-												$scope.totalCheckedInCount--;
+                        $scope.totalCheckedInCount--;
                     },
                     function (error) {
                         // This is an okay console log, if someone was watching the console it
