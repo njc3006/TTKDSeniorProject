@@ -29,6 +29,7 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 @import "./components/belts-stripes/belts-stripes";
 @import "./components/studentlist/studentlist";
 @import "./components/importexport/importexport";
+@import "./components/programs/programs";
 @import "./components/home/choose-program";
 @import "./components/registration/registration";
 @import "./components/attendance/attendance";
@@ -127,6 +128,7 @@ ul.uib-datepicker-popup .btn-default {
 	height: 139px;
 	text-align: center;
 	padding: 0;
+	cursor: pointer;
 
 	.btn{
 		width: 100%;
@@ -142,7 +144,6 @@ ul.uib-datepicker-popup .btn-default {
 		margin-top: 1px;
 		margin-bottom: 3px;
 		font-size: 15px;
-		cursor: pointer;
 		padding-top: 5px;
 	}
 }

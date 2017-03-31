@@ -230,7 +230,23 @@
                     function success(response) {
                         $scope.oldStudent = angular.copy($scope.studentInfo);
 
-                        if ($scope.studentInfo.newBelt.id !== $scope.currentBelt.id) {
+                        if (($scope.currentBelt && $scope.studentInfo.newBelt) && $scope.studentInfo.newBelt.id !== $scope.currentBelt.id) {
+                            StudentsService.updateStudentBelt(
+                                $stateParams.studentId,
+                                $scope.studentInfo.newBelt.id
+                            ).then(
+                                function success(responses) {
+                                    $scope.currentBelt = $scope.studentInfo.newBelt;
+                                    $scope.oldPersonBelt = $scope.currentBelt;
+                                    submitStripeChanges();
+                                },
+                                function failure(error) {
+                                    $scope.generateDetailedError(error);
+                                    $window.scrollTo(0, 0);
+                                }
+                            );
+                            // This is likely an imported student who does not have a belt
+                        } else if ($scope.currentBelt === undefined && $scope.studentInfo.newBelt){
                             StudentsService.updateStudentBelt(
                                 $stateParams.studentId,
                                 $scope.studentInfo.newBelt.id
@@ -328,19 +344,17 @@
         });
 
         $scope.$watch('studentInfo["newBelt"]', function (newBelt) {
-            if (!newBelt) {
-                return;
-            }
-
-            if (newBelt.id !== $scope.currentBelt.id) {
-                $scope.studentInfo.stripes = [];
-            } else {
-                $scope.studentInfo.stripes = $scope.studentInfo.oldStripes.map(function (personStripe) {
-                    var copy = {};
-                    angular.copy(personStripe.stripe, copy);
-                    copy.active = false;
-                    return copy;
-                });
+            if (newBelt) {
+                if ($scope.currentBelt && (newBelt.id !== $scope.currentBelt.id)) {
+                    $scope.studentInfo.stripes = [];
+                } else {
+                    $scope.studentInfo.stripes = $scope.studentInfo.oldStripes.map(function (personStripe) {
+                        var copy = {};
+                        angular.copy(personStripe.stripe, copy);
+                        copy.active = false;
+                        return copy;
+                    });
+                }
             }
         });
     }

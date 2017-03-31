@@ -128,3 +128,12 @@ class NotesPersonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
         fields = ('id', 'misc_notes')
+
+class PersonMinimalSerializer(serializers.ModelSerializer):
+    """
+    NotesPersonSerializer Outputs Person Model with id and misc_notes
+    """
+
+    class Meta:
+        model = Person
+        fields = ('id', 'first_name', 'last_name')

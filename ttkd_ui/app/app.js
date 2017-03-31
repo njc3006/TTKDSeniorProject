@@ -20,6 +20,8 @@
 		'ttkdApp.registationCtrl',
 		'ttkdApp.routes',
 		'ttkdApp.studentDetailCtrl',
+		'ttkdApp.programsCtrl',
+		'ttkdApp.editProgramCtrl',
 		'ttkdApp.studentlistCtrl',
 		'ttkdApp.studentWaiverCtrl'
     ]
