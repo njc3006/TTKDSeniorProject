@@ -108,6 +108,18 @@
                     controller: 'EditStudentCtrl'
                 })
 
+                .state('editPrograms', {
+                    url: '/programs',
+                    templateUrl: 'components/programs/programs.html',
+                    controller: 'ProgramsCtrl'
+                })
+
+                .state('editProgram', {
+                    url: '/programs/{curProgram:json}/edit',
+                    templateUrl: 'components/programs/edit-program.html',
+                    controller: 'EditProgramCtrl'
+                })
+
                 .state('beltsStripes', {
                     url: '/belts-stripes',
                     templateUrl: 'components/belts-stripes/belts-stripes.html',

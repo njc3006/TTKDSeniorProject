@@ -4,7 +4,7 @@ ttkd_api/static/*
 !ttkd_api/static/.gitkeep
 *.zip
 !python-dist.zip
-ttkd_api/.pid
+*.pid
 
 
 scripts/*.json

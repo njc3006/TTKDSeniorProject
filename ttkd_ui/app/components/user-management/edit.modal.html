@@ -5,16 +5,16 @@
 <form ng-submit="editingUser ? editUser(selectedID, newUsername, selectedStaff) : createUser(newUsername, password, passwordRepeat, selectedStaff)">
 	<div class="modal-body" id="modal-body">
 
-		<div class="alert alert-danger" ng-show="statusAlert.failure" uib-alert close="closeAlert('failure')">
+		<div id="failureError" class="alert alert-danger" ng-if="statusAlert.failure" uib-alert close="closeAlert('failure')">
 			There was an error submitting your request.
 		</div>
-		<div class="alert alert-danger" ng-show="statusAlert.missing" uib-alert close="closeAlert('missing')">
+		<div id="missingError" class="alert alert-danger" ng-if="statusAlert.missing" uib-alert close="closeAlert('missing')">
 			All fields must be completed before submitting.
 		</div>
-		<div class="alert alert-danger" ng-show="statusAlert.password" uib-alert close="closeAlert('password')">
+		<div id="passwordError" class="alert alert-danger" ng-if="statusAlert.password" uib-alert close="closeAlert('password')">
 			New password fields must match.
 		</div>
-		<div class="alert alert-danger" ng-show="statusAlert.custom" uib-alert close="closeAlert('custom')">
+		<div id="customError" class="alert alert-danger" ng-if="statusAlert.custom" uib-alert close="closeAlert('custom')">
 			{{customError}}
 		</div>
 
@@ -41,7 +41,7 @@
 	</div>
 	<div class="modal-footer" id="modal-footer">
   		<button id="cancel-action" class="btn btn-danger btn-lg pull-left" type="button" ng-click="cancelModal()">Cancel</button>
-		<button ng-if="!editingUser" class="btn btn-success btn-lg pull-right" type="submit">Create</button>
-		<button ng-if="editingUser" class="btn btn-success btn-lg pull-right" type="submit">Update</button>
+		<button id="create" ng-if="!editingUser" class="btn btn-success btn-lg pull-right" type="submit">Create</button>
+		<button id="update" ng-if="editingUser" class="btn btn-success btn-lg pull-right" type="submit">Update</button>
 	</div>
 </form>

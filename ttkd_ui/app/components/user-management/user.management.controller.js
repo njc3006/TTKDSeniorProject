@@ -1,8 +1,12 @@
 (function() {
 
   angular.module('ttkdApp.manageUserCtrl',['ttkdApp.constants'])
-    .controller('manageUserCtrl', ['$scope', '$uibModal', '$http', 'apiHost', '$rootScope', '$stateParams',
-      function($scope, $uibModal, $http, apiHost, $rootScope, $stateParams) {
+    .controller('manageUserCtrl', ['$scope', '$uibModal', '$http', 'apiHost', '$rootScope', '$stateParams', '$location',
+      function($scope, $uibModal, $http, apiHost, $rootScope, $stateParams, $location) {
+
+      if(!$rootScope.userlevel || $rootScope.userlevel < 1) { // If the user is not an admin bounce them back to the home screen
+        $location.path('/');
+      }
       
       $rootScope.showCurrentProgram = $stateParams.hideCurrentProgram;
       
@@ -129,7 +133,6 @@
           },
           function(error) {
             if(error.status === 400 && error.data.username) {
-              console.log(error.data.username[0]);
               $scope.statusAlert.custom = true;
               $scope.customError = error.data.username[0];
             }
@@ -188,7 +191,13 @@
             $scope.reload();
           },
           function(error) {
-            $scope.statusAlert.failure = true;
+            if(error.status === 400 && error.data.username) {
+              $scope.statusAlert.custom = true;
+              $scope.customError = error.data.username[0];
+            }
+            else {
+              $scope.statusAlert.failure = true;
+            }
           }
         );
       };

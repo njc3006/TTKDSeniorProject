@@ -2,13 +2,13 @@
 	<h3 class="modal-title" id="modal-title">Login</h3>
 </div>
 <div class="modal-body" id="modal-body">
-	<div class="alert alert-danger" ng-show="statusAlert.failure" uib-alert close="closeAlert('error')">
+	<div class="alert alert-danger" ng-if="statusAlert.failure" uib-alert close="closeAlert('error')">
 		There was an error submitting the information changes.
 	</div>
-	<div class="alert alert-danger" ng-show="statusAlert.missing" uib-alert close="closeAlert('missing')">
+	<div id="missingFields" class="alert alert-danger" ng-if="statusAlert.missing" uib-alert close="closeAlert('missing')">
 		All fields must be completed before submitting.
 	</div>
-	<div class="alert alert-danger" ng-show="statusAlert.password" uib-alert close="closeAlert('password')">
+	<div id="invalidCreds" class="alert alert-danger" ng-if="statusAlert.password" uib-alert close="closeAlert('password')">
 		Unable to log in with provided credentials.
 	</div>
 
