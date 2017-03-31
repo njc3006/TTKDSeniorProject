@@ -13,6 +13,8 @@
             $scope.isInstructor = $rootScope.userlevel >= 0;
             $scope.date = new Date();
 
+			$scope.totalCheckedInCount = 0;
+
             $scope.people = [];
             $scope.checkedInPeopleIds = [];
             $scope.checkedInPeopleCheckinIds = [];
@@ -87,6 +89,7 @@
 
             $scope.updateCheckins = function() {
                 $scope.date = $scope.selectedDate.value;
+				$scope.totalCheckedInCount = 0;
                 $scope.people = [];
                 $scope.checkedInPeopleIds = [];
                 $scope.checkedInPeopleCheckinIds = [];
@@ -145,6 +148,8 @@
                             $scope.checkedInPeopleIds.push(value['person']);
                             $scope.checkedInPeopleCheckinIds.push(value['id']);
                         });
+
+                        $scope.totalCheckedInCount = $scope.checkedInPeopleIds.length;
 
                         $scope.getStudents();
                     });
@@ -271,6 +276,7 @@
                 CheckinService.createCheckin({ 'person': $scope.selectedPerson.id, 'program': $scope.programID }).then(
                     function(response) {
                         $scope.selectedPerson.checkinID = response.data.id;
+												$scope.totalCheckedInCount++;
                     },
                     function (error) {
                         // This is an okay console log, if someone was watching the console it
@@ -294,6 +300,7 @@
                 }).then(
                     function(response) {
                         person.checkinID = response.data.id;
+												$scope.totalCheckedInCount++;
                     },
                     function (error) {
                         // This is an okay console log, if someone was watching the console it
@@ -314,6 +321,8 @@
                     function (response) {
                         person.checkinID = null;
                         person.checkedIn = false;
+
+												$scope.totalCheckedInCount--;
                     },
                     function (error) {
                         // This is an okay console log, if someone was watching the console it
