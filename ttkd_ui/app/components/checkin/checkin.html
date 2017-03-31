@@ -59,8 +59,12 @@
            ng-click="isInstructor ? (clickStudentBasedOnMode(person))  : openCheckinPrompt(person)"
            ng-class="{'checked checked-in-student-instruct': (isInstructor && person.checkedIn ), 'checked checked-in-student' : (!isInstructor && person.checkedIn ), 'unchecked' : !person.checkedIn}"
            ng-repeat="person in people | orderBy: 'first_name' ">
-             <div class="col-xs-1 no-right-padding">
-				<svg class="stripes">
+            <div>
+                <img ng-if="person.picture_url" class="img-responsive {{studentBeltClass}} pull-left"
+                     ng-src="{{apiHost}}/{{person.picture_url}}" ng-style="person.beltStyle"/>
+                <img ng-if="!person.picture_url" class="img-responsive {{studentBeltClass}} pull-left"
+                     ng-src="./img/components/students/placeholder.png" ng-style="person.beltStyle"/>
+    			<svg class="stripes pull-right">
 					<rect
 						ng-repeat="stripe in person.stripes track by $index"
 						ng-if="stripe.stripe.color.toLowerCase() !== 'ffffff'"
@@ -81,11 +85,7 @@
 						stroke-width="1"
 						fill="white" />
 				</svg>
-			</div>
-            <img ng-if="person.picture_url" class="img-responsive {{studentBeltClass}}"
-                 ng-src="{{apiHost}}/{{person.picture_url}}" ng-style="person.beltStyle">
-            <img ng-if="!person.picture_url" class="img-responsive {{studentBeltClass}}"
-                 ng-src="./img/components/students/placeholder.png" ng-style="person.beltStyle">
+            </div>
             <div class="caption">
                 <span class="person-name">{{person.first_name}} {{person.last_name}}</span>
             </div>

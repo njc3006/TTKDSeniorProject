@@ -36,6 +36,11 @@
 	.thumbnail-area {
 		margin: auto;
 	}
+	
+	svg.stripes {
+		width: 20px !important;
+	}
+
 }
 
 .checkin-modal img {
@@ -53,9 +58,6 @@
 	margin-bottom: 100px;
 }
 
-svg.stripes {
-	width: 100% !important;
-}
 
 
 @media only screen and (min-width: 1240px)  {
