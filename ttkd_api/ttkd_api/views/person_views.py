@@ -2,6 +2,7 @@
 
 import os
 from PIL import Image
+
 from ..settings import BASE_DIR
 from rest_framework import viewsets, filters, permissions
 from ..serializers.person_serializer import PersonSerializer, PersonPictureSerializer, \
@@ -83,6 +84,7 @@ class PersonPictureViewSet(viewsets.GenericViewSet):
                 y1 = delta/2
                 y2 = height - (delta/2)
             img = img.crop((x1, y1, x2, y2))
+            img.thumbnail((400,400))
             img.save(win_path)
 
             return Response(status=HTTP_201_CREATED, headers={'Location': person.picture.url})
