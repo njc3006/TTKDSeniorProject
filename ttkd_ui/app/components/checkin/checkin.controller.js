@@ -180,6 +180,10 @@
                                 value.checkinID = $scope.checkedInPeopleCheckinIds[index];
                                 value.checkedIn = true;
                             }
+                            value.stripes = value.stripes.filter(function(personStripe) {
+                              return personStripe['current_stripe'];
+                            });
+
                             $scope.people.push(value);
                         });
                     });

@@ -13,7 +13,7 @@
             },
 
             getStudentsFromProgram: function (programId) {
-                return $http.get(apiHost + '/api/registrations-minimal/?program=' + programId + '&person__active=2');
+                return $http.get(apiHost + '/api/registrations-minimal-stripes/?program=' + programId + '&person__active=2');
             },
 
             getCheckinsForProgram: function (programId, checkinDate) {
@@ -44,6 +44,9 @@
 
             deleteInstructorCheckin: function (checkinId) {
                 return $http.delete(apiHost + '/api/instructor-check-ins/' + checkinId + '/');
+            },
+            getStudentStripes: function (personId) {
+                return $http.get(apiHost + '/api/person-stripes-detailed/?person=' + personId + '&current_stripe=2')
             }
         };
     }

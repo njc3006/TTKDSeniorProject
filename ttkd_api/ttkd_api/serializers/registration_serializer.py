@@ -3,7 +3,8 @@ from string import capwords
 import datetime
 from rest_framework import serializers
 
-from .person_serializer import PersonSerializer, MinimalPersonSerializer
+from .person_serializer import PersonSerializer, MinimalPersonSerializer, \
+    MinimalStripePersonSerializer
 from .people_serializer import PeopleSerializer
 from ..models.registration import Registration
 from ..models.person import Person
@@ -242,6 +243,18 @@ class MinimalRegistrationSerializer(serializers.ModelSerializer):
     MinimalRegistrationSerializer Outputs Registration Model as JSON with a minimal person
     """
     person = MinimalPersonSerializer()
+
+    class Meta:
+        model = Registration
+        # No Fields declaration to use all the fields of the model
+
+
+class MinimalStripeRegistrationSerializer(serializers.ModelSerializer):
+    """
+    MinimalRegistrationSerializer Outputs Registration Model as JSON with a minimal person
+    with stripes
+    """
+    person = MinimalStripePersonSerializer()
 
     class Meta:
         model = Registration
