@@ -61,11 +61,11 @@
 
 
 
-@media only screen and (min-width: 1240px)  {
+@media only screen and (min-width: 1080px)  {
 	.checkin {
 		padding: 0;
 		.thumbnail-area {
-			width: 1140px;
+			width: 1040px;
 		}
 
 		.thumbnail img {
@@ -75,11 +75,11 @@
 	}
 }
 
-@media only screen and (max-width: 1240px) and (min-width: 780px)  {
+@media only screen and (max-width: 1080px) and (min-width: 780px)  {
 	.checkin {
 
 		.thumbnail-area {
-			width: 720px;
+			width: 600px;
 		}
 
 		.thumbnail img {
@@ -93,12 +93,12 @@
 	.checkin {
 
 		.thumbnail-area {
-			width: 400px;
+			width: 340px;
 		}
 
 		.thumbnail img {
-			width: 170px;
-			height: 170px;
+			width: 120px;
+			height: 120px;
 		}
 	}
 }
