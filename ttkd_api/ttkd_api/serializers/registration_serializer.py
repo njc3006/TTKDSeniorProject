@@ -251,7 +251,7 @@ class MinimalRegistrationSerializer(serializers.ModelSerializer):
 
 class MinimalStripeRegistrationSerializer(serializers.ModelSerializer):
     """
-    MinimalRegistrationSerializer Outputs Registration Model as JSON with a minimal person
+    MinimalStripeRegistrationSerializer Outputs Registration Model as JSON with a minimal person
     with stripes
     """
     person = MinimalStripePersonSerializer()
