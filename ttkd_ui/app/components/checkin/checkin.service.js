@@ -44,9 +44,6 @@
 
             deleteInstructorCheckin: function (checkinId) {
                 return $http.delete(apiHost + '/api/instructor-check-ins/' + checkinId + '/');
-            },
-            getStudentStripes: function (personId) {
-                return $http.get(apiHost + '/api/person-stripes-detailed/?person=' + personId + '&current_stripe=2')
             }
         };
     }
