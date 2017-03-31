@@ -4,11 +4,22 @@ canvas {
   height: auto;
 }
 
-.webcam-modal .modal-dialog{
-  width: 80%;
+.webcam-modal {
+  max-width: 800px;
+  margin: auto;
+
+  .modal-dialog {
+    width: auto;
+  }
   
   .rotate-btn {
     position: fixed;
     z-index: 1;
+  }
+}
+
+@media (max-width: 900px) {
+  .webcam-modal {
+    width: 90%;
   }
 }
