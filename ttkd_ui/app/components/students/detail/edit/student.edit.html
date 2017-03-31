@@ -9,7 +9,7 @@
 	</div>
 
 	<div class="alert alert-success" ng-show="requestFlags.submission.success" uib-alert close="closeSuccessAlert()">
-		Information for {{studentInfo.first_name}} {{studentInfo.last_name}} has been successfully updated
+		Information for {{oldStudent.first_name}} {{oldStudent.last_name}} has been successfully updated
 	</div>
 
 	<div class="alert alert-info" role="alert" ng-show="!requestFlags.loading.done">
@@ -20,11 +20,18 @@
 		Student Information could not be loaded!
 	</div>
 
-	<div class="row form-group spacer-20" ng-show="!requestFlags.loading.failure && requestFlags.loading.done">
-		<button id="backBtn" class="btn btn-primary" ng-click="backNavigate()">
-			<span class="glyphicon glyphicon-chevron-left"></span>
-			Back
-		</button>
+	<div
+		class="row form-group spacer-20"
+		ng-show="!requestFlags.loading.failure && requestFlags.loading.done">
+		<div class="col-xs-1">
+			<button id="backBtn" class="btn btn-primary" ng-click="backNavigate()">
+				<span class="glyphicon glyphicon-chevron-left"></span>
+				Back
+			</button>
+		</div>
+		<div class="col-xs-6 col-xs-offset-2 text-center">
+			<span class="h1">{{oldStudent.first_name + ' ' + oldStudent.last_name}}</span>
+		</div>
 	</div>
 
 	<form name="editForm" ng-submit="submitChanges(editForm.$valid)" novalidate ng-show="!requestFlags.loading.failure">
