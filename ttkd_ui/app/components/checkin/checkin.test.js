@@ -44,6 +44,11 @@ describe('Student Checkin', function () {
             yesBtn.click();
             browser.driver.sleep(1);
             browser.waitForAngular();
+
+            var checkedInStringCount = element.all(
+                by.xpath('//span[contains(text(),\'Total Checked In: 1/5\')]')).count();
+            expect(checkedInStringCount).toBe(1);
+
             // verify student was checked in
             element.all(by.css('.checked')).count().then(function (newNumChecked) {
                 expect(newNumChecked).toEqual(oldNumChecked + 1);
@@ -120,6 +125,11 @@ describe('Student Checkin', function () {
             firstStudent.click();
             browser.driver.sleep(1);
             browser.waitForAngular();
+
+            var checkedInStringCount = element.all(
+                by.xpath('//span[contains(text(),\'Total Checked In: 0/5\')]')).count();
+            expect(checkedInStringCount).toBe(1);
+
             // verify student was checked in
             element.all(by.css('.checked')).count().then(function (newNumChecked) {
                 expect(newNumChecked).toEqual(oldNumChecked - 1);
@@ -135,6 +145,11 @@ describe('Student Checkin', function () {
             lastStudent.click();
             browser.driver.sleep(1);
             browser.waitForAngular();
+
+            var checkedInStringCount = element.all(
+                by.xpath('//span[contains(text(),\'Total Checked In: 1/5\')]')).count();
+            expect(checkedInStringCount).toBe(1);
+
             // verify student was checked in
             element.all(by.css('.checked')).count().then(function (newNumChecked) {
                 expect(newNumChecked).toEqual(oldNumChecked + 1);
@@ -164,6 +179,11 @@ describe('Student Checkin', function () {
             checkedInStudent.click();
             browser.driver.sleep(1);
             browser.waitForAngular();
+
+            var checkedInStringCount = element.all(
+                by.xpath('//span[contains(text(),\'Total Checked In: 0/5\')]')).count();
+            expect(checkedInStringCount).toBe(1);
+
             // verify student was checked in
             element.all(by.css('.checked')).count().then(function (newNumChecked) {
                 expect(newNumChecked).toEqual(oldNumChecked - 1);
@@ -198,6 +218,11 @@ describe('Student Checkin', function () {
             firstStudent.click();
             browser.driver.sleep(1);
             browser.waitForAngular();
+
+            var checkedInStringCount = element.all(
+                by.xpath('//span[contains(text(),\'Total Checked In: 1/5\')]')).count();
+            expect(checkedInStringCount).toBe(1);
+
             // verify student was checked in
             element.all(by.css('.checked')).count().then(function (newNumChecked) {
                 expect(newNumChecked).toEqual(oldNumChecked + 1);
@@ -232,6 +257,11 @@ describe('Student Checkin', function () {
             firstStudent.click();
             browser.driver.sleep(1);
             browser.waitForAngular();
+
+            var checkedInStringCount = element.all(
+                by.xpath('//span[contains(text(),\'Total Checked In: 0/5\')]')).count();
+            expect(checkedInStringCount).toBe(1);
+
             // verify student was checked in
             element.all(by.css('.checked')).count().then(function (newNumChecked) {
                 expect(newNumChecked).toEqual(oldNumChecked - 1);
@@ -242,7 +272,7 @@ describe('Student Checkin', function () {
         element(by.id('logout')).click();
     });
 
-    it('Login as an instructor no one is checked in on the the 7th of the month', function () {
+    it('Login as an instructor and assert no one is checked in on the the 7th of the month', function () {
         element(by.id('login')).click();
         browser.driver.sleep(1000);
 
@@ -288,7 +318,7 @@ describe('Student Checkin', function () {
         expect(countOfName).toBe(1);
 
         var countOfAddress = element.all(
-            by.xpath('//span[text()=\'Address: 123 TTKD Lane, No Where, KS 12345\']')).count();
+            by.xpath('//span[text()=\'123 TTKD Lane, No Where, KS 12345\']')).count();
         expect(countOfAddress).toBe(1);
 
         element(by.id('userBtn')).click();
@@ -318,7 +348,7 @@ describe('Student Checkin', function () {
         expect(countOfName).toBe(1);
 
         var countOfAddress = element.all(
-            by.xpath('//span[text()=\'Address: 123 TTKD Lane, No Where, KS 12345\']')).count();
+            by.xpath('//span[text()=\'123 TTKD Lane, No Where, KS 12345\']')).count();
         expect(countOfAddress).toBe(1);
 
         element(by.id('userBtn')).click();
@@ -345,7 +375,7 @@ describe('Student Checkin', function () {
         // Now that we are on edit page, make sure there is current belt, and that there is not
         // a first name input which would mean we are on an admin edit student
         // Using a contains here because the span has a newline in it or something weird
-        var countOfBelt = element.all(by.xpath('//span[contains(text(),\'Current belt\')]')).count();
+        var countOfBelt = element.all(by.xpath('//span[contains(text(),\'Available Stripes\')]')).count();
         expect(countOfBelt).toBe(1);
 
         var countOfNameInput = element.all(by.css('input[name=\'firstName\']')).count();
