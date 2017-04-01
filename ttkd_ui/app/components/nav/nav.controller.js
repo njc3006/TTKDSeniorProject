@@ -5,15 +5,20 @@
     .controller('NavCtrl', ['$scope', '$rootScope', '$state', '$document',
       '$uibModal', '$http', 'apiHost', '$cookies', '$location',
       function($scope, $rootScope, $state, $document, $uibModal, $http, apiHost, $cookies, $location) {
-      $rootScope.showCurrentProgram = true;
-      $rootScope.showLogin = true;
+      
+      $scope.currentProgram = $cookies.getObject('currentProgram')
+      
       $rootScope.loggedin = ($cookies.getObject('Authorization') ?  true:false);
+
       $rootScope.currentUser = $cookies.getObject('Authorization') ?
-        $cookies.getObject('Authorization').username : 'Anonymous';
+          $cookies.getObject('Authorization').username : 'Anonymous';
+
       $rootScope.userlevel = $cookies.getObject('Authorization') ?
-        $cookies.getObject('Authorization').userlevel : -1;
+          $cookies.getObject('Authorization').userlevel : -1;
+
       $rootScope.currentUserID = $cookies.getObject('Authorization') ?
-        $cookies.getObject('Authorization').currentUserID : -1;
+          $cookies.getObject('Authorization').currentUserID : -1;
+
       var modalInstance;
 
       $scope.reload = function() {

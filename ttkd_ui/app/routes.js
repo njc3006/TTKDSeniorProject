@@ -21,7 +21,7 @@
                 })
 
                 .state('checkin', {
-                    url: '/checkin/{programID:int}',
+                    url: '/checkin',
                     templateUrl: 'components/checkin/checkin.html',
                     controller: 'CheckinCtrl',
                     data: {

@@ -9,7 +9,7 @@
             $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
 
             $scope.apiHost = apiHost;
-            $scope.programID = $stateParams.programID;
+            $scope.programID = $cookies.getObject('currentProgram').id;
             $scope.isInstructor = $rootScope.userlevel >= 0;
             $scope.date = new Date();
 
@@ -157,7 +157,7 @@
 
             // Get all of the students from the class and determine ones already checked in
             $scope.getStudents = function() {
-                CheckinService.getStudentsFromProgram($stateParams.programID).then(
+                CheckinService.getStudentsFromProgram($cookies.getObject('currentProgram').id).then(
                     function(response) {
                         var tempdata = response.data;
 
@@ -207,7 +207,7 @@
 
             // Get all of the instructors from the class and determine ones already checked in
             $scope.getInstructors = function() {
-                CheckinService.getInstructorsForProgram($stateParams.programID).then(
+                CheckinService.getInstructorsForProgram($cookies.getObject('currentProgram').id).then(
                     function(response) {
                         var tempdata = response.data;
 

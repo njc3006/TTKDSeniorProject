@@ -1,20 +1,27 @@
 (function() {
 
-  angular.module('ttkdApp.mainCtrl', ['ttkdApp.constants'])
-    .controller('MainCtrl', ['$scope', 'companyName', 'ProgramsSvc',
-    	function($scope, companyName, ProgramsSvc) {
+  angular.module('ttkdApp.mainCtrl', ['ttkdApp.constants', 'ngCookies'])
+    .controller('MainCtrl', ['$scope', 'companyName', 'ProgramsSvc', '$cookies', '$location',
+    	function($scope, companyName, ProgramsSvc, $cookies, $location) {
       $scope.showNav = true;
       $scope.title = companyName;
 
       // get all the active programs, then set the first one in the list to our default
-      ProgramsSvc.getActivePrograms().then(function onSuccess(response) {
-        if(response && response.data.length > 0) {
-      	  $scope.currentProgram = response.data[0];
-        }
-      });
+      if(!$cookies.getObject('currentProgram')) {
+        ProgramsSvc.getActivePrograms().then(function onSuccess(response) {
+          if(response && response.data.length > 0) {
+        	  $cookies.putObject('currentProgram', response.data[0]);
+          }
+        });
+      }
+      else {
+        $scope.currentProgram = $cookies.getObject('currentProgram');
+      }
 
       $scope.changeProgram = function(program) {
         $scope.currentProgram = program;
+        $cookies.putObject('currentProgram', program);
+        location.reload();
       };
 
     }]);
