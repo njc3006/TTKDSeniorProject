@@ -11,7 +11,8 @@
 
         $scope.people = [];
         $scope.allPeople = [];
-        $scope.classPeople = [];
+        $scope.activePeople = [];
+        $scope.inactivePeople = [];
         $scope.attendanceRecords = [];
         $scope.classAttendance = [];
         $scope.classes = [];
@@ -70,20 +71,67 @@
             };
         };
 
+        $scope.updateInactiveDisplay = function () {
+            $scope.studentsLoaded = false;
+
+            // If the list already has something in it, then nothing has changed so no need to get
+            // it again so fall onto else
+            if ($scope.inactivePeople.length ===0){
+
+                // If the currentProgramId is "" that means the first option is selected ie. no program
+                if($scope.filters.currentProgramId != null && $scope.filters.currentProgramId !== "") {
+                    var classId = $scope.filters.currentProgramId;
+                    StudentListService.getInactiveStudentsFromProgram(classId).then(
+                        function (response) {
+                            $scope.inactivePeople = response.data;
+                            $scope.setDisplayedStudents();
+                            $scope.studentsLoaded = true;
+                        });
+                } else {
+                    StudentListService.getAllInactiveStudents().then(
+                        function(response){
+                            var tempdata = response.data;
+                            var temp2 = [];
+
+                            // This modifies the return from /people to be the same as /class-people by
+                            // nesting the value (a person) under person
+                            angular.forEach(tempdata, function(value){
+                                var transformed = {
+                                    id: value.id,
+                                    person: value
+                                };
+
+                                temp2.push(transformed);
+                            });
+
+                            $scope.inactivePeople = temp2;
+                            $scope.setDisplayedStudents();
+                            $scope.studentsLoaded = true;
+                        });
+                }
+            } else {
+                $scope.setDisplayedStudents();
+                $scope.studentsLoaded = true;
+            }
+        };
+
         //updates the displayed list of students based on the current filters
         $scope.setDisplayedStudents = function(){
-            var filteredList = [];
-            var displayedPeople = $scope.filters.currentProgramId ? $scope.classPeople : $scope.allPeople;
-            var displayedAttendance = $scope.attendanceRecords;
 
-            //filter based on active/inactive checkboxes
-            for(var i = 0; i < displayedPeople.length; i++){
-                var person = displayedPeople[i].person;
-                if(($scope.filters.showActive && (person.active === $scope.filters.showActive)) || 
-                    ($scope.filters.showInactive && (person.active !== $scope.filters.showInactive))){
-                        filteredList.push(displayedPeople[i]);
-                }
-            }
+            var displayedPeople = [];
+
+             if ($scope.filters.showActive){
+                 // This is the correct way to push on array into another
+                 displayedPeople.push.apply(displayedPeople, $scope.activePeople);
+             }
+
+             if ($scope.filters.showInactive){
+
+                 // This is the correct way to push on array into another
+                 displayedPeople.push.apply(displayedPeople, $scope.inactivePeople);
+             }
+
+             var filteredList = displayedPeople;
 
             //filter based on specific selected date
             if($scope.selectedDate.value != null){
@@ -91,6 +139,7 @@
                 //matches the format returned from the backend, used to find attendance records of the correct day
                 var formattedDate = $scope.getCurrentFormattedDate($scope.selectedDate.value);
                 var filteredByDate = [];
+                var displayedAttendance = $scope.attendanceRecords;
 
                 //loop through and find all students who have attendance records of the specified date
                 for(var k = 0; k < filteredList.length; k++){
@@ -153,8 +202,10 @@
         };
 
         //retrieves the list of all students in the system
-        $scope.getAllStudents = function(){
-            StudentListService.getAllStudents().then(
+        $scope.getAllActiveStudents = function(){
+            $scope.activePeople = [];
+            $scope.inactivePeople = [];
+            StudentListService.getAllActiveStudents().then(
                 function(response){
                     var tempdata = response.data;
                     var temp2 = [];
@@ -162,42 +213,44 @@
                     angular.forEach(tempdata, function(value){
                         var transformed = {
                             id: value.id,
-                            person: value,
-                            program: null,
-                            fullName: value.first_name + ' ' + value.last_name
+                            person: value
                         };
 
                         temp2.push(transformed);
                     });
 
-                    $scope.allPeople = temp2;
+                    $scope.activePeople = temp2;
                     $scope.setDisplayedStudents();
                     $scope.studentsLoaded = true;
                 });
         };
 
         //retrieves the list of students in a specific class
-        $scope.getStudentsFromProgram = function(){
+        $scope.getActiveStudentsFromProgram = function(){
             $scope.studentsLoaded = false;
-            var classId = '';
+            $scope.activePeople = [];
+            $scope.inactivePeople = [];
 
-            if($scope.filters.currentProgramId != null){
-                classId = $scope.filters.currentProgramId;
+            // If the currentProgramId is "" that means the first option is selected ie. no program
+            if($scope.filters.currentProgramId != null && $scope.filters.currentProgramId !== ""){
+                var classId = $scope.filters.currentProgramId;
+                StudentListService.getActiveStudentsFromProgram(classId).then(
+                    function (response){
+                        $scope.activePeople = response.data;
+
+                        // This will updateDisplayedStudents and set studentsLoaded
+                        $scope.updateAttendanceRecords();
+                    });
+            } else {
+                $scope.studentsLoaded = false;
+                $scope.getAllActiveStudents();
             }
-
-            StudentListService.getStudentsFromProgram(classId).then(
-                function (response){
-                    $scope.classPeople = response.data;
-
-                    // This will updateDisplayedStudents and set studentsLoaded
-                    $scope.updateAttendanceRecords();
-                });
         };
 
         //initialization
         $scope.getProgramList();
         $scope.getBeltList();
-        $scope.getAllStudents();
+        $scope.getAllActiveStudents();
 
         $scope.updateAttendanceRecords = function(){
             $scope.studentsLoaded = false;
@@ -242,12 +295,15 @@
             }
         });
 
-        //class dropdown watcher
-        $scope.$watch('filters.currentProgramId', function(newValue, oldValue){
-            if($scope.filters.currentProgramId != null){
-                $scope.getStudentsFromProgram();
-            }
-        });
+        // //class dropdown watcher
+        // $scope.$watch('filters.currentProgramId', function(newValue, oldValue){
+        //     // This if prevents the method from being run on first load of the page
+        //     // Not quite sure why that is happening, but this fixes it
+        //     if (newValue !== oldValue) {
+        //         console.log("Running fuckkkk");
+        //         $scope.getActiveStudentsFromProgram();
+        //     }
+        // });
 
         //searchbox watcher
         $scope.$watch('filters.searchQuery', function(newValue, oldValue) {

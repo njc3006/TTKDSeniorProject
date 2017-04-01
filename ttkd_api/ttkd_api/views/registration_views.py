@@ -74,4 +74,4 @@ class RegistrationWithPeopleViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Registration.objects.filter(is_partial=False)
     serializer_class = RegistrationWithPeopleSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('program', 'person',)
+    filter_fields = ('program', 'person', 'person__active')
