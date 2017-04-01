@@ -3,8 +3,8 @@
   angular.module('ttkdApp.studentlistCtrl', ['ttkdApp.constants'])
 
     .controller('StudentListCtrl', ['$scope', '$rootScope', '$filter', '$stateParams', 'StudentListService', 
-        'ProgramsSvc', 'apiHost',
-        function($scope, $rootScope, $filter, $stateParams, StudentListService, ProgramsSvc, apiHost) {
+        'ProgramsSvc', 'apiHost', '$q',
+        function($scope, $rootScope, $filter, $stateParams, StudentListService, ProgramsSvc, apiHost, $q) {
         $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
 
         $scope.apiHost = apiHost;
@@ -20,6 +20,7 @@
         $scope.sortAZ = true;
         $scope.sortDisplayString = 'A-Z';
         $scope.studentsLoaded = false;
+        $scope.promises = [];
 
         $scope.filters = {
             showActive: true,
@@ -71,44 +72,49 @@
             };
         };
 
+        $scope.updateActiveDisplay = function () {
+            $scope.studentsLoaded = false;
+            $scope.promises = [];
+
+            // If the list already has something in it, then nothing has changed so no need to get
+            // it again so fall onto else
+            if ($scope.activePeople.length ===0){
+
+                // If the currentProgramId is "" that means the first option is selected ie. no program
+                if($scope.filters.currentProgramId !== null && $scope.filters.currentProgramId !== "") {
+                    $scope.getActiveStudentsFromProgram();
+                } else {
+                    $scope.getAllActiveStudents();
+                }
+
+                $q.all($scope.promises).then(function(){
+                    $scope.setDisplayedStudents();
+                    $scope.studentsLoaded = true;
+                });
+            } else {
+                $scope.setDisplayedStudents();
+                $scope.studentsLoaded = true;
+            }
+        };
+
         $scope.updateInactiveDisplay = function () {
             $scope.studentsLoaded = false;
+            $scope.promises = [];
 
             // If the list already has something in it, then nothing has changed so no need to get
             // it again so fall onto else
             if ($scope.inactivePeople.length ===0){
 
                 // If the currentProgramId is "" that means the first option is selected ie. no program
-                if($scope.filters.currentProgramId != null && $scope.filters.currentProgramId !== "") {
-                    var classId = $scope.filters.currentProgramId;
-                    StudentListService.getInactiveStudentsFromProgram(classId).then(
-                        function (response) {
-                            $scope.inactivePeople = response.data;
-                            $scope.setDisplayedStudents();
-                            $scope.studentsLoaded = true;
-                        });
+                if($scope.filters.currentProgramId !== null && $scope.filters.currentProgramId !== "") {
+                    $scope.getInactiveStudentsFromProgram();
                 } else {
-                    StudentListService.getAllInactiveStudents().then(
-                        function(response){
-                            var tempdata = response.data;
-                            var temp2 = [];
-
-                            // This modifies the return from /people to be the same as /class-people by
-                            // nesting the value (a person) under person
-                            angular.forEach(tempdata, function(value){
-                                var transformed = {
-                                    id: value.id,
-                                    person: value
-                                };
-
-                                temp2.push(transformed);
-                            });
-
-                            $scope.inactivePeople = temp2;
-                            $scope.setDisplayedStudents();
-                            $scope.studentsLoaded = true;
-                        });
+                    $scope.getAllInactiveStudents()
                 }
+                $q.all($scope.promises).then(function(){
+                    $scope.setDisplayedStudents();
+                    $scope.studentsLoaded = true;
+                });
             } else {
                 $scope.setDisplayedStudents();
                 $scope.studentsLoaded = true;
@@ -203,9 +209,7 @@
 
         //retrieves the list of all students in the system
         $scope.getAllActiveStudents = function(){
-            $scope.activePeople = [];
-            $scope.inactivePeople = [];
-            StudentListService.getAllActiveStudents().then(
+            $scope.promises.push(StudentListService.getAllActiveStudents().then(
                 function(response){
                     var tempdata = response.data;
                     var temp2 = [];
@@ -220,37 +224,90 @@
                     });
 
                     $scope.activePeople = temp2;
-                    $scope.setDisplayedStudents();
-                    $scope.studentsLoaded = true;
-                });
+                }));
         };
 
-        //retrieves the list of students in a specific class
+        $scope.getAllInactiveStudents =function () {
+            $scope.promises.push(StudentListService.getAllInactiveStudents().then(
+                function(response){
+                    var tempdata = response.data;
+                    var temp2 = [];
+
+                    // This modifies the return from /people to be the same as /class-people by
+                    // nesting the value (a person) under person
+                    angular.forEach(tempdata, function(value){
+                        var transformed = {
+                            id: value.id,
+                            person: value
+                        };
+
+                        temp2.push(transformed);
+                    });
+                    $scope.inactivePeople = temp2;
+                }));
+        };
+
+        //retrieves the list of active students in a specific class
         $scope.getActiveStudentsFromProgram = function(){
+            var classId = $scope.filters.currentProgramId;
+            $scope.promises.push(StudentListService.getActiveStudentsFromProgram(classId).then(
+                function (response){
+                    $scope.activePeople = response.data;
+                }));
+        };
+
+        //retrieves the list of inactive students in a specific class
+        $scope.getInactiveStudentsFromProgram = function(){
+            var classId = $scope.filters.currentProgramId;
+            $scope.promises.push(StudentListService.getInactiveStudentsFromProgram(classId).then(
+                function (response) {
+                    $scope.inactivePeople = response.data;
+                    $scope.setDisplayedStudents();
+                    $scope.studentsLoaded = true;
+                }));
+        };
+
+
+        $scope.changeProgram = function () {
+
             $scope.studentsLoaded = false;
             $scope.activePeople = [];
             $scope.inactivePeople = [];
+            $scope.promises = [];
 
             // If the currentProgramId is "" that means the first option is selected ie. no program
-            if($scope.filters.currentProgramId != null && $scope.filters.currentProgramId !== ""){
-                var classId = $scope.filters.currentProgramId;
-                StudentListService.getActiveStudentsFromProgram(classId).then(
-                    function (response){
-                        $scope.activePeople = response.data;
+            if($scope.filters.currentProgramId !== null && $scope.filters.currentProgramId !== "") {
+                if ($scope.filters.showActive){
+                    $scope.getActiveStudentsFromProgram();
+                }
 
-                        // This will updateDisplayedStudents and set studentsLoaded
-                        $scope.updateAttendanceRecords();
-                    });
+                if ($scope.filters.showInactive){
+                    $scope.getInactiveStudentsFromProgram();
+                }
+
+            // Switching back to no program filter
             } else {
-                $scope.studentsLoaded = false;
-                $scope.getAllActiveStudents();
+                if ($scope.filters.showActive){
+                    $scope.getAllActiveStudents();
+                }
+
+                if ($scope.filters.showInactive){
+                    $scope.getAllInactiveStudents();
+                }
             }
+
+            $q.all($scope.promises).then(function(){
+                // This will updateDisplayedStudents and set studentsLoaded
+                $scope.updateAttendanceRecords();
+            });
         };
+
 
         //initialization
         $scope.getProgramList();
         $scope.getBeltList();
-        $scope.getAllActiveStudents();
+        // Calling change program for the first time will just load all active students
+        $scope.changeProgram();
 
         $scope.updateAttendanceRecords = function(){
             $scope.studentsLoaded = false;
@@ -294,16 +351,6 @@
                 $scope.updateAttendanceRecords();
             }
         });
-
-        // //class dropdown watcher
-        // $scope.$watch('filters.currentProgramId', function(newValue, oldValue){
-        //     // This if prevents the method from being run on first load of the page
-        //     // Not quite sure why that is happening, but this fixes it
-        //     if (newValue !== oldValue) {
-        //         console.log("Running fuckkkk");
-        //         $scope.getActiveStudentsFromProgram();
-        //     }
-        // });
 
         //searchbox watcher
         $scope.$watch('filters.searchQuery', function(newValue, oldValue) {
