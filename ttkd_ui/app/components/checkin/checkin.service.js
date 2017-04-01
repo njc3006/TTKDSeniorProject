@@ -13,7 +13,8 @@
             },
 
             getStudentsFromProgram: function (programId) {
-                return $http.get(apiHost + '/api/registrations-minimal-stripes/?program=' + programId + '&person__active=2');
+                return $http.get(apiHost + '/api/registrations-minimal-stripes/?program=' +
+                    programId + '&person__active=2');
             },
 
             getCheckinsForProgram: function (programId, checkinDate) {
