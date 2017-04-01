@@ -21,10 +21,15 @@
 	</div>
 
 	<div class="row form-group spacer-20" ng-show="!requestFlags.loading.failure && requestFlags.loading.done">
-		<button id="backBtn" class="btn btn-primary" ng-click="backNavigate()">
-			<span class="glyphicon glyphicon-chevron-left"></span>
-			Back
-		</button>
+		<div class="col-xs-2">
+			<button id="backBtn" class="btn btn-primary" ng-click="backNavigate()">
+				<span class="glyphicon glyphicon-chevron-left"></span>
+				Back
+			</button>
+		</div>
+		<div class="col-xs-2 pull-right">
+			<button id="updateBtn" type="submit" class="btn btn-primary pull-right" ng-disabled="!editForm.$valid">Update</button>
+		</div>
 	</div>
 
 	<form name="editForm" ng-submit="submitChanges(editForm.$valid)" novalidate ng-show="!requestFlags.loading.failure">
@@ -343,6 +348,5 @@
 				<textarea class="form-control" rows="8" ng-model="studentInfo.misc_notes"></textarea>
 			</div>
 		</div>
-		<button id="updateBtn" type="submit" class="btn btn-primary btn-lg spacer-25" ng-disabled="!editForm.$valid">Update</button>
 	</form>
 </div>
