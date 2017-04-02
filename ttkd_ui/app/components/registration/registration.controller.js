@@ -73,42 +73,42 @@
 		$scope.isPartialRegistration = $stateParams.partial;
 		$scope.dateTouched = false;
 
+		/*
+		 * Force a user to enter a valid date format that is compatible with the datepicker */
+		$scope.onDateKeypress = function($event) {
+			$scope.dateTouched = true;
+			// if the value is a number
+			if(!isNaN(parseInt($event.key))) {
+				/* if the target has 1 char, and we're adding another, 
+		       then add a '/' to format the date month */
+				if($event.target.value.length === 1)
+				{
+					$event.target.value += $event.key + '/';
+				}
+				/* if the target has 2 chars, they must have removed the '/'. 
+						Add it back. See how they like it. */
+				else if($event.target.value.length === 2) {
+					$event.target.value += '/' + $event.key;
+				}
+				/* if there are 4 characters, plus the one we're adding,
+				   add a slash after the day */
+				else if($event.target.value.length === 4) {
+					$event.target.value += $event.key + '/'
+				}
+				/* if there are 5 chars, they removed a slash, so add it back. */
+				else if($event.target.value.length === 5) {
+					$event.target.value += '/' + $event.key;
+				}
+				/* otherwise just make sure its less than 10 and add another char */
+				else if ($event.target.value.length < 10) {
+					$event.target.value += $event.key
+				}
+			}
+			$event.preventDefault();
+		};
+
 		if ($scope.isPartialRegistration) {
 			$scope.canVisit = function(sectionIndex) { return true; };
-
-				/*
-				 * Force a user to enter a valid date format that is compatible with the datepicker */
-				$scope.onDateKeypress = function($event) {
-					$scope.dateTouched = true;
-					// if the value is a number
-					if(!isNaN(parseInt($event.key))) {
-						/* if the target has 1 char, and we're adding another, 
-				       then add a '/' to format the date month */
-						if($event.target.value.length === 1)
-						{
-							$event.target.value += $event.key + '/';
-						}
-						/* if the target has 2 chars, they must have removed the '/'. 
-								Add it back. See how they like it. */
-						else if($event.target.value.length === 2) {
-							$event.target.value += '/' + $event.key;
-						}
-						/* if there are 4 characters, plus the one we're adding,
-						   add a slash after the day */
-						else if($event.target.value.length === 4) {
-							$event.target.value += $event.key + '/'
-						}
-						/* if there are 5 chars, they removed a slash, so add it back. */
-						else if($event.target.value.length === 5) {
-							$event.target.value += '/' + $event.key;
-						}
-						/* otherwise just make sure its less than 10 and add another char */
-						else if ($event.target.value.length < 10) {
-							$event.target.value += $event.key
-						}
-					}
-					$event.preventDefault();
-				};
 
 			$scope.isFieldRequired = function(fieldName) {
 				if (fieldName === 'primaryPhone') {
