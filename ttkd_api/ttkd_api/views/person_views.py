@@ -63,7 +63,6 @@ class PersonPictureViewSet(viewsets.GenericViewSet):
             win_path = os.path.join(BASE_DIR, person.picture.url)
 
             # crop the image to be square
-            print(win_path)
             img = Image.open(win_path)
 
             # get the uploaded width and height
