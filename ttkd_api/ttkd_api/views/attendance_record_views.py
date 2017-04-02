@@ -3,6 +3,7 @@ import django_filters
 from django_filters import rest_framework as drf_filters
 from rest_framework import viewsets, filters
 from rest_framework.pagination import PageNumberPagination
+from rest_framework import status
 from ..serializers.attendance_record_serializer import AttendanceRecordSerializer, \
     AttendanceRecordSerializerUsingPerson, DetailedAttendanceRecordSerializer
 from ..models.attendance_record import AttendanceRecord
@@ -71,6 +72,14 @@ def get_grouped_attendance_records(request):
     date__lte
     program
     """
+    if request.method == "OPTIONS":
+        return Response(status=status.HTTP_200_OK)
+    elif request.user.is_staff < 1:
+        return Response(
+            {'detail': 'Authentication credentials were not provided.'},
+            status=status.HTTP_401_UNAUTHORIZED
+        )
+
     filtered_records = DateRangeFilter(
         request.GET,
         AttendanceRecord.objects.all()
