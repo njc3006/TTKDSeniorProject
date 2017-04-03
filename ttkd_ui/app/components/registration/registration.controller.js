@@ -103,6 +103,10 @@
 				else if ($event.target.value.length < 10) {
 					$event.target.value += $event.key
 				}
+
+				if($event.target.value.length === 10) {
+					$scope.registrationInfo.person.dob.value = moment($event.target.value, "MM/DD/YYYY").toDate();
+				}
 			}
 			$event.preventDefault();
 		};
@@ -240,11 +244,13 @@
 				var today = moment();
 				var birthday = moment($scope.registrationInfo.person.dob.value);
 
-				var ageInYears = today.diff(birthday, 'years');
+				if(birthday !== undefined) {
+					var ageInYears = today.diff(birthday, 'years');
 
-				return ageInYears <= 1;
+					return ageInYears <= 1;
+				}
 			}
-			return true;
+			return false;
 		};
 
 		$scope.formattedDob = function() {
