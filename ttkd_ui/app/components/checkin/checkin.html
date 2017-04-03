@@ -53,9 +53,9 @@
             </div>
         </div>
         <div class="col-md-3 col-xs-3 pull-right">
-            <select id="beltSelect" class="form-control" ng-model="filters.currentBelt" ng-change="setDisplayedStudents()"
-            ng-options="belt.name for belt in belts">
+            <select id="beltSelect" class="form-control" ng-model="filters.currentBelt" ng-change="setDisplayedStudents()">
                 <option value="">All Belts</option>
+                <option ng-repeat="belt in belts | orderBy: 'name' " ng-show="belt.relevant" value="{{belt.id}}" ng-model="belt.id">{{belt.name}}</option>
             </select>
         </div>
     </div>

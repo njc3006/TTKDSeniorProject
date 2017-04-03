@@ -35,6 +35,23 @@
             };
             $scope.getBeltList();
 
+            // Limit belts to only be those relevant to the program.
+            $scope.checkBelts = function() {   
+
+                angular.forEach($scope.belts, function(belt) {
+                    belt.relevant = false;
+
+                    angular.forEach($scope.people, function(student) {
+                        if (!belt.relevant) {
+                            if (belt.id === student.belt.id) {
+                                belt.relevant = true;
+                            }
+                        }
+                    });
+
+                });
+            };
+
             $scope.instructors = [];
             $scope.checkedInInstructorsIds = [];
             $scope.checkedInInstructorsCheckinIds = [];
@@ -168,6 +185,7 @@
                         $scope.totalCheckedInCount = $scope.checkedInPeopleIds.length;
 
                         $scope.getStudents();
+                        $scope.checkBelts();
                     });
             };
 
@@ -209,6 +227,7 @@
                         });
 
                         $scope.filterStudents();
+                        $scope.checkBelts();
                     });
             };
 
@@ -402,7 +421,8 @@
 
             $scope.filterStudents = function() {
                 angular.forEach($scope.people, function(value) {
-                    if ($scope.filters.currentBelt === null || $scope.filters.currentBelt.id === value.belt.id) {
+                    // Needs to use == not === or it won't work sorry axv
+                    if (!$scope.filters.currentBelt || $scope.filters.currentBelt == value.belt.id) {
                         value.show = true;
                     }
                     else {
