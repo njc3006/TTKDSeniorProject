@@ -349,7 +349,7 @@
 		};
 
 		$scope.removeEmail = function(index) {
-			$scope.registrationInfo.emails.splice(index, 1);
+			$scope.registrationInfo.person.emails.splice(index, 1);
 			$scope.numElements--;
 		};
 
