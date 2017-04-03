@@ -41,6 +41,17 @@
                 </label>
             </span>
             <h4 class="col-xs-12 programs-instruct-title no-padding">Student Instructors</h4>
+            <div class="spacer-35">
+                <div class="input-group col-sm-12">
+                    <input
+                        placeholder="Search For A Student To Add As An Instructor"
+                        type="text"
+                        ng-model="selectedInstructor"
+                        typeahead-on-select="addInstructor()"
+                        uib-typeahead="person as person.name for person in people | filter:{name:$viewValue} | limitTo:10"
+                        class="form-control">
+                </div>
+            </div>
             <div ng-repeat="instructor in instructors" class="spacer-10">
                 <div class="input-group col-sm-12 spacer-10">
                     <span class="form-control text-capitalize">{{instructor.person.first_name}} {{instructor.person.last_name}}</span>
@@ -55,19 +66,19 @@
                     </span>
                 </div>
             </div>
-            <div class="">
+
+            <h4 class="col-xs-12 programs-instruct-title no-padding">Program Students</h4>
+            <div class="spacer-35">
                 <div class="input-group col-sm-12">
                     <input
-                        placeholder="Search For A Student To Add As An Instructor"
+                        placeholder="Search For A Student To Add To This Program"
                         type="text"
-                        ng-model="selectedInstructor"
-                        typeahead-on-select="addInstructor()"
+                        ng-model="selectedStudent"
+                        typeahead-on-select="addStudent()"
                         uib-typeahead="person as person.name for person in people | filter:{name:$viewValue} | limitTo:10"
                         class="form-control">
                 </div>
             </div>
-
-            <h4 class="col-xs-12 programs-instruct-title no-padding">Program Students</h4>
             <div ng-repeat="registration in registrations" class="spacer-10">
                 <div class="input-group col-sm-12 spacer-10">
                     <span class="form-control text-capitalize">{{registration.person.first_name}} {{registration.person.last_name}}</span>
@@ -80,17 +91,6 @@
                             <i class="glyphicon glyphicon-minus"></i>
                         </button>
                     </span>
-                </div>
-            </div>
-            <div class="spacer-35">
-                <div class="input-group col-sm-12">
-                    <input
-                        placeholder="Search For A Student To Add To This Program"
-                        type="text"
-                        ng-model="selectedStudent"
-                        typeahead-on-select="addStudent()"
-                        uib-typeahead="person as person.name for person in people | filter:{name:$viewValue} | limitTo:10"
-                        class="form-control">
                 </div>
             </div>
 
