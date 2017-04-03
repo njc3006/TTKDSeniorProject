@@ -11,13 +11,13 @@
       $rootScope.loggedin = ($cookies.getObject('Authorization') ?  true:false);
 
       $rootScope.currentUser = $cookies.getObject('Authorization') ?
-          $cookies.getObject('Authorization').username : 'Anonymous';
+        $cookies.getObject('Authorization').username : 'Anonymous';
 
       $rootScope.userlevel = $cookies.getObject('Authorization') ?
-          $cookies.getObject('Authorization').userlevel : -1;
+        $cookies.getObject('Authorization').userlevel : -1;
 
       $rootScope.currentUserID = $cookies.getObject('Authorization') ?
-          $cookies.getObject('Authorization').currentUserID : -1;
+        $cookies.getObject('Authorization').currentUserID : -1;
 
       var modalInstance;
 
@@ -26,7 +26,7 @@
       };
       
       $scope.closeAlert = function(alert){
-          $scope.statusAlert[alert] = false;
+        $scope.statusAlert[alert] = false;
       };
 
       // returns true if the current router url matches the passed in url
@@ -41,9 +41,9 @@
 
       $scope.clearAlerts = function() {
         $scope.statusAlert = {
-            failure: false,
-            password: false,
-            missing: false
+          failure: false,
+          password: false,
+          missing: false
         };
       };
 
@@ -155,8 +155,8 @@
           animation: true,
           windowClass: 'password-modal',
           ariaLabelledBy: 'modal-title',
-            ariaDescribedBy: 'modal-body',
-            templateUrl: 'components/user-management/password.modal.html',
+          ariaDescribedBy: 'modal-body',
+          templateUrl: 'components/user-management/password.modal.html',
           scope: $scope
         });
       };
