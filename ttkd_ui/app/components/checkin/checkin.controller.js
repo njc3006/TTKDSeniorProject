@@ -3,8 +3,10 @@
     angular.module('ttkdApp.checkinCtrl', ['ttkdApp.constants'])
 
     .controller('CheckinCtrl', ['$scope', '$rootScope', '$stateParams', '$document',
-        '$filter', '$uibModal', 'CheckinService', 'apiHost', '$state',
-        function($scope, $rootScope, $stateParams, $document, $filter, $uibModal, CheckinService, apiHost, $state) {
+        '$filter', '$uibModal', 'CheckinService', 'apiHost', '$state', 'StudentListService',
+        function($scope, $rootScope, $stateParams, $document, $filter,
+            $uibModal, CheckinService, apiHost, $state, StudentListService) {
+            
             var modalInstance;
             $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
 
@@ -18,6 +20,20 @@
             $scope.people = [];
             $scope.checkedInPeopleIds = [];
             $scope.checkedInPeopleCheckinIds = [];
+
+            $scope.filters = {
+                currentBelt: null
+            };
+      
+            //retrieves the master list of belts
+            $scope.getBeltList = function(){
+                StudentListService.getBeltList().then(
+                    function(response){
+                        $scope.belts = response.data;
+                    }
+                );
+            };
+            $scope.getBeltList();
 
             $scope.instructors = [];
             $scope.checkedInInstructorsIds = [];
@@ -191,6 +207,8 @@
 
                             $scope.people.push(value);
                         });
+
+                        $scope.filterStudents();
                     });
             };
 
@@ -381,6 +399,22 @@
             $scope.no = function() {
                 modalInstance.dismiss('no');
             };
+
+            $scope.filterStudents = function() {
+                angular.forEach($scope.people, function(value) {
+                    if ($scope.filters.currentBelt === null || $scope.filters.currentBelt.id === value.belt.id) {
+                        value.show = true;
+                    }
+                    else {
+                        value.show = false;
+                    }
+                });
+            };
+
+            //beltbox watcher
+            $scope.$watch('filters.currentBelt', function(newValue, oldValue) {
+                $scope.filterStudents();
+            });
         }
     ]);
 
