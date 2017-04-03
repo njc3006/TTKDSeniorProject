@@ -14,6 +14,7 @@
 			class="form-control"
 			placeholder="Full Name"
 			form-focus="currentFocusIndex === 0"
+			maxlength="100"
 			ng-focus="setFocus(0)"
 			ng-model="registrationInfo.person.emergency_contact_1.full_name">
 		<span class="input-group-addon" ng-if="isFieldRequired('emPrimaryFullName')">
@@ -64,6 +65,7 @@
 				class="form-control input-group"
 				placeholder="Relationship"
 				form-focus="currentFocusIndex === 2"
+				maxlength="30"
 				ng-focus="setFocus(2)"
 				ng-model="registrationInfo.person.emergency_contact_1.relation">
 			<span class="input-group-addon" ng-if="isFieldRequired('emPrimaryRelationship')">
@@ -94,6 +96,7 @@
 			class="col-xs-12 form-control spacer-25"
 			placeholder="Full Name"
 			form-focus="currentFocusIndex === 3"
+			maxlength="100"
 			ng-required="isFieldRequired('emSecondaryFullName')"
 			ng-focus="setFocus(3)"
 			ng-model="registrationInfo.person.emergency_contact_2.full_name">
@@ -143,6 +146,7 @@
 				class="form-control input-group"
 				placeholder="Relationship"
 				form-focus="currentFocusIndex === 5"
+				maxlength="30"
 				ng-required="isFieldRequired('emSecondaryRelationship')"
 				ng-focus="setFocus(5)"
 				ng-model="registrationInfo.person.emergency_contact_2.relation">

@@ -29,6 +29,7 @@
 			name="firstName"
 			class="form-control"
 			placeholder="First Name"
+			maxlength="30"
 			form-focus="currentFocusIndex === 1"
 			ng-focus="setFocus(1)"
 			ng-required="isFieldRequired('firstName')"
@@ -50,6 +51,7 @@
 			name="lastName"
 			class="form-control"
 			placeholder="Last Name"
+			maxlength="30"
 			form-focus="currentFocusIndex === 2"
 			ng-focus="setFocus(2)"
 			ng-required="isFieldRequired('lastName')"
@@ -107,6 +109,7 @@
 			class="form-control"
 			placeholder="Address"
 			form-focus="currentFocusIndex === 4"
+			maxlength="30"
 			ng-focus="setFocus(4)"
 			ng-required="isFieldRequired('street')"
 			ng-model="registrationInfo.person.street">
@@ -131,6 +134,7 @@
 				ng-required="isFieldRequired('city')"
 				placeholder="City"
 				form-focus="currentFocusIndex === 5"
+				maxlength="30"
 				ng-focus="setFocus(5)"
 				ng-model="registrationInfo.person.city">
 			<span class="input-group-addon" ng-if="isFieldRequired('city')">
@@ -175,6 +179,7 @@
 				class="form-control input-group"
 				placeholder="ZIP Code"
 				form-focus="currentFocusIndex === 7"
+				maxlength="5"
 				ng-focus="setFocus(7)"
 				ng-model="registrationInfo.person.zipcode"
 				ng-pattern="/^[0-9]{5}$/">
@@ -256,6 +261,7 @@
 				class="form-control"
 				placeholder="Email Address"
 				form-focus="currentFocusIndex === (10 + $index)"
+				maxlength="254"
 				ng-focus="setFocus(10 + $index)"
 				ng-required="isFieldRequired('email')"
 				ng-model="email.email">

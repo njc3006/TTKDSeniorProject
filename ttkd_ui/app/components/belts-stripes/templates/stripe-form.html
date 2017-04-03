@@ -25,7 +25,7 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<input type="text" placeholder="Name" class="form-control" ng-model="currentStripe.name" ng-required="true">
+			<input type="text" placeholder="Name" class="form-control" ng-model="currentStripe.name" maxlength="25" ng-required="true">
 		</div>
 		<div class="form-group">
 			<input type="text" placeholder="Color" class="form-control" ng-model="currentStripe.color" ng-init="color = currentStripe.color" ng-required="true">
@@ -60,7 +60,7 @@
 		</div>
 		
 		<div class="form-group">
-			<input type="text" placeholder="Name" class="form-control" ng-model="newStripe.name" ng-required="true">
+			<input type="text" placeholder="Name" class="form-control" ng-model="newStripe.name" maxlength="25" ng-required="true">
 		</div>
 		<div class="form-group">
 			<input type="text" placeholder="Color" class="form-control" ng-model="newStripe.color" ng-init="color = newStripe.color" ng-required="true">
