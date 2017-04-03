@@ -16,6 +16,12 @@
       }
       else {
         $scope.currentProgram = $cookies.getObject('currentProgram');
+
+        // Update our info if another tablet changed the info.
+        ProgramsSvc.getProgram($scope.currentProgram.id).then(function onSuccess(response) {
+          $cookies.putObject('currentProgram', response.data);
+          $scope.currentProgram = $cookies.getObject('currentProgram');
+        });
       }
 
       $scope.changeProgram = function(program) {
