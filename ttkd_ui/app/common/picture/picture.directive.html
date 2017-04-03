@@ -1,0 +1,12 @@
+<div>
+	<img
+		ng-if="source.length > 0"
+		class="img-responsive"
+		ng-src="{{source}}"
+		ng-style="style"/>
+	<img
+		ng-if="source.length == 0"
+		class="img-responsive"
+		ng-src="./img/components/students/placeholder.png"
+		ng-style="style"/>
+</div>

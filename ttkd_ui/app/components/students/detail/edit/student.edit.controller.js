@@ -221,7 +221,7 @@
         };
 
         $scope.submitChanges = function (formIsValid) {
-			if (formIsValid) {
+					if (formIsValid) {
                 updateRegistrations();
                 programsTouched = false;
                 var payload = angular.copy($scope.studentInfo);
@@ -281,7 +281,7 @@
                 $scope.studentInfo = response.data;
 
                 if($scope.studentInfo['picture_url']) {
-                	$scope.pictureUrl =
+                	$scope.pictureData.url =
                         apiHost + '/' + $scope.studentInfo['picture_url'] + '?p=' + pictureUpdatedQueryParam;
                 }
 
@@ -414,7 +414,12 @@
 
         $scope.registeredPrograms = [];
         $scope.programsToAdd = [];
-        $scope.pictureUrl = '';
+
+				$scope.pictureData = {
+					url: ''
+				};
+
+        //$scope.pictureUrl = '';
 
         $scope.requestFlags = {
             loading: {
@@ -456,6 +461,7 @@
         'ttkdApp.studentsService',
         'ttkdApp.stateService',
         'ttkdApp.emergencyContactDir',
+        'ttkdApp.pictureDir',
         'ttkdApp.constants',
         'angularFileUpload',
         'ngCookies',

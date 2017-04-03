@@ -1,13 +1,13 @@
 (function() {
 
   function StudentDetailController(
-  		$scope, 
-  		$stateParams, 
-  		StudentsService, 
-  		apiHost, 
-  		FileUploader, 
-  		SharedDataSvc, 
-  		$cookies, 
+  		$scope,
+  		$stateParams,
+  		StudentsService,
+  		apiHost,
+  		FileUploader,
+  		SharedDataSvc,
+  		$cookies,
   		$uibModal,
   		WebcamService,
   		$state)
@@ -20,8 +20,11 @@
     $scope.viewBackToCheckinID = $stateParams.backToCheckinID;
     $scope.viewBackToAttendance = $stateParams.backToAttendance;
 
-    $scope.pictureUrl = "";
-    var pictureUpdatedQueryParam = 0;
+    //$scope.pictureUrl = "";
+		$scope.pictureData = {
+			url: '',
+			beltStyle: {}
+		}
 
     /* function to update this student object */
     var updateStudent = function() {
@@ -33,13 +36,13 @@
 					$scope.secondaryEmergencyContact = student.emergencyContact2;
 
           if(student.pictureUrl) {
-          	$scope.pictureUrl = apiHost + '/' + student.pictureUrl + '?p=' + pictureUpdatedQueryParam;
+						$scope.pictureData.url = apiHost + '/' + student.pictureUrl + '?p=0';
           }
 
           $scope.studentInfo.dob = moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate();
 
           if ($scope.studentInfo.belt) {
-            $scope.beltStyle = getBeltStyle($scope.studentInfo.belt);
+            $scope.pictureData.beltStyle = getBeltStyle($scope.studentInfo.belt);
 
             $scope.earnedStripes = $scope.studentInfo.stripes.filter(function(personStripe) {
               return personStripe['current_stripe'];
@@ -64,14 +67,14 @@
 		};
 
 		/* initialize the file uploader */
-		$scope.uploader = new FileUploader({
+		/*$scope.uploader = new FileUploader({
 			url: apiHost + '/api/person/' + $stateParams.studentId + '/picture',
 			autoUpload: true,
 			onCompleteAll: updateStudent,
 			headers: {
 				Authorization: 'Token ' + $cookies.getObject('Authorization').token
 			}
-		});
+		});*/
 
 		function getBeltStyle(belt) {
 			var primaryStyle = belt['primary_color'].toLowerCase() === 'ffffff' ?
@@ -117,50 +120,6 @@
 			return $scope.studentInfo.emails.map(function(email) { return email.email; }).join(', ');
 		};
 
-		$scope.openCameraModal = function() {
-			$scope.myChannel = {
-		    video: null // Will reference the video element on success
-		  };
-
-      modalInstance = $uibModal.open({
-          animation: true,
-          windowClass: 'webcam-modal',
-          ariaDescribedBy: 'modal-body',
-          templateUrl: 'components/webcam/webcam.modal.html',
-          scope: $scope
-      });
-		};
-
-		$scope.cancelPicture = function() {
-			$scope.imagePreview = false;
-			modalInstance.close();
-		};
-
-		/*
-		 * Take a picture from the video and draw it on the canvas.
-		 * Set the imagePreview flag to true to hide the webcame view and
-		 * show the preview. */
-		$scope.takePicture = function(){
-			if($scope.myChannel.video) {
-				var canvas = document.querySelector('canvas');
-				WebcamService.takeSnapshot($scope.myChannel, canvas, 800, 600);
-				$scope.imagePreview = true;
-				pictureUpdatedQueryParam++;
-			}
-		};
-
-		$scope.rotatePicture = function() {
-      var canvas = document.querySelector('canvas');
-      WebcamService.rotateSnapshot(canvas);
-    };
-
-		$scope.uploadCameraPicture = function() {
-			var canvas = document.querySelector('canvas');
-			WebcamService.uploadPicture($scope.uploader, canvas);
-			$scope.imagePreview = false;
-			modalInstance.close();
-		};
-
 		$scope.backNavigate = function () {
 			if ($stateParams.backToCheckinID !== null) {
 				$state.go('checkin', {programID: $stateParams.backToCheckinID})
@@ -189,6 +148,7 @@
 		'ttkdApp.studentsService',
 		'ttkdApp.attendanceService',
 		'ttkdApp.telLinkDir',
+		'ttkdApp.pictureDir',
 		'ttkdApp.constants',
 		'angularFileUpload',
 		'ngCookies',
