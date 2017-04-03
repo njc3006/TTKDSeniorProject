@@ -1,9 +1,12 @@
 (function() {
 
-  angular.module('ttkdApp.editProgramCtrl', ['ttkdApp.constants'])
+  angular.module('ttkdApp.editProgramCtrl', ['ttkdApp.constants', 'ngCookies'])
 
-    .controller('EditProgramCtrl', ['$scope', '$rootScope', '$q', '$window', '$state', '$stateParams', 'ProgramsSvc', 
-        function($scope, $rootScope, $q, $window, $state, $stateParams, ProgramsSvc) {
+    .controller('EditProgramCtrl', ['$scope', '$rootScope', '$q', '$window', '$state',
+        '$stateParams', 'ProgramsSvc', '$cookies', '$location', 
+        function($scope, $rootScope, $q, $window, $state, $stateParams,
+        ProgramsSvc, $cookies, $location) {
+        
         $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
 
         $scope.people = [];             //list of all students to populate the typeahead dropdown
@@ -92,7 +95,11 @@
                 $scope.promises.push(
                     ProgramsSvc.updateProgram($scope.program, $scope.program.id).then(
                         function(response){
-
+                            var programCookie = $cookies.getObject('currentProgram');
+                            if(programCookie.id == $scope.program.id) {
+                                $cookies.putObject('currentProgram', $scope.program);
+                                location.reload();
+                            }
                         }, function(error){
                             $scope.alerts.errorText = 'Failed to update program info';
                             $scope.promiseError = true;

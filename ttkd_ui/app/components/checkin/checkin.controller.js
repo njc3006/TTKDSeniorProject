@@ -1,10 +1,12 @@
 (function() {
 
-    angular.module('ttkdApp.checkinCtrl', ['ttkdApp.constants'])
+    angular.module('ttkdApp.checkinCtrl', ['ttkdApp.constants', 'ngCookies'])
 
     .controller('CheckinCtrl', ['$scope', '$rootScope', '$stateParams', '$document',
-        '$filter', '$uibModal', 'CheckinService', 'apiHost', '$state',
-        function($scope, $rootScope, $stateParams, $document, $filter, $uibModal, CheckinService, apiHost, $state) {
+        '$filter', '$uibModal', 'CheckinService', 'apiHost', '$cookies', '$state',
+        function($scope, $rootScope, $stateParams, $document, $filter, $uibModal,
+            CheckinService, apiHost, $cookies, $state) {
+            
             var modalInstance;
             $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
 
