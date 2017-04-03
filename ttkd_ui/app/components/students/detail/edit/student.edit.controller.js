@@ -6,14 +6,18 @@
         $timeout,
         $q,
         $window,
+        FileUploader,
+        $cookies,
+        $uibModal,
+        apiHost,
+        WebcamService,
         StudentsService,
         StateService,
-        ProgramsService){
-
+        ProgramsService
+		){
+        var pictureUpdatedQueryParam = 0;
         var programsTouched = false;
         var allPrograms = [];
-        $scope.registeredPrograms = [];
-        $scope.programsToAdd = [];
 
         ProgramsService.getPrograms().then(
             function (response) {
@@ -58,9 +62,9 @@
             $scope.requestFlags.submission.failure = true;
             if (errorResponse.data && Object.keys(errorResponse.data).length > 0) {
                 $scope.failureDetails = [];
-            
+
                 for (var key in errorResponse.data) {
-                    
+
                     if (angular.isObject(errorResponse.data[key]) && !angular.isArray(errorResponse.data[key])) {
                         for (var secondaryKey in errorResponse.data[key]) {
                             $scope.failureDetails.push($scope.cleanKey(key) + ' - ' + $scope.cleanKey(secondaryKey) + ': ' + errorResponse.data[key][secondaryKey][0]);
@@ -72,7 +76,7 @@
                     }
                 }
             }
-            else {  
+            else {
                 $scope.failureDetails = ["There was an error submitting the information changes"];
             }
         }
@@ -217,7 +221,7 @@
         };
 
         $scope.submitChanges = function (formIsValid) {
-            if (formIsValid) {
+			if (formIsValid) {
                 updateRegistrations();
                 programsTouched = false;
                 var payload = angular.copy($scope.studentInfo);
@@ -272,6 +276,146 @@
             }
         };
 
+        $scope.loadStudent = function() {
+            StudentsService.getStudent($stateParams.studentId).then(function success(response) {
+                $scope.studentInfo = response.data;
+
+                if($scope.studentInfo['picture_url']) {
+                	$scope.pictureUrl =
+                        apiHost + '/' + $scope.studentInfo['picture_url'] + '?p=' + pictureUpdatedQueryParam;
+                }
+
+                $scope.studentInfo.oldStripes = $scope.studentInfo.stripes.filter(function (stripe) {
+                    return stripe['current_stripe'];
+                }).map(function (stripe) {
+                    var copy = {};
+                    angular.copy(stripe, copy);
+                    return copy;
+                });
+
+                $scope.studentInfo.stripes = $scope.studentInfo.stripes.filter(function (stripe) {
+                    return stripe['current_stripe'];
+                }).map(function (personStripe) {
+                    var copy = {};
+                    angular.copy(personStripe.stripe, copy);
+                    copy.active = false;
+                    return copy;
+                });
+
+                $scope.studentInfo.dob = {
+                    value: moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate(),
+                    open: false
+                };
+
+                $scope.studentInfo.state = {
+                    name: $scope.studentInfo.state,
+                    value: $scope.studentInfo.state
+                };
+
+                // Add empty entries to emergency contacts as necessary (up to 2)
+                if (!$scope.studentInfo['emergency_contact_1']) {
+                    $scope.studentInfo['emergency_contact_1'] = {};
+                }
+
+                if (!$scope.studentInfo['emergency_contact_2']) {
+                    $scope.studentInfo['emergency_contact_2'] = {};
+                }
+
+                if ($scope.studentInfo.belt) {
+                    $scope.currentBelt = $scope.studentInfo.belt;
+                    $scope.studentInfo.newBelt = angular.copy($scope.currentBelt);
+                    $scope.oldPersonBelt = $scope.currentBelt;
+                }
+
+                $scope.oldStudent = angular.copy($scope.studentInfo);
+                $scope.requestFlags.loading.done = true;
+
+            }, function failure(error) {
+                $scope.requestFlags.loading.failure = true;
+                $scope.requestFlags.loading.done = true;
+            });
+        };
+
+        /* initialize the file uploader */
+        $scope.uploader = new FileUploader({
+            url: apiHost + '/api/person/' + $stateParams.studentId + '/picture',
+            autoUpload: true,
+            onBeforeUploadItem: function () {
+                $scope.requestFlags.submission.success = false;
+            },
+            onCompleteAll: function () {
+                pictureUpdatedQueryParam++;
+								$scope.requestFlags.submission.success = true;
+                $scope.loadStudent();
+            },
+            headers: {
+                Authorization: 'Token ' + $cookies.getObject('Authorization').token
+            }
+        });
+
+        $scope.openCameraModal = function() {
+            $scope.myChannel = {
+                video: null // Will reference the video element on success
+            };
+
+            $scope.requestFlags.submission.success = false;
+
+            modalInstance = $uibModal.open({
+                animation: true,
+                windowClass: 'webcam-modal',
+                ariaDescribedBy: 'modal-body',
+                templateUrl: 'components/webcam/webcam.modal.html',
+                scope: $scope
+            });
+
+            modalInstance.result.then(function() {
+                // No need to do anything here
+            }, function () {
+                $scope.requestFlags.submission.success = false;
+            });
+        };
+
+        $scope.cancelPicture = function() {
+            $scope.imagePreview = false;
+            modalInstance.close();
+            $scope.requestFlags.submission.success = false;
+        };
+
+        /*
+        * Take a picture from the video and draw it on the canvas.
+        * Set the imagePreview flag to true to hide the webcame view and
+        * show the preview. */
+        $scope.takePicture = function(){
+            if($scope.myChannel.video) {
+                var canvas = document.querySelector('canvas');
+                WebcamService.takeSnapshot($scope.myChannel, canvas, 800, 600);
+                $scope.imagePreview = true;
+                pictureUpdatedQueryParam++;
+            }
+        };
+
+        $scope.rotatePicture = function() {
+            var canvas = document.querySelector('canvas');
+            WebcamService.rotateSnapshot(canvas);
+        };
+
+        $scope.uploadCameraPicture = function() {
+            var canvas = document.querySelector('canvas');
+            WebcamService.uploadPicture($scope.uploader, canvas);
+
+            $scope.requestFlags.submission.success = true;
+            $scope.imagePreview = false;
+            modalInstance.close();
+        };
+
+      	$scope.openFileUpload = function () {
+            document.getElementById('file-upload').click();
+      	};
+
+        $scope.registeredPrograms = [];
+        $scope.programsToAdd = [];
+        $scope.pictureUrl = '';
+
         $scope.requestFlags = {
             loading: {
                 done: false,
@@ -290,58 +434,7 @@
 
         $scope.states = StateService.getStates();
 
-        StudentsService.getStudent($stateParams.studentId).then(function success(response) {
-            $scope.studentInfo = response.data;
-
-            $scope.studentInfo.oldStripes = $scope.studentInfo.stripes.filter(function (stripe) {
-                return stripe['current_stripe'];
-            }).map(function (stripe) {
-                var copy = {};
-                angular.copy(stripe, copy);
-                return copy;
-            });
-
-            $scope.studentInfo.stripes = $scope.studentInfo.stripes.filter(function (stripe) {
-                return stripe['current_stripe'];
-            }).map(function (personStripe) {
-                var copy = {};
-                angular.copy(personStripe.stripe, copy);
-                copy.active = false;
-                return copy;
-            });
-
-            $scope.studentInfo.dob = {
-                value: moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate(),
-                open: false
-            };
-
-            $scope.studentInfo.state = {
-                name: $scope.studentInfo.state,
-                value: $scope.studentInfo.state
-            };
-
-            // Add empty entries to emergency contacts as necessary (up to 2)
-            if (!$scope.studentInfo['emergency_contact_1']) {
-                $scope.studentInfo['emergency_contact_1'] = {};
-            }
-
-            if (!$scope.studentInfo['emergency_contact_2']) {
-                $scope.studentInfo['emergency_contact_2'] = {};
-            }
-
-            if ($scope.studentInfo.belt) {
-                $scope.currentBelt = $scope.studentInfo.belt;
-                $scope.studentInfo.newBelt = angular.copy($scope.currentBelt);
-                $scope.oldPersonBelt = $scope.currentBelt;
-            }
-
-            $scope.oldStudent = angular.copy($scope.studentInfo);
-            $scope.requestFlags.loading.done = true;
-
-        }, function failure(error) {
-            $scope.requestFlags.loading.failure = true;
-            $scope.requestFlags.loading.done = true;
-        });
+        $scope.loadStudent();
 
         $scope.$watch('studentInfo["newBelt"]', function (newBelt) {
             if (newBelt) {
@@ -363,7 +456,10 @@
         'ttkdApp.studentsService',
         'ttkdApp.stateService',
         'ttkdApp.emergencyContactDir',
-        'ttkdApp.constants'
+        'ttkdApp.constants',
+        'angularFileUpload',
+        'ngCookies',
+        'webcam'
     ]).controller('EditStudentCtrl', [
         '$scope',
         '$state',
@@ -371,6 +467,11 @@
         '$timeout',
         '$q',
         '$window',
+        'FileUploader',
+        '$cookies',
+        '$uibModal',
+        'apiHost',
+        'WebcamService',
         'StudentsSvc',
         'StateSvc',
         'ProgramsSvc',
