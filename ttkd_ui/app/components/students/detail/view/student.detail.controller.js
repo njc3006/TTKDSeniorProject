@@ -65,17 +65,6 @@
           }
         });
 		};
-
-		/* initialize the file uploader */
-		/*$scope.uploader = new FileUploader({
-			url: apiHost + '/api/person/' + $stateParams.studentId + '/picture',
-			autoUpload: true,
-			onCompleteAll: updateStudent,
-			headers: {
-				Authorization: 'Token ' + $cookies.getObject('Authorization').token
-			}
-		});*/
-
 		function getBeltStyle(belt) {
 			var primaryStyle = belt['primary_color'].toLowerCase() === 'ffffff' ?
 				'black 8px double' :
