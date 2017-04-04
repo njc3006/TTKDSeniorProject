@@ -33,7 +33,13 @@
 			<span class="h1">{{oldStudent.first_name + ' ' + oldStudent.last_name}}</span>
 		</div>
 		<div class="col-xs-2 pull-right">
-			<button id="updateBtn" class="btn btn-primary pull-right" ng-click="submitChanges(editForm.$valid)" ng-disabled="!editForm.$valid">Update</button>
+			<button
+				id="updateBtn"
+				class="btn btn-primary pull-right"
+				ng-click="submitChanges(editForm.$valid)"
+				ng-disabled="!editForm.$valid">
+				Update
+			</button>
 		</div>
 	</div>
 
