@@ -113,12 +113,15 @@
                ng-click="clickInstructorBasedOnMode(instructor)"
                ng-class="{'checked-in-student-instruct': instructor.checkedIn}"
                ng-repeat="instructor in instructors | orderBy: 'first_name' ">
-                <img ng-if="instructor.picture_url" class="img-responsive {{studentBeltClass}}"
-                     ng-src="{{apiHost}}/{{instructor.picture_url}}"
-                     ng-style="instructor.beltStyle">
-                <img ng-if="!instructor.picture_url" class="img-responsive {{studentBeltClass}}"
-                     ng-src="./img/components/students/placeholder.png"
-                     ng-style="instructor.beltStyle">
+                <div class="wrapper">
+                    <img ng-if="instructor.picture_url" class="img-responsive {{studentBeltClass}}"
+                         ng-src="{{apiHost}}/{{instructor.picture_url}}"
+                         ng-style="instructor.beltStyle">
+                    <img ng-if="!instructor.picture_url" class="img-responsive {{studentBeltClass}}"
+                         ng-src="./img/components/students/placeholder.png"
+                         ng-style="instructor.beltStyle">
+                    <span ng-if="instructor.checkedIn" class="glyphicon glyphicon-ok-circle"></span>
+                </div>
                 <div class="caption">
                     <span class="person-name">{{instructor.first_name}} {{instructor.last_name}}</span>
                 </div>
