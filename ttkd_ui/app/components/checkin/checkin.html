@@ -24,6 +24,12 @@
                 </span>
             </div>
         </div>
+        <div class="col-md-3 col-xs-3 pull-left">
+            <select id="beltSelect" class="form-control" ng-model="filters.currentBelt" ng-change="setDisplayedStudents()">
+                <option value="">All Belts</option>
+                <option ng-repeat="belt in belts | orderBy: 'name' " ng-show="belt.relevant" value="{{belt.id}}" ng-model="belt.id">{{belt.name}}</option>
+            </select>
+        </div>
         <div class="col-xs-4 col-md-3 pull-right">
             <div class="btn-group pull-right">
                 <label
@@ -51,12 +57,6 @@
                     Edit
                 </label>
             </div>
-        </div>
-        <div class="col-md-3 col-xs-3 pull-right">
-            <select id="beltSelect" class="form-control" ng-model="filters.currentBelt" ng-change="setDisplayedStudents()">
-                <option value="">All Belts</option>
-                <option ng-repeat="belt in belts | orderBy: 'name' " ng-show="belt.relevant" value="{{belt.id}}" ng-model="belt.id">{{belt.name}}</option>
-            </select>
         </div>
     </div>
 
