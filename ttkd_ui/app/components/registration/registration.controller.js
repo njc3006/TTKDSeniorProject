@@ -37,13 +37,25 @@
 		return payload
 	}
 
+	function cleanKey(key) {
+        cleanKey = '';
+        pieces = key.split('_');
+
+        for (var piece in pieces) {
+            piece = pieces[piece].charAt(0).toUpperCase() + pieces[piece].slice(1);
+            cleanKey += piece + ' ';
+        }
+
+        return(cleanKey)
+    }
+
 	function parseErrorResponse(errors) {
 		var errorMessages = [];
 
 		angular.forEach(errors, function(value, key) {
 			if (angular.isArray(value) && !angular.isObject(value[0])) {
 				errorMessages = errorMessages.concat(value.map(function(error) {
-					return key + ': ' + error;
+					return cleanKey(key) + ': ' + error;
 				}));
 			} else if (angular.isArray(value) && angular.isObject(value[0])) {
 				var parsedErrors = value.map(parseErrorResponse);
