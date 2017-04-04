@@ -24,6 +24,12 @@
                 </span>
             </div>
         </div>
+        <div class="col-md-3 col-xs-3 pull-left">
+            <select id="beltSelect" class="form-control" ng-model="filters.currentBelt" ng-change="setDisplayedStudents()">
+                <option value="">All Belts</option>
+                <option ng-repeat="belt in belts | orderBy: 'name' " ng-show="belt.relevant" value="{{belt.id}}" ng-model="belt.id">{{belt.name}}</option>
+            </select>
+        </div>
         <div class="col-xs-4 col-md-3 pull-right">
             <div class="btn-group pull-right">
                 <label
@@ -65,6 +71,7 @@
          <a href="" class="thumbnail"
            ng-click="isInstructor ? (clickStudentBasedOnMode(person))  : openCheckinPrompt(person)"
            ng-class="{'checked checked-in-student-instruct': (isInstructor && person.checkedIn ), 'checked checked-in-student' : (!isInstructor && person.checkedIn ), 'unchecked' : !person.checkedIn}"
+           ng-show="person.show"
            ng-repeat="person in people | orderBy: 'first_name' ">
             <div>
                 <img ng-if="person.picture_url" class="img-responsive {{studentBeltClass}} pull-left"
