@@ -262,7 +262,7 @@
 			</div>
 		</div>
 
-		<div class="row spacer-25">
+		<div class="row">
 			<uib-tabset type="pills" class="col-xs-12 spacer-25">
 				<uib-tab heading="Email Addresses" ng-if="userlevel !== 0">
 						<div class="spacer-10"
@@ -359,8 +359,8 @@
 				<textarea class="form-control" rows="8" ng-model="studentInfo.misc_notes"></textarea>
 			</div>
 		</div>
-		<div class="row spacer-25">
-	    <button id="updateBtn" type="submit" class="btn btn-primary" ng-disabled="!editForm.$valid">Update</button>
-	  </div>
+		<div class="spacer-35 pull-right">
+	    	<button id="updateBtn" type="submit" class="btn btn-primary" ng-disabled="!editForm.$valid">Update</button>
+	  	</div>
 	</form>
 </div>
