@@ -5,7 +5,7 @@
     .controller('StudentListCtrl', ['$scope', '$rootScope', '$filter', '$stateParams', 'StudentListService', 
         'ProgramsSvc', 'apiHost', '$q',
         function($scope, $rootScope, $filter, $stateParams, StudentListService, ProgramsSvc, apiHost, $q) {
-        $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
+        $rootScope.showCurrentProgram = $stateParams.showCurrentProgram;
 
         $scope.apiHost = apiHost;
 

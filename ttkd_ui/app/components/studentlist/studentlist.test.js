@@ -101,9 +101,7 @@ describe('Student List', function () {
         element(by.id('activeBtn')).click();
         element(by.id('updateBtn')).click();
         browser.driver.sleep(1000);
-
-        element(by.id('backBtn')).click();
-        browser.driver.sleep(1000);
+        
         element(by.id('backBtn')).click();
         browser.driver.sleep(1000);
 
