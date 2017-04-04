@@ -45,15 +45,13 @@ describe('Student List', function () {
 
         var emailSpan = element(by.xpath('(//h2[text()=\'Abigail TTKD\']/../../..//span)[1]'));
         var phoneSpan = element(by.xpath('(//h2[text()=\'Abigail TTKD\']/../../..//span)[3]'));
-        var emc1Span = element(by.xpath('(//h2[text()=\'Abigail TTKD\']/../../..//span)[5]'));
-        var emc2Span = element(by.xpath('(//h2[text()=\'Abigail TTKD\']/../../..//span)[8]'));
+        var emc1Span = element(by.xpath('(//h2[text()=\'Abigail TTKD\']/../../..//span)[4]'));
+        var emc2Span = element(by.xpath('(//h2[text()=\'Abigail TTKD\']/../../..//span)[7]'));
 
         expect(emailSpan.getText()).toBe('Email: fakeemail157@masked.com');
-
-        // Since phone numbers are random with masked data, this is the best we can do
-        expect(phoneSpan.getText()).toContain('Phone: (');
-        expect(emc1Span.getText()).toContain('Emergency Contact 1: Deborah - (');
-        expect(emc2Span.getText()).toContain('Emergency Contact 2: James - (');
+        expect(phoneSpan.getText()).toBe('Phone: 1234567890');
+        expect(emc1Span.getText()).toBe('Emergency Contact 1: Deborah - (098) 765-4321');
+        expect(emc2Span.getText()).toBe('Emergency Contact 2: James - (098) 765-4321');
     });
 
 
