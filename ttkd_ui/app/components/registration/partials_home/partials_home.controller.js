@@ -1,5 +1,7 @@
 (function() {
-	function PartialsHomeController($scope, $state, $uibModal, $document, RegistrationService) {
+	function PartialsHomeController($scope, $rootScope, $state, $stateParams, $uibModal, $document, RegistrationService) {
+		$rootScope.showCurrentProgram = $stateParams.showCurrentProgram;
+
 		$scope.openPartialRegistration = function(registrationId, registration) {
 			var verificationModalInstance = $uibModal.open({
 				animation: true,
@@ -29,7 +31,9 @@
 	angular.module('ttkdApp.registationCtrl')
 		.controller('PartialsHomeCtrl', [
 			'$scope',
+			'$rootScope',
 			'$state',
+			'$stateParams',
 			'$uibModal',
 			'$document',
 			'RegistrationSvc',
