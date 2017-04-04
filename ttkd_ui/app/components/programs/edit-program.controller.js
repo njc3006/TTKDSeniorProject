@@ -4,7 +4,7 @@
 
     .controller('EditProgramCtrl', ['$scope', '$rootScope', '$q', '$window', '$state', '$stateParams', 'ProgramsSvc', 
         function($scope, $rootScope, $q, $window, $state, $stateParams, ProgramsSvc) {
-        $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
+        $rootScope.showCurrentProgram = $stateParams.showCurrentProgram;
 
         $scope.people = [];             //list of all students to populate the typeahead dropdown
         $scope.instructors = [];        //list of all instructors for a program
