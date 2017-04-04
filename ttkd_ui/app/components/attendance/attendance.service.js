@@ -5,11 +5,11 @@
               // it is a date
               if (isNaN(date.getTime())) {  // d.valueOf() could also work
                 // date is not valid
-                return true;
+                    return true;
               }
               else {
                 // date is valid
-                return false;
+                    return false;
               }
             }
 
@@ -24,10 +24,9 @@
 
             if (filterData.studentIds) {
                 if (filterData.studentIds.length > 0) {
-                    params['person__in'] = filterData.studentIds;
-                    console.log(params);
+                    params['person'] = filterData.studentIds.join(',');
                 } else {
-                    params['person__in'] = '[]';
+                    params['person'] = '';
                 }
             }
 
@@ -46,7 +45,6 @@
             return params;
         }
 
-
         return {
             getUngroupedRecords: function(filterData) {
                 return $q(function(resolve, reject) {
@@ -55,7 +53,6 @@
                     };
 
                     $http.get(apiHost + '/api/check-ins-detailed/', requestConfig).then(function success(response) {
-                        console.log(response.data);
                         resolve(response.data);
                     }, function failure(error) {
                         reject(error);

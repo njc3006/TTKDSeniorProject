@@ -99,7 +99,6 @@
 					function success(studentIds) {
 						$scope.isLoading = true;
 						
-						console.log(studentIds);
 						if (!lastName) {
 							lastName = firstName;
 							firstName = '';
@@ -107,9 +106,7 @@
 							StudentsService.getStudentIdsFromName(firstName, lastName).then(
 								function success(studentIdsSecond) {
 									$scope.isLoading = true;
-									console.log(studentIdsSecond);
 									$scope.filterData.studentIds = AttendanceService.arrayUnique(studentIds.concat(studentIdsSecond));
-									console.log($scope.filterData.studentIds);
 									$scope.onFilterChange();
 								},
 								function failure(error) {
