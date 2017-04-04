@@ -1,12 +1,20 @@
 (function() {
 	function StudentListService($http, apiHost) {
 		return {
-			getAllStudents: function() {
-				return $http.get(apiHost + '/api/people/');
+			getAllActiveStudents: function() {
+				return $http.get(apiHost + '/api/people/?active=2');
 			},
 
-			getStudentsFromProgram: function(programId) {
-				return $http.get(apiHost + '/api/class-people/?program=' + programId);
+			getAllInactiveStudents: function() {
+				return $http.get(apiHost + '/api/people/?active=3');
+			},
+
+			getActiveStudentsFromProgram: function(programId) {
+				return $http.get(apiHost + '/api/class-people/?person__active=2&program=' + programId);
+			},
+
+			getInactiveStudentsFromProgram: function(programId) {
+				return $http.get(apiHost + '/api/class-people/?person__active=3&program=' + programId);
 			},
 
 			getCheckinsForDate: function(date) {
