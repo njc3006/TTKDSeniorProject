@@ -111,7 +111,6 @@
         <div class="row thumbnail-area">
                  <a href="" class="thumbnail"
                ng-click="clickInstructorBasedOnMode(instructor)"
-               ng-class="{'checked-in-student-instruct': instructor.checkedIn}"
                ng-repeat="instructor in instructors | orderBy: 'first_name' ">
                 <div class="wrapper">
                     <img ng-if="instructor.picture_url" class="img-responsive {{studentBeltClass}}"
