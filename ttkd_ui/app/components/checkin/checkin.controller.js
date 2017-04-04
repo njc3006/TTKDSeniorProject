@@ -13,6 +13,8 @@
             $scope.isInstructor = $rootScope.userlevel >= 0;
             $scope.date = new Date();
 
+            $scope.totalCheckedInCount = 0;
+
             $scope.people = [];
             $scope.checkedInPeopleIds = [];
             $scope.checkedInPeopleCheckinIds = [];
@@ -87,6 +89,7 @@
 
             $scope.updateCheckins = function() {
                 $scope.date = $scope.selectedDate.value;
+                $scope.totalCheckedInCount = 0;
                 $scope.people = [];
                 $scope.checkedInPeopleIds = [];
                 $scope.checkedInPeopleCheckinIds = [];
@@ -146,6 +149,8 @@
                             $scope.checkedInPeopleCheckinIds.push(value['id']);
                         });
 
+                        $scope.totalCheckedInCount = $scope.checkedInPeopleIds.length;
+
                         $scope.getStudents();
                     });
             };
@@ -180,6 +185,10 @@
                                 value.checkinID = $scope.checkedInPeopleCheckinIds[index];
                                 value.checkedIn = true;
                             }
+                            value.stripes = value.stripes.filter(function(personStripe) {
+                              return personStripe['current_stripe'];
+                            });
+
                             $scope.people.push(value);
                         });
                     });
@@ -271,6 +280,7 @@
                 CheckinService.createCheckin({ 'person': $scope.selectedPerson.id, 'program': $scope.programID }).then(
                     function(response) {
                         $scope.selectedPerson.checkinID = response.data.id;
+                        $scope.totalCheckedInCount++;
                     },
                     function (error) {
                         // This is an okay console log, if someone was watching the console it
@@ -294,6 +304,7 @@
                 }).then(
                     function(response) {
                         person.checkinID = response.data.id;
+                        $scope.totalCheckedInCount++;
                     },
                     function (error) {
                         // This is an okay console log, if someone was watching the console it
@@ -314,6 +325,8 @@
                     function (response) {
                         person.checkinID = null;
                         person.checkedIn = false;
+
+                        $scope.totalCheckedInCount--;
                     },
                     function (error) {
                         // This is an okay console log, if someone was watching the console it

@@ -1,7 +1,8 @@
 """RegistrationViewSet"""
 from rest_framework import viewsets, filters
 from ..serializers.registration_serializer import RegistrationSerializer, \
-    SimpleRegistrationSerializer, RegistrationWithPeopleSerializer, MinimalRegistrationSerializer
+    SimpleRegistrationSerializer, RegistrationWithPeopleSerializer, MinimalRegistrationSerializer, \
+    MinimalStripeRegistrationSerializer
 from ..models.registration import Registration
 from rest_framework import permissions
 from ..permissions import custom_permissions
@@ -47,6 +48,20 @@ class MinimalRegistrationViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (custom_permissions.ReadOnly,)
     queryset = Registration.objects.filter(is_partial=False)
     serializer_class = MinimalRegistrationSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ('program', 'person', 'person__active')
+
+
+class MinimalStripeRegistrationViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    GET: Returns all Non-partial Registration Objects with minimal persons with stripes
+     To The Route,
+    Or An Instance If Given A PK
+    Filters: program, person, person__active
+    """
+    permission_classes = (custom_permissions.ReadOnly,)
+    queryset = Registration.objects.filter(is_partial=False)
+    serializer_class = MinimalStripeRegistrationSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('program', 'person', 'person__active')
 

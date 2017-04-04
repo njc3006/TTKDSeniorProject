@@ -62,24 +62,26 @@
 		Must provide a last name
 	</span>
 </div>
-
 <div class="spacer-25"
-	ng-class="{'has-error': (registrationForm.dob.$invalid && !registrationForm.dob.$pristine) || isTooYoung(), 'has-success': (fieldHasSuccess('dob') && registrationForm.dob.$valid) && !isTooYoung()}">
+	ng-class="{'has-error': dateTouched && (registrationForm.dob.$invalid || isTooYoung()), 'has-success': dateTouched && registrationForm.dob.$valid && !isTooYoung()}">
 	<label class="control-label">Date of Birth</label>
 	<div class="input-group">
 		<input
+			required="required"
+			placeholder="MM/DD/YYYY"
 			type="text"
 			class="form-control"
 			name="dob"
 			form-focus="currentFocusIndex === 3"
-			ng-readonly="true"
+			pattern="^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$"
+			ng-minlength="10"
+			ng-keypress="onDateKeypress($event)"
 			ng-focus="setFocus(3)"
 			ng-required="isFieldRequired('dob')"
-			ng-click="openCalendar($event)"
 			uib-datepicker-popup="MM/dd/yyyy"
 			ng-model="registrationInfo.person.dob.value"
 			is-open="registrationInfo.person.dob.open"
-			close-text="Close">
+			close-text="Close"/>
 		<span class="input-group-btn">
 			<button class="btn btn-default" type="button" ng-click="openCalendar($event)">
 				<i class="glyphicon glyphicon-calendar"></i>
@@ -89,10 +91,10 @@
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
 	</div>
-	<span class="help-block" ng-show="registrationForm.dob.$invalid && !registrationForm.dob.$pristine">
+	<span class="help-block" ng-show="registrationForm.dob.$invalid && dateTouched">
 		Must provide a valid Date of Birth
 	</span>
-	<span class="help-block" ng-show="isTooYoung()">
+	<span class="help-block" ng-show="isTooYoung() && dateTouched">
 		Age provided is a year old or younger
 	</span>
 </div>
@@ -245,7 +247,7 @@
 					type="button"
 					class="btn btn-danger"
 					ng-click="removeEmail($index)"
-					ng-show="registrationInfo.emails.length > 1">
+					ng-show="registrationInfo.person.emails.length > 1">
 					<i class="glyphicon glyphicon-minus"></i>
 				</button>
 			</span>

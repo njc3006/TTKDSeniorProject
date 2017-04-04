@@ -42,11 +42,6 @@
 					return newStripe;
 				})
 			);
-
-			controller.selectedFromAllStripes = [];
-			controller.allStripes.forEach(function(stripe) {
-				stripe.active = false;
-			});
 		};
 
 		controller.removeSelectedStripesFromStudent = function() {
