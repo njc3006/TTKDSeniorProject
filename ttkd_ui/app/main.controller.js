@@ -12,6 +12,7 @@
           if(response && response.data.length > 0) {
         	  $cookies.putObject('currentProgram', response.data[0]);
           }
+          location.reload();
         });
       }
       else {
