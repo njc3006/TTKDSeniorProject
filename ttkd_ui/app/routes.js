@@ -22,7 +22,7 @@
                 })
 
                 .state('checkin', {
-                    url: '/checkin/{programID:int}',
+                    url: '/checkin',
                     params: {showCurrentProgram: true},
                     templateUrl: 'components/checkin/checkin.html',
                     controller: 'CheckinCtrl',

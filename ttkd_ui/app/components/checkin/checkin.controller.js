@@ -1,17 +1,17 @@
 (function() {
 
-    angular.module('ttkdApp.checkinCtrl', ['ttkdApp.constants'])
+    angular.module('ttkdApp.checkinCtrl', ['ttkdApp.constants', 'ngCookies'])
 
     .controller('CheckinCtrl', ['$scope', '$rootScope', '$stateParams', '$document',
-        '$filter', '$uibModal', 'CheckinService', 'apiHost', '$state', 'StudentListService',
+        '$filter', '$uibModal', 'CheckinService', 'apiHost', '$cookies', '$state', 'StudentListService',
         function($scope, $rootScope, $stateParams, $document, $filter,
-            $uibModal, CheckinService, apiHost, $state, StudentListService) {
+            $uibModal, CheckinService, apiHost, $cookies, $state, StudentListService) {
             
             var modalInstance;
             $rootScope.showCurrentProgram = $stateParams.showCurrentProgram;
 
             $scope.apiHost = apiHost;
-            $scope.programID = $stateParams.programID;
+            $scope.programID = $cookies.getObject('currentProgram').id;
             $scope.isInstructor = $rootScope.userlevel >= 0;
             $scope.date = new Date();
 
@@ -191,7 +191,7 @@
 
             // Get all of the students from the class and determine ones already checked in
             $scope.getStudents = function() {
-                CheckinService.getStudentsFromProgram($stateParams.programID).then(
+                CheckinService.getStudentsFromProgram($scope.programID).then(
                     function(response) {
                         var tempdata = response.data;
 
@@ -248,7 +248,7 @@
 
             // Get all of the instructors from the class and determine ones already checked in
             $scope.getInstructors = function() {
-                CheckinService.getInstructorsForProgram($stateParams.programID).then(
+                CheckinService.getInstructorsForProgram($scope.programID).then(
                     function(response) {
                         var tempdata = response.data;
 
