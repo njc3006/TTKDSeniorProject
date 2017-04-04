@@ -20,23 +20,24 @@
 		Student Information could not be loaded!
 	</div>
 
+	<div
+		class="row form-group spacer-20"
+		ng-show="!requestFlags.loading.failure && requestFlags.loading.done">
+		<div class="col-xs-1">
+			<button id="backBtn" class="btn btn-primary" ng-click="backNavigate()">
+				<span class="glyphicon glyphicon-chevron-left"></span>
+				Back
+			</button>
+		</div>
+		<div class="col-xs-6 col-xs-offset-2 text-center">
+			<span class="h1">{{oldStudent.first_name + ' ' + oldStudent.last_name}}</span>
+		</div>
+		<div class="col-xs-2 pull-right">
+			<button id="updateBtn" class="btn btn-primary pull-right" ng-click="submitChanges(editForm.$valid)" ng-disabled="!editForm.$valid">Update</button>
+		</div>
+	</div>
+
 	<form name="editForm" ng-submit="submitChanges(editForm.$valid)" novalidate ng-show="!requestFlags.loading.failure">
-    <div
-  		class="row form-group spacer-20"
-  		ng-show="!requestFlags.loading.failure && requestFlags.loading.done">
-  		<div class="col-xs-1">
-  			<button id="backBtn" class="btn btn-primary" ng-click="backNavigate()">
-  				<span class="glyphicon glyphicon-chevron-left"></span>
-  				Back
-  			</button>
-  		</div>
-  		<div class="col-xs-6 col-xs-offset-2 text-center">
-  			<span class="h1">{{oldStudent.first_name + ' ' + oldStudent.last_name}}</span>
-  		</div>
-      <div class="col-xs-2 pull-right">
-  			<button id="updateBtn" type="submit" class="btn btn-primary pull-right" ng-disabled="!editForm.$valid">Update</button>
-      </div>
-  	</div>
 		<div ng-if="userlevel !== 0">
 			<div class="row">
 				<div
