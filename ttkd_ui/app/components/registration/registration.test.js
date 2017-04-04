@@ -35,6 +35,11 @@ describe('Registration', function() {
 		element(by.model('registrationInfo.person.emergency_contact_1.relation')).sendKeys('Father');
 	}
 
+	function fillOutWaiverSignature() {
+		element(by.model('registrationInfo.person.waivers[0].waiver_signature')).sendKeys('First Name');
+		element(by.model('registrationInfo.person.waivers[0].guardian_signature')).sendKeys('Dad Name');
+	}
+
 	var REGISTRATION_URL = browser.params.appUrl + 'registration';
 
 	describe('General Functionality', function() {
@@ -244,6 +249,15 @@ describe('Registration', function() {
 			expect(firstRemoveButton.isDisplayed()).toBe(false);
 		});
 
+		it('should show a remove button for each row if there is more than one email field', function () {
+			element(by.id('add0')).click();
+
+			var firstRemoveButton = element(by.id('remove0')),
+				secondRemoveButton = element(by.id('remove1'));
+
+			expect(firstRemoveButton.isDisplayed() && secondRemoveButton.isDisplayed()).toBe(true);
+		});
+
 		it('should allow user to continue once all info has been entered', function(done) {
 			fillOutBasicInfo();
 
@@ -340,6 +354,18 @@ describe('Registration', function() {
 			browser.get(REGISTRATION_URL);
 		});
 
+		it ('should allow you to visit both previous screens', function(done) {
+			var firstTab = element(by.id('tab0')),
+				secondTab = element(by.id('tab1'));
+			firstTab.getAttribute('disabled').then(function(disabled1) {
+				expect(disabled1).toBe(null);
+				secondTab.getAttribute('disabled').then(function(disabled2) {
+					expect(disabled2).toBe(null);
+					done();
+				});
+			});
+		});
+
 		it('should have two input fields if the student is under 18', function() {
 			fillOutBasicInfo();
 			element(by.id('contiue-button')).click();
@@ -357,5 +383,27 @@ describe('Registration', function() {
 
 			expect(element.all(by.css('input[type=text]')).count()).toBe(1);
 		});
+	});
+
+	describe('Review Screen', function() {
+		beforeEach(() => {
+			browser.get(REGISTRATION_URL);
+
+			fillOutBasicInfo();
+			element(by.id('contiue-button')).click();
+			fillOutPrimaryEmergencyContactInfo();
+			element(by.id('contiue-button')).click();
+			fillOutWaiverSignature();
+			element(by.id('contiue-button')).click();
+		});
+
+		it('should display the submit button after registration is completed', function() {
+			var submitButton = element(by.css('[type=submit]'));
+			expect(submitButton.isDisplayed()).toBe(true);
+		});
+
+		it ('should not display the continue button on the review screen', function() {
+			expect(element(by.id('contiue-button')).isDisplayed()).toBe(true);
+		})
 	});
 });

@@ -239,7 +239,7 @@
 			class="input-group col-sm-12"
 			ng-class="{'has-error': emailForm.email.$invalid && !emailForm.email.$pristine, 'has-success': emailForm.email.$valid}">
 			<span class="input-group-btn">
-				<button type="button" class="btn btn-success" ng-click="addEmail()" ng-show="$last">
+				<button id="add{{$index}}" type="button" class="btn btn-success" ng-click="addEmail()" ng-show="$last">
 					<i class="glyphicon glyphicon-plus"></i>
 				</button>
 				<button

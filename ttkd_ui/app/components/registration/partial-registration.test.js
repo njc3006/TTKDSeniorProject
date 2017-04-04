@@ -58,6 +58,13 @@ describe('Partial Registration', function() {
 			element(by.id('logout')).click();
 		});
 
+    it('should display both continue and submit buttons', function() {
+			var submitButton = element(by.css('[type=submit]')),
+				continueButton = element(by.id('contiue-button'));
+
+			expect(submitButton.isDisplayed() && continueButton.isDisplayed()).toBe(true);
+    });
+
 		it('should require a phone number or email', function() {
 			var failureAlert = element(by.id('failureAlert'));
 			var missingEmailAndPhone = element(by.id('missingEmailAndPhone'));
