@@ -1,13 +1,9 @@
 (function() {
 
   angular.module('ttkdApp.editProgramCtrl', ['ttkdApp.constants', 'ngCookies'])
-
-    .controller('EditProgramCtrl', ['$scope', '$rootScope', '$q', '$window', '$state',
-        '$stateParams', 'ProgramsSvc', '$cookies', '$location', 
-        function($scope, $rootScope, $q, $window, $state, $stateParams,
-        ProgramsSvc, $cookies, $location) {
-        
-        $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
+    .controller('EditProgramCtrl', ['$scope', '$rootScope', '$q', '$window', '$state', '$stateParams', 'ProgramsSvc', '$cookies', '$location', 
+        function($scope, $rootScope, $q, $window, $state, $stateParams, ProgramsSvc, $cookies, $location) {
+        $rootScope.showCurrentProgram = $stateParams.showCurrentProgram;
 
         $scope.people = [];             //list of all students to populate the typeahead dropdown
         $scope.instructors = [];        //list of all instructors for a program

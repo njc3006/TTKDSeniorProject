@@ -18,7 +18,6 @@
 
       $rootScope.currentUserID = $cookies.getObject('Authorization') ?
         $cookies.getObject('Authorization').currentUserID : -1;
-
       var modalInstance;
 
       $scope.reload = function() {
