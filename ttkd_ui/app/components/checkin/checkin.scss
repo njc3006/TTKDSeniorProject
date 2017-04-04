@@ -1,40 +1,44 @@
 .checkin {
 
-    .checked-in-student {
-        pointer-events: none;
-        cursor: default;
-    }
+	.checked-in-student {
+	    pointer-events: none;
+	    cursor: default;
+	}
 
-    .datepicker {
-        min-width: 210px;
-    }
+	.datepicker {
+		min-width: 210px;
+	}
 
-    ul.uib-datepicker-popup {
-        padding: 0;
-        border-radius: 5px;
+	ul.uib-datepicker-popup {
+		padding: 0;
+		border-radius: 5px;
 
-        .active span {
-            color: white;
-        }
-    }
+		.active span {
+			color: white;
+		}
+	}
 
-    .thumbnail {
-        float: left;
-        margin-right: 10px;
-        margin-left: 10px;
-        border: none;
-        text-align: center;
-    }
+	.thumbnail {
+		float: left;
+		margin-right: 10px;
+		margin-left: 10px;
+		border: none;
+		text-align: center;
+		height: 200px;
+	}
 
-    .thumbnail-area {
-        margin: auto;
-    }
-    
-    svg.stripes {
-        width: 20px !important;
-        padding-left: 2px;
-    }
+	.thumbnail-area {
+		margin: auto;
+	}
+	
+	svg.stripes {
+		width: 20px !important;
+		padding-left: 2px;
+	}
 
+	.caption {
+		width: 150px;
+	}
 }
 
 
