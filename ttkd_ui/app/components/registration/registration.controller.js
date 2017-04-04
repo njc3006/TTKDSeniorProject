@@ -113,7 +113,7 @@
                             errorMessages.push($scope.cleanKey(key) + ' - ' + $scope.cleanKey(secondaryKey) + ': ' + errorResponse.person[key][secondaryKey][0]);
                         }
                     }
-                    else if (!angular.isObject(errorResponse.person[key]) && angular.isArray(errorResponse.person[key])) {
+                    else if (angular.isObject(errorResponse.person[key]) && angular.isArray(errorResponse.person[key]) && !angular.isString(errorResponse.person[key][0])) {
                     	for (var object in errorResponse.person[key]) {
                     		list = errorResponse.person[key][object];
                     		
