@@ -421,8 +421,7 @@
 
             $scope.filterStudents = function() {
                 angular.forEach($scope.people, function(value) {
-                    // Needs to use == not === or it won't work sorry axv
-                    if (!$scope.filters.currentBelt || $scope.filters.currentBelt == value.belt.id) {
+                    if (!$scope.filters.currentBelt || parseInt($scope.filters.currentBelt) === value.belt.id) {
                         value.show = true;
                     }
                     else {
