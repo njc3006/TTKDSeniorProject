@@ -82,13 +82,16 @@
 		};
 
 		$scope.onFilterChange = function() {
-			$scope.pagination.currentPage = 1;
-			$scope.loadAttendanceRecords();
+			if(!$scope.noMatchName) {
+				$scope.pagination.currentPage = 1;
+				$scope.loadAttendanceRecords();
+			}
 		};
 
 		$scope.onStudentNameChange = function() {
 			if ($scope.filterData.student === '') {
 				delete $scope.filterData.studentIds;
+				$scope.noMatchName = false;
 				$scope.onFilterChange();
 			} else {
 				var splitName = $scope.filterData.student.split(' '),
@@ -107,7 +110,16 @@
 								function success(studentIdsSecond) {
 									$scope.isLoading = true;
 									$scope.filterData.studentIds = AttendanceService.arrayUnique(studentIds.concat(studentIdsSecond));
-									$scope.onFilterChange();
+									
+									if($scope.filterData.studentIds.length === 0) {
+										$scope.noMatchName = true;
+										$scope.attendanceRecords = [];
+										$scope.isLoading = false;
+									}
+									else {
+										$scope.noMatchName = false;
+										$scope.onFilterChange();
+									}
 								},
 								function failure(error) {
 									$scope.loadingFailed = true;
@@ -117,7 +129,16 @@
 						}
 						else {
 							$scope.filterData.studentIds = studentIds;
-							$scope.onFilterChange();
+
+							if($scope.filterData.studentIds.length === 0) {
+								$scope.noMatchName = true;
+								$scope.attendanceRecords = [];
+								$scope.isLoading = false;
+							}
+							else {
+								$scope.noMatchName = false;
+								$scope.onFilterChange();
+							}
 						}
 					},
 					function failure(error) {
