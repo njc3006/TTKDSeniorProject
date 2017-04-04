@@ -159,7 +159,7 @@
 
             // Get all of the students from the class and determine ones already checked in
             $scope.getStudents = function() {
-                CheckinService.getStudentsFromProgram($cookies.getObject('currentProgram').id).then(
+                CheckinService.getStudentsFromProgram($scope.programID).then(
                     function(response) {
                         var tempdata = response.data;
 
@@ -213,7 +213,7 @@
 
             // Get all of the instructors from the class and determine ones already checked in
             $scope.getInstructors = function() {
-                CheckinService.getInstructorsForProgram($cookies.getObject('currentProgram').id).then(
+                CheckinService.getInstructorsForProgram($scope.programID).then(
                     function(response) {
                         var tempdata = response.data;
 
