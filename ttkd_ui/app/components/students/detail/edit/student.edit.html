@@ -18,9 +18,13 @@
 
   <div
     class="alert alert-danger"
-    ng-show="requestFlags.changePicture.failure"
-    uib-alert
-    close="">
+    ng-show="requestFlags.changePicture.failure">
+		<div class="text-line">
+			Picture for {{oldStudent.first_name}} {{oldStudent.last_name}} could not be updated
+		</div>
+		<div class="text-line">
+			<strong>Note: </strong>No other changes are affected. You may press the update button to save those.
+		</div>
     <div class="text-line">
       Errors with changing picture:
     </div>
@@ -35,7 +39,7 @@
 		class="alert alert-success"
 		ng-show="requestFlags.changePicture.success"
 		uib-alert
-		close="closeChangePictureAlert()">
+		close="closeChangePictureSuccessAlert()">
 		<div class="text-line">
 			Picture for {{oldStudent.first_name}} {{oldStudent.last_name}} has been successfully updated
 		</div>

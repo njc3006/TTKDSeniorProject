@@ -215,7 +215,7 @@
             $scope.requestFlags.submission.success = false;
         };
 
-        $scope.closeChangePictureAlert = function() {
+        $scope.closeChangePictureSuccessAlert = function() {
             $scope.requestFlags.changePicture.success = false;
         };
 
@@ -349,6 +349,7 @@
             url: '',
             studentId: $stateParams.studentId,
             onPictureChangeSuccess: function(response) {
+                $scope.requestFlags.changePicture.failure = false;
                 $scope.requestFlags.changePicture.success = true;
             },
             onPictureChangeFailure: function (error) {

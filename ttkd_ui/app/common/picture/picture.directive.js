@@ -95,6 +95,8 @@
 		};
 
 		$scope.$watch('studentId', function(newStudentId) {
+			// Update the student ID when it it no longer undefined
+			// Necessary to make sure uploading works properly
       $ctrl.uploader.url = apiHost + '/api/person/' + $ctrl.studentId + '/picture/';
 		});
 	}
