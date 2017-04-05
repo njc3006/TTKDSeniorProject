@@ -26,7 +26,7 @@
 
 			/* get a single program by it's id */
 			getProgram: function(id) {
-				return $http.get(apiHost + '/api/programs/' + id);
+				return $http.get(apiHost + '/api/programs/' + id + '/');
 			},
 
 			getPeople: function() {

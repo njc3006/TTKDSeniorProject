@@ -1,6 +1,7 @@
 """AttendanceRecordViewSet"""
 import django_filters
 from django_filters import rest_framework as drf_filters
+from django_filters import filters as df_filters
 from rest_framework import viewsets, filters
 from rest_framework.pagination import PageNumberPagination
 from ..serializers.attendance_record_serializer import AttendanceRecordSerializer, \
@@ -17,7 +18,12 @@ class AttendanceRecordPagination(PageNumberPagination):
     page_size_query_param = 'page_size'
     max_page_size = 500
 
+class NumberInFilter(df_filters.BaseInFilter, df_filters.NumberFilter):
+    pass
+
 class DateRangeFilter(drf_filters.FilterSet):
+    person = NumberInFilter()
+
     class Meta:
         model = AttendanceRecord
         fields = {

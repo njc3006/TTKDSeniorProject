@@ -7,14 +7,14 @@
         </button>
 
         <!-- Width < 765px -->
-        <div class="navbar-text visible-xs navbar-center-small"><p>{{currentProgram.name}}</p></div>
+        <div class="navbar-text visible-xs navbar-center-small" ng-show="showCurrentProgram"><p>{{currentProgram.name}}</p></div>
     </div>
 
     <!-- Width < 992px and > 765px -->
-    <div class="navbar-text visible-sm navbar-center"><p>{{currentProgram.name}}</p></div>
+    <div class="navbar-text visible-sm navbar-center" ng-show="showCurrentProgram"><p>{{currentProgram.name}}</p></div>
 
     <!-- Width > 992px -->
-    <div class="navbar-text navbar-center hidden-xs hidden-sm"><p>{{currentProgram.name}}</p></div>
+    <div class="navbar-text navbar-center hidden-xs hidden-sm" ng-show="showCurrentProgram"><p>{{currentProgram.name}}</p></div>
 
     <div class="navbar-collapse collapse pulled-text">
       <ul class="nav navbar-nav navbar-left">

@@ -4,7 +4,7 @@
 
     .controller('ProgramsCtrl', ['$scope', '$rootScope', '$state', '$stateParams', 'ProgramsSvc', 
         function($scope, $rootScope, $state, $stateParams, ProgramsSvc) {
-        $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
+        $rootScope.showCurrentProgram = $stateParams.showCurrentProgram;
 
         $scope.programs = [];
         $scope.alerts = {

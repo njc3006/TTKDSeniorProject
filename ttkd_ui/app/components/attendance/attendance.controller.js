@@ -7,7 +7,7 @@
 		AttendanceService,
 		StudentsService
 	) {
-		$rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
+		$rootScope.showCurrentProgram = $stateParams.showCurrentProgram;
 
 		$scope.format = function(date) {
 			return moment(date).format('MM/DD/YYYY');
@@ -82,13 +82,16 @@
 		};
 
 		$scope.onFilterChange = function() {
-			$scope.pagination.currentPage = 1;
-			$scope.loadAttendanceRecords();
+			if(!$scope.noMatchName) {
+				$scope.pagination.currentPage = 1;
+				$scope.loadAttendanceRecords();
+			}
 		};
 
 		$scope.onStudentNameChange = function() {
 			if ($scope.filterData.student === '') {
 				delete $scope.filterData.studentIds;
+				$scope.noMatchName = false;
 				$scope.onFilterChange();
 			} else {
 				var splitName = $scope.filterData.student.split(' '),
@@ -98,8 +101,45 @@
 				StudentsService.getStudentIdsFromName(firstName, lastName).then(
 					function success(studentIds) {
 						$scope.isLoading = true;
-						$scope.filterData.studentIds = studentIds;
-						$scope.onFilterChange();
+						
+						if (!lastName) {
+							lastName = firstName;
+							firstName = '';
+
+							StudentsService.getStudentIdsFromName(firstName, lastName).then(
+								function success(studentIdsSecond) {
+									$scope.isLoading = true;
+									$scope.filterData.studentIds = AttendanceService.arrayUnique(studentIds.concat(studentIdsSecond));
+									
+									if($scope.filterData.studentIds.length === 0) {
+										$scope.noMatchName = true;
+										$scope.attendanceRecords = [];
+										$scope.isLoading = false;
+									}
+									else {
+										$scope.noMatchName = false;
+										$scope.onFilterChange();
+									}
+								},
+								function failure(error) {
+									$scope.loadingFailed = true;
+									$scope.isLoading = false;
+								}
+							);
+						}
+						else {
+							$scope.filterData.studentIds = studentIds;
+
+							if($scope.filterData.studentIds.length === 0) {
+								$scope.noMatchName = true;
+								$scope.attendanceRecords = [];
+								$scope.isLoading = false;
+							}
+							else {
+								$scope.noMatchName = false;
+								$scope.onFilterChange();
+							}
+						}
 					},
 					function failure(error) {
 						$scope.loadingFailed = true;

@@ -148,6 +148,7 @@
 
                     $window.scrollTo(0, 0);
                     $scope.requestFlags.submission.success = true;
+                    $scope.backNavigate();
                 },
                 function failure(error) {
                     $scope.generateDetailedError(error);
