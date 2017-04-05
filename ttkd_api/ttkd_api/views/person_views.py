@@ -1,4 +1,9 @@
 """PersonViewSet"""
+
+import os
+from PIL import Image
+
+from ..settings import BASE_DIR
 from rest_framework import viewsets, filters, permissions
 from ..serializers.person_serializer import PersonSerializer, PersonPictureSerializer, \
     NotesPersonSerializer, PersonMinimalSerializer
@@ -54,6 +59,32 @@ class PersonPictureViewSet(viewsets.GenericViewSet):
 
             upload = request.data['file']
             person.picture.save(upload.name, upload)
+
+            win_path = os.path.join(BASE_DIR, person.picture.url)
+
+            # crop the image to be square
+            img = Image.open(win_path)
+
+            # get the uploaded width and height
+            width, height = img.size
+
+            # if the width is larger crop the image width to be square
+            if width > height:
+                delta = width - height
+                x1 = delta/2
+                x2 = width - (delta/2)
+                y1 = 0
+                y2 = height
+            # if the height is larger crop the height to be square
+            else:
+                delta = height - width
+                x1 = 0
+                x2 = width
+                y1 = delta/2
+                y2 = height - (delta/2)
+            img = img.crop((x1, y1, x2, y2))
+            img.thumbnail((400,400))
+            img.save(win_path)
 
             return Response(status=HTTP_201_CREATED, headers={'Location': person.picture.url})
         else:
