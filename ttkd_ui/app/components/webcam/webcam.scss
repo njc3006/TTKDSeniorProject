@@ -1,11 +1,5 @@
-video,
-canvas {
-  width: 100%;
-  height: auto;
-}
-
 .webcam-modal {
-  max-width: 800px;
+  max-width: 700px;
   margin: auto;
 
   .modal-dialog {
@@ -16,6 +10,15 @@ canvas {
     position: fixed;
     z-index: 1;
   }
+
+  text-align: center;
+
+  video,
+  canvas {
+    height: 450px;
+    width: auto;
+  }
+
 }
 
 @media (max-width: 900px) {
