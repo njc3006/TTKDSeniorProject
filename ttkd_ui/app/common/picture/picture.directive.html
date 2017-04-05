@@ -1,12 +1,25 @@
 <div>
 	<img
-		ng-if="source.length > 0"
+		ng-if="$ctrl.source.length > 0"
 		class="img-responsive"
-		ng-src="{{source}}"
-		ng-style="style"/>
+		ng-src="{{$ctrl.source}}"
+		ng-style="$ctrl.style"/>
 	<img
-		ng-if="source.length == 0"
+		ng-if="$ctrl.source.length == 0"
 		class="img-responsive"
 		ng-src="./img/components/students/placeholder.png"
-		ng-style="style"/>
+		ng-style="$ctrl.style"/>
+	<div class="btn-group btn-group-justified">
+		<div class="btn-group">
+			<div class="btn file-upload-btn">
+				<button class="btn btn-default vis-input" ng-click="$ctrl.openFileUpload()">
+					<i class="glyphicon glyphicon-picture"></i>
+				</button>
+				<input id="file-upload" class="btn btn-default hidden-input" type="file" nv-file-select uploader="$ctrl.uploader"/><br/>
+			</div>
+		</div>
+		<div class="btn-group">
+			<button class="btn btn-default" ng-click="openCameraModal()"><i class="glyphicon glyphicon-camera"></i></button>
+		</div>
+	</div>
 </div>

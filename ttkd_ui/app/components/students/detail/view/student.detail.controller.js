@@ -5,11 +5,7 @@
   		$stateParams,
   		StudentsService,
   		apiHost,
-  		FileUploader,
-  		SharedDataSvc,
-  		$cookies,
-  		$uibModal,
-  		WebcamService,
+      SharedDataSvc,
   		$state)
   {
     $scope.apiHost = apiHost;
@@ -20,9 +16,9 @@
     $scope.viewBackToCheckinID = $stateParams.backToCheckinID;
     $scope.viewBackToAttendance = $stateParams.backToAttendance;
 
-    //$scope.pictureUrl = "";
 		$scope.pictureData = {
 			url: '',
+			studentId: $stateParams.studentId,
 			beltStyle: {}
 		}
 
@@ -138,20 +134,13 @@
 		'ttkdApp.attendanceService',
 		'ttkdApp.telLinkDir',
 		'ttkdApp.pictureDir',
-		'ttkdApp.constants',
-		'angularFileUpload',
-		'ngCookies',
-		'webcam'
+		'ttkdApp.constants'
 	]).controller('StudentDetailCtrl', [
 			'$scope',
 			'$stateParams',
 			'StudentsSvc',
 			'apiHost',
-			'FileUploader',
-			'SharedDataSvc',
-			'$cookies',
-			'$uibModal',
-			'WebcamService',
+      'SharedDataSvc',
 			'$state',
 			StudentDetailController
 		]);

@@ -8,9 +8,9 @@ from ..permissions import custom_permissions
 from django_filters import rest_framework as drf_filters
 
 from rest_framework.decorators import detail_route, parser_classes
-from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.parsers import FormParser, MultiPartParser, JSONParser
 from rest_framework.response import Response
-from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
+from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_400_BAD_REQUEST
 
 
 class PersonFilter(drf_filters.FilterSet):
@@ -43,6 +43,16 @@ class PersonPictureViewSet(viewsets.GenericViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = Person.objects.all()
     serializer_class = PersonPictureSerializer
+
+    @detail_route(methods=['GET'])
+    @parser_classes((JSONParser,))
+    def picture_url(self, request, *args, **kwargs):
+        person = self.get_object()
+        if person is not None:
+            return Response({'picture_url': person.picture_url})
+            pass
+        else:
+            return Response(status=HTTP_404_NOT_FOUND)
 
     @detail_route(methods=['POST'])
     @parser_classes((FormParser, MultiPartParser,))

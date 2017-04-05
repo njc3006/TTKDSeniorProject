@@ -6,6 +6,10 @@
 					return $http.get(apiHost + '/api/persons/' + id + '/');
 				},
 
+        getStudentPictureUrl: function(id) {
+          return $http.get(apiHost + '/api/person/' + id + '/picture/');
+        },
+
 				getStudentIdsFromName: function(firstName, lastName) {
 					var requestConfig = {
 						params: {

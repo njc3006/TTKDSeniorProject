@@ -65,7 +65,7 @@ router.register(r'waivers', WaiverViewSet)
 urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^api/grouped-check-ins-detailed', get_grouped_attendance_records),
-    url(r'^api/person/(?P<pk>[0-9]+)/picture', PersonPictureViewSet.as_view({'post': 'picture'})),
+    url(r'^api/person/(?P<pk>[0-9]+)/picture', PersonPictureViewSet.as_view({'post': 'picture', 'get': 'picture_url'})),
     url(r'^api/waiver/(?P<pk>[0-9]+)/image', WaiverImageViewSet.as_view({'post': 'waiver_image'})),
     url(r'^api/import/', import_data),
     url(r'^api/export/', export_data),

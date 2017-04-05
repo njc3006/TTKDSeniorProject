@@ -6,11 +6,7 @@
         $timeout,
         $q,
         $window,
-        FileUploader,
-        $cookies,
-        $uibModal,
         apiHost,
-        WebcamService,
         StudentsService,
         StateService,
         ProgramsService
@@ -59,7 +55,7 @@
         }
 
         $scope.generateDetailedError = function (errorResponse) {
-            $scope.requestFlags.submission.failure = true;
+            //$scope.requestFlags.submission.failure = true;
             if (errorResponse.data && Object.keys(errorResponse.data).length > 0) {
                 $scope.failureDetails = [];
 
@@ -108,6 +104,7 @@
                         },
                         // on errors
                         function (response) {
+														$scope.requestFlags.submission.failure = true;
                             $scope.generateDetailedError(response);
                             $window.scrollTo(0, 0);
                         }
@@ -124,6 +121,7 @@
                         },
                         // on error
                         function (response) {
+														$scope.requestFlags.submission.failure = true;
                             $scope.generateDetailedError(response);
                             $window.scrollTo(0, 0);
                         }
@@ -154,6 +152,7 @@
                     $scope.requestFlags.submission.success = true;
                 },
                 function failure(error) {
+										$scope.requestFlags.submission.failure = true;
                     $scope.generateDetailedError(error);
                     $window.scrollTo(0, 0);
                 }
@@ -216,6 +215,10 @@
             $scope.requestFlags.submission.success = false;
         };
 
+        $scope.closeChangePictureAlert = function() {
+            $scope.requestFlags.changePicture.success = false;
+        };
+
         $scope.closeErrorAlert = function () {
             $scope.requestFlags.submission.failure = false;
         };
@@ -245,6 +248,7 @@
                                     submitStripeChanges();
                                 },
                                 function failure(error) {
+																		$scope.requestFlags.submission.failure = true;
                                     $scope.generateDetailedError(error);
                                     $window.scrollTo(0, 0);
                                 }
@@ -261,6 +265,7 @@
                                     submitStripeChanges();
                                 },
                                 function failure(error) {
+																		$scope.requestFlags.submission.failure = true;
                                     $scope.generateDetailedError(error);
                                     $window.scrollTo(0, 0);
                                 }
@@ -269,6 +274,7 @@
                             submitStripeChanges();
                         }
                     }, function failure(error) {
+												$scope.requestFlags.submission.failure = true;
                         $scope.generateDetailedError(error);
                         $window.scrollTo(0, 0);
                     }
@@ -336,90 +342,20 @@
             });
         };
 
-        /* initialize the file uploader */
-        $scope.uploader = new FileUploader({
-            url: apiHost + '/api/person/' + $stateParams.studentId + '/picture',
-            autoUpload: true,
-            onBeforeUploadItem: function () {
-                $scope.requestFlags.submission.success = false;
-            },
-            onCompleteAll: function () {
-                pictureUpdatedQueryParam++;
-								$scope.requestFlags.submission.success = true;
-                $scope.loadStudent();
-            },
-            headers: {
-                Authorization: 'Token ' + $cookies.getObject('Authorization').token
-            }
-        });
-
-        $scope.openCameraModal = function() {
-            $scope.myChannel = {
-                video: null // Will reference the video element on success
-            };
-
-            $scope.requestFlags.submission.success = false;
-
-            modalInstance = $uibModal.open({
-                animation: true,
-                windowClass: 'webcam-modal',
-                ariaDescribedBy: 'modal-body',
-                templateUrl: 'components/webcam/webcam.modal.html',
-                scope: $scope
-            });
-
-            modalInstance.result.then(function() {
-                // No need to do anything here
-            }, function () {
-                $scope.requestFlags.submission.success = false;
-            });
-        };
-
-        $scope.cancelPicture = function() {
-            $scope.imagePreview = false;
-            modalInstance.close();
-            $scope.requestFlags.submission.success = false;
-        };
-
-        /*
-        * Take a picture from the video and draw it on the canvas.
-        * Set the imagePreview flag to true to hide the webcame view and
-        * show the preview. */
-        $scope.takePicture = function(){
-            if($scope.myChannel.video) {
-                var canvas = document.querySelector('canvas');
-                WebcamService.takeSnapshot($scope.myChannel, canvas, 800, 600);
-                $scope.imagePreview = true;
-                pictureUpdatedQueryParam++;
-            }
-        };
-
-        $scope.rotatePicture = function() {
-            var canvas = document.querySelector('canvas');
-            WebcamService.rotateSnapshot(canvas);
-        };
-
-        $scope.uploadCameraPicture = function() {
-            var canvas = document.querySelector('canvas');
-            WebcamService.uploadPicture($scope.uploader, canvas);
-
-            $scope.requestFlags.submission.success = true;
-            $scope.imagePreview = false;
-            modalInstance.close();
-        };
-
-      	$scope.openFileUpload = function () {
-            document.getElementById('file-upload').click();
-      	};
-
         $scope.registeredPrograms = [];
         $scope.programsToAdd = [];
 
-				$scope.pictureData = {
-					url: ''
-				};
-
-        //$scope.pictureUrl = '';
+        $scope.pictureData = {
+            url: '',
+            studentId: $stateParams.studentId,
+            onPictureChangeSuccess: function(response) {
+                $scope.requestFlags.changePicture.success = true;
+            },
+            onPictureChangeFailure: function (error) {
+                $scope.requestFlags.changePicture.failure = true;
+                $scope.generateDetailedError(error);
+            }
+        };
 
         $scope.requestFlags = {
             loading: {
@@ -427,6 +363,10 @@
                 failure: false
             },
             submission: {
+                success: false,
+                failure: false
+            },
+            changePicture: {
                 success: false,
                 failure: false
             },
@@ -473,11 +413,7 @@
         '$timeout',
         '$q',
         '$window',
-        'FileUploader',
-        '$cookies',
-        '$uibModal',
         'apiHost',
-        'WebcamService',
         'StudentsSvc',
         'StateSvc',
         'ProgramsSvc',
