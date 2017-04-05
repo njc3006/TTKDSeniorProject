@@ -213,7 +213,7 @@
                             indexToRemove = $scope.removeInstructors.indexOf(value);
 
                             // Add it back in to the list of registrations
-                            $scope.instructors.push(value);
+                            $scope.instructors.unshift(value);
                         }
                     });
                     if (indexToRemove !== -1){
@@ -224,8 +224,8 @@
                         person: $scope.selectedInstructor
                         };
 
-                        $scope.newInstructors.push(instructor);
-                        $scope.instructors.push(instructor);
+                        $scope.newInstructors.unshift(instructor);
+                        $scope.instructors.unshift(instructor);
                     }
                 }
                 delete $scope.selectedInstructor; //clear the input field
