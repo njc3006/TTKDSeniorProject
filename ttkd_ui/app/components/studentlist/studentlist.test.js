@@ -37,7 +37,7 @@ describe('Student List', function () {
         element(by.cssContainingText('option', 'Tiny Ninjas Monday')).click();
         browser.driver.sleep(1000);
 
-        expect(element(by.id('studentCount')).getText()).toContain('Showing 14 students');
+        expect(element(by.id('studentCount')).getText()).toContain('Showing 15 students');
 
     });
 
@@ -45,8 +45,8 @@ describe('Student List', function () {
 
         var emailSpan = element(by.xpath('(//h2[text()=\'Abigail TTKD\']/../../..//span)[1]'));
         var phoneSpan = element(by.xpath('(//h2[text()=\'Abigail TTKD\']/../../..//span)[3]'));
-        var emc1Span = element(by.xpath('(//h2[text()=\'Abigail TTKD\']/../../..//span)[5]'));
-        var emc2Span = element(by.xpath('(//h2[text()=\'Abigail TTKD\']/../../..//span)[8]'));
+        var emc1Span = element(by.xpath('(//h2[text()=\'Abigail TTKD\']/../../..//span)[6]'));
+        var emc2Span = element(by.xpath('(//h2[text()=\'Abigail TTKD\']/../../..//span)[10]'));
 
         expect(emailSpan.getText()).toBe('Email: fakeemail157@masked.com');
 
@@ -101,9 +101,7 @@ describe('Student List', function () {
         element(by.id('activeBtn')).click();
         element(by.id('updateBtn')).click();
         browser.driver.sleep(1000);
-
-        element(by.id('backBtn')).click();
-        browser.driver.sleep(1000);
+        
         element(by.id('backBtn')).click();
         browser.driver.sleep(1000);
 

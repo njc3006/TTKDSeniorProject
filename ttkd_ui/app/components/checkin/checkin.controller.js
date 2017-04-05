@@ -1,15 +1,17 @@
 (function() {
 
-    angular.module('ttkdApp.checkinCtrl', ['ttkdApp.constants'])
+    angular.module('ttkdApp.checkinCtrl', ['ttkdApp.constants', 'ngCookies'])
 
     .controller('CheckinCtrl', ['$scope', '$rootScope', '$stateParams', '$document',
-        '$filter', '$uibModal', 'CheckinService', 'apiHost', '$state',
-        function($scope, $rootScope, $stateParams, $document, $filter, $uibModal, CheckinService, apiHost, $state) {
+        '$filter', '$uibModal', 'CheckinService', 'apiHost', '$cookies', '$state', 'StudentListService',
+        function($scope, $rootScope, $stateParams, $document, $filter,
+            $uibModal, CheckinService, apiHost, $cookies, $state, StudentListService) {
+            
             var modalInstance;
-            $rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
+            $rootScope.showCurrentProgram = $stateParams.showCurrentProgram;
 
             $scope.apiHost = apiHost;
-            $scope.programID = $stateParams.programID;
+            $scope.programID = $cookies.getObject('currentProgram').id;
             $scope.isInstructor = $rootScope.userlevel >= 0;
             $scope.date = new Date();
 
@@ -18,6 +20,37 @@
             $scope.people = [];
             $scope.checkedInPeopleIds = [];
             $scope.checkedInPeopleCheckinIds = [];
+
+            $scope.filters = {
+                currentBelt: null
+            };
+      
+            //retrieves the master list of belts
+            $scope.getBeltList = function(){
+                StudentListService.getBeltList().then(
+                    function(response){
+                        $scope.belts = response.data;
+                    }
+                );
+            };
+            $scope.getBeltList();
+
+            // Limit belts to only be those relevant to the program.
+            $scope.checkBelts = function() {   
+
+                angular.forEach($scope.belts, function(belt) {
+                    belt.relevant = false;
+
+                    angular.forEach($scope.people, function(student) {
+                        if (!belt.relevant) {
+                            if (belt.id === student.belt.id) {
+                                belt.relevant = true;
+                            }
+                        }
+                    });
+
+                });
+            };
 
             $scope.instructors = [];
             $scope.checkedInInstructorsIds = [];
@@ -152,12 +185,13 @@
                         $scope.totalCheckedInCount = $scope.checkedInPeopleIds.length;
 
                         $scope.getStudents();
+                        $scope.checkBelts();
                     });
             };
 
             // Get all of the students from the class and determine ones already checked in
             $scope.getStudents = function() {
-                CheckinService.getStudentsFromProgram($stateParams.programID).then(
+                CheckinService.getStudentsFromProgram($scope.programID).then(
                     function(response) {
                         var tempdata = response.data;
 
@@ -185,8 +219,15 @@
                                 value.checkinID = $scope.checkedInPeopleCheckinIds[index];
                                 value.checkedIn = true;
                             }
+                            value.stripes = value.stripes.filter(function(personStripe) {
+                              return personStripe['current_stripe'];
+                            });
+
                             $scope.people.push(value);
                         });
+
+                        $scope.filterStudents();
+                        $scope.checkBelts();
                     });
             };
 
@@ -207,7 +248,7 @@
 
             // Get all of the instructors from the class and determine ones already checked in
             $scope.getInstructors = function() {
-                CheckinService.getInstructorsForProgram($stateParams.programID).then(
+                CheckinService.getInstructorsForProgram($scope.programID).then(
                     function(response) {
                         var tempdata = response.data;
 
@@ -377,6 +418,22 @@
             $scope.no = function() {
                 modalInstance.dismiss('no');
             };
+
+            $scope.filterStudents = function() {
+                angular.forEach($scope.people, function(value) {
+                    if (!$scope.filters.currentBelt || parseInt($scope.filters.currentBelt) === value.belt.id) {
+                        value.show = true;
+                    }
+                    else {
+                        value.show = false;
+                    }
+                });
+            };
+
+            //beltbox watcher
+            $scope.$watch('filters.currentBelt', function(newValue, oldValue) {
+                $scope.filterStudents();
+            });
         }
     ]);
 

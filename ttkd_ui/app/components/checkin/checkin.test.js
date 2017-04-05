@@ -1,8 +1,23 @@
 // Describe the group of tests
 describe('Student Checkin', function () {
 
+    beforeAll(() => {
+        browser.get(browser.params.appUrl + 'checkin');
+        var mock_code = function () {
+          angular.module('InsertCookie', ['ngCookies'])
+          .run(function ($cookies) {
+            $cookies.putObject('currentProgram',{
+                id: 1,
+                name: 'Adult Self-Defense Wednesday',
+                active: true
+            });
+          });
+        };
+        browser.addMockModule('InsertCookie', mock_code);
+    });
+
     beforeEach(() => {
-        browser.get(browser.params.appUrl + 'checkin/1');
+        browser.get(browser.params.appUrl + 'checkin');
     });
 
     it('The three mode selection and date should not be present', function () {

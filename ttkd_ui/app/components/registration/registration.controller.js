@@ -69,8 +69,47 @@
 		ProgramsService,
 		StateService
 	) {
-		$rootScope.showCurrentProgram = !$stateParams.hideCurrentProgram;
+		$rootScope.showCurrentProgram = $stateParams.showCurrentProgram;
 		$scope.isPartialRegistration = $stateParams.partial;
+		$scope.dateTouched = false;
+
+		/*
+		 * Force a user to enter a valid date format that is compatible with the datepicker */
+		$scope.onDateKeypress = function($event) {
+			$scope.dateTouched = true;
+			// if the value is a number
+			if(!isNaN(parseInt($event.key))) {
+				/* if the target has 1 char, and we're adding another, 
+		       then add a '/' to format the date month */
+				if($event.target.value.length === 1)
+				{
+					$event.target.value += $event.key + '/';
+				}
+				/* if the target has 2 chars, they must have removed the '/'. 
+						Add it back. See how they like it. */
+				else if($event.target.value.length === 2) {
+					$event.target.value += '/' + $event.key;
+				}
+				/* if there are 4 characters, plus the one we're adding,
+				   add a slash after the day */
+				else if($event.target.value.length === 4) {
+					$event.target.value += $event.key + '/'
+				}
+				/* if there are 5 chars, they removed a slash, so add it back. */
+				else if($event.target.value.length === 5) {
+					$event.target.value += '/' + $event.key;
+				}
+				/* otherwise just make sure its less than 10 and add another char */
+				else if ($event.target.value.length < 10) {
+					$event.target.value += $event.key
+				}
+
+				if($event.target.value.length === 10) {
+					$scope.registrationInfo.person.dob.value = moment($event.target.value, "MM/DD/YYYY").toDate();
+				}
+			}
+			$event.preventDefault();
+		};
 
 		if ($scope.isPartialRegistration) {
 			$scope.canVisit = function(sectionIndex) { return true; };
@@ -201,16 +240,17 @@
 		};
 
 		$scope.isTooYoung = function() {
-			if (!$scope.registrationInfo || !$scope.registrationInfo.person.dob.value) {
-				return false;
+			if ($scope.registrationInfo && $scope.registrationInfo.person.dob.value) {
+				var today = moment();
+				var birthday = moment($scope.registrationInfo.person.dob.value);
+
+				if(birthday !== undefined) {
+					var ageInYears = today.diff(birthday, 'years');
+
+					return ageInYears <= 1;
+				}
 			}
-
-			var today = moment();
-			var birthday = moment($scope.registrationInfo.person.dob.value);
-
-			var ageInYears = today.diff(birthday, 'years');
-
-			return ageInYears <= 1;
+			return false;
 		};
 
 		$scope.formattedDob = function() {
@@ -349,7 +389,7 @@
 		};
 
 		$scope.removeEmail = function(index) {
-			$scope.registrationInfo.emails.splice(index, 1);
+			$scope.registrationInfo.person.emails.splice(index, 1);
 			$scope.numElements--;
 		};
 

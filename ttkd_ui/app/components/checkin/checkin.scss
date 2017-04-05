@@ -1,15 +1,8 @@
 .checkin {
 
 	.checked-in-student {
-	    opacity: 0.4;
-	    filter: alpha(opacity=40); /* msie */
 	    pointer-events: none;
 	    cursor: default;
-	}
-
-	.checked-in-student-instruct {
-	    opacity: 0.4;
-	    filter: alpha(opacity=40); /* msie */
 	}
 
 	.datepicker {
@@ -31,66 +24,101 @@
 		margin-left: 10px;
 		border: none;
 		text-align: center;
+		height: 200px;
 	}
 
 	.thumbnail-area {
 		margin: auto;
 	}
+	
+	svg.stripes {
+		width: 20px !important;
+		padding-left: 2px;
+	}
+
+	.caption {
+		width: 150px;
+	}
+}
+
+
+.wrapper {
+    position: relative;
+}
+
+.wrapper .glyphicon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 2.5em;
+}
+
+.pic {
+    position: relative;
+}
+
+.pic .glyphicon{
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 2.5em;
 }
 
 .checkin-modal img {
-	max-height: 360px;
-	width:auto;
-	margin:auto;
+    max-height: 360px;
+    width:auto;
+    margin:auto;
 }
 
 .no-instructors {
-	color: red;
+    color: red;
 }
 
 .spacer-100 {
-	margin-top: 30px;
-	margin-bottom: 100px;
+    margin-top: 30px;
+    margin-bottom: 100px;
 }
 
-@media only screen and (min-width: 1240px)  {
-	.checkin {
-		padding: 0;
-		.thumbnail-area {
-			width: 1140px;
-		}
 
-		.thumbnail img {
-			width: 160px;
-			height: 160px;
-		}
-	}
+
+@media only screen and (min-width: 1080px)  {
+    .checkin {
+        padding: 0;
+        .thumbnail-area {
+            width: 1040px;
+        }
+
+        .thumbnail img {
+            width: 160px;
+            height: 160px;
+        }
+    }
 }
 
-@media only screen and (max-width: 1240px) and (min-width: 780px)  {
-	.checkin {
+@media only screen and (max-width: 1080px) and (min-width: 780px)  {
+    .checkin {
 
-		.thumbnail-area {
-			width: 720px;
-		}
+        .thumbnail-area {
+            width: 600px;
+        }
 
-		.thumbnail img {
-			width: 150px;
-			height: 150px;
-		}
-	}
+        .thumbnail img {
+            width: 150px;
+            height: 150px;
+        }
+    }
 }
 
 @media only screen and (max-width: 780px) and (min-width: 460px)  {
-	.checkin {
+    .checkin {
 
-		.thumbnail-area {
-			width: 400px;
-		}
+        .thumbnail-area {
+            width: 340px;
+        }
 
-		.thumbnail img {
-			width: 170px;
-			height: 170px;
-		}
-	}
+        .thumbnail img {
+            width: 120px;
+            height: 120px;
+        }
+    }
 }

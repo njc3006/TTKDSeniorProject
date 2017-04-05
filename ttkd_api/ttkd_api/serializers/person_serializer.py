@@ -120,6 +120,18 @@ class MinimalPersonSerializer(serializers.ModelSerializer):
         fields = ('id', 'first_name', 'last_name', 'belt', 'picture_url', 'active')
 
 
+class MinimalStripePersonSerializer(serializers.ModelSerializer):
+    """
+    MinimalStripePersonSerializer Outputs Person Model as JSON with very limited fields and stripes
+    """
+    belt = BeltSerializer(read_only=True)
+    stripes = DetailedPersonStripeSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Person
+        fields = ('id', 'first_name', 'last_name', 'belt', 'picture_url', 'active', 'stripes')
+
+
 class NotesPersonSerializer(serializers.ModelSerializer):
     """
     NotesPersonSerializer Outputs Person Model with id and misc_notes

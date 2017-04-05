@@ -5,7 +5,7 @@
 				<div id="alphaSortBtn" class="btn btn-primary" ng-click="toggleSortAlpha()">{{sortDisplayString}}</div>
 			</div>
 			<div class="col-md-5 col-md-offset-0 col-xs-4 col-xs-offset-0 margin-10">
-				<select id="programSelect" class="form-control" ng-model="filters.currentProgramId" ng-change="setDisplayedStudents()">
+				<select id="programSelect" class="form-control" ng-model="filters.currentProgramId" ng-change="changeProgram()">
 					<option value="">Select Program</option>
 					<optgroup label="Active">
 						<option ng-repeat="class in classes | filter: {active:true}" value="{{class.id}}">{{class.name}}</option>
@@ -23,10 +23,10 @@
 			</div>
 			<div class="col-md-3 col-xs-3 checkboxes text-center">
 				<span class="checkbox-inline">
-					<label><input type="checkbox" name="activeBox" id="activeBox" ng-model="filters.showActive" ng-click="setDisplayedStudents()">Active</label>
+					<label><input type="checkbox" name="activeBox" id="activeBox" ng-model="filters.showActive" ng-click="updateActiveDisplay()">Active</label>
 				</span>
 				<span class="checkbox-inline">
-					<label><input type="checkbox" name="inactiveBox" ng-model="filters.showInactive" ng-click="setDisplayedStudents()">Inactive</label>
+					<label><input type="checkbox" name="inactiveBox" ng-model="filters.showInactive" ng-click="updateInactiveDisplay()">Inactive</label>
 				</span>
 			</div>
 		</div>
