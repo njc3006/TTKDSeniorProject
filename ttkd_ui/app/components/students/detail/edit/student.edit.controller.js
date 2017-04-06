@@ -225,7 +225,7 @@
         };
 
         $scope.submitChanges = function (formIsValid) {
-					if (formIsValid) {
+            if (formIsValid) {
                 updateRegistrations();
                 programsTouched = false;
                 var payload = angular.copy($scope.studentInfo);
@@ -352,6 +352,7 @@
             onPictureChangeSuccess: function(response) {
                 $scope.requestFlags.changePicture.failure = false;
                 $scope.requestFlags.changePicture.success = true;
+                $scope.studentInfo['picture_url'] = response.data['picture_url'];
             },
             onPictureChangeFailure: function (error) {
                 $scope.requestFlags.changePicture.failure = true;
