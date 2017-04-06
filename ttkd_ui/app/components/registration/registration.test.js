@@ -61,6 +61,25 @@ describe('Registration', function() {
 				done();
 			});
 		});
+
+		it('should display a success message on successful submit', function(done) {
+			fillOutBasicInfo();
+			element(by.id('contiue-button')).click();
+			fillOutPrimaryEmergencyContactInfo();
+			element(by.id('contiue-button')).click();
+			fillOutWaiverSignature();
+			element(by.id('contiue-button')).click();
+
+			element(by.css('[type=submit]')).click();
+			expect(element(by.id('registration-success')).isDisplayed()).toBe(true);
+
+			browser.driver.sleep(1000);
+
+			browser.getCurrentUrl().then(function(url) {
+	      expect(url).toBe(REGISTRATION_URL);
+				done();
+	    });
+		});
 	});
 
 	describe('Basic Info', function() {
@@ -403,7 +422,7 @@ describe('Registration', function() {
 		});
 
 		it ('should not display the continue button on the review screen', function() {
-			expect(element(by.id('contiue-button')).isDisplayed()).toBe(true);
+			expect(element(by.id('contiue-button')).isDisplayed()).toBe(false);
 		})
 	});
 });

@@ -32,7 +32,7 @@
 		</ul>
 	</div>
 	<div class="col-md-8 col-sm-8">
-		<div class="alert alert-success" role="alert" ng-show="registrationSuccess">
+		<div id="registration-success" class="alert alert-success" role="alert" ng-show="registrationSuccess">
 			<strong>Succesfully registered</strong>
 		</div>
 		<div class="alert alert-danger" role="alert" ng-show="partialNotLoaded">
@@ -88,14 +88,6 @@
 							ng-click="selectFormSection(currentSelectionIndex + 1)">
 							Continue
 						</button>
-						<button
-							id="contiue-button"
-							ng-if="isPartialRegistration"
-							class="btn btn-primary btn-lg btn-block"
-							type="button"
-							ng-click="selectFormSection(currentSelectionIndex + 1)">
-							Continue
-						</button>
 					</div>
 					<div
 						class="col-sm-6 col-sm-offset-6"
@@ -104,12 +96,6 @@
 							type="submit"
 							ng-if="!isPartialRegistration"
 							ng-disabled="registrationForm.$invalid || isTooYoung()"
-							class="btn btn-primary btn-lg btn-block">
-							Submit
-						</button>
-						<button
-							type="submit"
-							ng-if="isPartialRegistration"
 							class="btn btn-primary btn-lg btn-block">
 							Submit
 						</button>
