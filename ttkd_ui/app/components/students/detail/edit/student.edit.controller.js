@@ -167,8 +167,6 @@
             delete oldStudentWithoutPicture['picture_url'];
             delete studentWithoutPicture['picture_url'];
 
-            console.log(oldStudentWithoutPicture, studentWithoutPicture);
-
             if (angular.equals(oldStudentWithoutPicture, studentWithoutPicture)) {
                 if ($stateParams.backToCheckinID !== null) {
                     $state.go('checkin', {programID: $stateParams.backToCheckinID})
