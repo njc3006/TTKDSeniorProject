@@ -38,13 +38,13 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<input type="text" placeholder="Name" class="form-control" ng-model="currentBelt.name" ng-required="true">
+			<input type="text" placeholder="Name" class="form-control" ng-model="currentBelt.name" maxlength="25" ng-required="true">
 		</div>
 		<div class="form-group">
-			<input type="text" placeholder="Primary Color" class="form-control" ng-model="currentBelt.primary_color" ng-init="color = currentBelt.primary_color" ng-click="updateFocus('primary')" ng-required="true">
+			<input type="text" placeholder="Primary Color" class="form-control" ng-model="currentBelt.primary_color" maxlength="7" ng-init="color = currentBelt.primary_color" ng-click="updateFocus('primary')" ng-required="true">
 		</div>
 		<div class="form-group">
-			<input type="text" placeholder="Secondary Color" class="form-control" ng-model="currentBelt.secondary_color" ng-init="color = currentBelt.secondary_color" ng-click="updateFocus('secondary')">
+			<input type="text" placeholder="Secondary Color" class="form-control" ng-model="currentBelt.secondary_color" maxlength="7" ng-init="color = currentBelt.secondary_color" ng-click="updateFocus('secondary')">
 		</div>
 		<div class="form-group">
 			<button class="btn btn-success" type="submit">Save</button>
@@ -89,7 +89,7 @@
 		</div>
 		
 		<div class="form-group">
-			<input type="text" placeholder="Name" class="form-control" ng-model="newBelt.name" ng-required="true">
+			<input type="text" placeholder="Name" class="form-control" ng-model="newBelt.name" maxlength="25" ng-required="true">
 		</div>
 		<div class="form-group">
 			<input type="text" placeholder="Primary Color" class="form-control" ng-model="newBelt.primary_color" ng-init="color = newBelt.primary_color" ng-click="updateFocus('primary')" ng-required="true">

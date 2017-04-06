@@ -65,7 +65,7 @@ class Person(models.Model):
         null=True,
     )
     street = models.CharField(
-        max_length=30,
+        max_length=95,
         blank=True,
         null=True,
     )

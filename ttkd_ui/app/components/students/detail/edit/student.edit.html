@@ -44,7 +44,7 @@
 	</div>
 
 	<form name="editForm" ng-submit="submitChanges(editForm.$valid)" novalidate ng-show="!requestFlags.loading.failure">
-		<div ng-if="userlevel !== 0">
+		<div ng-if="userlevel >= 1">
 			<div class="row">
 				<div
 					class="form-group col-xs-5"
@@ -55,6 +55,7 @@
 							name="firstName"
 							type="text"
 							placeholder="First Name"
+		 					maxlength="30"
 							class="form-control"
 							ng-model="studentInfo.first_name"
 							ng-required="true">
@@ -76,6 +77,8 @@
 						<input
 							name="lastName"
 							type="text"
+							placeholder="Last Name"
+		 					maxlength="30"
 							class="form-control"
 							ng-model="studentInfo.last_name"
 							ng-required="true">
@@ -185,6 +188,7 @@
 						<input
 							name="street"
 							type="text"
+		 					maxlength="95"
 							class="form-control"
 							ng-model="studentInfo.street"
 							ng-required="true">
@@ -207,6 +211,7 @@
 						<input
 							name="city"
 							type="text"
+		 					maxlength="30"
 							class="form-control"
 							ng-model="studentInfo.city"
 							ng-required="true">
@@ -247,6 +252,7 @@
 						<input
 							name="zipcode"
 							type="text"
+		 					maxlength="5"
 							class="form-control"
 							ng-model="studentInfo.zipcode"
 							ng-required="true"
@@ -264,7 +270,7 @@
 
 		<div class="row">
 			<uib-tabset type="pills" class="col-xs-12 spacer-25">
-				<uib-tab heading="Email Addresses" ng-if="userlevel !== 0">
+				<uib-tab heading="Email Addresses" ng-if="userlevel >= 1">
 						<div class="spacer-10"
 							ng-repeat="email in studentInfo.emails"
 							ng-class="{'has-error': emailForm.email.$invalid && !emailForm.email.$pristine, 'has-success': emailForm.email.$valid}">
@@ -285,6 +291,7 @@
 									<input
 										type="email"
 										name="email"
+		 								maxlength="254"
 										class="form-control"
 										placeholder="Email Address"
 										ng-required="true"
@@ -302,11 +309,11 @@
 						</div>
 				</uib-tab>
 
-				<uib-tab heading="Miscellaneous Notes" ng-if="userlevel !== 0">
-					<textarea class="form-control" rows="8" ng-model="studentInfo.misc_notes"></textarea>
+				<uib-tab heading="Miscellaneous Notes" ng-if="userlevel >= 1">
+					<textarea class="form-control" rows="8" ng-model="studentInfo.misc_notes" maxlength="1000"></textarea>
 				</uib-tab>
 
-				<uib-tab heading="Emergency Contacts" ng-if="userlevel !== 0">
+				<uib-tab heading="Emergency Contacts" ng-if="userlevel >= 1">
 					<h2>Primary Emergency Contact</h2>
 					<emergency-contact-input
 						ng-model="studentInfo.emergency_contact_1"

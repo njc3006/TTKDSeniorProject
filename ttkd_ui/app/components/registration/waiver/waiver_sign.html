@@ -9,6 +9,7 @@
 			class="form-control spacer-25"
 			placeholder="Participant Signature"
 			form-focus="currentFocusIndex === 0"
+			maxlength="60"
 			ng-focus="setFocus(0)"
 			ng-model="registrationInfo.person.waivers[0].waiver_signature"
 			ng-required="isFieldRequired('participantSignature')">
@@ -32,6 +33,7 @@
 			class="form-control"
 			placeholder="Guardian Signature"
 			form-focus="currentFocusIndex === 1"
+			maxlength="60"
 			ng-focus="setFocus(1)"
 			ng-model="registrationInfo.person.waivers[0].guardian_signature"
 			ng-required="isFieldRequired('guardianSignature')">
