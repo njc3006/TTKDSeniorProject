@@ -161,7 +161,23 @@
         }
 
         $scope.backNavigate = function () {
-            if (!angular.equals($scope.oldStudent, $scope.studentInfo) || programsTouched) {
+            // If only picture is changed
+            var oldStudentWithoutPicture = angular.copy($scope.oldStudent),
+                studentWithoutPicture = angular.copy($scope.studentInfo);
+            delete oldStudentWithoutPicture['picture_url'];
+            delete studentWithoutPicture['picture_url'];
+
+            console.log(oldStudentWithoutPicture, studentWithoutPicture);
+
+            if (angular.equals(oldStudentWithoutPicture, studentWithoutPicture)) {
+                if ($stateParams.backToCheckinID !== null) {
+                    $state.go('checkin', {programID: $stateParams.backToCheckinID})
+                } else {
+                    $state.go('studentDetails', {studentId: $stateParams.studentId,
+                        backToCheckinID: $stateParams.viewBackToCheckinID,
+                        backToAttendance: $stateParams.viewBackToAttendance});
+                }
+            } else if (!angular.equals($scope.oldStudent, $scope.studentInfo) || programsTouched) {
                 var shouldBackNavigate = confirm('There are unsaved changes, are you sure you wish to leave?');
 
                 if (shouldBackNavigate) {
