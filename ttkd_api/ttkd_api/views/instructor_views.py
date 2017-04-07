@@ -14,7 +14,7 @@ class MinimalInstructorViewSet(viewsets.ReadOnlyModelViewSet):
     Filters: program
     """
     permission_classes = (custom_permissions.IsAuthenticatedOrOptions,)
-    queryset = Instructor.objects.all()
+    queryset = Instructor.objects.all().order_by('person__first_name')
     serializer_class = MinimalInstructorSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('program', 'person')
