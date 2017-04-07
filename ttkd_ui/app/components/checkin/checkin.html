@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="col-md-3 col-xs-3 pull-left">
-            <select id="beltSelect" class="form-control" ng-model="filters.currentBelt" ng-change="setDisplayedStudents()">
+            <select id="beltSelect" class="form-control" ng-model="filters.currentBelt">
                 <option value="">All Belts</option>
                 <option ng-repeat="belt in belts | orderBy: 'name' " ng-show="belt.relevant" value="{{belt.id}}" ng-model="belt.id">{{belt.name}}</option>
             </select>

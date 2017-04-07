@@ -43,8 +43,10 @@
 
                     angular.forEach($scope.people, function(student) {
                         if (!belt.relevant) {
-                            if (belt.id === student.belt.id) {
-                                belt.relevant = true;
+                            if (student.belt !== null) {
+                                if (belt.id === student.belt.id) {
+                                    belt.relevant = true;
+                                }
                             }
                         }
                     });
@@ -421,11 +423,12 @@
 
             $scope.filterStudents = function() {
                 angular.forEach($scope.people, function(value) {
-                    if (!$scope.filters.currentBelt || parseInt($scope.filters.currentBelt) === value.belt.id) {
-                        value.show = true;
-                    }
-                    else {
-                        value.show = false;
+                    if (value.belt !== null){
+                        // show if there is no belt filtered, or show if the belt equals the current belt
+                        value.show = !$scope.filters.currentBelt || (parseInt($scope.filters.currentBelt) === value.belt.id);
+                    } else {
+                        // This person has no belt, only show them if the filter is set to all
+                        value.show = !$scope.filters.currentBelt;
                     }
                 });
             };
