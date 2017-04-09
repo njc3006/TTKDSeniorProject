@@ -5,6 +5,11 @@
 	    cursor: default;
 	}
 
+    .checked-in-faded{
+        opacity: 0.4;
+        filter: alpha(opacity=40); /* msie */
+    }
+
 	.datepicker {
 		min-width: 210px;
 	}
