@@ -2,8 +2,8 @@
 
   angular.module('ttkdApp.homeCtrl', [])
     .controller('HomeCtrl', ['$scope', '$rootScope', '$state', '$stateParams', '$uibModal',
-        '$document', 'ProgramsSvc', 'CheckinService',
-     function($scope, $rootScope, $state, $stateParams, $uibModal, $document, ProgramsSvc, CheckinService) {
+        '$document', '$cookies', 'ProgramsSvc', 'CheckinService',
+     function($scope, $rootScope, $state, $stateParams, $uibModal, $document, $cookies, ProgramsSvc, CheckinService) {
         $rootScope.showCurrentProgram = $stateParams.showCurrentProgram;
 
     	var modalInstance;
@@ -13,15 +13,17 @@
         //messages to be relayed to user when adding programs
         $scope.addProgramMessage = {};
 
+        $scope.currentProgram = $cookies.getObject('currentProgram');
+
         var getActivePrograms = function() {
             ProgramsSvc.getActivePrograms().then(function onSuccess(response) {
                 $scope.programs = response.data;
             });
         };
 
-				$scope.goToPage = function(page, data) {
-					$state.go(page, data);
-				};
+		$scope.goToPage = function(page, data) {
+			$state.go(page, data);
+		};
 
         $scope.openAddProgram = function() {
             $scope.addProgramMessage = {};
@@ -64,7 +66,6 @@
                 templateUrl: 'components/home/choose-program.modal.html',
                 scope: $scope
             });
-
     	};
 
     	$scope.selectProgram = function(program) {
@@ -73,7 +74,7 @@
     	};
 
     	$scope.closeModal = function() {
-    		modalInstance.dismiss('no');
+    		modalInstance.close();
     	};
 
     	$scope.updateCheckinMode = function(){
