@@ -76,9 +76,11 @@
             <div>
                 <pic class="wrapper pic">
                     <img ng-if="person.picture_url" class="img-responsive {{studentBeltClass}} pull-left"
-                         ng-src="{{apiHost}}/{{person.picture_url}}" ng-style="person.beltStyle"/>
+                         ng-src="{{apiHost}}/{{person.picture_url}}" ng-style="person.beltStyle"
+                         ng-class="{'checked checked-in-faded': person.checkedIn, 'unchecked' : !person.checkedIn}"/>
                     <img ng-if="!person.picture_url" class="img-responsive {{studentBeltClass}} pull-left"
-                         ng-src="./img/components/students/placeholder.png" ng-style="person.beltStyle"/>
+                         ng-src="./img/components/students/placeholder.png" ng-style="person.beltStyle"
+                         ng-class="{'checked checked-in-faded': person.checkedIn, 'unchecked' : !person.checkedIn}"/>
                     <span ng-if="person.checkedIn" class="glyphicon glyphicon-ok-circle"></span>
                 </pic>
     			<svg class="stripes pull-right">
