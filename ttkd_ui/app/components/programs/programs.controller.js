@@ -2,8 +2,8 @@
 
   angular.module('ttkdApp.programsCtrl', ['ttkdApp.constants'])
 
-    .controller('ProgramsCtrl', ['$scope', '$rootScope', '$state', '$stateParams', '$uibModal', '$document', 'ProgramsSvc', 
-        function($scope, $rootScope, $state, $stateParams, $uibModal, $document, ProgramsSvc) {
+    .controller('ProgramsCtrl', ['$scope', '$rootScope', '$state', '$stateParams', '$uibModal', 'ProgramsSvc', 
+        function($scope, $rootScope, $state, $stateParams, $uibModal, ProgramsSvc) {
         $rootScope.showCurrentProgram = $stateParams.showCurrentProgram;
 
         var modalInstance;
