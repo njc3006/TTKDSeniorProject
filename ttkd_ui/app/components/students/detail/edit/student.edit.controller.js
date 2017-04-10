@@ -6,14 +6,14 @@
         $timeout,
         $q,
         $window,
+        apiHost,
         StudentsService,
         StateService,
-        ProgramsService){
-
+        ProgramsService
+		){
+        var pictureUpdatedQueryParam = 0;
         var programsTouched = false;
         var allPrograms = [];
-        $scope.registeredPrograms = [];
-        $scope.programsToAdd = [];
 
         ProgramsService.getPrograms().then(
             function (response) {
@@ -55,12 +55,12 @@
         }
 
         $scope.generateDetailedError = function (errorResponse) {
-            $scope.requestFlags.submission.failure = true;
+            //$scope.requestFlags.submission.failure = true;
             if (errorResponse.data && Object.keys(errorResponse.data).length > 0) {
                 $scope.failureDetails = [];
-            
+
                 for (var key in errorResponse.data) {
-                    
+
                     if (angular.isObject(errorResponse.data[key]) && !angular.isArray(errorResponse.data[key])) {
                         for (var secondaryKey in errorResponse.data[key]) {
                             $scope.failureDetails.push($scope.cleanKey(key) + ' - ' + $scope.cleanKey(secondaryKey) + ': ' + errorResponse.data[key][secondaryKey][0]);
@@ -72,7 +72,7 @@
                     }
                 }
             }
-            else {  
+            else {
                 $scope.failureDetails = ["There was an error submitting the information changes"];
             }
         }
@@ -104,6 +104,7 @@
                         },
                         // on errors
                         function (response) {
+														$scope.requestFlags.submission.failure = true;
                             $scope.generateDetailedError(response);
                             $window.scrollTo(0, 0);
                         }
@@ -120,6 +121,7 @@
                         },
                         // on error
                         function (response) {
+														$scope.requestFlags.submission.failure = true;
                             $scope.generateDetailedError(response);
                             $window.scrollTo(0, 0);
                         }
@@ -151,6 +153,7 @@
                     $scope.backNavigate();
                 },
                 function failure(error) {
+										$scope.requestFlags.submission.failure = true;
                     $scope.generateDetailedError(error);
                     $window.scrollTo(0, 0);
                 }
@@ -158,7 +161,21 @@
         }
 
         $scope.backNavigate = function () {
-            if (!angular.equals($scope.oldStudent, $scope.studentInfo) || programsTouched) {
+            // If only picture is changed
+            var oldStudentWithoutPicture = angular.copy($scope.oldStudent),
+                studentWithoutPicture = angular.copy($scope.studentInfo);
+            delete oldStudentWithoutPicture['picture_url'];
+            delete studentWithoutPicture['picture_url'];
+
+            if (angular.equals(oldStudentWithoutPicture, studentWithoutPicture)) {
+                if ($stateParams.backToCheckinID !== null) {
+                    $state.go('checkin', {programID: $stateParams.backToCheckinID})
+                } else {
+                    $state.go('studentDetails', {studentId: $stateParams.studentId,
+                        backToCheckinID: $stateParams.viewBackToCheckinID,
+                        backToAttendance: $stateParams.viewBackToAttendance});
+                }
+            } else if (!angular.equals($scope.oldStudent, $scope.studentInfo) || programsTouched) {
                 var shouldBackNavigate = confirm('There are unsaved changes, are you sure you wish to leave?');
 
                 if (shouldBackNavigate) {
@@ -213,6 +230,10 @@
             $scope.requestFlags.submission.success = false;
         };
 
+        $scope.closeChangePictureSuccessAlert = function() {
+            $scope.requestFlags.changePicture.success = false;
+        };
+
         $scope.closeErrorAlert = function () {
             $scope.requestFlags.submission.failure = false;
         };
@@ -242,6 +263,7 @@
                                     submitStripeChanges();
                                 },
                                 function failure(error) {
+																		$scope.requestFlags.submission.failure = true;
                                     $scope.generateDetailedError(error);
                                     $window.scrollTo(0, 0);
                                 }
@@ -258,6 +280,7 @@
                                     submitStripeChanges();
                                 },
                                 function failure(error) {
+																		$scope.requestFlags.submission.failure = true;
                                     $scope.generateDetailedError(error);
                                     $window.scrollTo(0, 0);
                                 }
@@ -266,10 +289,88 @@
                             submitStripeChanges();
                         }
                     }, function failure(error) {
+												$scope.requestFlags.submission.failure = true;
                         $scope.generateDetailedError(error);
                         $window.scrollTo(0, 0);
                     }
                 );
+            }
+        };
+
+        $scope.loadStudent = function() {
+            StudentsService.getStudent($stateParams.studentId).then(function success(response) {
+                $scope.studentInfo = response.data;
+
+                if($scope.studentInfo['picture_url']) {
+                	$scope.pictureData.url =
+                        apiHost + '/' + $scope.studentInfo['picture_url'] + '?p=' + pictureUpdatedQueryParam;
+                }
+
+                $scope.studentInfo.oldStripes = $scope.studentInfo.stripes.filter(function (stripe) {
+                    return stripe['current_stripe'];
+                }).map(function (stripe) {
+                    var copy = {};
+                    angular.copy(stripe, copy);
+                    return copy;
+                });
+
+                $scope.studentInfo.stripes = $scope.studentInfo.stripes.filter(function (stripe) {
+                    return stripe['current_stripe'];
+                }).map(function (personStripe) {
+                    var copy = {};
+                    angular.copy(personStripe.stripe, copy);
+                    copy.active = false;
+                    return copy;
+                });
+
+                $scope.studentInfo.dob = {
+                    value: moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate(),
+                    open: false
+                };
+
+                $scope.studentInfo.state = {
+                    name: $scope.studentInfo.state,
+                    value: $scope.studentInfo.state
+                };
+
+                // Add empty entries to emergency contacts as necessary (up to 2)
+                if (!$scope.studentInfo['emergency_contact_1']) {
+                    $scope.studentInfo['emergency_contact_1'] = {};
+                }
+
+                if (!$scope.studentInfo['emergency_contact_2']) {
+                    $scope.studentInfo['emergency_contact_2'] = {};
+                }
+
+                if ($scope.studentInfo.belt) {
+                    $scope.currentBelt = $scope.studentInfo.belt;
+                    $scope.studentInfo.newBelt = angular.copy($scope.currentBelt);
+                    $scope.oldPersonBelt = $scope.currentBelt;
+                }
+
+                $scope.oldStudent = angular.copy($scope.studentInfo);
+                $scope.requestFlags.loading.done = true;
+
+            }, function failure(error) {
+                $scope.requestFlags.loading.failure = true;
+                $scope.requestFlags.loading.done = true;
+            });
+        };
+
+        $scope.registeredPrograms = [];
+        $scope.programsToAdd = [];
+
+        $scope.pictureData = {
+            url: '',
+            studentId: $stateParams.studentId,
+            onPictureChangeSuccess: function(response) {
+                $scope.requestFlags.changePicture.failure = false;
+                $scope.requestFlags.changePicture.success = true;
+                $scope.studentInfo['picture_url'] = response.data['picture_url'];
+            },
+            onPictureChangeFailure: function (error) {
+                $scope.requestFlags.changePicture.failure = true;
+                $scope.generateDetailedError(error);
             }
         };
 
@@ -282,6 +383,10 @@
                 success: false,
                 failure: false
             },
+            changePicture: {
+                success: false,
+                failure: false
+            },
         };
 
         $scope.selectedFromAllStripes = [];
@@ -291,58 +396,7 @@
 
         $scope.states = StateService.getStates();
 
-        StudentsService.getStudent($stateParams.studentId).then(function success(response) {
-            $scope.studentInfo = response.data;
-
-            $scope.studentInfo.oldStripes = $scope.studentInfo.stripes.filter(function (stripe) {
-                return stripe['current_stripe'];
-            }).map(function (stripe) {
-                var copy = {};
-                angular.copy(stripe, copy);
-                return copy;
-            });
-
-            $scope.studentInfo.stripes = $scope.studentInfo.stripes.filter(function (stripe) {
-                return stripe['current_stripe'];
-            }).map(function (personStripe) {
-                var copy = {};
-                angular.copy(personStripe.stripe, copy);
-                copy.active = false;
-                return copy;
-            });
-
-            $scope.studentInfo.dob = {
-                value: moment($scope.studentInfo.dob, 'YYYY-MM-DD').toDate(),
-                open: false
-            };
-
-            $scope.studentInfo.state = {
-                name: $scope.studentInfo.state,
-                value: $scope.studentInfo.state
-            };
-
-            // Add empty entries to emergency contacts as necessary (up to 2)
-            if (!$scope.studentInfo['emergency_contact_1']) {
-                $scope.studentInfo['emergency_contact_1'] = {};
-            }
-
-            if (!$scope.studentInfo['emergency_contact_2']) {
-                $scope.studentInfo['emergency_contact_2'] = {};
-            }
-
-            if ($scope.studentInfo.belt) {
-                $scope.currentBelt = $scope.studentInfo.belt;
-                $scope.studentInfo.newBelt = angular.copy($scope.currentBelt);
-                $scope.oldPersonBelt = $scope.currentBelt;
-            }
-
-            $scope.oldStudent = angular.copy($scope.studentInfo);
-            $scope.requestFlags.loading.done = true;
-
-        }, function failure(error) {
-            $scope.requestFlags.loading.failure = true;
-            $scope.requestFlags.loading.done = true;
-        });
+        $scope.loadStudent();
 
         $scope.$watch('studentInfo["newBelt"]', function (newBelt) {
             if (newBelt) {
@@ -364,7 +418,11 @@
         'ttkdApp.studentsService',
         'ttkdApp.stateService',
         'ttkdApp.emergencyContactDir',
-        'ttkdApp.constants'
+        'ttkdApp.pictureDir',
+        'ttkdApp.constants',
+        'angularFileUpload',
+        'ngCookies',
+        'webcam'
     ]).controller('EditStudentCtrl', [
         '$scope',
         '$state',
@@ -372,6 +430,7 @@
         '$timeout',
         '$q',
         '$window',
+        'apiHost',
         'StudentsSvc',
         'StateSvc',
         'ProgramsSvc',
