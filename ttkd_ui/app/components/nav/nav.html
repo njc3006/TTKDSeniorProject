@@ -25,7 +25,6 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
           <a href="" ng-if="!loggedin" ng-click="openLogin()" id="login">Login</a>
-        <!-- Single button with keyboard nav -->
           <div ng-if="loggedin" uib-dropdown keyboard-nav>
             <button id="userBtn" type="button" class="btn btn-primary" uib-dropdown-toggle>
               {{currentUser}} <span class="caret"></span>
@@ -39,6 +38,6 @@
           </div>
         </li>
       </ul>
-    </div><!--/.nav-collapse -->
+    </div>
   </div>
 </nav>

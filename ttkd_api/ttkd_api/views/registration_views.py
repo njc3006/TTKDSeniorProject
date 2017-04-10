@@ -46,7 +46,7 @@ class MinimalRegistrationViewSet(viewsets.ReadOnlyModelViewSet):
     Filters: program, person, person__active
     """
     permission_classes = (custom_permissions.ReadOnly,)
-    queryset = Registration.objects.filter(is_partial=False)
+    queryset = Registration.objects.filter(is_partial=False).order_by('person__first_name')
     serializer_class = MinimalRegistrationSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('program', 'person', 'person__active')

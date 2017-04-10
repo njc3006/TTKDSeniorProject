@@ -216,7 +216,7 @@
                             indexToRemove = $scope.removeInstructors.indexOf(value);
 
                             // Add it back in to the list of registrations
-                            $scope.instructors.push(value);
+                            $scope.instructors.unshift(value);
                         }
                     });
                     if (indexToRemove !== -1){
@@ -227,8 +227,8 @@
                         person: $scope.selectedInstructor
                         };
 
-                        $scope.newInstructors.push(instructor);
-                        $scope.instructors.push(instructor);
+                        $scope.newInstructors.unshift(instructor);
+                        $scope.instructors.unshift(instructor);
                     }
                 }
                 delete $scope.selectedInstructor; //clear the input field
@@ -288,15 +288,15 @@
                             indexToRemove = $scope.removeRegistrations.indexOf(value);
 
                             // Add it back in to the list of registrations
-                            $scope.registrations.push(value);
+                            $scope.registrations.unshift(value);
                         }
                     });
                     if (indexToRemove !== -1){
                         $scope.removeRegistrations.splice(indexToRemove, 1);
                     } else {
                         // If we did't find it in the remove, then we must be good to add it to the new
-                        $scope.newStudents.push({student: $scope.selectedStudent});
-                        $scope.registrations.push({person: $scope.selectedStudent});
+                        $scope.newStudents.unshift({student: $scope.selectedStudent});
+                        $scope.registrations.unshift({person: $scope.selectedStudent});
                     }
                 }
                 delete $scope.selectedStudent; //clear the input field

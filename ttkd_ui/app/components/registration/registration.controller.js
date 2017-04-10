@@ -37,27 +37,6 @@
 		return payload
 	}
 
-	function parseErrorResponse(errors) {
-		var errorMessages = [];
-
-		angular.forEach(errors, function(value, key) {
-			if (angular.isArray(value) && !angular.isObject(value[0])) {
-				errorMessages = errorMessages.concat(value.map(function(error) {
-					return key + ': ' + error;
-				}));
-			} else if (angular.isArray(value) && angular.isObject(value[0])) {
-				var parsedErrors = value.map(parseErrorResponse);
-				parsedErrors.forEach(function(errorArray) {
-					errorMessages = errorMessages.concat(errorArray);
-				});
-			} else if (angular.isObject(value)) {
-				errorMessages = errorMessages.concat(parseErrorResponse(value));
-			}
-		});
-
-		return errorMessages;
-	}
-
 	function RegistrationController(
 		$scope,
 		$rootScope,
@@ -110,6 +89,51 @@
 			}
 			$event.preventDefault();
 		};
+
+		$scope.cleanKey = function (key) {
+            cleanKey = '';
+            pieces = key.split('_');
+
+            for (var piece in pieces) {
+                piece = pieces[piece].charAt(0).toUpperCase() + pieces[piece].slice(1);
+                cleanKey += piece + ' ';
+            }
+
+            return(cleanKey)
+        }
+
+        $scope.generateDetailedError = function (errorResponse) {
+			var errorMessages = [];
+
+            if (errorResponse.person && Object.keys(errorResponse.person).length > 0) {
+                for (var key in errorResponse.person) {
+                    
+                    if (angular.isObject(errorResponse.person[key]) && !angular.isArray(errorResponse.person[key])) {
+                		for (var secondaryKey in errorResponse.person[key]) {
+                            errorMessages.push($scope.cleanKey(key) + ' - ' + $scope.cleanKey(secondaryKey) + ': ' + errorResponse.person[key][secondaryKey][0]);
+                        }
+                    }
+                    else if (angular.isObject(errorResponse.person[key]) && angular.isArray(errorResponse.person[key]) && !angular.isString(errorResponse.person[key][0])) {
+                    	for (var object in errorResponse.person[key]) {
+                    		list = errorResponse.person[key][object];
+                    		
+                    		for (var secondaryKey in list) {
+	                            errorMessages.push($scope.cleanKey(key) + ' - ' + $scope.cleanKey(secondaryKey) + ': ' + list[secondaryKey][0]);
+	                        }
+                    	}
+                    }
+
+                    else {
+                        errorMessages.push($scope.cleanKey(key) + ': ' + errorResponse.person[key][0]);
+                    }
+                }
+            }
+            else {  
+                errorMessages = ["There was an error submitting the information changes"];
+            }
+
+            return errorMessages;
+        }
 
 		if ($scope.isPartialRegistration) {
 			$scope.canVisit = function(sectionIndex) { return true; };
@@ -316,7 +340,7 @@
 							function failure(error) {
 								$scope.registrationFailure = true;
 								$window.scrollTo(0, 0);
-								$scope.registrationErrors = parseErrorResponse(error.data);
+								$scope.registrationErrors = $scope.generateDetailedError(error.data);
 							}
 						);
 					} else {
@@ -327,7 +351,7 @@
 						}, function(error) {
 							$scope.registrationFailure = true;
 							$window.scrollTo(0, 0);
-							$scope.registrationErrors = parseErrorResponse(error.data);
+							$scope.registrationErrors = $scope.generateDetailedError(error.data);
 						});
 					}
 				}
@@ -358,7 +382,7 @@
 						function error(error) {
 							$scope.registrationFailure = true;
 							$window.scrollTo(0, 0);
-							$scope.registrationErrors = parseErrorResponse(error.data);
+							$scope.registrationErrors = $scope.generateDetailedError(error.data);
 						}
 					);
 				} else {
