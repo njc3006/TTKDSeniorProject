@@ -1,6 +1,6 @@
 (function() {
 	function BeltSelectController($scope, $http, apiHost) {
-		$http.get(apiHost + '/api/belts/').then(function success(response) {
+		$http.get(apiHost + '/api/belts/?active=2').then(function success(response) {
 			$scope.allBelts = response.data;
 		}, function failure(error) {
 			$scope.requestFlags.loading.failure = true;
