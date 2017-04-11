@@ -58,7 +58,7 @@
 			}
 		};
 
-		$http.get(apiHost + '/api/stripes/').then(
+		$http.get(apiHost + '/api/stripes/?active=2').then(
 			function success(response) {
 				controller.allStripes = response.data.map(function(stripe) {
 					stripe.active = false;
