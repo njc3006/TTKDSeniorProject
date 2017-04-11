@@ -15,7 +15,7 @@
         var programsTouched = false;
         var allPrograms = [];
 
-        ProgramsService.getPrograms().then(
+        ProgramsService.getActivePrograms().then(
             function (response) {
                 allPrograms = response.data;
                 initPrograms();
