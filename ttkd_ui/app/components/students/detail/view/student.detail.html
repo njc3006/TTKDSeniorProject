@@ -104,7 +104,7 @@
 			</div>
 
 			<div class="panel panel-primary col-xs-5 pull-right" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
-				<div class="panel-heading">
+				<div class="panel-heading info-text">
 					Secondary Emergency Contact
 				</div>
 				<div class="panel-body">
@@ -130,13 +130,13 @@
 						ng-controller="StudentAttendanceCtrl">
 					</ng-include>
 				</uib-tab>
-        <uib-tab heading="Achievements">
+        <uib-tab heading="Achievements" class="info-text">
 					<ng-include
 						src="'components/students/detail/view/belt_stripe_history/belts-stripes-history.html'"
 						ng-controller="BeltsStripesHistoryCtrl">
 					</ng-include>
 				</uib-tab>
-				<uib-tab heading="Waiver">
+				<uib-tab heading="Waiver" class="info-text">
 					<ng-include
 						src="'components/students/detail/view/student_waiver/waiver.html'"
 						ng-controller="StudentWaiverCtrl">
