@@ -172,7 +172,7 @@
                 var filteredByBelt = [];
 
                 angular.forEach(filteredList, function(value){
-                    if(value.person.belt.id === $scope.filters.currentBelt.id){
+                    if(value.person.belt && (value.person.belt.id === $scope.filters.currentBelt.id)){
                         filteredByBelt.push(value);
                     }
                 });
