@@ -314,7 +314,7 @@ def export_to_excel(request):
                                  'Emergency Contact 1 Phone Number', 'Emergency Contact 1 Relation',
                                  'Emergency Contact 2 Full Name',
                                  'Emergency Contact 2 Phone Number', 'Emergency Contact 2 Relation',
-                                 'Misc Notes']
+                                 'Notes']
 
     for header in emergency_contact_headers:
         worksheet.write(header_row, header_column, header, bold)
