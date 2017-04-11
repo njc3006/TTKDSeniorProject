@@ -113,7 +113,9 @@
                         $scope.alerts.success = true;
                         $scope.alerts.error = false;
                         $window.scrollTo(0, 0);
-                        location.reload();
+                        if(programCookie.id == $scope.program.id) {
+                            location.reload();
+                        }
                         $scope.backNavigate();
                     }
                 });
