@@ -19,7 +19,7 @@
 
             getCheckinsForProgram: function (programId, checkinDate) {
                 return $http.get(apiHost + '/api/check-ins/?program=' + programId +
-                    '&date=' + checkinDate);
+                    '&date=' + checkinDate + '&person__active=2');
             },
 
             createCheckin: function (data) {
