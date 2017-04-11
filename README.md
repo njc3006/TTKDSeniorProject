@@ -41,7 +41,7 @@ there are 2 possible additional options when running the script:
 1. nobelts - Does not add default belts into the import.
 2. mask - Removes any sensitive personal data when loading in the old files. This flag will also generate fake relationships of belts and stripes to persons in the import unless one of the variations of the nobelts flag is used.
 
-`python import_json.py <belt|stripe|belts|stripes> <mask>`
+`python import_json.py <nobelts> <mask>`
 
 ### Testing
 
