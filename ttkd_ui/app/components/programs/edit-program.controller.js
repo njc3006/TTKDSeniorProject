@@ -94,7 +94,6 @@
                             var programCookie = $cookies.getObject('currentProgram');
                             if(programCookie.id == $scope.program.id) {
                                 $cookies.putObject('currentProgram', $scope.program);
-                                location.reload();
                             }
                         }, function(error){
                             $scope.alerts.errorText = 'Failed to update program info';
@@ -114,6 +113,7 @@
                         $scope.alerts.success = true;
                         $scope.alerts.error = false;
                         $window.scrollTo(0, 0);
+                        location.reload();
                         $scope.backNavigate();
                     }
                 });
