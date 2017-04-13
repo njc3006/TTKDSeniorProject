@@ -176,5 +176,32 @@ describe('Student Detail Page', function() {
 			element.all(by.className('uib-tab')).first().click();
 			expect(element(by.id('notes-panel')).isDisplayed()).toBe(true);
 		});
+
+		it('should have a list for belt and stripe achievement history', function() {
+			element.all(by.className('uib-tab')).get(2).click();
+			expect(element(by.id('history-list')).isDisplayed()).toBe(true);
+		});
+
+		it('should have a list for belt and stripe achievement history', function() {
+			element.all(by.className('uib-tab')).get(2).click();
+			expect(element(by.id('history-list')).isDisplayed()).toBe(true);
+		});
+
+		it('should have a list of waivers', function() {
+			element.all(by.className('uib-tab')).get(3).click();
+			expect(element(by.id('waiver-list')).isDisplayed() || element(by.id('no-waiver-list')).isDisplayed()).toBe(true);
+		});
+
+		it('should pull up a modal when a button for a new waiver is clicked', function() {
+			element.all(by.className('uib-tab')).get(3).click();
+			element(by.id('new-waiver')).click();
+
+			element(by.model('newWaiverSig')).sendKeys('Adam TTKD');
+			element(by.model('newWaiverGuardSig')).sendKeys('Father TTKD');
+
+			element(by.id('submit-waiver')).click();
+
+			expect(element(by.id('waiver-list')).isDisplayed()).toBe(true);
+		});
   });
 });
