@@ -12,7 +12,7 @@ class TTKDConfig(AppConfig):
         verbose_name = "TTKD Student Management"
 
         try:
-            if(settings.DEBUG):
+            if(settings.RESET_USER):
                 default_password = 'admin'
 
                 admin_user = None

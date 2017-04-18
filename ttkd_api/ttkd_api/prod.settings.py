@@ -33,6 +33,8 @@ STATIC_URL = '/ui/'
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'jhasfd879*f8aV7yafFdasfjji^%02\df]}vbcx#234125gs'
 
+RESET_USER = False
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
