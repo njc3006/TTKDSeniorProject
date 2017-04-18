@@ -1,51 +1,99 @@
 <div class="container-fluid">
-	<div class="col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1">
+	<div class="col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1 padding-left-0">
 		<ul class="nav nav-pills nav-stacked">
 			<li
+				id="tab{{$index}}"
 				ng-repeat="section in formSections"
 				role="presentation"
-				ng-class="{active: $index === currentSelectionIndex, disabled: !visitedSections[$index]}"
-				ng-click="visitedSections[$index] && selectFormSection($index)">
+				ng-class="{active: $index === currentSelectionIndex, disabled: !canVisit($index)}"
+				ng-click="canVisit($index) && selectFormSection($index)">
 				<a ui-sref=".">{{section.name}}</a>
 			</li>
 		</ul>
 	</div>
-	<div class="col-md-5 col-sm-5">
+	<div class="col-md-8 col-sm-8">
 		<div class="alert alert-success" role="alert" ng-show="registrationSuccess">
 			<strong>Succesfully registered</strong>
 		</div>
-		<div class="alert alert-danger" role="alert" ng-show="registrationFailure">
+		<div class="alert alert-danger" role="alert" ng-show="partialNotLoaded">
+			<strong>Partial registration could not be loaded</strong><br/>
+			<strong ng-if="partialNotLoadedStatus">
+				<span ng-if="partialNotLoadedStatus === 404">Partial registration doesn't exist</span>
+				<span ng-if="partialNotLoadedStatus === 500">Internal server Error</span>
+			</strong>
+		</div>
+		<div id="failureAlert" class="alert alert-danger" role="alert" ng-show="registrationFailure">
 			<strong>Registration failed</strong>
+			<strong>
+				<ul>
+					<li id="missingEmailAndPhone" ng-if="missingEmailAndPhone">Missing phone number or email address</li>
+					<li ng-repeat="error in registrationErrors track by $index">{{error}}</li>
+				</ul>
+			</strong>
 		</div>
 		<form
 			name="registrationForm"
-			class="form-horizontal spacer-25"
-			ng-submit="onSubmit(registrationForm.$valid, $event)"
+			class="form-horizontal spacer-35"
+			ng-submit="onSubmit(registrationForm.$valid)"
 			novalidate>
 				<ng-include src="currentFormTpl"></ng-include>
-				<button
-					type="submit"
-					class="btn btn-primary"
-					ng-disabled="registrationForm.$invalid || isTooYoung()"
-					class="btn btn-lg btn-primary">
-					{{submitText}}
-				</button>
+				<div class="row" ng-if="isPartialRegistration">
+					<div class="col-sm-6" ng-show="currentSelectionIndex !== (formSections.length - 1)">
+						<button
+							class="btn btn-primary btn-lg btn-block"
+							type="button"
+							ng-click="selectFormSection(currentSelectionIndex + 1)">
+							Continue
+						</button>
+					</div>
+					<div
+						class="col-sm-6"
+						ng-class="{'col-sm-offset-6': currentSelectionIndex === (formSections.length - 1)}">
+						<button
+							type="submit"
+							class="btn btn-primary btn-lg btn-block">
+							Submit
+						</button>
+					</div>
+				</div>
+				<div class="row" ng-if="!isPartialRegistration">
+					<div class="col-sm-6" ng-show="currentSelectionIndex !== (formSections.length - 1)">
+						<button
+							id="contiue-button"
+							ng-if="!isPartialRegistration"
+							class="btn btn-primary btn-lg btn-block"
+							type="button"
+							ng-disabled="registrationForm.$invalid"
+							ng-click="selectFormSection(currentSelectionIndex + 1)">
+							Continue
+						</button>
+						<button
+							id="contiue-button"
+							ng-if="isPartialRegistration"
+							class="btn btn-primary btn-lg btn-block"
+							type="button"
+							ng-click="selectFormSection(currentSelectionIndex + 1)">
+							Continue
+						</button>
+					</div>
+					<div
+						class="col-sm-6 col-sm-offset-6"
+						ng-show="currentSelectionIndex === (formSections.length - 1)">
+						<button
+							type="submit"
+							ng-if="!isPartialRegistration"
+							ng-disabled="registrationForm.$invalid || isTooYoung()"
+							class="btn btn-primary btn-lg btn-block">
+							Submit
+						</button>
+						<button
+							type="submit"
+							ng-if="isPartialRegistration"
+							class="btn btn-primary btn-lg btn-block">
+							Submit
+						</button>
+					</div>
+				</div>
 		</form>
-	</div>
-	<div class="col-md-3 col-sm-3 form-scroll-buttons">
-		<button
-			type="button"
-			class="btn btn-lg btn-primary col-sm-5 col-md-5"
-			ng-click="focusPrevious()"
-			ng-disabled="numElements === 1 || currentFocusIndex === 0">
-			Previous
-		</button>
-		<button
-			type="button"
-			class="btn btn-lg btn-primary col-sm-5 col-md-5 pull-right"
-			ng-click="focusNext()"
-			ng-disabled="numElements === 1 || currentFocusIndex === (numElements - 1)">
-			Next
-		</button>
 	</div>
 </div>

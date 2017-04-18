@@ -1,7 +1,7 @@
 <ng-include src="'components/registration/waiver/waiver_text.html'"></ng-include>
 
 <div class="spacer-25"
-	ng-class="{'has-error': registrationForm.participantSignature.$invalid && !registrationForm.participantSignature.$pristine, 'has-success': registrationForm.participantSignature.$valid}">
+	ng-class="{'has-error': registrationForm.participantSignature.$invalid && !registrationForm.participantSignature.$pristine, 'has-success': fieldHasSuccess('participantSignature') && registrationForm.participantSignature.$valid}">
 	<div class="input-group col-sm-12">
 		<input
 			type="text"
@@ -9,9 +9,10 @@
 			class="form-control spacer-25"
 			placeholder="Participant Signature"
 			form-focus="currentFocusIndex === 0"
+			maxlength="60"
 			ng-focus="setFocus(0)"
-			ng-model="registrationInfo.participantSignature"
-			ng-required="true">
+			ng-model="registrationInfo.person.waivers[0].waiver_signature"
+			ng-required="isFieldRequired('participantSignature')">
 		<span class="input-group-addon">
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
@@ -24,7 +25,7 @@
 <div class="spacer-25"
 	ng-if="!isLegalAdult()"
 	ng-init="numElements = 2"
-	ng-class="{'has-error': registrationForm.guardianSignature.$invalid && !registrationForm.guardianSignature.$pristine, 'has-success': registrationForm.guardianSignature.$valid}">
+	ng-class="{'has-error': registrationForm.guardianSignature.$invalid && !registrationForm.guardianSignature.$pristine, 'has-success': fieldHasSuccess('guardianSignature') && registrationForm.guardianSignature.$valid}">
 	<div class="input-group col-sm-12">
 		<input
 			type="text"
@@ -32,9 +33,10 @@
 			class="form-control"
 			placeholder="Guardian Signature"
 			form-focus="currentFocusIndex === 1"
+			maxlength="60"
 			ng-focus="setFocus(1)"
-			ng-model="registrationInfo.guardianSignature"
-			ng-required="true">
+			ng-model="registrationInfo.person.waivers[0].guardian_signature"
+			ng-required="isFieldRequired('guardianSignature')">
 		<span class="input-group-addon">
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>

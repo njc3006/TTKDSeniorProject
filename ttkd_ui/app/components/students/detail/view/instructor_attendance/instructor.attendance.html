@@ -1,0 +1,102 @@
+<div class="row spacer-25 tab-content">
+	<div class="col-md-12 col-xs-12">
+		Programs Currently Instructing
+		<table class="table table-striped">
+			<thead>
+			</thead>
+			<tbody>
+				<tr ng-if="instructedPrograms.length===0">
+						<td>This Student Is Not Currently Instructing Any Program</td>
+				</tr>
+				<tr ng-repeat="program in instructedPrograms">
+					<td>{{program}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="row spacer-25">
+	<form class="form-inline col-xs-12 col-md-12 no-left-padding no-right-padding">
+		<div class="form-group col-xs-4 col-md-4">
+			<div>Program</div>
+			<select
+				class="form-control"
+				ng-model="filterData.selectedProgram"
+				ng-change="onProgramChange()">
+				<option value="">All Programs</option>
+				<optgroup label="Active">
+ 					<option ng-repeat="program in checkedInPrograms | filter: {active:true}" value="{{program.id}}">
+						{{program.name}}
+					</option>
+ 				</optgroup>
+ 				<optgroup label="Inactive">
+ 					<option ng-repeat="program in checkedInPrograms | filter: {active:false}" value="{{program.id}}">
+						{{program.name}}
+					</option>
+ 				</optgroup>
+			</select>
+		</div>
+		<div class="form-group col-xs-4 col-md-4">
+			<div>Start Date</div>
+			<div class="input-group col-sm-12">
+				<input
+					type="text"
+					class="form-control"
+					name="dob"
+					ng-required="true"
+					ng-readonly="true"
+					ng-click="openStartCalendar()"
+					uib-datepicker-popup="MM/dd/yyyy"
+					datepicker-options="datePickerOptions"
+					ng-model="filterData.startDate.value"
+					is-open="filterData.startDate.open"
+					close-text="Close">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" ng-click="openStartCalendar()">
+						<i class="glyphicon glyphicon-calendar"></i>
+					</button>
+				</span>
+			</div>
+		</div>
+		<div class="form-group col-xs-4 col-md-4 pull-right">
+			<div>End Date</div>
+			<div class="input-group col-sm-12">
+				<input
+					type="text"
+					class="form-control"
+					name="dob"
+					ng-required="true"
+					uib-datepicker-popup="MM/dd/yyyy"
+					datepicker-options="datePickerOptions"
+					ng-model="filterData.endDate.value"
+					ng-readonly="true"
+					ng-click="openEndCalendar()"
+					is-open="filterData.endDate.open"
+					close-text="Close">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" ng-click="openEndCalendar()">
+						<i class="glyphicon glyphicon-calendar"></i>
+					</button>
+				</span>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="row">
+	<div class="col-xs-12 col-md-12">
+		<table class="table table-striped">
+			<thead>
+				<th>Date</th>
+				<th>Program</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="checkIn in filteredDates | orderBy: 'dateObj':true">
+					<td>{{checkIn.formattedDate}}</td>
+					<td>{{checkIn.program}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

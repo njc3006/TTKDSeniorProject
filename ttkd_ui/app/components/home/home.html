@@ -1,23 +1,126 @@
-<div class="container text-center">
-	<div class="spacer-35"></div>
+<div class="container">
+	<div class="row no-margins">
+		<div ng-if="userlevel < 0" class="col-xs-4 col-md-3 col-sm-4">
+			<div ng-click="goToPage('checkin', {programID: currentProgram.id})" class="card link-card">
+				<button class="btn btn-primary">
+					<h3 class="card-title">Begin Check-in</h3>
+				</button>
+				<div class="card-block">
+					<h4>Check students into the current program</h4>
+				</div>
+			</div>
+		</div>
 
-	<div class="row spacer-20">
-	 	<a ui-sref="checkin({programID: currentProgram.id})" ui-sref-active="active" class="btn btn-primary">Begin Check-in</a>
-	</div>
-	<div class="row spacer-20">
-	 	<a ui-sref="checkin({programID: currentProgram.id, instructor: true})" ui-sref-active="active" class="btn btn-primary">Instructor Check-in</a>
-	</div>
-	<div class="row spacer-20">
-		<a ui-sref-active="active" class="btn btn-primary" ng-click="openChangeProgram()">Change Program</a>
-	</div>
-	<div class="row spacer-20">
-		<a ui-sref-active="active" class="btn btn-primary" ng-click="openAddProgram()">Add Program</a>
-	</div>
-	<div class="row spacer-20">
-		<a ui-sref="registration" ui-sref-active="active" class="btn btn-primary">Register</a>
-	</div>
-	<div class="row">
-		<a ui-sref="studentlist" ui-sref-active="active" class="btn btn-primary">Student List</a>
+		<div ng-if="userlevel >= 0" class="col-xs-4 col-md-3 col-sm-4">
+			<div ng-click="goToPage('checkin', {programID: currentProgram.id, instructor: true})" class="card link-card">
+				<a id="instructorCheckinBtn" class="btn btn-primary">
+					<h3 class="card-title">Instructor Check-in</h3>
+				</a>
+				<div class="card-block" ng-click="updateCheckinMode(); goToPage('checkin')">
+					<h4>Check-in with extra features for instructors</h4>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-4 col-md-3 col-sm-4">
+			<div ng-click="openChangeProgram()" class="card link-card">
+				<button class="btn btn-primary">
+					<h3 class="card-title">Change Program</h3>
+				</button>
+				<div class="card-block">
+					<h4>Change the current program</h4>
+				</div>
+			</div>
+
+		</div>
+
+		<div ng-if="userlevel >= 0" class="col-xs-4 col-md-3 col-sm-4">
+			<div ng-click="goToPage('attendance')" class="card link-card">
+				<button class="btn btn-primary">
+					<h3 class="card-title">Program Attendance</h3>
+				</button>
+				<div class="card-block">
+					<h4>View attendance for your programs</h4>
+				</div>
+			</div>
+		</div>
+
+		<div ng-if="userlevel < 0" class="col-xs-4 col-md-3 col-sm-4">
+			<div ng-click="goToPage('registration')" class="card link-card">
+				<button class="btn btn-primary">
+					<h3 class="card-title">Register</h3>
+				</button>
+				<div class="card-block">
+					<h4>Register a new student</h4>
+				</div>
+			</div>
+		</div>
+
+		<div ng-if="userlevel > 0" class="col-xs-4 col-md-3 col-sm-4">
+			<div ng-click="goToPage('newPartialRegistration')" class="card link-card">
+				<button class="btn btn-primary">
+					<h3 class="card-title">New Partial Registration</h3>
+				</button>
+				<div class="card-block">
+					<h4>Start a partial registration for a new student</h4>
+				</div>
+			</div>
+		</div>
+
+		<div ng-if="userlevel < 0" class="col-xs-4 col-md-3 col-sm-4">
+			<div ng-click="goToPage('partialRegistrations')" class="card link-card">
+				<button class="btn btn-primary">
+					<h3 class="card-title">Complete Registration</h3>
+				</button>
+				<div class="card-block">
+					<h4>Complete an already existing student&#x27;s registration</h4>
+				</div>
+			</div>
+		</div>
+
+		<div ng-if="userlevel >= 0" class="col-xs-4 col-md-3 col-sm-4">
+			<div ng-click="goToPage('studentlist')" class="card link-card">
+				<button class="btn btn-primary">
+					<h3 class="card-title">Student List</h3>
+				</button>
+				<div class="card-block">
+					<h4>Lookup students in the system</h4>
+				</div>
+			</div>
+		</div>
+
+		<div ng-if="userlevel >= 1" class="col-xs-4 col-md-3 col-sm-4">
+			<div ng-click="goToPage('beltsStripes')" class="card link-card">
+				<button class="btn btn-primary">
+					<h3 class="card-title">Belts and Stripes</h3>
+				</button>
+				<div class="card-block">
+					<h4>Manage belts and stripes in the system</h4>
+				</div>
+			</div>
+		</div>
+
+		<div ng-if="userlevel >= 1" class="col-xs-4 col-md-3 col-sm-4">
+			<div ng-click="goToPage('importexport')" class="card link-card">
+				<button class="btn btn-primary">
+					<h3 class="card-title">Import&#x2F;Export</h3>
+				</button>
+				<div class="card-block">
+					<h4>Manage Imports and Exports to and from the system</h4>
+				</div>
+			</div>
+		</div>
+
+		<div ng-if="userlevel >= 1" class="col-xs-4 col-md-3 col-sm-4">
+			<div class="card link-card">
+				<a ui-sref="editPrograms" class="btn btn-primary">
+					<h3 class="card-title">Modify Programs</h3>
+				</a>
+				<div class="card-block" ng-click="goToPage('editPrograms')">
+					<h4>Edit program information</h4>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 

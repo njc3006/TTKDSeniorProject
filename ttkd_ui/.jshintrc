@@ -54,8 +54,16 @@
     "node": true,
 
     "globals": {
-				"alert": false,
-				"moment": false,
+        "beforeEach": true,
+        "describe": true,
+        "it": true,
+        "browser": true,
+        "element": true,
+        "by": true,
+        "expect": true,
+    	"alert": false,
+    	"confirm": false,
+    	"moment": false,
         "angular": false,
         "$": false
     }

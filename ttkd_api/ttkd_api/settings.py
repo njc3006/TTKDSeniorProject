@@ -22,10 +22,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Example: "/var/www/example.com/static/"
 STATIC_ROOT = os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../www/'))
 STATIC_FOLDER = 'static/'
-STATICFILES_DIRS = [os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../' + STATIC_FOLDER))]
+STATICFILES_DIR = os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../' + STATIC_FOLDER))
+STATICFILES_DIRS = [STATICFILES_DIR]
 STATIC_URL = '/ui/'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
+
+RESET_USER = True
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '-37w@4e^c$w4v@!vt^rdw0wc2(789=0)j0#txw!lp5a0imcldr'
@@ -38,8 +41,11 @@ ALLOWED_HOSTS = []
 # Django Rest Framework Settings
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions
-    'DEFAULT_AUTHENTICATION_CLASSES': [],
-    'DEFAULT_PERMISSION_CLASSES': []
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+    ]
 }
 
 
@@ -51,8 +57,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'rest_framework',
-    'ttkd_api'
+    'rest_framework.authtoken',
+    'ttkd_api',
 ]
 
 MIDDLEWARE = [
@@ -129,3 +137,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+# TTKD Directories
+USER_FILES_DIR = os.path.join(os.path.join('C:/Users', os.getlogin()), 'ttkd')
+BACKUP_FILES_DIR = os.path.join(USER_FILES_DIR, 'backups')
+PICTURES_DIR = os.path.join(USER_FILES_DIR, 'pictures')

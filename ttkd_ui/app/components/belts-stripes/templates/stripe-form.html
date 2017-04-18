@@ -1,0 +1,81 @@
+<form ng-if="showTab.updateStripe" ng-submit="updateStripe(currentStripe)" class="belts-stripes-buffer">
+	<div class="col-md-6 col-xs-7 col-md-offset-1">
+		<div class="alert alert-success" ng-show="statusAlert.success" uib-alert close="closeAlert('success')">
+			Stripe information was successfully updated.
+		</div>
+
+		<div class="alert alert-danger" ng-show="statusAlert.failure" uib-alert close="closeAlert('error')">
+			There was an error submitting the information changes.
+		</div>
+
+		<div class="alert alert-danger" ng-show="statusAlert.color" uib-alert close="closeAlert('color')">
+			Colors must be given in Hex format, such as #000000.
+		</div>
+
+		<div class="form-group row">
+			<div class="col-xs-9 col-md-10">
+				<select class="form-control" ng-model="currentStripe" ng-options="stripe.display_name for stripe in stripes track by stripe.id"></select>
+			</div>
+			<div class="col-xs-3 col-md-2 spacer-top-10">
+				<div class="checkbox-inline">
+					<label class="belt-stripe-active">
+						<input type="checkbox" ng-model="currentStripe.active">Active
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<input type="text" placeholder="Name" class="form-control" ng-model="currentStripe.name" maxlength="25" ng-required="true">
+		</div>
+		<div class="form-group">
+			<input type="text" placeholder="Color" class="form-control" ng-model="currentStripe.color" ng-init="color = currentStripe.color" ng-required="true">
+		</div>
+		<div class="form-group">
+			<div class="stripe-preview" ng-style="{'background-color': currentStripe.color }"></div>
+		</div>
+		<div class="form-group">
+			<button class="btn btn-success" type="submit">Save</button>
+		</div>
+	</div>	
+
+	<div class="col-xs-4 col-md-4">
+		<div class="form-group">
+			<color-picker class="picker-cursor" ng-model="currentStripe.color"></color-picker>
+		</div>
+	</div>
+</form>
+
+<form ng-if="showTab.createStripe" ng-submit="createStripe()" class="belts-stripes-buffer">
+	<div class="col-md-6 col-xs-7 col-md-offset-2 col-xs-offset-0">
+		<div class="alert alert-success" ng-show="statusAlert.success" uib-alert close="closeAlert('success')">
+			Information for new stripe was successfully added.
+		</div>
+
+		<div class="alert alert-danger" ng-show="statusAlert.failure" uib-alert close="closeAlert('error')">
+			There was an error submitting the information changes.
+		</div>
+
+		<div class="alert alert-danger" ng-show="statusAlert.color" uib-alert close="closeAlert('color')">
+			Colors must be given in Hex format, such as #000000.
+		</div>
+		
+		<div class="form-group">
+			<input type="text" placeholder="Name" class="form-control" ng-model="newStripe.name" maxlength="25" ng-required="true">
+		</div>
+		<div class="form-group">
+			<input type="text" placeholder="Color" class="form-control" ng-model="newStripe.color" maxlength="7" ng-init="color = newStripe.color" ng-required="true">
+		</div>
+		<div class="form-group">
+			<div class="stripe-preview" ng-style="{'background-color': newStripe.color }"></div>
+		</div>
+		<div class="form-group">
+			<button class="btn btn-success" type="submit">Save</button>
+		</div>
+	</div>	
+
+	<div class="col-xs-4">
+		<div class="form-group">
+			<color-picker class="picker-cursor" ng-model="newStripe.color"></color-picker>
+		</div>
+	</div>
+</form>

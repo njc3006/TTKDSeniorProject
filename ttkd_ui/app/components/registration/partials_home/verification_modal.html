@@ -1,0 +1,62 @@
+<div class="modal-header h3 no-margins">
+	Authenticate for this Partial Registration
+</div>
+<div class="modal-body">
+	<div class="container-fluid">
+		<div id="noInputAlert" class="alert alert-danger" role="alert" ng-if="incorrectPhoneNumber && incorrectEmail">
+			<strong>You must provide a phone number or email address</strong>
+		</div>
+		<div
+			id="incorrectPhoneNumber"
+			class="alert alert-danger"
+			role="alert"
+			ng-if="incorrectPhoneNumber && !incorrectEmail">
+			<strong>This phone number was not found in the registration</strong>
+		</div>
+		<div
+			id="incorrectEmail"
+			class="alert alert-danger"
+			role="alert"
+			ng-if="incorrectEmail && !incorrectPhoneNumber">
+			<strong>This email was not found in the registration</strong>
+		</div>
+		<h2 class="text-center no-margins">Enter a phone number or an email address</h2>
+		<form
+			name="verification"
+			class="form-horizontal col-sm-12"
+			ng-submit="authenticateInput()"
+			novalidate>
+			<div ng-class="{'has-error': incorrectEmail || verification.email.$invalid}">
+				<div class="form-group">
+					<label class="control-label">Email Address</label>
+					<input
+						type="email"
+						name="email"
+						class="form-control"
+						ng-model="verificationEmail"
+						placeholder="email@example.com"
+						autofocus>
+				</div>
+			</div>
+			<div ng-class="{'has-error': incorrectPhoneNumber || verification.phone.$invalid}">
+				<div class="form-group">
+					<label class="control-label">Phone Number</label>
+					<input
+						type="text"
+						name="phone"
+						class="form-control"
+						placeholder="(999) 999-9999"
+						ng-model="verificationPhone"
+						mask="(999) 999-9999"
+						clean="true"
+						validate="true"
+						restrict="reject">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-danger" ng-click="cancel()">Cancel</button>
+	<button id="authRegistration" class="btn btn-success" ng-click="authenticateInput()">Authenticate</button>
+</div>

@@ -15,8 +15,17 @@ var connect = require('gulp-connect');
 var install = require("gulp-install");
 var run = require('gulp-run');
 var ngConstant = require('gulp-ng-constant');
+var protractor = require("gulp-protractor").protractor;
 
 const config = require('./gulp.config');
+
+gulp.task('test', ['server'], function(done) {
+  gulp.src(["./app/**/*.test.js"])
+    .pipe(protractor({
+        configFile: "protractor.config.js"
+      }))
+    .on('error', function(e) { throw e })
+});
 
 gulp.task('clean', function (cb) {
     del([
@@ -24,7 +33,7 @@ gulp.task('clean', function (cb) {
     ], cb);
 });
 
-gulp.task( 'server', ['build'], function() {
+gulp.task( 'server', ['builddev'], function() {
 	connect.server({
 		port: 3000,
 		root: config.buildDir,
@@ -41,7 +50,8 @@ gulp.task('scss', [], function(done) {
     })
     .pipe(gulp.dest(config.buildDir))
     .pipe(minifyCss({
-      keepSpecialComments: 0
+      keepSpecialComments: 0,
+			processImport: false
     }))
     .pipe(rename({ extname: '.css' }))
     .pipe(gulp.dest(config.buildDir + '/css'))
@@ -227,9 +237,30 @@ gulp.task('install', ['angular', 'require', 'bootstrap', 'angular-ui-bootstrap']
   done()
 });
 
+gulp.task('devconfig', function(done) {
+  gulp.src('./app/dev.constants.js')
+    .pipe(rename('constants.js'))
+    .pipe(gulp.dest('./app/'))
+    .on('end', done)
+});
+
+gulp.task('stageconfig', function(done) {
+  gulp.src('./app/stage.constants.js')
+    .pipe(rename('constants.js'))
+    .pipe(gulp.dest('./app/'))
+    .on('end', done)
+});
+
 var buildPipeline = ['scss', 'build-js', 'build-js-libs', 'build-fonts', 'build-templates', 'build-static'];
-gulp.task('build', buildPipeline, function(done) {
-  done()
+
+gulp.task('builddev', ['devconfig'], function(done) {
+  gulp.start(buildPipeline);
+  done();
+});
+
+gulp.task('buildstage', ['stageconfig'], function(done) {
+  gulp.start(buildPipeline);
+  done();
 });
 
 gulp.task('default', ['server','watch', 'jshint']);

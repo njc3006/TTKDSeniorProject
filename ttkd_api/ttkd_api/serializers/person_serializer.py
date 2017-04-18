@@ -2,6 +2,7 @@
 from string import capwords
 from rest_framework import serializers
 
+from ..serializers.waiver_serializer import WaiverSerializer
 from ..serializers.person_stripe_serializer import DetailedPersonStripeSerializer
 from ..serializers.email_serializer import EmailSerializer
 from ..serializers.emergency_contact_serializer import EmergencyContactSerializer
@@ -9,24 +10,27 @@ from ..serializers.person_belt_serializer import DetailedPersonBeltSerializer
 from ..models.person import Person
 from ..models.email import Email
 from ..models.emergency_contact import EmergencyContact
+from ..serializers.belt_serializer import BeltSerializer
 
 
 class PersonSerializer(serializers.ModelSerializer):
     """
     PersonSerializer Outputs Person Model as JSON
     """
-    emails = EmailSerializer(many=True)
+    emails = EmailSerializer(many=True, required=False)
     belts = DetailedPersonBeltSerializer(many=True, read_only=True)
     stripes = DetailedPersonStripeSerializer(many=True, read_only=True)
     emergency_contact_1 = EmergencyContactSerializer(required=False)
     emergency_contact_2 = EmergencyContactSerializer(required=False)
+    belt = BeltSerializer(read_only=True)
+    waivers = WaiverSerializer(many=True)
 
     class Meta:
         model = Person
         fields = ('id', 'first_name', 'last_name', 'dob', 'primary_phone', 'secondary_phone',
-                  'street', 'city', 'zipcode', 'state', 'belts', 'stripes', 'emails',
-                  'emergency_contact_1', 'emergency_contact_2', 'misc_notes', 'picture_url',
-                  'active')
+                  'street', 'city', 'zipcode', 'state', 'belt', 'belts', 'stripes', 'emails',
+                  'emergency_contact_1', 'emergency_contact_2', 'waivers', 'misc_notes',
+                  'picture_url', 'active')
 
     def update(self, instance, validated_data):
         """
@@ -46,10 +50,10 @@ class PersonSerializer(serializers.ModelSerializer):
         instance.picture_url = validated_data.get('picture_url', instance.picture_url)
         instance.active = validated_data.get('active', instance.active)
 
-        # Remove all of the persons existing emails, so we can set them to the ones received in the update
-        # Have to do this because emails could be deleted from the list, and new ones could be added
-        # This is less expensive that trying to query the database to determine if any of the emails were removed or
-        # modified
+        # Remove all of the persons existing emails, so we can set them to the ones received in the
+        # update. Have to do this because emails could be deleted from the list, and new ones could
+        # be added . This is less expensive that trying to query the database to determine if any
+        # of the emails were removed or modified
         instance.emails.all().delete()
 
         email_data = validated_data.pop('emails')
@@ -61,7 +65,8 @@ class PersonSerializer(serializers.ModelSerializer):
             emergency_contact_1_data = validated_data.pop('emergency_contact_1')
 
             if instance.emergency_contact_1 is not None:
-                instance.emergency_contact_1.relation = capwords(emergency_contact_1_data['relation'])
+                instance.emergency_contact_1.relation = \
+                    capwords(emergency_contact_1_data['relation'])
                 # No capwords here in case someone is using this update to fix a name
                 instance.emergency_contact_1.full_name = emergency_contact_1_data['full_name']
                 instance.emergency_contact_1.phone_number = emergency_contact_1_data['phone_number']
@@ -77,7 +82,8 @@ class PersonSerializer(serializers.ModelSerializer):
             emergency_contact_2_data = validated_data.pop('emergency_contact_2')
 
             if instance.emergency_contact_2 is not None:
-                instance.emergency_contact_2.relation = capwords(emergency_contact_2_data['relation'])
+                instance.emergency_contact_2.relation = \
+                    capwords(emergency_contact_2_data['relation'])
                 # No capwords here in case someone is using this update to fix a name
                 instance.emergency_contact_2.full_name = emergency_contact_2_data['full_name']
                 instance.emergency_contact_2.phone_number = emergency_contact_2_data['phone_number']
@@ -107,6 +113,39 @@ class MinimalPersonSerializer(serializers.ModelSerializer):
     """
     MinimumPersonSerializer Outputs Person Model as JSON with very limited fields
     """
+    belt = BeltSerializer(read_only=True)
+
     class Meta:
         model = Person
-        fields = ('id', 'first_name', 'last_name', 'picture_url', 'active')
+        fields = ('id', 'first_name', 'last_name', 'belt', 'picture_url', 'active')
+
+
+class MinimalStripePersonSerializer(serializers.ModelSerializer):
+    """
+    MinimalStripePersonSerializer Outputs Person Model as JSON with very limited fields and stripes
+    """
+    belt = BeltSerializer(read_only=True)
+    stripes = DetailedPersonStripeSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Person
+        fields = ('id', 'first_name', 'last_name', 'belt', 'picture_url', 'active', 'stripes')
+
+
+class NotesPersonSerializer(serializers.ModelSerializer):
+    """
+    NotesPersonSerializer Outputs Person Model with id and misc_notes
+    """
+
+    class Meta:
+        model = Person
+        fields = ('id', 'misc_notes')
+
+class PersonMinimalSerializer(serializers.ModelSerializer):
+    """
+    NotesPersonSerializer Outputs Person Model with id and misc_notes
+    """
+
+    class Meta:
+        model = Person
+        fields = ('id', 'first_name', 'last_name')

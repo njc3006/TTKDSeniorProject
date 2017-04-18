@@ -1,0 +1,184 @@
+<div class="container">
+	<div class="row spacer-20">
+		<div class="col-md-2 col-md-offset-1 col-xs-3">
+			<input
+				class="form-control"
+				type="text"
+				placeholder="Student"
+				ng-model="filterData.student"
+				ng-model-options="{debounce: 500}"
+				ng-change="onStudentNameChange()">
+		</div>
+		<div class="col-md-2 col-xs-3">
+			<select
+				class="form-control"
+				ng-model="filterData.program"
+				ng-change="onFilterChange()">
+				<option value="">All Programs</option>
+				<optgroup label="Active">
+					<option ng-repeat="program in allPrograms | filter: {active:true}" value="{{program.id}}">
+						{{program.name}}
+					</option>
+				</optgroup>
+				<optgroup label="Inactive">
+					<option ng-repeat="program in allPrograms | filter: {active:false}" value="{{program.id}}">
+						{{program.name}}
+					</option>
+				</optgroup>
+			</select>
+		</div>
+		<div class="col-md-2 col-xs-3">
+			<div class="input-group">
+				<input
+					type="text"
+					class="form-control"
+					placeholder="Start Date"
+					uib-datepicker-popup="MM/dd/yyyy"
+					ng-readonly="true"
+					ng-model="filterData.startDate.value"
+					ng-model-options="{debounce: 1000}"
+					ng-click="openCalendar(filterData.startDate)"
+					ng-change="onFilterChange()"
+					is-open="filterData.startDate.open"
+					close-text="Close">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" ng-click="openCalendar(filterData.startDate)">
+						<i class="glyphicon glyphicon-calendar"></i>
+					</button>
+				</span>
+			</div>
+		</div>
+		<div class="col-md-2 col-xs-3">
+			<div class="input-group">
+				<input
+					type="text"
+					class="form-control"
+					placeholder="End Date"
+					uib-datepicker-popup="MM/dd/yyyy"
+					ng-readonly="true"
+					ng-model="filterData.endDate.value"
+					ng-model-options="{debounce: 1000}"
+					ng-click="openCalendar(filterData.endDate)"
+					ng-change="onFilterChange()"
+					is-open="filterData.endDate.open"
+					close-text="Close">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" ng-click="openCalendar(filterData.endDate)">
+						<i class="glyphicon glyphicon-calendar"></i>
+					</button>
+				</span>
+			</div>
+		</div>
+		<div class="col-md-3 col-md-offset-0 col-xs-6 col-xs-offset-4 radio-padding">
+			<div class="btn-group">
+				<label
+					class="btn btn-default"
+					ng-model="filterData.condensed"
+					ng-change="loadAttendanceRecords()"
+					uib-btn-radio="'Uncondensed'">
+					Uncondensed
+				</label>
+				<label
+					class="btn btn-default"
+					ng-model="filterData.condensed"
+					ng-change="loadAttendanceRecords()"
+					uib-btn-radio="'Condensed'">
+					Condensed
+				</label>
+			</div>
+		</div>
+	</div>
+
+	<div class="text-center" ng-if="filterData.condensed === 'Uncondensed'">
+		<ul
+			uib-pagination
+			class="pagination-lg"
+			total-items="pagination.totalRecords"
+			ng-model="pagination.currentPage"
+			ng-model-options="{debounce: 250}"
+			ng-change="loadAttendanceRecords()"
+			boundary-links="true"
+			items-per-page="pagination.pageSize"
+			max-size="4"
+			class="pagination-lg">
+		</ul>
+	</div>
+
+	<div class="row alert alert-info" ng-show="isLoading" role="alert">
+		<strong>Loading...</strong>
+	</div>
+
+	<div class="row alert alert-info" ng-show="dataIsEmpty() && !isLoading" role="alert">
+		<strong>No matching attendance records could be found</strong>
+	</div>
+
+	<div class="row alert alert-danger" ng-show="loadingFailed" role="alert">
+		<strong>There was an error loading attendance data</strong>
+	</div>
+
+	<div ng-if="filterData.condensed === 'Condensed'">
+		<div ng-repeat="recordPair in attendanceRecords">
+			<div class="row" ng-repeat="(programId, program) in recordPair[1].programs">
+				<div class="panel panel-default col-sm-10 col-sm-offset-1">
+					<div class="panel-body">
+						<div class="col-sm-11">
+							<div class="row">
+								<span class="h4 col-sm-6">
+									<a ui-sref="studentDetails({studentId: recordPair[0], backToAttendance: true})">{{recordPair[1].name}}</a>
+								</span>
+								<div class="col-sm-6">
+									<span class="h4 pull-right">{{format(program.min_date)}} - {{format(program.max_date)}}</span>
+								</div>
+							</div>
+							<div class="row">
+								<span class="h4 col-sm-12 no-bottom-margin">{{program.name}}</span>
+							</div>
+						</div>
+						<div class="well col-sm-1 no-margins">
+							<p class="text-center h3 no-margins">{{program.count}}</>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div ng-if="filterData.condensed === 'Uncondensed'">
+		<div class="row" ng-repeat="record in attendanceRecords">
+			<div class=" panel panel-default col-sm-10 col-sm-offset-1">
+				<div class="panel-body">
+					<div class="col-sm-12">
+						<div class="row">
+							<span class="h4 col-sm-6">
+								<a ui-sref="studentDetails({studentId: record.person.id, backToAttendance: true})">
+									{{record.person.first_name + ' ' + record.person.last_name}}
+								</a>
+							</span>
+							<div class="col-sm-6">
+								<span class="h4 pull-right">{{format(record.date)}}</span>
+							</div>
+						</div>
+						<div class="row">
+							<span class="h4 col-sm-12">{{record.program.name}}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="text-center" ng-if="filterData.condensed === 'Uncondensed'">
+		<ul
+			uib-pagination
+			class="pagination-lg"
+			total-items="pagination.totalRecords"
+			ng-model="pagination.currentPage"
+			ng-model-options="{debounce: 250}"
+			ng-change="loadAttendanceRecords()"
+			boundary-links="true"
+			items-per-page="pagination.pageSize"
+			max-size="4"
+			class="pagination-lg">
+		</ul>
+	</div>
+</div>

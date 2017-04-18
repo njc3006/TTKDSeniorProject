@@ -1,0 +1,16 @@
+<div class="modal-body" id="modal-body">
+  <button ng-show="imagePreview" class="btn btn-lg btn-success rotate-btn" ng-click="rotatePicture()"><i class="glyphicon glyphicon-refresh"></i></button>
+  <webcam ng-show="!imagePreview" channel="myChannel" video="video"></webcam>
+  <canvas ng-hide="!imagePreview"></canvas>
+</div>
+<div class="modal-footer">
+  <div class="row">
+    <div class="col-sm-6">
+      <button class="btn btn-danger btn-lg btn-block pull-left" type="button" ng-click="cancelPicture()">Cancel <i class="glyphicon glyphicon-remove"></i></button>
+    </div>
+    <div class="col-sm-6">    
+      <button ng-if="!imagePreview" class="btn btn-success btn-lg btn-block pull-right" type="button" ng-click="takePicture()">Capture <i class="glyphicon glyphicon-camera"></i></button>
+      <button ng-if="imagePreview" class="btn btn-success btn-lg btn-block pull-right" type="button" ng-click="uploadCameraPicture()">Upload <i class="glyphicon glyphicon-upload"></i></button>
+    </div>
+  </div>
+</div>

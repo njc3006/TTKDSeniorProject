@@ -1,5 +1,24 @@
 import json, sys, os, random
 
+
+class AttendanceRecord:
+    """
+    AttendanceRecord makes it easy to keep track of attendance records we have already seen
+    eq is implemented for comparison, specifically so we can do if x in set
+    hash is implemented so we can put these objects in a set
+    """
+    def __init__(self, per, pro, day):
+        self.person = per
+        self.program = pro
+        self.date = day
+
+    def __eq__(self, other):
+        return (self.person == other.person) and (self.program == other.program) and \
+               (self.date == other.date)
+
+    def __hash__(self):
+        return hash((self.person, self.program, self.date))
+
 students_file = open("students.json").read()
 attendances_file = open("attendances.json").read()
 classes_file = open("classes.json").read()
@@ -7,8 +26,15 @@ programs_file = open("programs.json").read()
 
 args = sys.argv
 
-mask = "mask" in args
-belts = "belt" in args or "stripe" in args or "belts" in args or "stripes" in args
+mask = "mask" in args or "masked" in args
+nobelts = "nobelt" in args or "nostripe" in args or "nobelts" in args or "nostripes" in args
+stress = "stress" in args or "test" in args
+
+try:
+    os.remove("../ttkd_api/db.sqlite3")
+    print("Removed old database")
+except:
+    print("Failed to remove old database")
 
 os.system("python ../ttkd_api/manage.py migrate")
 os.system("python ../ttkd_api/manage.py dumpdata > dump.json")
@@ -29,10 +55,10 @@ models_changing = [
     "ttkd_api.personbelt",
     "ttkd_api.personstripe"
 ]
-if belts:
+if not nobelts:
     models_changing.append("ttkd_api.belt")
     models_changing.append("ttkd_api.stripe")
-for i in range(len(dump_import)-1,-1, -1): # run backwards so we dont get indexing issues as we remove indexs
+for i in range(len(dump_import) - 1, -1, -1): # run backwards so we dont get indexing issues as we remove indexs
     if dump_import[i]["model"] in models_changing:
         del dump_import[i]
 
@@ -79,6 +105,12 @@ emergency_pk = 1
 email_pk = 1
 stripe_pk = 1
 for student in students_import:
+
+    random_belt = None
+
+    if mask:
+        random_belt = int(random.randint(1,11))
+
     students[student['_id']['$oid']] = {
         "model": "ttkd_api.person",
         "pk": person_pk,
@@ -91,11 +123,12 @@ for student in students_import:
             "street": student['address']['street'] if not mask else "123 TTKD Lane",
             "city": student['address']['city'] if not mask else "No Where",
             "zipcode": student['address']['zip'] if not mask else "12345",
-            "state": student['address']['state'] if not mask else "KA",
+            "state": student['address']['state'] if not mask else "KS",
             "misc_notes": "",
             "active": True,
             "emergency_contact_1": emergency_pk,
-            "emergency_contact_2": emergency_pk + 1
+            "emergency_contact_2": emergency_pk + 1,
+            "belt" : random_belt
         }
     }
 
@@ -122,15 +155,14 @@ for student in students_import:
         })
         emergency_pk += 1
 
-    if (mask & belts):
+    if (mask):
         belts_and_stripes.append({
             "model": "ttkd_api.personbelt",
             "pk": person_pk,
             "fields": {
                 "person": person_pk,
-                "belt": int(random.randint(1,10)),
+                "belt": random_belt,
                 "date_achieved": str(int(random.randint(2012, 2016))) + "-" + str(int(random.randint(1, 12))) + "-" + str(int(random.randint(1, 28))),
-                "current_belt": True
             }
         })
 
@@ -174,7 +206,7 @@ for import_class in classes_import:
             "pk": registration_pk,
             "fields": {
                 "person": students[student['$oid']]['pk'],
-                "program": class_pk
+                "program": class_pk,
             }
         })
 
@@ -184,18 +216,32 @@ for import_class in classes_import:
 
 attendances = []
 attendance_pk = 1
-for attendance in attendances_import:
-    attendances.append({
-        "model": "ttkd_api.attendancerecord",
-        "pk": attendance_pk,
-        "fields": {
-            "person": students[attendance["student"]["$oid"]]["pk"],
-            "program": classes[attendance["classAttended"]["$oid"]]["pk"],
-            "date": attendance['checkInTime']['$date'][:10]
-        }
-    })
 
-    attendance_pk += 1
+# Use a set because it is much faster
+attendance_set = set()
+
+# This for loop was modified because our import data has checkins to the same program on the same
+# day, which is bad data, and we can clean it up to prevent our unique constraint from failing
+for attendance in attendances_import:
+    person = students[attendance["student"]["$oid"]]["pk"]
+    program = classes[attendance["classAttended"]["$oid"]]["pk"]
+    date = attendance['checkInTime']['$date'][:10]
+
+    attendance_record = AttendanceRecord(person, program, date)
+
+    # If we have not seen this attendance record before, let's add it, otherwise ignore
+    if attendance_record not in attendance_set:
+        attendances.append({
+            "model": "ttkd_api.attendancerecord",
+            "pk": attendance_pk,
+            "fields": {
+                "person": person,
+                "program": program,
+                "date": date
+            }
+        })
+        attendance_set.add(attendance_record)
+        attendance_pk += 1
 
 for student in students:
     dump_import.append(students[student])
@@ -215,8 +261,8 @@ for attendance in attendances:
 for registration in registrations:
     dump_import.append(registration)
 
-if belts:
-    for item in json.loads('[{"model":"ttkd_api.belt","pk":1,"fields":{"name":"White","primary_color":"ffffff","secondary_color":"ffffff","active":true}},{"model":"ttkd_api.belt","pk":2,"fields":{"name":"Yellow","primary_color":"ffff00","secondary_color":"ffff00","active":true}},{"model":"ttkd_api.belt","pk":3,"fields":{"name":"Orange","primary_color":"ffa500","secondary_color":"ffa500","active":true}},{"model":"ttkd_api.belt","pk":4,"fields":{"name":"Green","primary_color":"00ff00","secondary_color":"00ff00","active":true}},{"model":"ttkd_api.belt","pk":5,"fields":{"name":"Blue","primary_color":"0000ff","secondary_color":"0000ff","active":true}},{"model":"ttkd_api.belt","pk":6,"fields":{"name":"Purple","primary_color":"551a8b","secondary_color":"551a8b","active":true}},{"model":"ttkd_api.belt","pk":7,"fields":{"name":"Red","primary_color":"ff0000","secondary_color":"ff0000","active":true}},{"model":"ttkd_api.belt","pk":8,"fields":{"name":"Brown","primary_color":"f4a460","secondary_color":"f4a460","active":true}},{"model":"ttkd_api.belt","pk":9,"fields":{"name":"Hi-Brown","primary_color":"000000","secondary_color":"f4a460","active":true}},{"model":"ttkd_api.belt","pk":10,"fields":{"name":"Hi-Provisional","primary_color":"000000","secondary_color":"ff0000","active":true}},{"model":"ttkd_api.stripe","pk":1,"fields":{"name":"Black","color":"000000","active":true}},{"model":"ttkd_api.stripe","pk":2,"fields":{"name":"Red","color":"ff0000","active":true}},{"model":"ttkd_api.stripe","pk":3,"fields":{"name":"Blue","color":"0000ff","active":true}},{"model":"ttkd_api.stripe","pk":4,"fields":{"name":"Yellow","color":"ffff00","active":true}},{"model":"ttkd_api.stripe","pk":5,"fields":{"name":"Orange","color":"ffa500","active":true}},{"model":"ttkd_api.stripe","pk":6,"fields":{"name":"Green","color":"00ff00","active":true}}]'):
+if not nobelts:
+    for item in json.loads('[{"model":"ttkd_api.belt","pk":1,"fields":{"name":"White","primary_color":"ffffff","secondary_color":"ffffff","active":true}},{"model":"ttkd_api.belt","pk":2,"fields":{"name":"Yellow","primary_color":"ffff00","secondary_color":"ffff00","active":true}},{"model":"ttkd_api.belt","pk":3,"fields":{"name":"Orange","primary_color":"ffa500","secondary_color":"ffa500","active":true}},{"model":"ttkd_api.belt","pk":4,"fields":{"name":"Green","primary_color":"00ff00","secondary_color":"00ff00","active":true}},{"model":"ttkd_api.belt","pk":5,"fields":{"name":"Blue","primary_color":"0000ff","secondary_color":"0000ff","active":true}},{"model":"ttkd_api.belt","pk":6,"fields":{"name":"Purple","primary_color":"551a8b","secondary_color":"551a8b","active":true}},{"model":"ttkd_api.belt","pk":7,"fields":{"name":"Red","primary_color":"ff0000","secondary_color":"ff0000","active":true}},{"model":"ttkd_api.belt","pk":8,"fields":{"name":"Brown","primary_color":"f4a460","secondary_color":"f4a460","active":true}},{"model":"ttkd_api.belt","pk":9,"fields":{"name":"Hi-Brown","primary_color":"000000","secondary_color":"f4a460","active":true}},{"model":"ttkd_api.belt","pk":10,"fields":{"name":"Black","primary_color":"000000","secondary_color":"000000","active":true}},{"model":"ttkd_api.belt","pk":11,"fields":{"name":"Hi-Provisional","primary_color":"000000","secondary_color":"ff0000","active":true}},{"model":"ttkd_api.stripe","pk":1,"fields":{"name":"Black","color":"000000","active":true}},{"model":"ttkd_api.stripe","pk":2,"fields":{"name":"Red","color":"ff0000","active":true}},{"model":"ttkd_api.stripe","pk":3,"fields":{"name":"Blue","color":"0000ff","active":true}},{"model":"ttkd_api.stripe","pk":4,"fields":{"name":"Yellow","color":"ffff00","active":true}},{"model":"ttkd_api.stripe","pk":5,"fields":{"name":"Orange","color":"ffa500","active":true}},{"model":"ttkd_api.stripe","pk":6,"fields":{"name":"Green","color":"00ff00","active":true}}]'):
         dump_import.append(item)
     for item in belts_and_stripes:
         dump_import.append(item)
@@ -224,4 +270,4 @@ if belts:
 open("dump.json",'w').write(json.dumps(dump_import))
 
 os.system("python ../ttkd_api/manage.py loaddata dump.json")
-#os.remove("dump.json")
+os.remove("dump.json")

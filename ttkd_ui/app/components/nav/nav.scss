@@ -1,12 +1,43 @@
-.current-class {
-	color: white;
-	margin-top: 10px;
-	margin-bottom: 0px;
+.navbar-center
+{
+   position: absolute;
+   width: 100%;
+   left: 0;
+   text-align: center;
+   margin: auto;
+
+   margin-top: 13px;
+   font-size: 24px;
 }
 
-ul.nav li.class {
-	color: white;
-	font-size: 18px;
-	padding: 12px;
-	padding-bottom: 0;
+.navbar-center-small{
+	margin-left: 15px;
+   padding-top: 1px;
+}
+
+.navbar-right{
+	margin-right: 0;
+}
+
+.navbar-text{
+	float: none;
+}
+
+.pulled-text{
+	font-size: 16px;
+}
+
+.btn-primary.dropdown-toggle:focus, .open>.btn-primary.dropdown-toggle:hover {
+   background-color: #2C3E50;
+   border-color: #2C3E50;
+}
+
+.btn-primary.dropdown-toggle{
+   background-color: #2C3E50;
+   border-color: #2C3E50;
+   margin-top: 9px;
+}
+
+.dropdown-menu {
+   font-size: 20px;
 }

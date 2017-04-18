@@ -1,0 +1,47 @@
+.program-name {
+	padding-top: 20px;
+	padding-left: 10px;
+
+	font-size: 17px;
+}
+
+.program-entry {
+	border: 2px solid #dce4ec;
+}
+
+.program-edit-btn {
+	margin: 10px 0;
+}
+
+.program-save-btn {
+	margin-top: 10px;
+}
+
+.program-add-btn {
+	margin-right: 40px;
+}
+
+.program-active-checkbox {
+	margin-top: 13px;
+	margin-left: 25px;
+}
+
+.programs-instruct-title {
+	margin-top: 30px;
+}
+
+.program-back-btn {
+	margin-top: 4px;
+	margin-left: 20px;
+	margin-bottom: 35px;
+}
+
+.program-alert {
+	margin-left: 40px;
+}
+
+@media only screen and (max-width: 800px) {
+	.program-alert {
+		margin-left: 25px;
+	}
+}

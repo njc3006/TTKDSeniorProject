@@ -1,6 +1,7 @@
-.file-upload {
-	padding-left: 0;
-	padding-right: 0;
+.btn.file-upload-btn {
+	padding: 0;
+	border: none;
+	display: inline-block;
 	cursor: pointer;
 
 	.vis-input {
@@ -12,54 +13,34 @@
 	}
 }
 
-.belt {
-	border: black 6px solid;
-}
-
-.white-belt {
-	border: black 10px double;
-}
-
-.yellow-belt {
-	@extend .belt;
-	border-color: yellow;
-}
-
-.orange-belt {
-	@extend .belt;
-	border-color: orange;
-}
-
-.green-belt {
-	@extend .belt;
-	border-color: green;
-}
-
-.purple-belt {
-	@extend .belt;
-	border-color: purple;
-}
-
-.blue-belt {
-	@extend .belt;
-	border-color: blue;
-}
-
-.brown-belt {
-	@extend .belt;
-	border-color: brown;
-}
-
-.red-belt {
-	@extend .belt;
-	border-color: red;
-}
-
-.black-belt {
-	@extend .belt;
-	border-color: black;
+svg.stripes {
+	width: 100% !important;
 }
 
 .tab-content {
 	margin-top: 20px;
+}
+
+.h3-align {
+	margin-top: 32px
+}
+
+.text-line {
+  display: block;
+}
+
+.list-group-btn-addon {
+	position: absolute;
+	top:0;
+	right:0;
+	bottom: 0;
+}
+
+.panel {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.belt-achieve-row {
+	background: #efefef;
 }

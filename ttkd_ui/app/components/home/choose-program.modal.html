@@ -2,9 +2,10 @@
   <h3 class="modal-title" id="modal-title">Change Program</h3>
 </div>
 <div class="modal-body" id="modal-body">
-	<button class="btn btn-default btn-block" 
+	<button class="btn btn-default btn-block choose-program" 
 		ng-repeat="program in programs"
-		ng-click="selectProgram(program)">
+		ng-click="selectProgram(program)"
+		ng-class="{'current-program' : program.id === currentProgram.id}">
 	{{program.name}}
 	</button>
 </div>

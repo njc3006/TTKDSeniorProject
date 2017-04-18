@@ -1,0 +1,159 @@
+<div class="container">
+	<div class="row alert alert-info" role="alert" ng-show="!studentLoaded">
+		<strong>Loading...</strong>
+	</div>
+
+	<div class="row alert alert-info" role="alert" ng-show="studentDoesNotExist">
+		<strong>This student does not exist</strong>
+	</div>
+
+	<div class="row alert alert-danger" role="alert" ng-show="studentRequestFailed">
+		<strong>Could not retrieve student data</strong>
+	</div>
+
+	<div class="row form-group spacer-20" ng-show="studentLoaded">
+		<button id="backBtn" class="btn btn-primary" ng-click="backNavigate()">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+			Back
+		</button>
+	</div>
+
+	<div ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
+		<div class="row spacer-20">
+			<div class="col-sm-2" style="padding-left: 0px">
+				<picture student-id="pictureData.studentId" source="pictureData.url" style="pictureData.beltStyle"></picture>
+			</div>
+			<div class="col-xs-1 no-right-padding">
+				<svg class="stripes">
+					<rect
+						ng-repeat="stripe in earnedStripes track by $index"
+						ng-if="stripe.color.toLowerCase() !== 'ffffff'"
+						x="0"
+						ng:attr:y="{{(($index * 8) + 2)}}"
+						height="3"
+						width="20"
+						stroke="{{'#' + stripe.color | lowercase}}"
+						fill="{{'#' + stripe.color | lowercase}}" />
+					<rect
+						ng-repeat="stripe in earnedStripes track by $index"
+						ng-if="stripe.color.toLowerCase() === 'ffffff'"
+						x="0"
+						ng:attr:y="{{(($index * 8) + 2)}}"
+						height="3"
+						width="20"
+						stroke="black"
+						stroke-width="1"
+						fill="white" />
+				</svg>
+			</div>
+			<div class="col-xs-9">
+				<div class="row spacer-10">
+					<span class="h2 col-xs-3 no-padding no-margins info-text">
+						{{studentInfo.firstName}} {{studentInfo.lastName}}
+					</span>
+					<div class="btn-group pull-right">
+						<a class="btn btn-warning"
+						   ui-sref="editStudentDetails({studentId: studentInfo.id,
+						   			viewBackToCheckinID: viewBackToCheckinID,
+						   			viewBackToAttendance: viewBackToAttendance})">Edit</a>
+					</div>
+				</div>
+				<div class="row h4 spacer-10">
+					<span class="info-text">Status: </span><span ng-class="{'text-success': studentInfo.active, 'text-danger': !studentInfo.active}">
+						{{studentInfo.active ? 'Active' : 'Inactive'}}
+					</span>
+				</div>
+				<div class="row h4 spacer-10">
+					<span class="info-text">Age: </span>
+					<span style="padding-right: 3em">{{currentAge()}}</span>
+					<span class="info-text">Birthday: </span>
+					<span>{{formattedBirthday()}}</span>
+				</div>
+				<div class="row h4 spacer-10">
+					<tel-link phone="studentInfo.primaryPhone" label="'Primary Phone'" style="padding-right: 3em"></tel-link>
+					<tel-link ng-if="studentInfo.secondaryPhone" phone="studentInfo.secondaryPhone" label="'Secondary Phone'">
+					</tel-link>
+				</div>
+				<div class="row h4 spacer-10">
+					<span class="info-text">Address: </span>
+					<span>{{studentInfo.street}}, {{studentInfo.city}}, {{studentInfo.state}} {{studentInfo.zipcode}}</span>
+				</div>
+				<div class="row h4">
+					<span class="info-text">Emails:</span>
+					<span ng-repeat="email in studentInfo.emails">
+						<a href="mailto:{{email.email}}">{{email.email}}</a>{{$last ? '' : ', '}}
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="row" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
+			<div class="panel panel-primary col-xs-5">
+				<div class="panel-heading info-text">
+					Primary Emergency Contact
+				</div>
+				<div class="panel-body">
+					<div class="text-line">
+						<span class="info-text">Name: </span><span>{{primaryEmergencyContact.fullName}}</span>
+					</div>
+					<div class="text-line">
+						<span class="info-text">Relationship: </span><span>{{primaryEmergencyContact.relation}}</span>
+					</div>
+					<tel-link phone="primaryEmergencyContact.phoneNumber" label="'Phone'"></tel-link>
+				</div>
+			</div>
+
+			<div class="panel panel-primary col-xs-5 pull-right" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
+				<div class="panel-heading">
+					Secondary Emergency Contact
+				</div>
+				<div class="panel-body">
+					<div class="text-line">
+						<span class="info-text">Name: </span><span>{{secondaryEmergencyContact.fullName}}</span>
+					</div>
+					<div class="text-line">
+						<span class="info-text">Relationship: </span><span>{{secondaryEmergencyContact.relation}}</span>
+					</div>
+					<tel-link phone="secondaryEmergencyContact.phoneNumber" label="'Phone'"></tel-link>
+				</div>
+			</div>
+		</div>
+
+		<div class="row spacer-20" ng-show="studentLoaded && !studentDoesNotExist && !studentRequestFailed">
+			<uib-tabset type="pills">
+				<uib-tab heading="Notes" class="info-text">
+					<ng-include src="'components/students/detail/view/notes/notes.panel.html'"></ng-include>
+				</uib-tab>
+				<uib-tab heading="Attendance" class="info-text">
+					<ng-include
+						src="'components/students/detail/view/attendance/attendance.html'"
+						ng-controller="StudentAttendanceCtrl">
+					</ng-include>
+				</uib-tab>
+        <uib-tab heading="Achievements">
+					<ng-include
+						src="'components/students/detail/view/belt_stripe_history/belts-stripes-history.html'"
+						ng-controller="BeltsStripesHistoryCtrl">
+					</ng-include>
+				</uib-tab>
+				<uib-tab heading="Waiver">
+					<ng-include
+						src="'components/students/detail/view/student_waiver/waiver.html'"
+						ng-controller="StudentWaiverCtrl">
+				</uib-tab>
+				<uib-tab heading="Programs" class="info-text">
+					<ng-include
+						src="'components/students/detail/view/programs/programs.html'"
+						ng-controller="StudentProgramsCtrl">
+					</ng-include>
+				</uib-tab>
+				<uib-tab heading="Student Instruction" class="info-text">
+					<ng-include
+						src="'components/students/detail/view/instructor_attendance/instructor.attendance.html'"
+						ng-controller="InstructorAttendanceCtrl">
+					</ng-include>
+				</uib-tab>
+			</uib-tabset>
+		</div>
+	</div>
+</div>

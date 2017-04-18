@@ -5,17 +5,28 @@
     [
 		'ui.router',
 		'ui.bootstrap',
-		'ttkdApp.constants',
-		'ttkdApp.routes',
-		'ttkdApp.mainCtrl',
-		'ttkdApp.navCtrl',
+		'ttkdApp.attendanceCtrl',
+		'ttkdApp.AuthInterceptor',
+		'ttkdApp.beltsStripesCtrl',
 		'ttkdApp.checkinCtrl',
-		'ttkdApp.partials',
+		'ttkdApp.constants',
+		'ttkdApp.editStudentCtrl',
 		'ttkdApp.homeCtrl',
+		'ttkdApp.importExportCtrl',
+		'ttkdApp.mainCtrl',
+		'ttkdApp.manageUserCtrl',
+		'ttkdApp.navCtrl',
+		'ttkdApp.partials',
 		'ttkdApp.registationCtrl',
+		'ttkdApp.routes',
+		'ttkdApp.studentDetailCtrl',
+		'ttkdApp.programsCtrl',
+		'ttkdApp.editProgramCtrl',
 		'ttkdApp.studentlistCtrl',
-		'ttkdApp.studentDetailCtrl'
+		'ttkdApp.studentWaiverCtrl'
     ]
-  );
+  ).config(['$httpProvider', function($httpProvider) {
+    	$httpProvider.interceptors.push('AuthInterceptor');
+	} ]);
 
 })();

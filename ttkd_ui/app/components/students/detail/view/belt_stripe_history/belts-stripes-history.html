@@ -1,0 +1,19 @@
+<div class="row tab-content spacer-25">
+	<div class="alert alert-info col-xs-12 col-md-12" ng-if="loadingInProgress">
+		<strong>Loading history data</strong>
+	</div>
+
+	<div class="alert alert-danger col-xs-12 col-md-12" ng-if="loadingBeltHistoryFailed">
+		<strong>There was an error with loading history data</strong>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-6 col-xs-12">
+		<ul class="list-group">
+			<li ng-if="history.length===0" class="list-group-item">No belts or stripes were found for this student</li>
+			<li class="list-group-item form-control spacer-5" ng-repeat="record in history" class="belt-achieve-row" ng-class="getRecordStyle(record)">
+				{{makeHistoryText(record)}}
+			</li>
+		</ul>
+	</div>
+</div>

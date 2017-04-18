@@ -3,48 +3,57 @@
  */
 
 /* Bootstrap */
-
-/* Override Bootstrap Variables */
-$brand-primary: #7d7d7d;
 $border-radius-base: 0px;
-
-// Navbar Settings
-$navbar-default-bg:                        $brand-primary;
-$navbar-default-color:                     #FFF;
-// Links
-$navbar-default-link-color:                $navbar-default-color;
-$navbar-default-link-hover-color:          darken($navbar-default-link-color, 6.5%);
-$navbar-default-link-hover-bg:             darken($navbar-default-bg, 6.5%);
-// Active Link
-$navbar-default-link-active-color:         darken($navbar-default-link-color, 6.5%);
-$navbar-default-link-active-bg:            darken($navbar-default-bg, 6.5%);
-// Brand
-$navbar-default-brand-color:               $navbar-default-link-color;
-$navbar-default-brand-hover-color:         darken($navbar-default-link-color, 6.5%);
-$navbar-default-brand-hover-bg:            darken($navbar-default-bg, 6.5%);
-// Toggle
-$navbar-default-toggle-hover-bg:           darken($navbar-default-bg, 6.5%);
-$navbar-default-toggle-icon-bar-bg:        $navbar-default-color;
-$navbar-default-toggle-border-color:       $navbar-default-color;
 
 //remove button border radius
-$border-radius-base: 0px;
 $border-radius-large: 0px;
 $border-radius-small: 0px;
 
-
-// Import Bootstrap
+// Import Bootstrap and Bootswatch Theme
 $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
+@import "./lib/bootswatch/flatly/_variables";
 @import "./lib/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "./lib/bootswatch/flatly/_bootswatch";
+
+// Import Card CSS
+@import "./lib/bootstrap-3-card/sass/_card";
+
+// Import color picker
+@import "./lib/angular-color-picker/angular-color-picker";
 
 /* Import Component SCSS */
 @import "./components/nav/nav";
+@import "./components/webcam/webcam";
 @import "./components/checkin/checkin";
 @import "./components/students/detail/student.detail";
+@import "./components/belts-stripes/belts-stripes";
+@import "./components/studentlist/studentlist";
+@import "./components/importexport/importexport";
+@import "./components/programs/programs";
+@import "./components/home/choose-program";
+@import "./components/registration/registration";
+@import "./components/attendance/attendance";
+@import "./components/user-management/user-management";
 
 // Push containers below navbar
 #appContainer {
-	padding-top: 70px;
+	padding-top: 20px;
+}
+
+.padding-top-7 {
+	padding-top: 7px;
+}
+
+.padding-top-10 {
+	padding-top: 10px;
+}
+
+.spacer-top-10 {
+	margin-top: 10px;
+}
+
+.spacer-5 {
+	margin-bottom: 5px;
 }
 
 .spacer-10 {
@@ -74,8 +83,20 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 	font-weight: normal;
 }
 
+.info-text {
+	font-weight: bold;
+}
+
+.no-bottom-margin {
+	margin-bottom: 0px;
+}
+
 .no-margins {
 	margin: 0px;
+}
+
+.no-left-padding {
+	padding-left: 0px;
 }
 
 .no-right-padding {
@@ -86,27 +107,53 @@ $icon-font-path: "./lib/bootstrap-sass/assets/fonts/bootstrap/";
 	padding: 0px;
 }
 
-//Custom styles for the class list page
-.entry span {
-	padding-right: 20px;
+.no-display {
+	display: none !important;
 }
 
-.entry div {
-	padding-left: 30px;
+.link-pointer {
+	cursor: pointer;
 }
 
-.entry-picture {
-	margin-top: 30px;
-	margin-right: 5px;
+ul.uib-datepicker-popup .btn-default {
+	color: #3f5060;
+	background: #f7f7f7;
 }
 
-.checkboxes {
-	margin-top: 6px;
+.checkin ul.uib-datepicker-popup .active span {
+	color: #3f5060;
 }
 
-.filter-bar {
-	margin-bottom: 30px;
-	margin-top: 20px;
+.link-card{
+	height: 139px;
+	text-align: center;
+	padding: 0;
+	cursor: pointer;
+
+	.btn{
+		width: 100%;
+	}
+
+	h3{
+		margin-top: 1px;
+		margin-bottom: 3px;
+		font-size: 17px;
+	}
+
+	h4{
+		margin-top: 1px;
+		margin-bottom: 3px;
+		font-size: 15px;
+		padding-top: 5px;
+	}
+}
+
+select {
+	width: 100% !important;
+}
+
+option, optgroup {
+	font-size: 20px;
 }
 
 label {

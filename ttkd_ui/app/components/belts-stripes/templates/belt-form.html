@@ -1,0 +1,113 @@
+<form ng-if="showTab.updateBelt" ng-submit="updateBelt(currentBelt)" class="belts-stripes-buffer">
+	<div class="col-xs-4 col-xs-offset-1 col-md-3 col-md-offset-0 spacer-25 belt-preview">
+		<img src='./img/components/students/placeholder.png' class="img-responsive" ng-style="previewStyle(currentBelt)">
+	</div>
+
+	<div class="col-xs-5 col-xs-offset-1 display-color-picker-small spacer-25">
+		<div class="form-group" ng-if="primaryFocused">
+			<color-picker class="picker-cursor" ng-model="currentBelt.primary_color"></color-picker>
+		</div>
+		<div class="form-group" ng-if="secondaryFocused">
+			<color-picker class="picker-cursor" ng-model="currentBelt.secondary_color"></color-picker>
+		</div>
+	</div>
+
+	<div class="col-md-5 col-xs-12">
+		<div class="alert alert-success" ng-show="statusAlert.success" uib-alert close="closeAlert('success')">
+			Belt information was successfully updated.
+		</div>
+
+		<div class="alert alert-danger" ng-show="statusAlert.failure" uib-alert close="closeAlert('error')">
+			There was an error submitting the information changes.
+		</div>
+
+		<div class="alert alert-danger" ng-show="statusAlert.color" uib-alert close="closeAlert('color')">
+			Colors must be given in Hex format, such as #000000.
+		</div>
+
+		<div class="form-group row">
+			<div class="col-xs-10">
+				<select class="form-control" ng-model="currentBelt" ng-options="belt as belt.display_name for belt in belts track by belt.id" ng-change=""></select>
+			</div>
+			<div class="col-xs-2 spacer-top-10">
+				<div class="checkbox-inline">
+					<label>
+						<input type="checkbox" ng-model="currentBelt.active">Active
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<input type="text" placeholder="Name" class="form-control" ng-model="currentBelt.name" maxlength="25" ng-required="true">
+		</div>
+		<div class="form-group">
+			<input type="text" placeholder="Primary Color" class="form-control" ng-model="currentBelt.primary_color" maxlength="7" ng-init="color = currentBelt.primary_color" ng-click="updateFocus('primary')" ng-required="true">
+		</div>
+		<div class="form-group">
+			<input type="text" placeholder="Secondary Color" class="form-control" ng-model="currentBelt.secondary_color" maxlength="7" ng-init="color = currentBelt.secondary_color" ng-click="updateFocus('secondary')">
+		</div>
+		<div class="form-group">
+			<button class="btn btn-success" type="submit">Save</button>
+		</div>
+	</div>	
+
+	<div class="col-xs-3 display-color-picker-regular">
+		<div class="form-group" ng-if="primaryFocused">
+			<color-picker class="picker-cursor" ng-model="currentBelt.primary_color"></color-picker>
+		</div>
+		<div class="form-group" ng-if="secondaryFocused">
+			<color-picker class="picker-cursor" ng-model="currentBelt.secondary_color"></color-picker>
+		</div>
+	</div>
+</form>
+
+<form ng-if="showTab.createBelt" ng-submit="createBelt()" class="belts-stripes-buffer">
+	<div class="col-xs-4 col-xs-offset-1 col-md-3 col-md-offset-0 spacer-25 belt-preview">
+		<img src='./img/components/students/placeholder.png' class="img-responsive" ng-style="previewStyle(newBelt)">
+	</div>
+
+	<div class="col-xs-5 col-xs-offset-1 display-color-picker-small spacer-25">
+		<div class="form-group" ng-if="primaryFocused">
+			<color-picker class="picker-cursor" ng-model="currentBelt.primary_color"></color-picker>
+		</div>
+		<div class="form-group" ng-if="secondaryFocused">
+			<color-picker class="picker-cursor" ng-model="currentBelt.secondary_color"></color-picker>
+		</div>
+	</div>
+
+	<div class="col-md-5 col-xs-12">
+		<div class="alert alert-success" ng-show="statusAlert.success" uib-alert close="closeAlert('success')">
+			Information for new belt was successfully added.
+		</div>
+
+		<div class="alert alert-danger" ng-show="statusAlert.failure" uib-alert close="closeAlert('error')">
+			There was an error submitting the information changes.
+		</div>
+
+		<div class="alert alert-danger" ng-show="statusAlert.color" uib-alert close="closeAlert('color')">
+			Colors must be given in Hex format, such as #000000.
+		</div>
+		
+		<div class="form-group">
+			<input type="text" placeholder="Name" class="form-control" ng-model="newBelt.name" maxlength="25" ng-required="true">
+		</div>
+		<div class="form-group">
+			<input type="text" placeholder="Primary Color" class="form-control" ng-model="newBelt.primary_color" ng-init="color = newBelt.primary_color" ng-click="updateFocus('primary')" ng-required="true">
+		</div>
+		<div class="form-group">
+			<input type="text" placeholder="Secondary Color" class="form-control" ng-model="newBelt.secondary_color" ng-init="color = newBelt.secondary_color" ng-click="updateFocus('secondary')">
+		</div>
+		<div class="form-group">
+			<button class="btn btn-success" type="submit">Save</button>
+		</div>
+	</div>	
+
+	<div class="col-xs-3 display-color-picker-regular">
+		<div class="form-group" ng-if="primaryFocused">
+			<color-picker class="picker-cursor" ng-model="newBelt.primary_color"></color-picker>
+		</div>
+		<div class="form-group" ng-if="secondaryFocused">
+			<color-picker class="picker-cursor" ng-model="newBelt.secondary_color"></color-picker>
+		</div>
+	</div>
+</form>

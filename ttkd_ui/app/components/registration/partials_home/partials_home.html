@@ -1,0 +1,16 @@
+<div class="container-fluid">
+	<h1 class="text-center spacer-25">Complete Partial Registrations</h1>
+	<div ng-if="existingPartialRegistrations && existingPartialRegistrations.length > 0">
+		<div class="panel panel-default col-xs-6 col-xs-offset-3"
+			ng-repeat="registration in existingPartialRegistrations">
+			<div class="panel-body" ng-click="openPartialRegistration(registration.id, registration)">
+				<a id="registration{{$index}}" class="h2 text-center" ui-sref=".">
+					{{registration.person.first_name + ' ' + registration.person.last_name}}
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="alert alert-info" ng-if="!existingPartialRegistrations || existingPartialRegistrations.length == 0">
+		<strong>There are no partial registrations</strong>
+	</div>
+</div>
