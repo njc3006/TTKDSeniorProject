@@ -58,13 +58,13 @@
 			$scope.dateTouched = true;
 			// if the value is a number
 			if(!isNaN(parseInt($event.key))) {
-				/* if the target has 1 char, and we're adding another, 
+				/* if the target has 1 char, and we're adding another,
 		       then add a '/' to format the date month */
 				if($event.target.value.length === 1)
 				{
 					$event.target.value += $event.key + '/';
 				}
-				/* if the target has 2 chars, they must have removed the '/'. 
+				/* if the target has 2 chars, they must have removed the '/'.
 						Add it back. See how they like it. */
 				else if($event.target.value.length === 2) {
 					$event.target.value += '/' + $event.key;
@@ -107,7 +107,7 @@
 
             if (errorResponse.person && Object.keys(errorResponse.person).length > 0) {
                 for (var key in errorResponse.person) {
-                    
+
                     if (angular.isObject(errorResponse.person[key]) && !angular.isArray(errorResponse.person[key])) {
                 		for (var secondaryKey in errorResponse.person[key]) {
                             errorMessages.push($scope.cleanKey(key) + ' - ' + $scope.cleanKey(secondaryKey) + ': ' + errorResponse.person[key][secondaryKey][0]);
@@ -116,7 +116,7 @@
                     else if (angular.isObject(errorResponse.person[key]) && angular.isArray(errorResponse.person[key]) && !angular.isString(errorResponse.person[key][0])) {
                     	for (var object in errorResponse.person[key]) {
                     		list = errorResponse.person[key][object];
-                    		
+
                     		for (var secondaryKey in list) {
 	                            errorMessages.push($scope.cleanKey(key) + ' - ' + $scope.cleanKey(secondaryKey) + ': ' + list[secondaryKey][0]);
 	                        }
@@ -128,7 +128,7 @@
                     }
                 }
             }
-            else {  
+            else {
                 errorMessages = ["There was an error submitting the information changes"];
             }
 
