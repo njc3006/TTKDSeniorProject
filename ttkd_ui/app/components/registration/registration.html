@@ -51,6 +51,7 @@
 						ng-class="{'col-sm-offset-6': currentSelectionIndex === (formSections.length - 1)}">
 						<button
 							type="submit"
+              ng-disabled="isTooYoung()"
 							class="btn btn-primary btn-lg btn-block">
 							Submit
 						</button>
