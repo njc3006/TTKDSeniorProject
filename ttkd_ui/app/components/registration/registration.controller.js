@@ -46,7 +46,9 @@
 		$window,
 		RegistrationService,
 		ProgramsService,
-		StateService
+		StateService,
+		apiHost,
+		$sce
 	) {
 		$rootScope.showCurrentProgram = $stateParams.showCurrentProgram;
 		$scope.isPartialRegistration = $stateParams.partial;
@@ -509,6 +511,13 @@
 		}, function(error) {
 			//TODO: error handling
 		});
+
+		$scope.getWaiverUrl = function(){
+		    // To support localhost we need to let angular know we trust a resource from a different
+		    // origin
+		    url = apiHost + '/ui/waiver.txt'
+		    return $sce.trustAsResourceUrl(url);
+		}
 	}
 
 	angular.module('ttkdApp.registationCtrl', [
@@ -526,6 +535,8 @@
 		'RegistrationSvc',
 		'ProgramsSvc',
 		'StateSvc',
+		'apiHost',
+		'$sce',
 		RegistrationController
 	]);
 })();
