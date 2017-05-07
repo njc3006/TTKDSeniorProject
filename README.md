@@ -70,6 +70,8 @@ To build a release for the project, setup a unix-like environment with the follo
 - unzip
 - zip
 
+The easiest way to do this is to first [download and install Git Bash](https://git-scm.com/downloads). Then, install [GNU on Windows](https://github.com/bmatzelle/gow/wiki).
+
 Then, issue the following commands:
 
 ```
@@ -78,4 +80,5 @@ cd scripts
 ```
 
 - If you would like to start with a specific data set, export your data using `python manage.py dumpdata > data.json`, then put `data.json` in the root project directory.
+  - Alternatively, you can run the `scripts/import_json.py` script prior to building a release to preconfigure your data.
 - If you change the requirements.txt of this project, you will need to extract `scripts/python-dist.zip`, copy and paste your python libraries you added into `python-dist/python-X.X.X-embed-amd64/Lib/site-packages`, and re-zip `python-X.X.X-embed-amd64`.
