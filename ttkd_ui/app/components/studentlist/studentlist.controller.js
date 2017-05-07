@@ -184,7 +184,10 @@
             $scope.people = filteredList;
 
             //set the colored belt border for every displayed student
+            //and create a full name for everyone so searching by first and last name works correctly
             angular.forEach($scope.people, function(value){
+                value.person.full_name = value.person.first_name + ' ' + value.person.last_name;
+
                 if(value.person.belt){
                     value.beltStyle = $scope.getBeltStyle(value.person.belt);
                 }
