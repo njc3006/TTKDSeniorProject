@@ -10,7 +10,6 @@ mkdir ./dist/static
 cd ./ttkd_ui
 gulp buildstage
 cp -R ./dist/* ../dist/static/
-cp -R ../waiver.txt ../dist/static
 cd ..
 cp scripts/*.bat ./dist/
 cp data.json ./dist/
