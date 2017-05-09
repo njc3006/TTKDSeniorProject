@@ -269,7 +269,7 @@
 				var birthday = moment($scope.registrationInfo.person.dob.value);
 
 				if(birthday !== undefined) {
-					var ageInYears = today.diff(birthday, 'years');
+					var ageInYears = today.diff(birthday, 'years', true);
 
 					return ageInYears <= 1;
 				}
