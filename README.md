@@ -2,6 +2,17 @@
 A TTKD Student Management System
 
 ## Installing and Running
+
+### Custom Waiver
+Our system allows for martial arts studios to customize the content of the waiver screen during registration. To do so
+follow the following steps:
+
+1. Create a file called `waiver.txt` in the `ttkd_api/static` folder.
+2. Edit the new file so that it contains the text you want.
+3. Be sure to save any changes made.
+
+**Note**: In order to see any updated text, you may need to clear your browser cache
+
 ### Django API
 To Install and run this application, do the following:
 

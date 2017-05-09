@@ -46,11 +46,16 @@
 		$window,
 		RegistrationService,
 		ProgramsService,
-		StateService
+		StateService,
+		apiHost,
+		$sce
 	) {
 		$rootScope.showCurrentProgram = $stateParams.showCurrentProgram;
 		$scope.isPartialRegistration = $stateParams.partial;
 		$scope.dateTouched = false;
+
+		var waiverUrl = apiHost + '/ui/waiver.txt';
+		$scope.waiverUrl = $sce.trustAsResourceUrl(waiverUrl);
 
 		/*
 		 * Force a user to enter a valid date format that is compatible with the datepicker */
@@ -509,6 +514,7 @@
 		}, function(error) {
 			//TODO: error handling
 		});
+
 	}
 
 	angular.module('ttkdApp.registationCtrl', [
@@ -526,6 +532,8 @@
 		'RegistrationSvc',
 		'ProgramsSvc',
 		'StateSvc',
+		'apiHost',
+		'$sce',
 		RegistrationController
 	]);
 })();
