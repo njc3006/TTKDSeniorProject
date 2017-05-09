@@ -48,15 +48,31 @@ describe('Partial Registration', function() {
 	}
 
 	describe('New Partial Registration', function() {
-		beforeEach(() => {
+		beforeAll(() => {
+			browser.get(browser.params.appUrl);
 			login();
-			browser.get(browser.params.appUrl + 'partial-registrations/new');
 		});
 
-		afterEach(() => {
+		afterAll(() => {
 			element(by.id('userBtn')).click();
 			element(by.id('logout')).click();
 		});
+
+		beforeEach(() => {
+			browser.get(browser.params.appUrl + 'partial-registrations/new');
+		});
+
+		/*afterEach(() => {
+			element(by.id('userBtn')).click();
+			element(by.id('logout')).click();
+		});*/
+
+    it('should display both continue and submit buttons', function() {
+			var submitButton = element(by.css('[type=submit]')),
+				continueButton = element(by.id('continue-button'));
+
+			expect(submitButton.isDisplayed() && continueButton.isDisplayed()).toBe(true);
+    });
 
 		it('should require a phone number or email', function() {
 			var failureAlert = element(by.id('failureAlert'));
