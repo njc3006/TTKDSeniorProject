@@ -187,9 +187,15 @@ describe('Student Detail Page', function() {
 			expect(element(by.id('history-list')).isDisplayed()).toBe(true);
 		});
 
-		it('should have a list of waivers', function() {
+		it('should have a list of waivers', function(done) {
 			element.all(by.className('uib-tab')).get(3).click();
-			expect(element(by.id('waiver-list')).isDisplayed() || element(by.id('no-waiver-list')).isDisplayed()).toBe(true);
+
+      element(by.id('waiver-list')).isDisplayed().then(function(waiverListDisplayed) {
+        element(by.id('no-waiver-list')).isDisplayed().then(function(noWaiverListDisplayed) {
+          expect(waiverListDisplayed || noWaiverListDisplayed).toBe(true);
+					done();
+        });
+      });
 		});
 
 		it('should pull up a modal when a button for a new waiver is clicked', function() {

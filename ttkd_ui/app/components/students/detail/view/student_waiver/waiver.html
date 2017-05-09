@@ -2,14 +2,14 @@
 	<div class="row">
 		<button id="new-waiver" class="btn btn-default pull-right spacer-20" ng-click="openWaiverModal();">Create New Waiver Record</button>
 	</div>
-	<div id="no-waiver-list" class="row" ng-if="!hasWaivers">
+	<div id="no-waiver-list" class="row" ng-show="!hasWaivers">
 		<div class="list-group">
 			<div href="#" class="list-group-item flex-column align-items-start">
 				<span>No waivers found</span>
 		  	</div>
 		 </div>
 	</div>
-	<div id="waiver-list" class="list-group row" ng-if="hasWaivers">
+	<div id="waiver-list" class="list-group row" ng-show="hasWaivers">
 		<div ng-repeat="waiver in waivers" class="spacer-10">
 			<div href="#" class="list-group-item flex-column align-items-start ">
 			    <div class="d-flex w-100 justify-content-between spacer-10">
