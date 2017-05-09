@@ -54,6 +54,9 @@
 		$scope.isPartialRegistration = $stateParams.partial;
 		$scope.dateTouched = false;
 
+		var waiverUrl = apiHost + '/ui/waiver.txt';
+		$scope.waiverUrl = $sce.trustAsResourceUrl(waiverUrl);
+
 		/*
 		 * Force a user to enter a valid date format that is compatible with the datepicker */
 		$scope.onDateKeypress = function($event) {
@@ -512,12 +515,6 @@
 			//TODO: error handling
 		});
 
-		$scope.getWaiverUrl = function(){
-		    // To support localhost we need to let angular know we trust a resource from a different
-		    // origin
-		    url = apiHost + '/ui/waiver.txt';
-		    return $sce.trustAsResourceUrl(url);
-		}
 	}
 
 	angular.module('ttkdApp.registationCtrl', [
