@@ -65,11 +65,10 @@
 	</span>
 </div>
 <div class="spacer-25"
-	ng-class="{'has-error': dateTouched && (registrationForm.dob.$invalid || isTooYoung()), 'has-success': dateTouched && registrationForm.dob.$valid && !isTooYoung()}">
+	ng-class="{'has-error': (dateTouched || !registrationForm.dob.$pristine) && (registrationForm.dob.$invalid || isTooYoung()), 'has-success': registrationInfo.person.dob.value && registrationForm.dob.$valid && !isTooYoung()}">
 	<label class="control-label">Date of Birth</label>
 	<div class="input-group">
 		<input
-			required="required"
 			placeholder="MM/DD/YYYY"
 			type="text"
 			class="form-control"
@@ -93,10 +92,10 @@
 			<i class="glyphicon glyphicon-asterisk"></i>
 		</span>
 	</div>
-	<span class="help-block" ng-show="registrationForm.dob.$invalid && dateTouched">
+	<span class="help-block" ng-show="registrationForm.dob.$invalid && (dateTouched || !registrationForm.dob.$pristine)">
 		Must provide a valid Date of Birth
 	</span>
-	<span class="help-block" ng-show="isTooYoung() && dateTouched">
+	<span class="help-block" ng-show="isTooYoung() && (dateTouched || !registrationForm.dob.$pristine)">
 		Age provided is a year old or younger
 	</span>
 </div>
