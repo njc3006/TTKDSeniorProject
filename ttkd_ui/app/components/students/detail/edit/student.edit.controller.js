@@ -298,14 +298,14 @@
         };
 
         $scope.deleteStudent = function () {
-            var confirmDelete = confirm('Are you sure you want to delete this student? This cannot be undone');
+            var confirmDelete = confirm('Are you sure you want to delete this student? This cannot be undone.');
 
             if (confirmDelete){
-                confirmDelete = confirm('Are positive you want to delete this student? This is the last warning.');
+                confirmDelete = confirm('Are positive you want to delete this student? This is your last warning.');
 
                 if (confirmDelete) {
                     StudentsService.deleteStudent($stateParams.studentId).then(function success(response) {
-                        alert("Student was deleted");
+                        alert("Student was deleted.");
                         $state.go('studentlist', {programID: $stateParams.backToCheckinID});
                     });
                 }
