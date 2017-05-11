@@ -6,11 +6,12 @@ from ..permissions import custom_permissions
 
 
 class StripeViewSet(viewsets.ModelViewSet):
-    permission_classes = (custom_permissions.IsAdminOrReadOnly,)
     """
-    GET: Returns all Stripe Objects To The Route, Or An Instance If Given A PK. Filters: active
+    GET: Returns all Stripe Objects To The Route, Or An Instance If Given A PK.
+    Filters: active
     POST: Create A Stripe
     """
+    permission_classes = (custom_permissions.IsAdminOrReadOnly,)
     queryset = Stripe.objects.all()
     serializer_class = StripeSerializer
     filter_backends = (filters.DjangoFilterBackend,)
