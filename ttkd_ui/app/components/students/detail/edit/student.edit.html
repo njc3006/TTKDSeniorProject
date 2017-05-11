@@ -409,11 +409,14 @@
 			</uib-tabset>
 			<div ng-if="userlevel === 0">
 				<h4>Notes</h4>
-				<textarea class="form-control" rows="8" ng-model="studentInfo.misc_notes"></textarea>
+				<textarea class="spacer-35 form-control" rows="8" ng-model="studentInfo.misc_notes"></textarea>
 			</div>
 		</div>
 		<div class="spacer-35 pull-right">
 	    	<button id="updateBtn" type="submit" class="btn btn-primary" ng-disabled="!editForm.$valid">Update</button>
 	  	</div>
 	</form>
+	<div class="spacer-35 pull-left">
+	    	<button id="deleteBtn" ng-if="userlevel >= 1" ng-click="deleteStudent()" class="btn btn-danger">Delete</button>
+	</div>
 </div>

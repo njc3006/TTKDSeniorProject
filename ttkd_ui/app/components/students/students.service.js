@@ -115,6 +115,11 @@
 					return $http.delete(apiHost + '/api/registrations/'+registrationId+'/');
 				},
 
+				/* delete a student and all of their things from the system */
+				deleteStudent: function(studentId) {
+					return $http.delete(apiHost + '/api/persons/' + studentId + '/');
+				},
+
 				/*
 				 * Get student registrations and transform them to have program names and ids
 				 * response data will be formatted as: [{id: 0, name:""}] */
