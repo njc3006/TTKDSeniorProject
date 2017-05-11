@@ -51,6 +51,7 @@
 						ng-class="{'col-sm-offset-6': currentSelectionIndex === (formSections.length - 1)}">
 						<button
 							type="submit"
+              ng-disabled="isTooYoung()"
 							class="btn btn-primary btn-lg btn-block">
 							Submit
 						</button>
@@ -60,18 +61,9 @@
 					<div class="col-sm-6" ng-show="currentSelectionIndex !== (formSections.length - 1)">
 						<button
 							id="contiue-button"
-							ng-if="!isPartialRegistration"
 							class="btn btn-primary btn-lg btn-block"
 							type="button"
-							ng-disabled="registrationForm.$invalid"
-							ng-click="selectFormSection(currentSelectionIndex + 1)">
-							Continue
-						</button>
-						<button
-							id="contiue-button"
-							ng-if="isPartialRegistration"
-							class="btn btn-primary btn-lg btn-block"
-							type="button"
+							ng-disabled="registrationForm.$invalid || isTooYoung()"
 							ng-click="selectFormSection(currentSelectionIndex + 1)">
 							Continue
 						</button>
@@ -81,14 +73,7 @@
 						ng-show="currentSelectionIndex === (formSections.length - 1)">
 						<button
 							type="submit"
-							ng-if="!isPartialRegistration"
 							ng-disabled="registrationForm.$invalid || isTooYoung()"
-							class="btn btn-primary btn-lg btn-block">
-							Submit
-						</button>
-						<button
-							type="submit"
-							ng-if="isPartialRegistration"
 							class="btn btn-primary btn-lg btn-block">
 							Submit
 						</button>

@@ -52,7 +52,7 @@
             }
 
             return(cleanKey)
-        }
+        };
 
         $scope.generateDetailedError = function (errorResponse) {
             //$scope.requestFlags.submission.failure = true;
@@ -75,7 +75,7 @@
             else {
                 $scope.failureDetails = ["There was an error submitting the information changes"];
             }
-        }
+        };
 
         $scope.registerForProgram = function (program) {
             if (program) {
@@ -294,6 +294,21 @@
                         $window.scrollTo(0, 0);
                     }
                 );
+            }
+        };
+
+        $scope.deleteStudent = function () {
+            var confirmDelete = confirm('Are you sure you want to delete this student? This cannot be undone.');
+
+            if (confirmDelete){
+                confirmDelete = confirm('Are positive you want to delete this student? This is your last warning.');
+
+                if (confirmDelete) {
+                    StudentsService.deleteStudent($stateParams.studentId).then(function success(response) {
+                        alert("Student was deleted.");
+                        $state.go('studentlist', {programID: $stateParams.backToCheckinID});
+                    });
+                }
             }
         };
 

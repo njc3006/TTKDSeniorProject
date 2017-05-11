@@ -2,6 +2,17 @@
 A TTKD Student Management System
 
 ## Installing and Running
+
+### Custom Waiver
+Our system allows for martial arts studios to customize the content of the waiver screen during registration. To do so
+follow the following steps:
+
+1. Create a file called `waiver.txt` in the `ttkd_api/static` folder.
+2. Edit the new file so that it contains the text you want.
+3. Be sure to save any changes made.
+
+**Note**: In order to see any updated text, you may need to clear your browser cache
+
 ### Django API
 To Install and run this application, do the following:
 
@@ -70,6 +81,8 @@ To build a release for the project, setup a unix-like environment with the follo
 - unzip
 - zip
 
+The easiest way to do this is to first [download and install Git Bash](https://git-scm.com/downloads). Then, install [GNU on Windows](https://github.com/bmatzelle/gow/wiki).
+
 Then, issue the following commands:
 
 ```
@@ -78,4 +91,5 @@ cd scripts
 ```
 
 - If you would like to start with a specific data set, export your data using `python manage.py dumpdata > data.json`, then put `data.json` in the root project directory.
+  - Alternatively, you can run the `scripts/import_json.py` script prior to building a release to preconfigure your data.
 - If you change the requirements.txt of this project, you will need to extract `scripts/python-dist.zip`, copy and paste your python libraries you added into `python-dist/python-X.X.X-embed-amd64/Lib/site-packages`, and re-zip `python-X.X.X-embed-amd64`.
