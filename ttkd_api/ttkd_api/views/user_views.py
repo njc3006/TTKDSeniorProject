@@ -7,12 +7,12 @@ from ..permissions import custom_permissions
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    permission_classes = (custom_permissions.IsAdminOrReadOnly,)
     """
     Returns all User objects to the Route.
     GET: Returns all User Objects To The Route, Or An Instance If Given A PK.
     PUT: Update a specific User.
     """
+    permission_classes = (custom_permissions.IsAdminOrReadOnly,)
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -26,12 +26,12 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class ChangePasswordView(viewsets.ModelViewSet):
-    permission_classes = (custom_permissions.CurrentUserPassword,)
     """
     Returns all User objects to the Route.
     GET: Returns all User Objects To The Route, Or An Instance If Given A PK.
     PUT: Update a specific User.
     """
+    permission_classes = (custom_permissions.CurrentUserPassword,)
     queryset = User.objects.all()
     serializer_class = UserPasswordSerializer
 
@@ -45,12 +45,12 @@ class ChangePasswordView(viewsets.ModelViewSet):
 
 
 class UserInfoView(viewsets.ModelViewSet):
-    permission_classes = (custom_permissions.IsAdminPutOnly,)
     """
     Returns all User objects to the Route.
     GET: Returns all User Objects To The Route, Or An Instance If Given A PK.
     PUT: Update a specific User.
     """
+    permission_classes = (custom_permissions.IsAdminPutOnly,)
     queryset = User.objects.all()
     serializer_class = UserInfoSerializer
 

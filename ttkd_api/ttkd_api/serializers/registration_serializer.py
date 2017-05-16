@@ -71,17 +71,22 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
         person.save()
 
-        # Try and find an active white belt to assign to this new person
-        try:
-            belt = Belt.objects.get(name__contains='white', active=True)
-        except Belt.DoesNotExist:
-            # If an active white belt could not be found, try and get the first belt in the system
-            try:
-                belt = Belt.objects.first()
-            except Belt.DoesNotExist:
-                # There was not a belt with an id of 1, likely no belts in the system, should never
-                # happen as deletion of belts is not possible
-                belt = None
+        # returns the first result, or None
+        belt = Belt.objects.filter(name='White', active=True).first()
+
+        if belt is None:
+
+            belt = Belt.objects.filter(name__contains='white', active=True).first()
+
+            if belt is None:
+                # If an active white belt could not be found, try and get the first belt in the
+                # system
+                try:
+                    belt = Belt.objects.filter(active=True).first()
+                except Belt.DoesNotExist:
+                    # There was not a belt with an id of 1, likely no belts in the system,
+                    # should never happen as deletion of belts is not possible
+                    belt = None
 
         if belt is not None:
             PersonBelt.objects.create(person=person, belt=belt, date_achieved=datetime.date.today())

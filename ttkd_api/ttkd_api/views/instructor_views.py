@@ -10,7 +10,7 @@ from ..permissions import custom_permissions
 
 class MinimalInstructorViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    Returns all Instructors (with limited persons) objects to the Route.
+    GET: Returns all Instructors (with limited persons) objects to the Route.
     Filters: program
     """
     permission_classes = (custom_permissions.IsAuthenticatedOrOptions,)
@@ -22,7 +22,8 @@ class MinimalInstructorViewSet(viewsets.ReadOnlyModelViewSet):
 
 class InstructorViewSet(viewsets.ModelViewSet):
     """
-    Returns all Instructors objects to the Route.
+    GET: Returns all Instructors objects to the Route.
+    POST: Create a new instructor
     Filters: program
     """
     permission_classes = (custom_permissions.IsAuthenticatedOrOptions,)
@@ -34,7 +35,8 @@ class InstructorViewSet(viewsets.ModelViewSet):
 
 class InstructorAttendanceViewSet(viewsets.ModelViewSet):
     """
-    Returns all Instructor attendance record objects to the Route.
+    GET: Returns all Instructor attendance record objects to the Route.
+    POST: Create a new instructor attendance record, date not required
     Filters: program
     """
     permission_classes = (custom_permissions.IsAuthenticatedOrOptions,)
@@ -44,9 +46,9 @@ class InstructorAttendanceViewSet(viewsets.ModelViewSet):
     filter_fields = ('program', 'person', 'date')
 
 
-class DetailedInstructorAttendanceViewSet(viewsets.ModelViewSet):
+class DetailedInstructorAttendanceViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    Returns all Instructors objects to the Route.
+    GET: Returns all instructor attendance records with a full instructor object
     Filters: program
     """
     permission_classes = (custom_permissions.IsAuthenticatedOrOptions,)
