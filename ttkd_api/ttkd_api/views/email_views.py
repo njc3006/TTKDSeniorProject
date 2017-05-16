@@ -6,11 +6,12 @@ from ..permissions import custom_permissions
 
 
 class EmailViewSet(viewsets.ModelViewSet):
-    permission_classes = (custom_permissions.IsAuthenticatedOrOptions,)
     """
-    GET: Returns all Email Objects To The Route, Or An Instance If Given A PK. Filters: person
+    GET: Returns all Email Objects To The Route, Or An Instance If Given A PK.
+    Filters: person
     POST: Create A Email
     """
+    permission_classes = (custom_permissions.IsAuthenticatedOrOptions,)
     queryset = Email.objects.all()
     serializer_class = EmailSerializer
     filter_backends = (filters.DjangoFilterBackend,)

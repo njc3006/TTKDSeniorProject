@@ -6,11 +6,12 @@ from ..permissions import custom_permissions
 
 
 class BeltViewSet(viewsets.ModelViewSet):
-    permission_classes = (custom_permissions.IsAdminOrReadOnly,)
     """
-    GET: Returns all Belt Objects To The Route, Or An Instance If Given A PK. Filters: belt
+    GET: Returns all Belt Objects To The Route, Or An Instance If Given A PK.
+    Filters: active
     POST: Create A Belt
     """
+    permission_classes = (custom_permissions.IsAdminOrReadOnly,)
     queryset = Belt.objects.all()
     serializer_class = BeltSerializer
     filter_backends = (filters.DjangoFilterBackend,)

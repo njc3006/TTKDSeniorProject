@@ -28,7 +28,6 @@ class PersonFilter(drf_filters.FilterSet):
         }
 
 class PersonViewSet(viewsets.ModelViewSet):
-    permission_classes = (custom_permissions.IsAdminOrAuthReadOnly,)
     """
     Returns all Person objects to the Route.
     GET: Returns all PersonStripe Objects To The Route, Or An Instance If Given A PK.
@@ -37,6 +36,7 @@ class PersonViewSet(viewsets.ModelViewSet):
     POST: NOT SUPPORTED
     Filters: first_name, last_name, active
     """
+    permission_classes = (custom_permissions.IsAdminOrAuthReadOnly,)
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
     filter_backends = (filters.DjangoFilterBackend,)
@@ -112,10 +112,10 @@ class PersonNotesViewSet(viewsets.ModelViewSet):
     queryset = Person.objects.all()
     serializer_class = NotesPersonSerializer
 
-class PersonMinimalViewSet(viewsets.ModelViewSet):
+class PersonMinimalViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Returns all Person objects to the Route with id, first, and last name.
-    GET: Returns all person objexts, Or An Instance If Given A PK.
+    GET: Returns all person objects, Or An Instance If Given A PK.
     PUT: NOT SUPPORTED
     POST: NOT SUPPORTED
     """

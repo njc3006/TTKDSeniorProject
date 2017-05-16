@@ -6,11 +6,11 @@ from ..permissions import custom_permissions
 
 
 class PeopleViewSet(viewsets.ReadOnlyModelViewSet):
-    permission_classes = (custom_permissions.IsAuthenticatedOrOptions,)
     """
     Returns all People (limited persons) objects to the Route.
     Filters: first_name, last_name, belt, active
     """
+    permission_classes = (custom_permissions.IsAuthenticatedOrOptions,)
     queryset = Person.objects.all()
     serializer_class = PeopleSerializer
     filter_backends = (filters.DjangoFilterBackend,)
